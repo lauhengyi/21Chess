@@ -9,6 +9,8 @@ export default {
     grey3: '#495057',
     grey4: '#343a40',
 
+    moveableSquareBlack: '#BDAEAE',
+    moveableSquareWhite: '#E6DFDF'
 }
 // https://coolors.co/f8f9fa-e9ecef-dee2e6-ced4da-adb5bd-6c757d-495057-343a40-212529
 /* --cultured: #f8f9faff;

@@ -1,37 +1,103 @@
 import React from 'react';
 import colors from '../../../config/colors'
 import { View, StyleSheet, Text, Pressable } from 'react-native';
-import Piece from './Piece'
+import Piece from './Piece';
+import { checkCollision } from '../../../mechanisms/normalChess';
 
 function Square(props) {
-    const color = props.color === 1 ? colors.grey1 : colors.secondary;
-    // Find whether there is a piece on the square
-    let isPieceOnSquare = false;
-    let pieceOnSquare = {
-        position: 0,
-        type: 'p',
-        side: true,
-        moved: false,
+    // Passing down constants
+    const BoardLayout = props.BoardLayout;
+    const moveables = props.Moveables;
+
+    // Determine color of square: black and white, moveable or not
+    const color = props.color === 1 ? [colors.grey1, colors.moveableSquareBlack] 
+    : [colors.secondary, colors.moveableSquareWhite];
+
+    // Pasing down reducer hooks
+    function makeMove(action) {
+        return props.onMove(action)
     };
-    for (let piece of props.BoardLayout) {
-        if (props.position === piece.position) {
-            isPieceOnSquare = true;
-            pieceOnSquare = piece;
+
+    function makeMoveables(action) {
+        return props.onPieceClick(action)
+    };
+
+    // Find whether there is a piece on the square
+    let isPieceOnSquare;
+    let pieceId;
+    [isPieceOnSquare, ,pieceId] = checkCollision(props.position, BoardLayout);
+
+    // Find whether these is a moveable on the square
+    let isMoveableOnSquare = false;
+    let castling = false;
+    // The id of the piece which formed the moveable
+    let moveableMove;
+    // Check for Moveables existence
+    if (props.Moveables[1]) {
+        // Check normal moves
+        for (let moveable of moveables[0]) {
+            if (props.position === moveable[1]) {
+                moveableMove = moveable;
+                isMoveableOnSquare = true;
+            };
+        };
+        if (moveables[1]) {
+            for (let moveable of moveables[1]) {
+                if (props.position === moveable[0][1]) {
+                    moveableMove = moveable;
+                    isMoveableOnSquare = true;
+                    castling = true;
+                };
+            }; 
         };
     };
-    return(
-        <View style={{
-            height: 40,
-            width: 40,
-            backgroundColor: color,
-            alignItems: 'center',
-            justifyContent: 'center',
-        }}>
-            {
-                isPieceOnSquare ? <Piece piece={pieceOnSquare}/> : null
-            }        
-        </View>
-    );
+    
+
+    // Render moveables and render pieces
+    if (isMoveableOnSquare) {
+        return(
+            <Pressable onPress={makeMove({
+            move: [moveableMove],
+            castling: castling,
+            })}>
+                <View style={{
+                    height: 40,
+                    width: 40,
+                    backgroundColor: color[1],
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    {
+                        isPieceOnSquare ? <Piece 
+                        BoardLayout={BoardLayout}
+                        pieceId={pieceId}
+                        onPieceClick={makeMoveables}
+                        /> : null
+                    }        
+                </View>
+            </Pressable>
+        );
+    } else {
+        return(
+        
+            <View style={{
+                height: 40,
+                width: 40,
+                backgroundColor: color[0],
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
+                {
+                    isPieceOnSquare ? <Piece
+                    BoardLayout={BoardLayout}
+                    pieceId={pieceId}
+                    onPieceClick={makeMoveables}
+                    /> : null
+                }        
+            </View>
+        );
+    }
+    
 };
 
 

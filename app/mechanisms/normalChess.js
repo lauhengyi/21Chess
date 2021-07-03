@@ -1,89 +1,339 @@
-const initialState = [
-]
-
-function reducer(state, action) {
-  piece = state[action.id];
-  newBoard = Object.assign({}, state);
-  newBoard[id] = {
-    position: action.people,
-    type: piece.type,
-    move: false,
-    side: piece.side,                
+//returns list of valid moves a piece can make with consideration of pinning
+// Last moved [id, movedFrom, moved, specialMoves] specialMoves: normalMoves = null, doublePawn move = 'dp', castling = 'c', enPassant = 'p'
+function validMoves(id, board, lastMoved) {
+  let piece = board[id];
+  let pieceData = createPieceDataCalculator(piece, id)
+  // Check whether move is pinned
+  let normalPositions = [];
+  if (pieceData.moves) {
+    for (let move of pieceData.moves) {
+      if (checkPin(id, move, board) == false) {
+        normalMoves.push(move);
+      };
+    };
   };
+  // turn positions into moves
+  let moves = []
+  for (let position of normalPositions) {
+    let collided, side, eatenId;
+    [collided, side, eatenId] = checkCollision(position, board);
+    if (collided && side != piece.side) {
+      moves.push([id, moves, eatenId]);  
+    };
+    moves.push([id, moves]);
+  };
+  
+  // Check for castling
+  let castlingMoves = [];
+  if (board[id].type === 'k') {
+    castlingMoves = checkCastling(id, board, normalMoves);  
+  };
+  
+  // Check for en Passant
+  // Check for piece to be pawn, last move to be pawn)
+  let enPassantMoves = [];
+  if (lastMoves && board[id].type === 'p' && board[lastMoved[0]].type === 'p') {
+    // Make sure the pawn double moved
+    if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
+      enPassantMoves = checkEnPassant(id, board, normalMoves, lastMoved);
+    };
+  };
+  
+  return [moves.concat(enPassantMoves), castlingMoves];
+};
+
+// function will execute move on board, if castling is true then the move is a castle
+// A normal move will have a list of two values, [id, position]
+function executeMove(move, board, castling) {
+  if (castling) {
+    // move king then rook
+    let newBoard = makeMove(move[0], board);
+    return newBoard = makeMove(move[1], newBoard);
+  } else {
+    return makeMove(move, board);
+  };
+};
+
+// Check enPassant in the moves list
+function checkEnPassant(id, board, validMoves, lastMoved) {
+  let piece = board[id];
+  let ghostPosition = (lastMoved[1] - lastMoved[2]) / 2
+  // Add temporary pawn in board to see pawn can declare enPassant
+  let newBoard = makeMove(lastMoved[0], ghostPosition, board);
+  let moves = validMoves(id, board);
+  // Check whether pawn can attacked the double moved piece
+  for (let move in moves) {
+    if (move === ghostPosition) {
+      return [id, move, lastMoved[0]];
+    };
+  };
+}
+// Check castling in the moves list
+function checkCastling(id, board, validMoves) {  
+  let piece = board[id];
+  let castleMoves = [];
+  // make sure king and rook has not been moved
+  if (piece.moved) {
+    return castleMoves;
+  };
+  
+  let castlingRookRight = [false, 0];
+  let castlingRookLeft = [false, 0];
+  for (let i=0; i < board.length; i++) {
+    otherPiece = board[id];
+    if (otherPiece.type === 'r' && otherPiece.side === piece.side && otherPiece.moved === false) {
+      //Identify is castling rook is on the right or left of king, from the perspective of white
+      if (otherPiece.side === true) {
+        //king is white
+        if (otherPiece.position === 56) {
+          castlingRookLeft = [true, i];
+        }
+        if (otherPiece.position === 63) {
+          castlingRookRight = [true, i];
+        }
+      } else {
+        //king is black
+        if (otherPiece.position === 0) {
+          castlingRookLeft = [true, i];
+        }
+        if (otherPiece.position === 7) {
+          castlingRookRight = [true, i];
+        };
+      };
+    };
+  };
+  // return if no castling rook
+  if (!(castlingRookLeft[0] || castlingRookRight[0])) {
+    return castleMoves;
+  }
+  
+  //check whether in check
+  if (checkCheck(board, piece.side)) {
+    return castleMoves;
+  };
+  
+  //check whether valid moves include pieces moving left or right
+  for (let validMove in validMoves) {
+    if ((validMove === piece.position - 1) && castlingRookLeft[0]) {
+      // Check for occupied pieces between the rook and king
+      if (checkCollision((piece.position - 1), board)[0] || 
+      checkCollision((piece.position - 2), board)[0] ||
+      checkCollision(piece.position - 3, board)[0]) {
+        continue;
+      };
+      // Check whether king can move one more step to the right
+      let newBoard = makeMove(id, validMove, board);
+      let moves = validMoves(id, newBoard, []);
+      // Check whether that move is in moves
+      for (let move in moves) {
+        if (move === piece.position - 2) {
+          //Can castle
+          let castleMove = [move, [castlingRookLeft[1], (move[1] - 1)]]
+          castleMoves.push(castleMove);
+        };
+      };
+    };
+    if ((moves === piece.position + 1) && castlingRookRight[0]) {
+      // Check for occupied pieces between the rook and king
+      if (checkCollision((piece.position + 1), board)[0] || 
+      checkCollision((piece.position + 2), board)[0]) {
+        continue;
+      };
+      // Check whether king can move one more step to the right
+      let newBoard = makeMove(id, validMove, board);
+      let moves = validMoves(id, newBoard, []);
+      // Check whether that move is in moves
+      for (let move in moves) {
+        if (move === piece.position + 2) {
+          //Can castle
+          let castleMove = [move, [castlingRookLeft[1], (move[1] - 1)]]
+          castleMoves.push(castleMove);
+        };
+      };
+    };
+  };
+  return castleMoves;
+};
+
+
+
+//Return attacks from pieces
+function validAttacks(id, board, lastMoved) {
+  // Get moveable moves
+  let pieceData = createPieceDataCalculator(board[id], board);
+  // Check whether attack is pinned
+  let result = [];
+  for (let attack in pieceData.attacks) {
+    if (checkPin(id, attack, board) == false) {
+      result.push(attack);
+    };
+  };
+  // Check for en Passant
+  // Check for piece to be pawn, last move to be pawn)
+  let enPassantMoves = [];
+  if (lastMoves && board[id].type === 'p' && board[lastMoved[0]].type === 'p') {
+    // Make sure the pawn double moved
+    if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
+      enPassantMoves = checkEnPassant(id, board, normalMoves, lastMoved);
+    };
+  };
+  return result.concat(enPassantMoves[1]);
+};
+
+function validDefended(id, board) {
+  // Get moveable moves
+  let pieceData = createPieceDataCalculator(board[id], board);
+  // Check whether attack is pinned
+  let result = [];
+  for (let defend in pieceData.defended) {
+    if (checkPin(id, defend, board) == false) {
+      result.push(defend);
+    };
+  };
+  return result;
+};
+
+// attacks and moves and defends are without consideration of pinning
+// function to make a calculator to calculate piece moves, attacks, defends and base value
+function createPieceDataCalculator(piece, board) {
+  switch(piece.type) {
+  case 'p': return new pawnCalculator(piece, board);
+  case 'r': return new rookCalculator(piece, board);
+  case 'n': return new knightCalculator(piece, board);
+  case 'b': return new bishopCalculator(piece, board);
+  case 'q': return new queenCalculator(piece, board);
+  case 'k': return new kingCalculator(piece, board);
+  default: throw new Error('Unknown type: ${piece.type}');
+  }
+};
+
+//Create base class
+class pieceDataCalculator {
+  constructor(piece, board) {
+    this.piece = piece;
+    this.board = board;
+  };
+};
+class pawnCalculator extends pieceDataCalculator {
+  get moves() {
+    return pawnMoves(this.piece, this.board);
+  };
+  
+  get attacks() {
+    return pawnAttacks(this.piece, this.board, true);
+  };
+  
+  get defended() {
+    return pawnAttacks(this.piece, this.board, false);
+  }; 
+};
+
+class rookCalculator extends pieceDataCalculator {
+  get moves() {
+    return rookMoves(this.piece, this.board, true);
+  };
+  
+  get attacks() {
+    return rookMoves(this.piece, this.board, true);
+  };
+  
+  get defended() {
+    return rookMoves(this.piece, this.board, false);
+  }; 
+};
+
+class knightCalculator extends pieceDataCalculator {
+  get moves() {
+    return knightMoves(this.piece, this.board, true);
+  };
+  
+  get attacks() {
+    return knightMoves(this.piece, this.board, true);
+  };
+  
+  get defended() {
+    return knightMoves(this.piece, this.board, false);
+  }; 
+};
+
+class bishopCalculator extends pieceDataCalculator {
+  get moves() {
+    return bishopMoves(this.piece, this.board, true);
+  };
+  
+  get attacks() {
+    return bishopMoves(this.piece, this.board, true);
+  };
+  
+  get defended() {
+    return bishopMoves(this.piece, this.board, false);
+  }; 
+};
+
+class queenCalculator extends pieceDataCalculator {
+  get moves() {
+    return queenMoves(this.piece, this.board, true);
+  };
+  
+  get attacks() {
+    return queenMoves(this.piece, this.board, true);
+  };
+  
+  get defended() {
+    return queenMoves(this.piece, this.board, false);
+  }; 
+};
+
+class kingCalculator extends pieceDataCalculator {
+  get moves() {
+    return kingMoves(this.piece, this.board, true);
+  };
+  
+  get attacks() {
+    return kingMoves(this.piece, this.board, true);
+  };
+  
+  get defended() {
+    return kingMoves(this.piece, this.board, false);
+  }; 
+};
+
+// returns a board with the move made:
+// move = [eaterId, position, eatenId]
+function makeMove(move, board) {
+  // Create version of board with theoretically moved piece  
+  newBoard = Object.assign({},board);
+  newBoard[id] = {
+    position: position,
+    type: board[move[0]].type,
+    side: board[move[0]].side,
+    moved: true,
+  };
+  // Can move
+  if (move.length > 2) {
+    newBoard.splice(move[2], 1);
+  };
+  
   return newBoard;
 };
 
-//returns list of valid moves a piece can make with consideration of pinning
-function validMoves(id) {
-  //get moveable moves
-  let moves = moveableMoves(boardLayout[id]);
-  //Check whether move is pinned
-  let result = [];
-  for (let move in moves) {
-    if (checkPin(id, move) == false) {
-      result.push(move)
-    };
-  };
-};
-
-//returns list of positions that a piece can move without consideration of pinning
-function moveableMoves(piece) {
-  switch (piece.type) {
-  case 'p':
-    return pawnMoves(piece, boardLayout);
-    break;
-      
-  case 'r':
-    return rookMoves(piece, boardLayout);
-    break;
-      
-  case 'n':
-    return knightMoves(piece, boardLayout);
-    break;
-      
-  case 'b':
-    return bishopMoves(piece, boardLayout);
-    break;
-      
-  case 'q':
-    return queenMoves(piece, boardLayout);
-    break;
-      
-  case 'k':
-    return kingMoves(piece, boardLayout);
-    break;
-      
-  default:
-    throw new Error('Unknown type: ${piece.type}')
-      
-  };
-};
-
 //returns whether pieces will be pinned when moved
-function checkPin(id, position) {
-  // Create version of board with theoretically moved piece  
-  newBoard = Object.assign({},boardLayout);
-  newBoard[id] = {
-    position: position,
-    type: boardLayout[id].type,
-    side: boardLayout[id].side,
-    moved: true,
-  };
+function checkPin(id, position, board) {
   // move is pinned if new board is checked
-  return checkChecked(newBoard, boardLayout[id].side);
-  
+  return checkChecked(makeMove(id, position, board), board[id].side);
 };
 
 // Check whether a board is checked
 function checkCheck(board, side) {
   
-  positions = [];
+  let pieceData = createPieceDataCalculator(piece, board);
+  let positions = [];
   
   // Compile list of positions where enemies attacks
   for (let piece of board) {
     // Isolate enemy pieces
     if (piece.side == !side) {
-      positions.concat(attackedPostions(piece, board));
+      positions.concat(pieceData.attacks);
     };
   };
   
@@ -103,42 +353,7 @@ function checkCheck(board, side) {
     };
   };
   return false;
-  
-  // return positions where the piece attacks without consideration for pinning
-  // ignore positions where there is an occupied piece, regardless of enemy or ally
-  function attackedPositions(piece, board) {      
-       
-    switch (piece.type) {
-    case 'p':
-      return pawnAttacks(piece);
-      break;
-      
-    case 'r':
-      return rookMoves(piece, board);
-      break;
-      
-    case 'n':
-      return knightMoves(piece, board);
-      break;
-      
-    case 'b':
-      return bishopMoves(piece, board);
-      break;
-      
-    case 'q':
-      return queenMoves(piece, board);
-      break;
-      
-    case 'k':
-      return kingMoves(piece, board);
-      break;
-      
-    default:
-      throw new Error('Unknown type: ${piece.type}')
-      
-    };
-  };
-};
+}
 
 //returns a list of positions that the pawn can move and attack
 function pawnMoves(piece, board) {
@@ -152,11 +367,7 @@ function pawnMoves(piece, board) {
   //update attacks to only when there is an enemy
   let positions = [];
   for (let move of Amoves) {
-    for (let otherPiece of board) {
-      if ((move == otherPiece.position) && (otherPiece.side != piece.side)) {
-        positions.push(move);
-      };
-    };
+    [positions, ] = accountCollidedPiece(move, piece.side, positions, board, true);
   };
   
   //compile forward movement (include double movement if pawn is untouched)
@@ -193,7 +404,7 @@ function pawnMoves(piece, board) {
 };
 
 //returns a list of positions that the pawn can attack, regardless of enemies and without accounting for pinning
-function pawnAttacks(piece) {
+function pawnAttacks(piece, board, AorD) {
   //check for pawn
   if (piece.type != 'p') {
     throw new Error('input piece not pawn');
@@ -203,29 +414,45 @@ function pawnAttacks(piece) {
     //pawn is white
     //consider edge cases
     //consider extreme left and extreme right respectively
-    if ((piece.position + 8) % 8 == 0) {
-      return [piece.position + 9];
-    } else if ((piece.position + 9) % 8 == 0) {
-      return [piece.position + 7]
+    let attacks = [];
+    if (checkLeftEdge) {
+      attacks = [piece.position + 9];
+    } else if (checkRightEdge) {
+      attacks = [piece.position + 7];
     } else {
-      return [piece.position + 7, piece.position + 9]
+      attacks = [piece.position + 7, piece.position + 9];
     };
   } else {
     //pawn is black
     //consider edge cases
     //consider extreme left and extreme right respectively
-    if ((piece.position + 8) % 8 == 0) {
-      return [piece.position - 7];
-    } else if ((piece.position + 9) % 8 == 0) {
-      return [piece.position - 9]
+    if (checkLeftEdge) {
+      attacks = [piece.position - 7];
+    } else if (checkRightEdge) {
+      attacks = [piece.position - 9];
     } else {
-      return [piece.position - 9, piece.position - 7]
+      attacks = [piece.position - 9, piece.position - 7];
     };
   };
+  //return nothing if attack is on an allied piece
+  if (AorD) {
+    let result = [];
+    for (let attack of attacks) {
+      let collided, side;
+      [collided, side, ] = checkCollision(attack, board);
+      if ((collided === false) || (side != piece.side)) {
+        result.push(collided);
+      };                
+    }
+    return result;  
+  } else {
+    return attacks;
+  }
+  
 };
 
 //returns a list of positions that the rook can attack, without accounting for pinning
-function rookMoves(piece, board) {
+function rookMoves(piece, board, AorD) {
   
   //check for rook
   if (piece.type != 'r') {
@@ -238,64 +465,50 @@ function rookMoves(piece, board) {
   
   //Find up
   for (let i=piece.position + 8; i < 64; i + 8) {
-    // Check for pieces blocking
-    for (let otherPiece of board) {
-      if (otherPiece.position == i) {
-        // Check for enemy or ally
-        if (otherPiece.side == piece.side) {
-          break;
-        } else {
-          //enemy can be eaten
-          up.push(i);
-          break;
-        };
-      };
+    //Check for blocking pieces
+    let collided;
+    [up, collided] = accountCollidedPiece(i, piece.side, up, board, AorD);
+    if (collided) {
+      break;
     };
+    
     //add to up
     up.push();
+    if (checkTopEdge(i)) {
+      break;
+    };
   };
   
   //Find down
-  for (let i=piece.position - 8; i < 0; i - 8) {
-    // Check for pieces blocking
-    for (let otherPiece of board) {
-      if (otherPiece.position == i) {
-        // Check for enemy or ally
-        if (otherPiece.side == piece.side) {
-          break;
-        } else {
-          //enemy can be eaten
-          down.push(i);
-          break;
-        };
-      };
+  for (let i=piece.position - 8; i > 0; i - 8) {
+    //Check for blocking pieces
+    let collided;
+    [down, collided] = accountCollidedPiece(i, piece.side, down, board, AorD);
+    if (collided) {
+      break;
     };
     //add to down
     down.push();
+    if (checkBottomEdge(i)) {
+      break;
+    }
   }
   
   //find left
   let i = piece.position;
   while (true) {
     //Check for extreme left
-    if ((i + 8) % 8 == 0) {
+    if (checkLeftEdge(i)) {
       break;
     };
     
     i--;
     
     //Check for blocking pieces
-    for (let otherPiece of board) {
-      if (otherPiece.position == i) {
-        // Check for enemy or ally
-        if (otherPiece.side == piece.side) {
-          break;
-        } else {
-          //enemy can be eaten
-          left.push(i);
-          break;
-        };
-      };
+    let collided;
+    [left, collided] = accountCollidedPiece(i, piece.side, left, board, AorD);
+    if (collided) {
+      break;
     };
     
     //add to left
@@ -306,24 +519,17 @@ function rookMoves(piece, board) {
   i = piece.position;
   while (true) {
     //Check for extreme right
-    if ((i + 9) % 8 == 0) {
+    if (checkRightEdge(i)) {
       break;
     };
     
     i++;
     
     //Check for blocking pieces
-    for (let otherPiece of board) {
-      if (otherPiece.position == i) {
-        // Check for enemy or ally
-        if (otherPiece.side == piece.side) {
-          break;
-        } else {
-          //enemy can be eaten
-          right.push(i);
-          break;
-        };
-      };
+    let collided;
+    [right, collided] = accountCollidedPiece(i, piece.side, right, board, AorD);
+    if (collided) {
+      break;
     };
     
     //add to right
@@ -335,7 +541,7 @@ function rookMoves(piece, board) {
 };
 
 //returns a list of positions that the knight can attack, without considering pinning
-function knightMoves(piece, board) {
+function knightMoves(piece, board, AorD) {
   //check if piece is knight
   if (piece.type != 'n') {
     throw new Error('input piece is not knight');
@@ -352,87 +558,46 @@ function knightMoves(piece, board) {
   let ru = piece.position + 10;
   let rd = piece.position - 6;
   
-  // compile moves before accounting for positions blocked by allies
-  // consider edge cases (2 represents 2 squares from edge)
-  let topEdge2 = false;
-  let bottomEdge2 = false;
-  let leftEdge2 = false;
-  let rightEdge2 = false;
-  let topEdge = false;
-  let bottomEdge = false;
-  let leftEdge = false;
-  let rightEdge = false;
-  
-  // consider top and bottom edge respectively (2 square buffer)
-  if (piece.position > 47) {
-    topEdge2 = true;
-    //consider 1 square edge
-    if (piece.position > 55) {
-      topEdge = true;
-    };
-  } else if (piece.position < 16) {
-    bottomEdge2 = true;
-    if (piece.position < 8) {
-      bottomEdge = true;
-    }
-  };
-  
-  // consider left and right edges respectively (2 square buffer)
-  if ((piece.position + 8) % 8 == 0) {
-    leftEdge = true;
-  };
-  
-  if ((piece.position + 7) % 8 == 0) {
-    leftEdge2 = true;
-  };
-  
-  if ((piece.position + 9) % 8 == 0) {
-    rightEdge = true;
-  };
-  
-  if ((piece.position + 10) % 8 == 0) {
-    leftEdge2 = true;
-  };
-  
+  // compile moves before accounting for positions blocked by allies  
   // adding relevant moves depending on the pieces edge cases
   let moves = []
   
   // consider up moves
-  if (topEdge2 == false) {
-    if (leftEdge == false) {
+  if (!checkTopEdge2(piece.position)) {
+    if (!checkLeftEdge(piece.position)) {
       moves.push(ul);
     };
-    if (rightEdge == false) {
+    if (!checkRightEdge(piece.position)) {
       moves.push(ur);
     };
   };
   
   // consider down moves
-  if (downEdge2 == false) {
-    if (leftEdge == false) {
+  if (!checkBottomEdge2(piece.position)) {
+    if (!checkLeftEdge(piece.position)) {
       moves.push(dl);
     };
-    if (rightEdge == false) {
+    if (!checkRightEdge(piece.position)) {
       moves.push(dr);
     };
   };
   
   // consider left moves
-  if (leftEdge2 == false) {
-    if (upEdge == false) {
+  if (!checkLeftEdge2(piece.position)) {
+    if (!checkTopEdge(piece.position)) {
       moves.push(lu);
     };
-    if (downEdge == false) {
+    if (!checkBottomEdge(piece.position)) {
       moves.push(ld);
     };
   };
 
   // consider right moves
-  if (rightEdge2 == false) {
-    if (upEdge == false) {
+  if (!checkRightEdge2(piece.position)) {
+    if (!checkTopEdge(piece.position)) {
       moves.push(ru);
     };
-    if (downEdge == false) {
+    if (!checkBottomEdge(piece.position)) {
       moves.push(rd);
     };
   };
@@ -440,17 +605,12 @@ function knightMoves(piece, board) {
   //update positions which is moves - positions when knight is blocked by ally
   positions = [];
   for (let move of moves) {
-    for (let otherPiece of board) {
-      if ((otherPiece.position == move) && (otherPiece.side == piece.side)) {
-        break;
-      };
-    };
-    positions.push(move);
+    [positions, ] = accountCollidedPiece(move, piece.side, positions, board, AorD);
   };
 };
 
 //returns a list of positions that a bishop can attack without considering pinning
-function bishopMoves(piece, board) {
+function bishopMoves(piece, board, AorD) {
   
   //check for bishop
   if (piece.type != 'b') {
@@ -465,28 +625,21 @@ function bishopMoves(piece, board) {
   let i = piece.position;
   while (true) {
     //Check for extreme right
-    if ((i + 9) % 8 == 0) {
+    if (checkRightEdge(i)) {
       break;
     };
     //Check for extreme top
-    if (i > 55) {
+    if (checkTopEdge(i)) {
       break;
     };
     
     i += 9;
     
     //Check for blocking pieces
-    for (let otherPiece of board) {
-      if (otherPiece.position == i) {
-        // Check for enemy or ally
-        if (otherPiece.side == piece.side) {
-          break;
-        } else {
-          //enemy can be eaten
-          northE.push(i);
-          break;
-        };
-      };
+    let collided;
+    [northE, collided] = accountCollidedPiece(i, piece.side, northE, board, AorD);
+    if (collided) {
+      break;
     };
     
     //add to northE
@@ -497,28 +650,21 @@ function bishopMoves(piece, board) {
   i = piece.position;
   while (true) {
     //Check for extreme left
-    if ((i + 8) % 8 == 0) {
+    if (checkLeftEdge(i)) {
       break;
     };
     //Check for extreme bottom
-    if (i < 8) {
+    if (checkBottomEdge(i)) {
       break;
     };
     
     i -= 9;
     
     //Check for blocking pieces
-    for (let otherPiece of board) {
-      if (otherPiece.position == i) {
-        // Check for enemy or ally
-        if (otherPiece.side == piece.side) {
-          break;
-        } else {
-          //enemy can be eaten
-          southW.push(i);
-          break;
-        };
-      };
+    let collided;
+    [southW, collided] = accountCollidedPiece(i, piece.side, southW, board, AorD);
+    if (collided) {
+      break;
     };
     
     //add to northE
@@ -529,28 +675,21 @@ function bishopMoves(piece, board) {
   i = piece.position;
   while (true) {
     //Check for extreme left
-    if ((i + 8) % 8 == 0) {
+    if (checkLeftEdge(i)) {
       break;
     };
     //Check for extreme top
-    if (i > 55) {
+    if (checkTopEdge(i)) {
       break;
     };
     
     i += 7;
     
     //Check for blocking pieces
-    for (let otherPiece of board) {
-      if (otherPiece.position == i) {
-        // Check for enemy or ally
-        if (otherPiece.side == piece.side) {
-          break;
-        } else {
-          //enemy can be eaten
-          northW.push(i);
-          break;
-        };
-      };
+    let collided;
+    [northW, collided] = accountCollidedPiece(i, piece.side, northW, board, AorD);
+    if (collided) {
+      break;
     };
     
     //add to northE
@@ -561,28 +700,21 @@ function bishopMoves(piece, board) {
   i = piece.position;
   while (true) {
     //Check for extreme right
-    if ((i + 9) % 8 == 0) {
+    if (checkRightEdge(i)) {
       break;
     };
     //Check for extreme bottom
-    if (i < 8) {
+    if (checkBottomEdge) {
       break;
     };
     
     i -= 7;
     
     //Check for blocking pieces
-    for (let otherPiece of board) {
-      if (otherPiece.position == i) {
-        // Check for enemy or ally
-        if (otherPiece.side == piece.side) {
-          break;
-        } else {
-          //enemy can be eaten
-          southE.push(i);
-          break;
-        };
-      };
+    let collided;
+    [southE, collided] = accountCollidedPiece(i, piece.side, southE, board, AorD);
+    if (collided) {
+      break;
     };
     
     //add to northE
@@ -594,44 +726,24 @@ function bishopMoves(piece, board) {
 };
 
 //Returns a list of positions that the queen can attack, not considering pinning
-function queenMoves(piece, board) {
+function queenMoves(piece, board, AorD) {
   //check for queen
   if (piece.type != 'q') {
     throw new Error('input piece not queen');
   };
   //Get rook moves
-  rm = rookMoves({position: piece.position, type: 'r', moved: piece.moved, side: piece.side}, board);
+  rm = rookMoves({position: piece.position, type: 'r', moved: piece.moved, side: piece.side}, board, AorD);
   //Get bishop moves
-  bm = bishopMoves({position: piece.position, type: 'b', moved: piece.moved, side: piece.side}, board);
+  bm = bishopMoves({position: piece.position, type: 'b', moved: piece.moved, side: piece.side}, board, AorD);
   
   return rm.concat(bm);
 };
 
 //Returns a list of positioins that the king can attack, not considering pinning
-function kingMoves(piece, board) {
+function kingMoves(piece, board, AorD) {
   //check for king
   if (piece.type != 'k') {
     throw new Error('input piece not king');
-  };
-  
-  //consider edge cases
-  let topEdge = false;
-  let downEdge = false;
-  let leftEdge = false;
-  let rightEdge = false;
-  
-  //identify edges
-  if (piece.position > 55) {
-    topEdge = true;
-  };
-  if (piece.position < 8) {
-    downEdge = true;
-  };
-  if ((piece.position + 8) % 8 == 0) {
-    leftEdge = true;
-  };
-  if ((piece.position + 9) % 8 == 0) {
-    rightEdge = true;
   };
   
   //list possible moves
@@ -647,42 +759,143 @@ function kingMoves(piece, board) {
   //compile moves
   moves = [];
   //considering up moves
-  if (topEdge == false) {
+  if (!checkTopEdge(piece.position)) {
     moves.push(u);
-    if (leftEdge == false) {
+    if (!checkLeftEdge(piece.position)) {
       moves.push(ul);
     };
-    if (rightEdge == false) {
+    if (!checkRightEdge(piece.position)) {
       moves.push(ur);
     };
   };
   //consider down moves
-  if (downEdge == false) {
+  if (!checkDownEdge(piece.position)) {
     moves.push(d);
-    if (leftEdge == false) {
+    if (!checkLeftEdge(piece.position)) {
       moves.push(dl);
     };
-    if (rightEdge == false) {
+    if (!checkRightEdge(piece.position)) {
       moves.push(dr);
     };
   };
+  
   //consider side moves
-  if (leftEdge == false) {
-    moves.push(l);
+  if (!checkLeftEdge(piece.position)) {
+    moves.push(d);
   };
-  if (rightEdge == false) {
-    moves.push(r);
-  };
+  if (!checkRightEdge(piece.position)) {
+    moves.push(r)
+  }
+  
   
   let positions = [];
   for (let move of moves) {
-    for (let otherPiece of board) {
-      if ((otherPiece.position == move) && (otherPiece.side == piece.side)) {
-        break;
-      };
-    };
-    positions.push(move);
+    [positions, ] = accountCollidedPiece(move, piece.side, positions, board, AorD);            
   };
   
   return positions
 };
+
+//function that when given positiion of move, side of piece, and list of previously compiled moves,
+//Last parameter, AorD, refers to whether accounting attacked squares, or checking defended squares, true for attack, false for defend
+//will return [updated moves, whether the position is collided]  
+function accountCollidedPiece(position, side, moves, board, AorD) {
+  let ifcollided = checkCollision(position, board);
+  if (AorD === true) {
+    if (ifcollided[0]) {
+      if (side === ifcollided[1]) {
+        return [moves, true];
+      } else {
+        moves.push(position);
+        return [moves, true];
+      };
+    } else {
+      moves.push(position)
+      return [moves, false];
+    };  
+  } else {
+    if (ifcollided[0]) {
+      moves.push(position);
+      return [moves, true]
+    } else {
+      moves.push(position);
+      return [moves, false];
+    }
+  };
+};
+
+// function that returns a list, [boolean of whether position is occupied, boolean of side of piece occupying]
+function checkCollision(position, board) {
+  for (let i=0; i < board.length; i++) {
+    if (board[i].position === position) {
+      return [true, board[i].side, i];  
+    };
+  };
+  return [false, null, null];
+}
+
+function checkTopEdge(position) {
+  if (position > 55) {
+    return true; 
+  } else {
+    return false;
+  };
+};
+
+function checkTopEdge2(position) {
+  if (position > 47) {
+    return true;
+  } else {
+    return false;
+  };
+};
+
+function checkBottomEdge(position) {
+  if (position < 8) {
+    return true;
+  } else {
+    return false;
+  };
+};
+
+function checkBottomEdge2(position) {
+  if (position < 16) {
+    return true;
+  } else {
+    return false;
+  };
+};
+
+function checkLeftEdge(position) {
+  if ((position + 8) % 8 === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkLeftEdge2(position) {
+  if ((position + 7) % 8 === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkRightEdge(position) {
+  if ((position + 9) % 8 === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkRightEdge2(position) {
+  if ((position + 10) % 8 === 0) {
+    return true;
+  } else {
+    return false;
+  };
+};  
+
+export {createPieceDataCalculator, executeMove, validMoves, checkCollision};

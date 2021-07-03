@@ -4,18 +4,34 @@ import colors from '../../../config/colors';
 import SquaresRow from './SquaresRow';
 
 function Board(props) {
+    // Passing down constants
     const BoardLayout = props.BoardLayout;
+    const moveables = props.Moveables;
+
+    // Pasing down reducer hooks
+    function makeMove(action) {
+        return props.onMove(action)
+    };
+
+    function makeMoveables(action) {
+        return props.onPieceClick(action)
+    };
+    
+    // Mapping rows
+    const rows = [0, 1, 2, 3, 4, 5, 6, 7]
+
     return(
     //make board
         <View style={styles.board}>
-            <SquaresRow index={0} BoardLayout={BoardLayout}/>
-            <SquaresRow index={1} BoardLayout={BoardLayout}/>
-            <SquaresRow index={2} BoardLayout={BoardLayout}/>
-            <SquaresRow index={3} BoardLayout={BoardLayout}/>
-            <SquaresRow index={4} BoardLayout={BoardLayout}/>
-            <SquaresRow index={5} BoardLayout={BoardLayout}/>
-            <SquaresRow index={6} BoardLayout={BoardLayout}/>
-            <SquaresRow index={7} BoardLayout={BoardLayout}/>
+            {rows.map(index => <SquaresRow 
+            key={index}
+            index={index} 
+            BoardLayout={BoardLayout} 
+            Moveables={moveables}
+            onMove={makeMove} 
+            onPieceClick={makeMoveables}
+            />)}
+            
         </View>
     );
 };

@@ -1,7 +1,18 @@
 import React from 'react';
-import { View, StyleSheet, Text, Pressable } from 'react-native';
+import { Text, Pressable } from 'react-native';
+import { validMoves } from '../../../mechanisms/normalChess';
 
 function Piece(props) {
+
+    const BoardLayout = props.BoardLayout;
+    const piece = BoardLayout[props.pieceId];
+    // Pasing down reducer hooks
+    function makeMoveables(action) {
+        return props.onPieceClick(action)
+    };
+
+    let moves = validMoves(props.pieceId, BoardLayout, null);
+
     //Linking each piece's type to their corresponding chess font
     const PieceKeyBoth = {
         white: {
@@ -23,13 +34,16 @@ function Piece(props) {
         }
     };
 
-    const PieceKey = props.piece.side ? PieceKeyBoth.white : PieceKeyBoth.black;
-    const type = props.piece.type;
+
+    const PieceKey = piece.side ? PieceKeyBoth.white : PieceKeyBoth.black;
+    const type = piece.type;
 
     return(
-        <Text style={{fontFamily: 'Meri', fontSize: 40}}>
-            {PieceKey[type]}
-        </Text>
+        <Pressable onPress = {makeMoveables(moves)}>
+            <Text style={{fontFamily: 'Meri', fontSize: 40}}>
+                {PieceKey[type]}
+            </Text>
+        </Pressable>
     );
 };
 
