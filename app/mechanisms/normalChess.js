@@ -4,7 +4,6 @@ function validMoves(id, board, lastMoved) {
   let piece = board[id];
   // Get normal moves
   let moves = normalMoves(id, board);
-
   // Check for castling
   let castlingMoves = [];
   if (piece.type === 'k') {
@@ -86,7 +85,7 @@ function checkCastling(id, board, validMoves) {
   let castlingRookRight = [false, 0];
   let castlingRookLeft = [false, 0];
   for (let i=0; i < board.length; i++) {
-    let otherPiece = board[id];
+    let otherPiece = board[i];
     if (otherPiece.type === 'r' && otherPiece.side === piece.side && otherPiece.moved === false) {
       //Identify is castling rook is on the right or left of king, from the perspective of white
       if (otherPiece.side === true) {
@@ -117,20 +116,20 @@ function checkCastling(id, board, validMoves) {
   if (checkCheck(board, piece.side)) {
     return castleMoves;
   };
-  
   //check whether valid moves include pieces moving left or right
-  for (let validMove in validMoves) {
-    if ((validMove === piece.position - 1) && castlingRookLeft[0]) {
+  for (let validMove of validMoves) {
+    // For queen side castling
+    if ((validMove[1] === piece.position - 1) && castlingRookLeft[0]) {
       // Check for occupied pieces between the rook and king
-      if (checkCollision((piece.position - 1), board)[0] || 
-      checkCollision((piece.position - 2), board)[0] ||
-      checkCollision(piece.position - 3, board)[0]) {
+      if (!(checkCollision((piece.position - 1), board)[0] &&
+      checkCollision((piece.position - 2), board)[0] &&
+      checkCollision(piece.position - 3, board)[0])) {
         // Check whether king can move one more step to the right
         let newBoard = makeMove(validMove, board);
         let moves = normalMoves(id, newBoard);
         // Check whether that move is in moves
-        for (let move in moves) {
-          if (move === piece.position - 2) {
+        for (let move of moves) {
+          if (move[1] === piece.position - 2) {
             //Can castle
             let castleMove = [move, [castlingRookLeft[1], (move[1] + 1)]]
             castleMoves.push(castleMove);
@@ -138,18 +137,19 @@ function checkCastling(id, board, validMoves) {
         };
       };
     };
-    if ((validMove === piece.position + 1) && castlingRookRight[0]) {
+    // For normal castling
+    if ((validMove[1] === piece.position + 1) && castlingRookRight[0]) {
       // Check for occupied pieces between the rook and king
-      if (checkCollision((piece.position + 1), board)[0] || 
-      checkCollision((piece.position + 2), board)[0]) {
+      if (!(checkCollision((piece.position + 1), board)[0] && 
+      checkCollision((piece.position + 2), board)[0])) {
         // Check whether king can move one more step to the right
         let newBoard = makeMove(validMove, board);
         let moves = normalMoves(id, newBoard);
         // Check whether that move is in moves
-        for (let move in moves) {
-          if (move === piece.position + 2) {
+        for (let move of moves) {
+          if (move[1] === piece.position + 2) {
             //Can castle
-            let castleMove = [move, [castlingRookLeft[1], (move[1] - 1)]]
+            let castleMove = [move, [castlingRookRight[1], (move[1] - 1)]]
             castleMoves.push(castleMove);
           };
         };
@@ -318,6 +318,7 @@ function makeMove(move, board) {
   };
   // Can eat
   if (move.length > 2) {
+    console.log('in');
     newBoard.splice(move[2], 1);
   };
   
@@ -452,7 +453,6 @@ function pawnAttacks(piece, board, AorD) {
       attacks.push(piece.position - 7);
     };
   };
-  console.log(attacks);
   //return nothing if attack is on an allied piece
   if (AorD) {
     let result = [];
