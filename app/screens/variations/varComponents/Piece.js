@@ -4,15 +4,10 @@ import { validMoves } from '../../../mechanisms/normalChess';
 
 function Piece(props) {
 
+    // Passing down constants
     const BoardLayout = props.BoardLayout;
+    const moveables = props.Moveables;
     const piece = BoardLayout[props.pieceId];
-    // Pasing down reducer hooks
-    function makeMoveables(action) {
-        return props.onPieceClick(action)
-    };
-
-    let moves = validMoves(props.pieceId, BoardLayout, null);
-
     //Linking each piece's type to their corresponding chess font
     const PieceKeyBoth = {
         white: {
@@ -34,17 +29,31 @@ function Piece(props) {
         }
     };
 
-
     const PieceKey = piece.side ? PieceKeyBoth.white : PieceKeyBoth.black;
     const type = piece.type;
-
-    return(
-        <Pressable onPress = {makeMoveables(moves)}>
+    function handlePiecePress() {
+        let moves = validMoves(props.pieceId, BoardLayout, null);
+        if (JSON.stringify(moves) == JSON.stringify(moveables)) {
+            props.onPieceClick([null, null]);
+        } else {
+            props.onPieceClick(moves);
+        }
+    }; 
+    if (props.currentSide === piece.side) {
+        return(
+            <Pressable onPress = {handlePiecePress}>  
+                <Text style={{fontFamily: 'Meri', fontSize: 40}}>
+                    {PieceKey[type]}
+                </Text>
+            </Pressable>
+        );
+    } else {
+        return(
             <Text style={{fontFamily: 'Meri', fontSize: 40}}>
                 {PieceKey[type]}
             </Text>
-        </Pressable>
-    );
+        );
+    };
 };
 
 export default Piece;
