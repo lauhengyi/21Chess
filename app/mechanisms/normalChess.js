@@ -36,23 +36,25 @@ function executeMove(move, board, castling) {
 // Returns a list of normal moves checked for pins
 function normalMoves(id, board) {
   let piece = board[id];
-    let pieceData = createPieceDataCalculator(piece, board);
-    // Check whether move is pinned
-    let normalPositions = pieceData.moves;
-    // turn positions into moves, checking whether that move eats
-    let movesUnchecked = []
-    for (let position of normalPositions) {
-      let collided, side, eatenId;
-      [collided, side, eatenId] = checkCollision(position, board);
-      if (collided && side != piece.side) {
-        movesUnchecked.push([id, position, eatenId]);  
-      };
+  let pieceData = createPieceDataCalculator(piece, board);
+  // Check whether move is pinned
+  let normalPositions = pieceData.moves;
+  // turn positions into moves, checking whether that move eats
+  let movesUnchecked = []
+  for (let position of normalPositions) {
+    let collided, side, eatenId;
+    [collided, side, eatenId] = checkCollision(position, board);
+    if (collided && side != piece.side) {
+      movesUnchecked.push([id, position, eatenId]);  
+    } else {
       movesUnchecked.push([id, position]);
-    };
-
+    }
+  };
   // Removing move if pinned
   let moves = [];
   for(let move of movesUnchecked) {
+    let truth = checkPin(move, board)
+    console.log(truth);
     if (checkPin(move, board) === false) {
       moves.push(move);
     };
@@ -320,6 +322,7 @@ function makeMove(move, board) {
   if (move.length > 2) {
     console.log('in');
     newBoard.splice(move[2], 1);
+    return newBoard;
   };
   
   return newBoard;
@@ -338,12 +341,11 @@ function checkCheck(board, side) {
   // Compile list of positions where enemies attacks
   for (let piece of board) {
     // Isolate enemy pieces
-    if (piece.side == !side) {
+    if (piece.side != side) {
       let pieceData = createPieceDataCalculator(piece, board);
-      positions.concat(pieceData.attacks);
-    };
+      positions = positions.concat(pieceData.attacks);
+    }
   };
-
   // Find king's position
   let kingPos = 0;
   for (let piece of board) {

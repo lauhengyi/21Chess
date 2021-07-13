@@ -11,12 +11,8 @@ function SquaresRow(props) {
             key={squares.position}
             position={squares.position}
             color={squares.color}
-            BoardLayout={props.BoardLayout}
-            Moveables={props.Moveables}
-            currentSide={props.currentSide} 
-            onMove={(action) => props.onMove(action)} 
-            onPieceClick={(moves) => props.onPieceClick(moves)}
-            changeSide={(side) => props.changeSide(side)}
+            gameDetails={props.gameDetails}
+            onAction={(action) => props.onAction(action)} 
             />)}
         </View>
     );

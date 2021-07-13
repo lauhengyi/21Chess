@@ -3,11 +3,11 @@ import { Text, Pressable } from 'react-native';
 import { validMoves } from '../../../mechanisms/normalChess';
 
 function Piece(props) {
-
     // Passing down constants
-    const BoardLayout = props.BoardLayout;
-    const moveables = props.Moveables;
-    const piece = BoardLayout[props.pieceId];
+    const boardLayout = props.gameDetails.boardLayout;
+    const moveables = props.gameDetails.moveables;
+    const piece = boardLayout[props.pieceId];
+    const currentSide = props.gameDetails.currentSide;
     //Linking each piece's type to their corresponding chess font
     const PieceKeyBoth = {
         white: {
@@ -32,14 +32,14 @@ function Piece(props) {
     const PieceKey = piece.side ? PieceKeyBoth.white : PieceKeyBoth.black;
     const type = piece.type;
     function handlePiecePress() {
-        let moves = validMoves(props.pieceId, BoardLayout, null);
+        let moves = validMoves(props.pieceId, boardLayout, null);
         if (JSON.stringify(moves) == JSON.stringify(moveables)) {
-            props.onPieceClick([null, null]);
+            props.onAction({type:'pieceClick', move:[null,null]});
         } else {
-            props.onPieceClick(moves);
-        }
+            props.onAction({type:'pieceClick', move:moves});
+        };
     }; 
-    if (props.currentSide === piece.side) {
+    if (currentSide === piece.side) {
         return(
             <Pressable onPress = {handlePiecePress}>  
                 <Text style={{fontFamily: 'Meri', fontSize: 40}}>

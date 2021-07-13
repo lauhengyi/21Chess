@@ -6,8 +6,8 @@ import { checkCollision } from '../../../mechanisms/normalChess';
 
 function Square(props) {
     // Passing down constants
-    const BoardLayout = props.BoardLayout;
-    const moveables = props.Moveables;
+    const boardLayout = props.gameDetails.boardLayout;
+    const moveables = props.gameDetails.moveables;
     // Determine color of square: black and white, moveable or not
     const color = props.color === 1 ? [colors.grey1, colors.moveableSquareBlack] 
     : [colors.secondary, colors.moveableSquareWhite];
@@ -15,8 +15,10 @@ function Square(props) {
     // Find whether there is a piece on the square
     let isPieceOnSquare;
     let pieceId;
-    [isPieceOnSquare, ,pieceId] = checkCollision(props.position, BoardLayout);
-
+    [isPieceOnSquare, ,pieceId] = checkCollision(props.position, boardLayout);
+    function onAction(action) {
+        props.onAction(action)
+    };
     // Find whether these is a moveable on the square
     let isMoveableOnSquare = false;
     let castling = false;
@@ -41,14 +43,16 @@ function Square(props) {
             };
         }; 
     };
-
     // Render moveables and render pieces
     if (isMoveableOnSquare) {
         return(
-            <Pressable onPress={() => props.onMove({
-            move: moveableMove,
-            castling: castling,
-            })}>
+            <Pressable onPress={() => {
+                onAction({
+                type: 'makeTurn',
+                move: moveableMove,
+                castling: castling,
+                });
+            }}>
                 <View style={{
                     height: 45,
                     width: 45,
@@ -58,12 +62,9 @@ function Square(props) {
                 }}>
                     {
                         isPieceOnSquare ? <Piece 
-                        BoardLayout={BoardLayout}
-                        Moveables={moveables}
-                        currentSide={props.currentSide}
+                        gameDetails={props.gameDetails}
                         pieceId={pieceId}
-                        onPieceClick={(moves) => props.onPieceClick(moves)}
-                        changeSide={(side) => props.changeSide(side)}
+                        onAction={(moves) => props.onAction(moves)}
                         /> : null
                     }        
                 </View>
@@ -81,12 +82,9 @@ function Square(props) {
             }}>
                 {
                     isPieceOnSquare ? <Piece
-                    BoardLayout={BoardLayout}
-                    Moveables={moveables}
-                    currentSide={props.currentSide}
+                    gameDetails={props.gameDetails}
                     pieceId={pieceId}
-                    onPieceClick={(moves) => props.onPieceClick(moves)}
-                    changeSide={(side) => props.changeSide(side)}
+                    onAction={(moves) => props.onAction(moves)}
                     /> : null
                 }        
             </View>
