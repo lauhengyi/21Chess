@@ -12,14 +12,19 @@ function validMoves(id, board, lastMoved) {
   
   // Check for en Passant
   // Check for piece to be pawn, last move to be pawn)
-  let enPassantMoves = [];
-  if (lastMoved && piece.type === 'p' && board[lastMoved[0]].type === 'p') {
-    // Make sure the pawn double moved
-    if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
-      enPassantMoves = checkEnPassant(id, board, lastMoved);
+  let enPassantMove;
+  if (lastMoved[0]) {
+    if (piece.type === 'p' && board[lastMoved[0]].type === 'p') {
+      // Make sure the pawn double moved
+      if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
+        enPassantMove = checkEnPassant(id, board, lastMoved);
+      };
     };
   };
-  return [moves.concat(enPassantMoves), castlingMoves];
+  if (enPassantMove) {
+    moves.push(enPassantMove);
+  };
+  return [moves, castlingMoves];
 };
 
 // function will execute move on board, if castling is true then the move is a castle
@@ -53,8 +58,6 @@ function normalMoves(id, board) {
   // Removing move if pinned
   let moves = [];
   for(let move of movesUnchecked) {
-    let truth = checkPin(move, board)
-    console.log(truth);
     if (checkPin(move, board) === false) {
       moves.push(move);
     };
@@ -64,14 +67,14 @@ function normalMoves(id, board) {
 
 // Check enPassant in the moves list
 function checkEnPassant(id, board, lastMoved) {
-  let ghostPosition = (lastMoved[1] - lastMoved[2]) / 2
+  let ghostPosition = (lastMoved[1] + lastMoved[2]) / 2;
   // Add temporary pawn in board to see pawn can declare enPassant
   let newBoard = makeMove([lastMoved[0], ghostPosition], board);
   let moves = normalMoves(id, newBoard);
   // Check whether pawn can attacked the double moved piece
-  for (let move in moves) {
-    if (move === ghostPosition) {
-      return [id, move, lastMoved[0]];
+  for (let move of moves) {
+    if (move[1] === ghostPosition) {
+      return move;
     };
   };
 }
@@ -320,7 +323,6 @@ function makeMove(move, board) {
   };
   // Can eat
   if (move.length > 2) {
-    console.log('in');
     newBoard.splice(move[2], 1);
     return newBoard;
   };

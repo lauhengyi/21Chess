@@ -11,6 +11,20 @@ function chessMovesReducer(state, action) {
             return newDetails;
         }
         case 'makeTurn': {
+            //Add last moved
+            //Save initial position (for last moved)
+            let pieceId;
+            let moved;
+            if (action.castling) {
+                pieceId = action.move[0][0];
+                moved = action.move[0][1];
+            } else {
+                pieceId = action.move[0];
+                moved = action.move[1];
+            }
+            let movedFrom = state.boardLayout[pieceId].position;
+            newDetails.lastMoved = [pieceId, movedFrom, moved];
+
             //Make move
             newDetails.boardLayout = executeMove(action.move, state.boardLayout, action.castling);
             //Add eaten length         
@@ -25,8 +39,6 @@ function chessMovesReducer(state, action) {
             //Remove moveables
             newDetails.moveables = [null, null];
 
-            //Add last moved
-            newDetails.lastMoved = [action.move, action.castling];
             return newDetails;
         }
         default: {
@@ -41,7 +53,7 @@ function useChessMove(initialBoard, initialSide) {
         boardLayout: initialBoard,
         moveables: [null, null],
         currentSide: initialSide,
-        lastMoved: [null, null],
+        lastMoved: [null, null, null],
         eatenPieces: [],
     };
     return useReducer(chessMovesReducer, initialDetails);

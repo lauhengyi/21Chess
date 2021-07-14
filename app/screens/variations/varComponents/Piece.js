@@ -8,6 +8,7 @@ function Piece(props) {
     const moveables = props.gameDetails.moveables;
     const piece = boardLayout[props.pieceId];
     const currentSide = props.gameDetails.currentSide;
+    const lastMoved = props.gameDetails.lastMoved;
     //Linking each piece's type to their corresponding chess font
     const PieceKeyBoth = {
         white: {
@@ -32,7 +33,7 @@ function Piece(props) {
     const PieceKey = piece.side ? PieceKeyBoth.white : PieceKeyBoth.black;
     const type = piece.type;
     function handlePiecePress() {
-        let moves = validMoves(props.pieceId, boardLayout, null);
+        let moves = validMoves(props.pieceId, boardLayout, lastMoved);
         if (JSON.stringify(moves) == JSON.stringify(moveables)) {
             props.onAction({type:'pieceClick', move:[null,null]});
         } else {

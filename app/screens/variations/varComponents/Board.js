@@ -6,6 +6,7 @@ import SquaresRow from './SquaresRow';
 function Board(props) {
     // Mapping rows
     const rows = [0, 1, 2, 3, 4, 5, 6, 7]
+    console.log(props.gameDetails.lastMoved, props.gameDetails.moveables);
     return(
     //make board
         <View style={styles.board}>
