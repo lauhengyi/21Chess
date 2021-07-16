@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { executeMove, checkCheck, validMoves } from "./normalChess";
+import { executeMove, checkCheck, validMoves, getPiece } from "./normalChess";
 
 function chessMovesReducer(state, action) {
   //Making deep copy
@@ -35,7 +35,7 @@ function chessMovesReducer(state, action) {
         pieceId = action.move[0];
         moved = action.move[1];
       }
-      let movedFrom = state.boardLayout[pieceId].position;
+      let movedFrom = getPiece(pieceId, state.boardLayout).position;
       newDetails.lastMoved = [pieceId, movedFrom, moved];
 
       //Make move
@@ -44,10 +44,10 @@ function chessMovesReducer(state, action) {
         state.boardLayout,
         action.castling
       );
-      //Add eaten length
+      //Add eaten pieces
       if (action.move.length > 2) {
-        let side = state.boardLayout[action.move[0]].side;
-        let piece = state.boardLayout[action.move[2]];
+        let side = getPiece(action.move[0], state.boardLayout).side;
+        let piece = getPiece(action.move[2], state.boardLayout);
         newDetails.eatenPieces.push([side, piece]);
       }
       //Change Side
@@ -59,9 +59,9 @@ function chessMovesReducer(state, action) {
       //Check and update checks (only check checked of opposite side of moved pieces)
       let side;
       if (action.castling) {
-        side = state.boardLayout[action.move[0][0]].side;
+        side = getPiece(action.move[0][0], state.boardLayout).side;
       } else {
-        side = state.boardLayout[action.move[0]].side;
+        side = getPiece(action.move[0], state.boardLayout).side;
       }
       if (side) {
         if (checkCheck(newDetails.boardLayout, false)) {
@@ -81,10 +81,16 @@ function chessMovesReducer(state, action) {
       if (newDetails.checked === 1) {
         //Check for valid moves of all pieces
         let checkmated = true;
-        for (let i = 0; i < newDetails.boardLayout.length; i++) {
+        for (let piece of newDetails.boardLayout) {
           //Check for piece to be on white's side
-          if (newDetails.boardLayout[i].side === true) {
-            if (validMoves(i, newDetails.boardLayout, newDetails.lastMoved)) {
+          if (piece.side === true) {
+            if (
+              validMoves(
+                piece.id,
+                newDetails.boardLayout,
+                newDetails.lastMoved
+              )[0].length
+            ) {
               checkmated = false;
             }
           }
@@ -99,10 +105,16 @@ function chessMovesReducer(state, action) {
       if (newDetails.checked === 2) {
         //Check for valid moves of all pieces
         let checkmated = true;
-        for (let i = 0; i < newDetails.boardLayout.length; i++) {
+        for (let piece of newDetails.boardLayout) {
           //Check for piece to be on white's side
-          if (newDetails.boardLayout[i].side === false) {
-            if (validMoves(i, newDetails.boardLayout, newDetails.lastMoved)) {
+          if (piece.side === false) {
+            if (
+              validMoves(
+                piece.id,
+                newDetails.boardLayout,
+                newDetails.lastMoved
+              )[0].length
+            ) {
               checkmated = false;
             }
           }
@@ -115,7 +127,7 @@ function chessMovesReducer(state, action) {
 
       //Check promotion
       //Promotion = [pieceId, piecePosition]
-      if (newDetails.boardLayout[pieceId].type === "p") {
+      if (getPiece(pieceId, newDetails.boardLayout) === "p") {
         if ((side === true && moved > 55) || (side === false && moved < 8)) {
           newDetails.promotion = pieceId;
         }
@@ -126,7 +138,7 @@ function chessMovesReducer(state, action) {
     //move = [id of pawn, type of pawn]
     case "promotion": {
       newDetails.boardLayout = state.boardLayout.map((a) => ({ ...a }));
-      newDetails.boardLayout[action.move[0]].type = action.move[1];
+      getPiece(action.move[0], newDetails.boardLayout).type = action.move[1];
       newDetails.promotion = null;
     }
 

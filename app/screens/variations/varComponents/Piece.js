@@ -1,10 +1,11 @@
 import React from "react";
 import { Text, Pressable } from "react-native";
+import { getPiece } from "../../../mechanisms/normalChess";
 
 function Piece(props) {
   // Passing down constants
   const boardLayout = props.gameDetails.boardLayout;
-  const piece = boardLayout[props.pieceId];
+  const piece = getPiece(props.pieceId, boardLayout);
   const currentSide = props.gameDetails.currentSide;
   //Linking each piece's type to their corresponding chess font
   const PieceKey = {

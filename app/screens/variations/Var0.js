@@ -12,7 +12,6 @@ function Var0({ navigation, route }) {
   const initialSide = true;
 
   const [gameDetails, chessActions] = useChessMove(initialBoard, initialSide);
-
   return (
     <>
       <View style={styles.statsBarTop}>
