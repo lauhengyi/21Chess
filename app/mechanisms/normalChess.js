@@ -74,7 +74,10 @@ function checkEnPassant(id, board, lastMoved) {
   // Check whether pawn can attacked the double moved piece
   for (let move of moves) {
     if (move[1] === ghostPosition) {
-      return move;
+      //checkPin
+      if (checkPin(move, board) === false) {
+        return move;
+      }
     }
   }
 }
@@ -847,7 +850,7 @@ function kingMoves(piece, board, AorD) {
   let dr = piece.position - 7;
 
   //compile moves
-  moves = [];
+  let moves = [];
   //considering up moves
   if (!checkTopEdge(piece.position)) {
     moves.push(u);

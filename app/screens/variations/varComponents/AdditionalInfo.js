@@ -15,7 +15,7 @@ function AdditionalInfo(props) {
   let sc = "You are Checked";
   let scm = "You are Checkmated";
   let pc = "Player " + opponent[0] + " Checked";
-  let pcm = "Player" + opponent[0] + " Checkmated";
+  let pcm = "Player " + opponent[0] + " Checkmated";
   let statement = null;
   //Check opponent
   if ((opponent[1] && checked === 1) || (!opponent[1] && checked === 2)) {
