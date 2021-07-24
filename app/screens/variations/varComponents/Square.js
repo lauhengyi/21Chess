@@ -41,6 +41,7 @@ function Square(props) {
           {isPieceOnSquare ? (
             <Piece
               gameDetails={props.gameDetails}
+              options={props.options}
               pieceId={pieceId}
               onAction={(moves) => props.onAction(moves)}
             />
@@ -62,6 +63,7 @@ function Square(props) {
         {isPieceOnSquare ? (
           <Piece
             gameDetails={props.gameDetails}
+            options={props.options}
             pieceId={pieceId}
             onAction={(moves) => props.onAction(moves)}
           />

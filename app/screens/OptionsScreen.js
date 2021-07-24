@@ -61,14 +61,13 @@ function OptionsScreen({ route, navigation }) {
   const options = {
     mode: mode,
     diff: diff,
-    isAutoturn: isAutoturn,
-    isFlipped: isFlipped,
+    isAutoturn: mode ? isAutoturn : false,
+    isFlipped: isAutoturn ? false : isFlipped,
     startingSide: side === 0 ? true : false,
     isChessClock: isChessClock,
     p1Time: p1Time,
     p2Time: p2Time,
   };
-
   return (
     <View style={styles.background}>
       <View style={styles.introContainer}>
@@ -124,7 +123,7 @@ function OptionsScreen({ route, navigation }) {
           <Pressable
             onPress={() =>
               navigation.navigate(String(route.params.var), {
-                options: { options },
+                options: options,
               })
             }
           >

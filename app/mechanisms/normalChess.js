@@ -475,7 +475,7 @@ function pawnAttacks(piece, board, AorD) {
     //pawn is black
     //consider edge cases
     //consider extreme left and extreme right respectively
-    if (!checkLeftEdge(piece.postiion)) {
+    if (!checkLeftEdge(piece.position)) {
       attacks.push(piece.position - 9);
     }
     if (!checkRightEdge(piece.position)) {
@@ -894,7 +894,7 @@ function kingMoves(piece, board, AorD) {
   return positions;
 }
 
-//function that when given positiion of move, side of piece, and list of previously compiled moves,
+//function that when given position of move, side of piece, and list of previously compiled moves,
 //Last parameter, AorD, refers to whether accounting attacked squares, or checking defended squares, true for attack, false for defend
 //will return [updated moves, whether the position is collided]
 function accountCollidedPiece(position, side, moves, board, AorD) {

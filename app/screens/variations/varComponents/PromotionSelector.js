@@ -20,18 +20,20 @@ function PromotionSelector(props) {
     ];
   }
   return (
-    <View>
-      {pieceKey.map((piece) => {
+    <View style={styles.container}>
+      {pieceKey.map((piece) => (
         <Pressable
+          key={piece[1]}
           onPress={() =>
-            props.onAction({ type: "promotion", move: [promotion, piece[0]] })
+            props.onAction({
+              type: "promotion",
+              move: [props.promotion, piece[0]],
+            })
           }
         >
-          <View>
-            <Text style={styles.piece}>{piece[1]}</Text>
-          </View>
-        </Pressable>;
-      })}
+          <Text style={styles.piece}>{piece[1]}</Text>
+        </Pressable>
+      ))}
     </View>
   );
 }
@@ -39,8 +41,14 @@ function PromotionSelector(props) {
 const styles = StyleSheet.create({
   piece: {
     fontFamily: "Meri",
-    fontSize: 10,
+    fontSize: 50,
     color: colors.black,
+  },
+  container: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 });
 

@@ -24,19 +24,12 @@ function chessMovesReducer(state, action) {
       return newDetails;
     }
     case "makeTurn": {
-      //Add last moved
-      //Save initial position (for last moved)
-      let pieceId;
-      let moved;
-      if (action.castling) {
-        pieceId = action.move[0][0];
-        moved = action.move[0][1];
-      } else {
-        pieceId = action.move[0];
-        moved = action.move[1];
-      }
-      let movedFrom = getPiece(pieceId, state.boardLayout).position;
-      newDetails.lastMoved = [pieceId, movedFrom, moved];
+      //Get pieceId and final position of piece
+      const [pieceId, moved] = getPieceIdandMoved();
+      //Get side of moved piece
+      const side = getSide();
+
+      updateLastMoved();
 
       //Make move
       newDetails.boardLayout = executeMove(
@@ -57,89 +50,139 @@ function chessMovesReducer(state, action) {
       newDetails.moveables = [null, null];
 
       //Check and update checks (only check checked of opposite side of moved pieces)
-      let side;
-      if (action.castling) {
-        side = getPiece(action.move[0][0], state.boardLayout).side;
-      } else {
-        side = getPiece(action.move[0], state.boardLayout).side;
-      }
-      if (side) {
-        if (checkCheck(newDetails.boardLayout, false)) {
-          newDetails.checked = 2;
-        } else {
-          newDetails.checked = 0;
-        }
-      } else {
-        if (checkCheck(newDetails.boardLayout, true)) {
-          newDetails.checked = 1;
-        } else {
-          newDetails.checked = 0;
-        }
-      }
+      updateChecks();
 
       //Check and update checkmates
-      if (newDetails.checked === 1) {
-        //Check for valid moves of all pieces
-        let checkmated = true;
-        for (let piece of newDetails.boardLayout) {
-          //Check for piece to be on white's side
-          if (piece.side === true) {
-            if (
-              validMoves(
-                piece.id,
-                newDetails.boardLayout,
-                newDetails.lastMoved
-              )[0].length
-            ) {
-              checkmated = false;
-            }
-          }
-        }
-        newDetails.checkmated = 0;
-        if (checkmated) {
-          newDetails.checkmated = 1;
-        }
-      }
-
-      //Check and update checkmates
-      if (newDetails.checked === 2) {
-        //Check for valid moves of all pieces
-        let checkmated = true;
-        for (let piece of newDetails.boardLayout) {
-          //Check for piece to be on white's side
-          if (piece.side === false) {
-            if (
-              validMoves(
-                piece.id,
-                newDetails.boardLayout,
-                newDetails.lastMoved
-              )[0].length
-            ) {
-              checkmated = false;
-            }
-          }
-        }
-        newDetails.checkmated = 0;
-        if (checkmated) {
-          newDetails.checkmated = 2;
-        }
-      }
+      updateCheckmates();
 
       //Check promotion
       //Promotion = [pieceId, piecePosition]
-      if (getPiece(pieceId, newDetails.boardLayout) === "p") {
+      if (getPiece(pieceId, newDetails.boardLayout).type === "p") {
         if ((side === true && moved > 55) || (side === false && moved < 8)) {
           newDetails.promotion = pieceId;
         }
       }
 
       return newDetails;
+
+      function getPieceIdandMoved() {
+        let pieceId;
+        let moved;
+        if (action.castling) {
+          pieceId = action.move[0][0];
+          moved = action.move[0][1];
+        } else {
+          pieceId = action.move[0];
+          moved = action.move[1];
+        }
+        return [pieceId, moved];
+      }
+
+      function updateLastMoved() {
+        let movedFrom = getPiece(pieceId, state.boardLayout).position;
+        newDetails.lastMoved = [pieceId, movedFrom, moved];
+      }
+
+      function getSide() {
+        let side;
+        if (action.castling) {
+          side = getPiece(action.move[0][0], state.boardLayout).side;
+        } else {
+          side = getPiece(action.move[0], state.boardLayout).side;
+        }
+        return side;
+      }
+
+      function updateChecks() {
+        if (side) {
+          if (checkCheck(newDetails.boardLayout, false)) {
+            newDetails.checked = 2;
+          } else {
+            newDetails.checked = 0;
+          }
+        } else {
+          if (checkCheck(newDetails.boardLayout, true)) {
+            newDetails.checked = 1;
+          } else {
+            newDetails.checked = 0;
+          }
+        }
+      }
+
+      function updateCheckmates() {
+        if (newDetails.checked === 1) {
+          //Check for valid moves of all pieces
+          let checkmated = true;
+          for (let piece of newDetails.boardLayout) {
+            //Check for piece to be on white's side
+            if (piece.side === true) {
+              if (
+                validMoves(
+                  piece.id,
+                  newDetails.boardLayout,
+                  newDetails.lastMoved
+                )[0].length
+              ) {
+                checkmated = false;
+              }
+            }
+          }
+          newDetails.checkmated = 0;
+          if (checkmated) {
+            newDetails.checkmated = 1;
+          }
+        }
+
+        //Check and update checkmates
+        if (newDetails.checked === 2) {
+          //Check for valid moves of all pieces
+          let checkmated = true;
+          for (let piece of newDetails.boardLayout) {
+            //Check for piece to be on white's side
+            if (piece.side === false) {
+              if (
+                validMoves(
+                  piece.id,
+                  newDetails.boardLayout,
+                  newDetails.lastMoved
+                )[0].length
+              ) {
+                checkmated = false;
+              }
+            }
+          }
+          newDetails.checkmated = 0;
+          if (checkmated) {
+            newDetails.checkmated = 2;
+          }
+        }
+      }
     }
-    //move = [id of pawn, type of pawn]
+    //move = [id of pawn, type of piece to promote]
     case "promotion": {
+      console.log("in");
       newDetails.boardLayout = state.boardLayout.map((a) => ({ ...a }));
-      getPiece(action.move[0], newDetails.boardLayout).type = action.move[1];
+      //Find piece id
+      let oldPiece;
+      let pieceIndex;
+      for (let i = 0; i < newDetails.boardLayout.length; i++) {
+        if (newDetails.boardLayout[i].id === action.move[0]) {
+          oldPiece = newDetails.boardLayout[i];
+          pieceIndex = i;
+        }
+      }
+      //update new piece
+      newDetails.boardLayout[pieceIndex] = {
+        id: oldPiece.id,
+        position: oldPiece.position,
+        type: action.move[1],
+        side: oldPiece.side,
+        moved: oldPiece.moved,
+      };
+      //remove promotion selection after selection is done
       newDetails.promotion = null;
+
+      return newDetails;
     }
 
     default: {

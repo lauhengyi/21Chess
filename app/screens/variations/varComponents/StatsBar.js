@@ -4,16 +4,22 @@ import colors from "../../../config/colors";
 
 function StatsBar(props) {
   const { currentSide, eatenPieces } = props.gameDetails;
+  const options = props.options;
+  //Create Player and Opponent
+  let player;
   let opponent;
-  if (props.player[0] === 1) {
-    opponent = [2, !props.player[1]];
+  if (props.position === "bottom") {
+    player = [1, options.startingSide];
+    opponent = [2, !options.startingSide];
   } else {
-    opponent = [1, !props.player[1]];
+    player = [2, !options.startingSide];
+    opponent = [1, options.startingSide];
   }
+
+  //Form header statements
+  const opponentsName = options.mode ? "Player " + opponent[0] : "Computer";
   const headerText =
-    currentSide === props.player[1]
-      ? "Your Turn"
-      : "Player " + opponent[0] + "' s Turn";
+    currentSide === player[1] ? "Your Turn" : opponentsName + "' s Turn";
   //Linking each piece's type to their corresponding chess font
   const PieceKeyBoth = {
     true: {
@@ -35,32 +41,59 @@ function StatsBar(props) {
     },
   };
   const eatenFiltered = eatenPieces.filter(
-    (eatenPiece) => eatenPiece[0] === props.player[1]
+    (eatenPiece) => eatenPiece[0] === player[1]
   );
-  const eatenStringList = eatenFiltered.map(
-    (eatenPiece) => PieceKeyBoth[eatenPiece[1].side][eatenPiece[1].type]
-  );
-  //Add key to eaten
-  let eatenPlusKey = [];
-  for (let i = 0; i < eatenStringList.length; i++) {
-    eatenPlusKey.push([i, eatenStringList[i]]);
+  const eatenList = eatenFiltered.map((eatenPiece) => [
+    eatenPiece[1].id,
+    PieceKeyBoth[eatenPiece[1].side][eatenPiece[1].type],
+  ]);
+
+  //Find statsbar type (only for top statsBar, whether it is normal or supplementary)
+  let statsBarType = "normal";
+  if (props.position === "top" && (options.isAutoturn || options.mode === 0)) {
+    statsBarType = "supplementary";
   }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.header}>{headerText}</Text>
-      </View>
-      <Text style={styles.subHeader}>Eaten Pieces:</Text>
-      <View style={styles.eatenContainer}>
-        {eatenPlusKey.map((eaten) => (
-          <Text key={eaten[0]} style={styles.eatenPiece}>
-            {eaten[1]}
-          </Text>
-        ))}
-      </View>
-    </View>
-  );
+  {
+    if (statsBarType === "normal") {
+      return (
+        <View style={styles.container}>
+          <View
+            style={
+              props.position === "top"
+                ? styles.statsBarTop
+                : styles.statsBarBottom
+            }
+          >
+            <View style={styles.headerContainer}>
+              <Text style={styles.header}>{headerText}</Text>
+            </View>
+            <Text style={styles.subHeader}>Captured Pieces:</Text>
+            <View style={styles.eatenContainer}>
+              {eatenList.map((eaten) => (
+                <Text key={eaten[0]} style={styles.eatenPiece}>
+                  {eaten[1]}
+                </Text>
+              ))}
+            </View>
+          </View>
+        </View>
+      );
+    } else if (statsBarType === "supplementary") {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.subHeader}>Pieces Lost:</Text>
+          <View style={styles.eatenContainer}>
+            {eatenList.map((eaten) => (
+              <Text key={eaten[0]} style={styles.eatenPiece}>
+                {eaten[1]}
+              </Text>
+            ))}
+          </View>
+        </View>
+      );
+    }
+  }
 }
 
 const styles = StyleSheet.create({
@@ -70,6 +103,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondary,
     padding: 10,
   },
+
+  statsBarTop: {
+    flex: 1,
+    transform: [{ rotate: "180deg" }],
+  },
+
+  statsBarBottom: {},
 
   headerContainer: {},
 

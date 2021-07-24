@@ -7,31 +7,46 @@ import AdditionalInfo from "./varComponents/AdditionalInfo";
 import layout from "./boardLayouts/var0Layout";
 import colors from "../../config/colors";
 
-function Var0({ navigation, route }) {
+function Var0({ route, navigation }) {
+  const options = route.params.options;
   const initialBoard = layout;
   const initialSide = true;
-
   const [gameDetails, chessActions] = useChessMove(initialBoard, initialSide);
+
   return (
     <>
       <View style={styles.statsBarTop}>
-        <StatsBar gameDetails={gameDetails} player={[2, !initialSide]} />
+        <StatsBar
+          gameDetails={gameDetails}
+          position={"top"}
+          options={options}
+        />
       </View>
       <View style={styles.boardContainer}>
         <AdditionalInfo
           gameDetails={gameDetails}
-          player={[2, !initialSide]}
+          position={"top"}
+          options={options}
           onAction={chessActions}
         />
-        <Board gameDetails={gameDetails} onAction={chessActions} />
+        <Board
+          gameDetails={gameDetails}
+          options={options}
+          onAction={chessActions}
+        />
         <AdditionalInfo
           gameDetails={gameDetails}
-          player={[1, initialSide]}
+          position={"bottom"}
+          options={options}
           onAction={chessActions}
         />
       </View>
       <View style={styles.statsBarBottom}>
-        <StatsBar gameDetails={gameDetails} player={[1, initialSide]} />
+        <StatsBar
+          gameDetails={gameDetails}
+          position={"bottom"}
+          options={options}
+        />
       </View>
     </>
   );
@@ -50,7 +65,6 @@ const styles = StyleSheet.create({
 
   statsBarTop: {
     marginTop: 50,
-    transform: [{ rotate: "180deg" }],
   },
 });
 

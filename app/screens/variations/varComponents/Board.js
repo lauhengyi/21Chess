@@ -4,24 +4,42 @@ import colors from "../../../config/colors";
 import SquaresRow from "./SquaresRow";
 
 function Board(props) {
+  const options = props.options;
   // Mapping rows
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
+  let boardOrientation = options.startingSide
+    ? styles.orientWhite
+    : styles.orientBlack;
+  if (options.isAutoturn) {
+    boardOrientation = props.gameDetails.currentSide
+      ? styles.orientWhite
+      : styles.orientBlack;
+  }
   return (
     //make board
-    <View style={styles.board}>
-      {rows.map((index) => (
-        <SquaresRow
-          key={index}
-          index={index}
-          gameDetails={props.gameDetails}
-          onAction={(action) => props.onAction(action)}
-        />
-      ))}
+    <View style={boardOrientation}>
+      <View style={styles.board}>
+        {rows.map((index) => (
+          <SquaresRow
+            key={index}
+            index={index}
+            gameDetails={props.gameDetails}
+            options={props.options}
+            onAction={(action) => props.onAction(action)}
+          />
+        ))}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  orientWhite: {},
+
+  orientBlack: {
+    transform: [{ rotate: "180deg" }],
+  },
+
   board: {
     flexDirection: "column-reverse",
     color: colors.white,
