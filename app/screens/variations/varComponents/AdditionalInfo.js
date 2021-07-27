@@ -5,7 +5,8 @@ import PromotionSelector from "./PromotionSelector";
 import { getPiece } from "../../../mechanisms/normalChess";
 
 function AdditionalInfo(props) {
-  const { checked, checkmated, boardLayout, promotion } = props.gameDetails;
+  const { checked, checkmated, stalemated, boardLayout, promotion } =
+    props.gameDetails;
   const options = props.options;
   //Create Player and Opponent
   let player;
@@ -17,13 +18,14 @@ function AdditionalInfo(props) {
     player = [2, !options.startingSide];
     opponent = [1, options.startingSide];
   }
+  const flipped = options.isFlipped && props.position === "top" ? true : false;
 
   const statement = getStatement();
 
   //get promoting, where promoting = [whether additional Info will include promoting, side of piece promoting]
   const promoting = checkPromoting();
 
-  if (props.position === "top" && !options.isAutoturn) {
+  if (props.position === "top" && options.isAutoturn) {
     return (
       //Exclude statement
       <View style={styles.container}>
@@ -39,15 +41,18 @@ function AdditionalInfo(props) {
   } else {
     return (
       //Include statement
-      <View style={styles.container}>
-        {statement ? <Text style={styles.statement}>{statement}</Text> : null}
-        {promoting[0] ? (
-          <PromotionSelector
-            side={promoting[1]}
-            onAction={(action) => props.onAction(action)}
-            promotion={promotion}
-          />
-        ) : null}
+      <View style={flipped ? styles.isFlipped : styles.notFlipped}>
+        <View style={styles.container}>
+          {statement ? <Text style={styles.statement}>{statement}</Text> : null}
+          {promoting[0] ? (
+            <PromotionSelector
+              flipped={options.isFlipped}
+              side={promoting[1]}
+              onAction={(action) => props.onAction(action)}
+              promotion={promotion}
+            />
+          ) : null}
+        </View>
       </View>
     );
   }
@@ -58,21 +63,37 @@ function AdditionalInfo(props) {
 
     const sc = "You are Checked";
     const scm = "You are Checkmated";
+    const ss = "You are Stalemated";
     const pc = opponentsName + " Checked";
     const pcm = opponentsName + " Checkmated";
-    //Check opponent
+    const ps = opponentsName + " Stalemated";
+
+    //Check opponent for check and checkmate
     if ((opponent[1] && checked === 1) || (!opponent[1] && checked === 2)) {
       statement = pc;
       if (checkmated) {
         statement = pcm;
       }
     }
+
+    //Check opponent for stalemate
+    if (
+      (opponent[1] && stalemated === 1) ||
+      (!opponent[1] && stalemated === 2)
+    ) {
+      statement = ps;
+    }
+
     //Check self
     if ((player[1] && checked === 1) || (!player[1] && checked === 2)) {
       statement = sc;
       if (checkmated) {
         statement = scm;
       }
+    }
+
+    if ((player[1] && stalemated === 1) || (!player[1] && stalemated === 2)) {
+      statement = ss;
     }
     return statement;
   }
@@ -90,14 +111,26 @@ function AdditionalInfo(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  isFlipped: {
+    transform: [{ rotate: "180deg" }],
     flex: 1,
   },
 
+  notFlipped: {
+    flex: 1,
+  },
+
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+
   statement: {
-    fontFamily: "FogtwoNo5",
-    fontSize: 20,
+    fontFamily: "ELM",
+    fontSize: 30,
     color: colors.black,
+    alignSelf: "flex-end",
+    marginRight: 25,
   },
 });
 export default AdditionalInfo;

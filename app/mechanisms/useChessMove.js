@@ -27,7 +27,7 @@ function chessMovesReducer(state, action) {
       //Get pieceId and final position of piece
       const [pieceId, moved] = getPieceIdandMoved();
       //Get side of moved piece
-      const side = getSide();
+      const side = state.currentSide;
 
       updateLastMoved();
 
@@ -43,14 +43,15 @@ function chessMovesReducer(state, action) {
         let piece = getPiece(action.move[2], state.boardLayout);
         newDetails.eatenPieces.push([side, piece]);
       }
-      //Change Side
-      newDetails.currentSide = !state.currentSide;
 
       //Remove moveables
       newDetails.moveables = [null, null];
 
       //Check and update checks (only check checked of opposite side of moved pieces)
       updateChecks();
+
+      //Check and update stalemates
+      updateStalemates();
 
       //Check and update checkmates
       updateCheckmates();
@@ -61,6 +62,11 @@ function chessMovesReducer(state, action) {
         if ((side === true && moved > 55) || (side === false && moved < 8)) {
           newDetails.promotion = pieceId;
         }
+      }
+
+      //Change Side (only if no promotion)
+      if (!newDetails.promotion) {
+        newDetails.currentSide = !state.currentSide;
       }
 
       return newDetails;
@@ -83,16 +89,6 @@ function chessMovesReducer(state, action) {
         newDetails.lastMoved = [pieceId, movedFrom, moved];
       }
 
-      function getSide() {
-        let side;
-        if (action.castling) {
-          side = getPiece(action.move[0][0], state.boardLayout).side;
-        } else {
-          side = getPiece(action.move[0], state.boardLayout).side;
-        }
-        return side;
-      }
-
       function updateChecks() {
         if (side) {
           if (checkCheck(newDetails.boardLayout, false)) {
@@ -109,10 +105,11 @@ function chessMovesReducer(state, action) {
         }
       }
 
-      function updateCheckmates() {
-        if (newDetails.checked === 1) {
-          //Check for valid moves of all pieces
-          let checkmated = true;
+      function updateStalemates() {
+        //Check stalemate for white
+        //Check for valid moves of all pieces
+        if (newDetails.currentSide === false) {
+          let whiteStalemated = true;
           for (let piece of newDetails.boardLayout) {
             //Check for piece to be on white's side
             if (piece.side === true) {
@@ -123,20 +120,20 @@ function chessMovesReducer(state, action) {
                   newDetails.lastMoved
                 )[0].length
               ) {
-                checkmated = false;
+                whiteStalemated = false;
               }
             }
           }
-          newDetails.checkmated = 0;
-          if (checkmated) {
-            newDetails.checkmated = 1;
+          newDetails.stalemated = 0;
+          if (whiteStalemated) {
+            newDetails.stalemated = 1;
           }
         }
 
-        //Check and update checkmates
-        if (newDetails.checked === 2) {
-          //Check for valid moves of all pieces
-          let checkmated = true;
+        //Check stalemate for black
+        //Check for valid moves of all pieces
+        if (newDetails.currentSide === true) {
+          let blackStalemated = true;
           for (let piece of newDetails.boardLayout) {
             //Check for piece to be on white's side
             if (piece.side === false) {
@@ -147,20 +144,30 @@ function chessMovesReducer(state, action) {
                   newDetails.lastMoved
                 )[0].length
               ) {
-                checkmated = false;
+                blackStalemated = false;
               }
             }
           }
-          newDetails.checkmated = 0;
-          if (checkmated) {
-            newDetails.checkmated = 2;
+          newDetails.stalemated = 0;
+          if (blackStalemated) {
+            newDetails.stalemated = 2;
           }
         }
       }
+
+      function updateCheckmates() {
+        if (newDetails.checked === newDetails.stalemated) {
+          newDetails.checkmated = newDetails.checked;
+          //remove stalemate
+          newDetails.stalemated = 0;
+        } else {
+          newDetails.checkmated = 0;
+        }
+      }
     }
+
     //move = [id of pawn, type of piece to promote]
     case "promotion": {
-      console.log("in");
       newDetails.boardLayout = state.boardLayout.map((a) => ({ ...a }));
       //Find piece id
       let oldPiece;
@@ -182,6 +189,9 @@ function chessMovesReducer(state, action) {
       //remove promotion selection after selection is done
       newDetails.promotion = null;
 
+      //change side
+      newDetails.currentSide = !newDetails.currentSide;
+
       return newDetails;
     }
 
@@ -200,6 +210,7 @@ function useChessMove(initialBoard, initialSide) {
     lastMoved: [null, null, null],
     eatenPieces: [],
     checked: 0,
+    stalemated: 0,
     checkmated: 0,
     promotion: null,
   };

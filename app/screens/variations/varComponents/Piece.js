@@ -19,7 +19,7 @@ function Piece(props) {
   }
   if (currentOrientation === false) {
     rotateAmount = "180deg";
-    if (options.isFlipped && piece.side === false) {
+    if (options.isFlipped && piece.side === true) {
       rotateAmount = "0deg";
     }
   }

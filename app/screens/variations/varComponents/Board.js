@@ -7,14 +7,9 @@ function Board(props) {
   const options = props.options;
   // Mapping rows
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
-  let boardOrientation = options.startingSide
-    ? styles.orientWhite
-    : styles.orientBlack;
-  if (options.isAutoturn) {
-    boardOrientation = props.gameDetails.currentSide
-      ? styles.orientWhite
-      : styles.orientBlack;
-  }
+
+  const boardOrientation = getOrientation(options);
+
   return (
     //make board
     <View style={boardOrientation}>
@@ -31,6 +26,18 @@ function Board(props) {
       </View>
     </View>
   );
+
+  function getOrientation(options) {
+    let boardOrientation = options.startingSide
+      ? styles.orientWhite
+      : styles.orientBlack;
+    if (options.isAutoturn) {
+      boardOrientation = props.gameDetails.currentSide
+        ? styles.orientWhite
+        : styles.orientBlack;
+    }
+    return boardOrientation;
+  }
 }
 
 const styles = StyleSheet.create({
