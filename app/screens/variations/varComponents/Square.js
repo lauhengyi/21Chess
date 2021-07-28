@@ -44,6 +44,7 @@ function Square(props) {
               options={props.options}
               pieceId={pieceId}
               onAction={(moves) => props.onAction(moves)}
+              boardOrientation={props.boardOrientation}
             />
           ) : null}
         </View>
@@ -66,6 +67,7 @@ function Square(props) {
             options={props.options}
             pieceId={pieceId}
             onAction={(moves) => props.onAction(moves)}
+            boardOrientation={props.boardOrientation}
           />
         ) : null}
       </View>

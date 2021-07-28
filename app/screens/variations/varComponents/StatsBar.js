@@ -5,21 +5,12 @@ import colors from "../../../config/colors";
 function StatsBar(props) {
   const { currentSide, eatenPieces } = props.gameDetails;
   const options = props.options;
-  //Create Player and Opponent
-  let player;
-  let opponent;
-  if (props.position === "bottom") {
-    player = [1, options.startingSide];
-    opponent = [2, !options.startingSide];
-  } else {
-    player = [2, !options.startingSide];
-    opponent = [1, options.startingSide];
-  }
+  //Get players
+  const [player, opponent] = getPlayers();
 
-  //Form header statements
-  const opponentsName = options.mode ? "Player " + opponent[0] : "Computer";
-  const headerText =
-    currentSide === player[1] ? "Your Turn" : opponentsName + "' s Turn";
+  //Get header text
+  const headerText = getHeaderText();
+
   //Linking each piece's type to their corresponding chess font
   const PieceKeyBoth = {
     true: {
@@ -93,6 +84,42 @@ function StatsBar(props) {
         </View>
       );
     }
+  }
+  //return [player, opponent]
+  function getPlayers() {
+    //Create Player and Opponent
+    //Player will switch if autoturn is on
+    let player;
+    let opponent;
+    if (props.position === "bottom") {
+      player = [1, options.startingSide];
+      opponent = [2, !options.startingSide];
+    } else {
+      player = [2, !options.startingSide];
+      opponent = [1, options.startingSide];
+    }
+
+    if (options.isAutoturn) {
+      if (opponent[1] === currentSide) {
+        player = opponent;
+      }
+    }
+
+    return [player, opponent];
+  }
+  function getHeaderText() {
+    let headerText;
+    //Form header statements
+    const opponentsName = options.mode ? "Player " + opponent[0] : "Computer";
+    headerText =
+      player[1] === currentSide ? "Your Turn" : opponentsName + "' s Turn";
+
+    //Consider autoturn, where it does not show Your Turn
+    if (options.isAutoturn) {
+      headerText = "Player " + player[0] + "' s Turn";
+    }
+
+    return headerText;
   }
 }
 

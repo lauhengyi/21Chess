@@ -47,14 +47,8 @@ function chessMovesReducer(state, action) {
       //Remove moveables
       newDetails.moveables = [null, null];
 
-      //Check and update checks (only check checked of opposite side of moved pieces)
-      updateChecks();
-
-      //Check and update stalemates
-      updateStalemates();
-
-      //Check and update checkmates
-      updateCheckmates();
+      //update status
+      updateGameStatus();
 
       //Check promotion
       //Promotion = [pieceId, piecePosition]
@@ -88,9 +82,54 @@ function chessMovesReducer(state, action) {
         let movedFrom = getPiece(pieceId, state.boardLayout).position;
         newDetails.lastMoved = [pieceId, movedFrom, moved];
       }
+    }
+
+    //move = [id of pawn, type of piece to promote]
+    case "promotion": {
+      newDetails.boardLayout = state.boardLayout.map((a) => ({ ...a }));
+      //Find piece id
+      let oldPiece;
+      let pieceIndex;
+      for (let i = 0; i < newDetails.boardLayout.length; i++) {
+        if (newDetails.boardLayout[i].id === action.move[0]) {
+          oldPiece = newDetails.boardLayout[i];
+          pieceIndex = i;
+        }
+      }
+      //update new piece
+      newDetails.boardLayout[pieceIndex] = {
+        id: oldPiece.id,
+        position: oldPiece.position,
+        type: action.move[1],
+        side: oldPiece.side,
+        moved: oldPiece.moved,
+      };
+      //remove promotion selection after selection is done
+      newDetails.promotion = null;
+
+      //update status
+      updateGameStatus();
+
+      //change side
+      newDetails.currentSide = !newDetails.currentSide;
+
+      return newDetails;
+    }
+
+    default:
+      {
+        console.log("type not specified");
+        return state;
+      }
+
+      function updateGameStatus() {
+        updateChecks();
+        updateStalemates();
+        updateCheckmates();
+      }
 
       function updateChecks() {
-        if (side) {
+        if (state.currentSide) {
           if (checkCheck(newDetails.boardLayout, false)) {
             newDetails.checked = 2;
           } else {
@@ -164,41 +203,6 @@ function chessMovesReducer(state, action) {
           newDetails.checkmated = 0;
         }
       }
-    }
-
-    //move = [id of pawn, type of piece to promote]
-    case "promotion": {
-      newDetails.boardLayout = state.boardLayout.map((a) => ({ ...a }));
-      //Find piece id
-      let oldPiece;
-      let pieceIndex;
-      for (let i = 0; i < newDetails.boardLayout.length; i++) {
-        if (newDetails.boardLayout[i].id === action.move[0]) {
-          oldPiece = newDetails.boardLayout[i];
-          pieceIndex = i;
-        }
-      }
-      //update new piece
-      newDetails.boardLayout[pieceIndex] = {
-        id: oldPiece.id,
-        position: oldPiece.position,
-        type: action.move[1],
-        side: oldPiece.side,
-        moved: oldPiece.moved,
-      };
-      //remove promotion selection after selection is done
-      newDetails.promotion = null;
-
-      //change side
-      newDetails.currentSide = !newDetails.currentSide;
-
-      return newDetails;
-    }
-
-    default: {
-      console.log("type not specified");
-      return state;
-    }
   }
 }
 

@@ -8,7 +8,8 @@ function Piece(props) {
   const boardLayout = props.gameDetails.boardLayout;
   const piece = getPiece(props.pieceId, boardLayout);
   const currentSide = props.gameDetails.currentSide;
-  const currentOrientation = getBoardOrientation();
+  const currentOrientation = props.boardOrientation;
+
   //Check piece orientation
   let rotateAmount = "0deg";
   if (currentOrientation && options.isFlipped) {
@@ -75,13 +76,6 @@ function Piece(props) {
         {PieceKey[piece.side][piece.type]}
       </Text>
     );
-  }
-  function getBoardOrientation() {
-    let boardOrientation = options.startingSide ? true : false;
-    if (options.isAutoturn) {
-      boardOrientation = props.gameDetails.currentSide ? true : false;
-    }
-    return boardOrientation;
   }
 }
 

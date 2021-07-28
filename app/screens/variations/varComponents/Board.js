@@ -1,18 +1,25 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, Text, Pressable } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, StyleSheet } from "react-native";
 import colors from "../../../config/colors";
 import SquaresRow from "./SquaresRow";
 
 function Board(props) {
   const options = props.options;
-  // Mapping rows
+  //Mapping rows
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 
-  const boardOrientation = getOrientation(options);
+  //Integrate pausing for autoturn
+  const currentSide = props.gameDetails.currentSide;
+  const timer = useRef();
+  const [boardOrientation, setBoardOrientation] = useState(getOrientation());
+  useEffect(() => {
+    let orientation = getOrientation();
+    timer.current = setTimeout(() => setBoardOrientation(orientation), 400);
+  }, [currentSide]);
 
   return (
     //make board
-    <View style={boardOrientation}>
+    <View style={boardOrientation ? styles.orientWhite : styles.orientBlack}>
       <View style={styles.board}>
         {rows.map((index) => (
           <SquaresRow
@@ -21,25 +28,21 @@ function Board(props) {
             gameDetails={props.gameDetails}
             options={props.options}
             onAction={(action) => props.onAction(action)}
+            boardOrientation={boardOrientation}
           />
         ))}
       </View>
     </View>
   );
 
-  function getOrientation(options) {
-    let boardOrientation = options.startingSide
-      ? styles.orientWhite
-      : styles.orientBlack;
+  function getOrientation() {
+    let boardOrientation = options.startingSide ? true : false;
     if (options.isAutoturn) {
-      boardOrientation = props.gameDetails.currentSide
-        ? styles.orientWhite
-        : styles.orientBlack;
+      boardOrientation = props.gameDetails.currentSide ? true : false;
     }
     return boardOrientation;
   }
 }
-
 const styles = StyleSheet.create({
   orientWhite: {},
 
