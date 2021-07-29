@@ -49,6 +49,8 @@ function OptionsScreen({ route, navigation }) {
   const toggleTimeLock = () => setTimeLock((previousState) => !previousState);
   const [p1Time, setP1Time] = useState("1000");
   const [p2Time, setP2Time] = useState("1000");
+  const [increment, setIncrement] = useState("0");
+  const [delay, setDelay] = useState("0");
   const timeDetails = {
     isTimeLock: isTimeLock,
     toggleTimeLock: toggleTimeLock,
@@ -56,6 +58,10 @@ function OptionsScreen({ route, navigation }) {
     p2: p2Time,
     setP1: setP1Time,
     setP2: setP2Time,
+    increment: increment,
+    setIncrement: setIncrement,
+    delay: delay,
+    setDelay: setDelay,
   };
   //Create options object
   const options = {
@@ -118,6 +124,7 @@ function OptionsScreen({ route, navigation }) {
             value={isChessClock}
           />
         </View>
+        <Text style={styles.subHeader}>Time controls:</Text>
         <TimeSelect timeDetails={timeDetails} />
         <View style={styles.beginContainer}>
           <Pressable
