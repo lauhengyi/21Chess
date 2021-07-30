@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Icon } from "react-native-elements";
 import TimeControlButton from "./TimeControlButton";
 import colors from "../../config/colors";
+import convertTimeToNum from "../functions/convertTimetoNum";
 
 function TimeSelect(props) {
   const { p1, p2, setP1, setP2, increment, setIncrement, delay } =
@@ -125,10 +125,14 @@ function TimeSelect(props) {
 
   //show time control text for one player
   function getTimeControlText(time, increment, delay) {
-    const [hours, minutes] = convertTimetoNum(time);
+    const [hours, minutes, seconds] = convertTimeToNum(time);
 
     //Add hours to minutes
     let timeText = String(hours * 60 + minutes);
+    //Update time text for 30 seconds
+    if (seconds === 30) {
+      timeText = "0.5";
+    }
 
     let incrementText = "";
     if (increment != "0") {
@@ -147,82 +151,6 @@ function TimeSelect(props) {
     }
 
     return timeText + incrementText + delayText;
-  }
-
-  //Note: both value and change are strings of numbers i.e. NaN
-  function changeTimeValue(value, change) {
-    //get hours, minutes, seconds
-    let [hours, minutes, seconds] = convertTimetoNum(value);
-
-    //categoriseChange
-    //Check for add or minus
-    let changeString = change;
-    let isNegative = false;
-    if (changeLeft[0] === "-") {
-      changeString = changeString.slice(-(changeString.length - 1));
-      isNegative = true;
-    }
-
-    let [changeHours, changeMinutes, changeSeconds] = convertTimetoNum(change);
-
-    //Factor in negative
-    if (isNegative) {
-      changeHours = -changeHours;
-      changeMinutes = -changeMinutes;
-      changeSeconds = -changeSeconds;
-    }
-
-    //Carry out change
-    hours += changeHours;
-    minutes += changeMinutes;
-    seconds += changeSeconds;
-
-    //account for excess and negatives
-    while (seconds < 0) {
-      minutes -= 1;
-      seconds += 60;
-    }
-    while (seconds > 59) {
-      minutes += 1;
-      seconds -= 60;
-    }
-
-    while (minutes < 0) {
-      hours -= 1;
-      minutes += 60;
-    }
-    while (minutes > 59) {
-      hours += 1;
-      minutes -= 60;
-    }
-
-    if (hours < 0) {
-      hours = 0;
-    }
-
-    if (hours > 99) {
-      hours = 99;
-      minutes = 99;
-      seconds = 99;
-    }
-
-    return String(hours) + String(minutes) + String(seconds);
-  }
-
-  function convertTimetoNum(time) {
-    //get time Text
-    let timeString = time;
-
-    //normalise time
-    while (timeString.length < 6) {
-      timeString = "0" + timeString;
-    }
-
-    const hours = parseInt(timeString[0] + timeString[1]);
-    const minutes = parseInt(timeString[2] + timeString[3]);
-    const seconds = parseInt(timeString[4] + timeString[5]);
-
-    return [hours, minutes, seconds];
   }
 
   function onButtonPress(time, increment, id, setTime) {

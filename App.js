@@ -17,6 +17,7 @@ export default function App() {
     ELMB: require("./app/assets/fonts/ElMessiriBold.otf"),
     Meri: require("./app/assets/fonts/MERIFONT.ttf"),
     ElegantIcons: require("./app/assets/fonts/ElegantIcons.ttf"),
+    //Icons website https://www.elegantthemes.com/blog/resources/elegant-icon-font
   });
   if (!loaded) {
     return null;
