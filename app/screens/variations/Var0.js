@@ -1,9 +1,9 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import Board from "./varComponents/Board";
-import StatsBar from "./varComponents/StatsBar";
+import Board from "./var0_Components/Board";
+import StatsBar from "./var0_Components/StatsBar";
 import useChessMove from "../../mechanisms/useChessMove";
-import AdditionalInfo from "./varComponents/AdditionalInfo";
+import AdditionalInfo from "./var0_Components/AdditionalInfo";
 import layout from "./boardLayouts/var0Layout";
 import colors from "../../config/colors";
 

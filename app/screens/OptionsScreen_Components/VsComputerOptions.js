@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { diff } from "react-native-reanimated";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 function VsComputerOptions(props) {

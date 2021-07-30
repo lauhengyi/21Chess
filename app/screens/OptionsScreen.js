@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Switch, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Switch,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import colors from "../config/colors";
 import SegmentedControlTab from "react-native-segmented-control-tab";
-import VsComputerOptions from "./components/VsComputerOptions";
-import VsPlayerOptions from "./components/vsPlayerOptions";
-import TimeSelect from "./components/TimeSelect";
+import VsComputerOptions from "./OptionsScreen_Components/VsComputerOptions";
+import VsPlayerOptions from "./OptionsScreen_Components/vsPlayerOptions";
+import TimeSelect from "./OptionsScreen_Components/TimeSelect";
+import AdditionalTimeControls from "./OptionsScreen_Components/AdditionalTimeControls";
 
 function OptionsScreen({ route, navigation }) {
   //Create states for the options
@@ -47,6 +55,9 @@ function OptionsScreen({ route, navigation }) {
 
   const [isTimeLock, setTimeLock] = useState(true);
   const toggleTimeLock = () => setTimeLock((previousState) => !previousState);
+  const [isAdditional, setAdditional] = useState(false);
+  const toggleAdditional = () =>
+    setAdditional((previousState) => !previousState);
   const [p1Time, setP1Time] = useState("1000");
   const [p2Time, setP2Time] = useState("1000");
   const [increment, setIncrement] = useState("0");
@@ -75,7 +86,7 @@ function OptionsScreen({ route, navigation }) {
     p2Time: p2Time,
   };
   return (
-    <View style={styles.background}>
+    <ScrollView contentContainerStyle={styles.background}>
       <View style={styles.introContainer}>
         <Text style={styles.title}>{route.params.title}</Text>
         <Text style={styles.header}>{route.params.header}</Text>
@@ -114,40 +125,64 @@ function OptionsScreen({ route, navigation }) {
           selectedIndex={side}
           onTabPress={(index) => setSide(index)}
         />
-        <View style={styles.toggleOptionsContainer}>
-          <Text style={styles.subHeader}>Chess clock</Text>
-          <Switch
-            trackColor={{ false: colors.grey1, true: colors.black }}
-            thumbColor={colors.grey2}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleChessClock}
-            value={isChessClock}
-          />
-        </View>
-        <Text style={styles.subHeader}>Time controls:</Text>
-        <TimeSelect timeDetails={timeDetails} />
-        <View style={styles.beginContainer}>
-          <Pressable
-            onPress={() =>
-              navigation.navigate(String(route.params.var), {
-                options: options,
-              })
-            }
-          >
-            <Text style={styles.begin}>Begin</Text>
-          </Pressable>
-        </View>
+        {mode === 1 ? (
+          <>
+            <View style={styles.toggleOptionsContainer}>
+              <Text style={styles.subHeader}>Chess clock</Text>
+              <Switch
+                trackColor={{ false: colors.grey1, true: colors.black }}
+                thumbColor={colors.grey2}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleChessClock}
+                value={isChessClock}
+              />
+            </View>
+            {isChessClock ? (
+              <>
+                <Text style={styles.subHeader}>Time controls:</Text>
+                <TimeSelect timeDetails={timeDetails} />
+                <View style={styles.toggleOptionsContainer}>
+                  <Text style={styles.subHeader}>Additional time controls</Text>
+                  <Switch
+                    trackColor={{ false: colors.grey1, true: colors.black }}
+                    thumbColor={colors.grey2}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleAdditional}
+                    value={isAdditional}
+                  />
+                </View>
+                {isAdditional ? (
+                  <AdditionalTimeControls
+                    textStyle={styles.subHeader}
+                    timeDetails={timeDetails}
+                  />
+                ) : null}
+              </>
+            ) : null}
+          </>
+        ) : null}
       </View>
-    </View>
+      <View style={styles.beginContainer}>
+        <Pressable
+          onPress={() =>
+            navigation.navigate(String(route.params.var), {
+              options: options,
+            })
+          }
+        >
+          <Text style={styles.begin}>Begin</Text>
+        </Pressable>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
     alignItems: "center",
-    flex: 1,
     color: colors.white,
   },
+
   introContainer: {
     marginTop: 80,
     alignItems: "center",
@@ -187,6 +222,7 @@ const styles = StyleSheet.create({
     width: "90%",
     marginTop: 10,
     flex: 1,
+    height: "100%",
   },
 
   tabsContainerStyle: {
@@ -215,7 +251,9 @@ const styles = StyleSheet.create({
 
   beginContainer: {
     justifyContent: "flex-end",
-    flex: 0.9,
+    marginTop: 10,
+    width: "100%",
+    flex: 1,
   },
 
   begin: {

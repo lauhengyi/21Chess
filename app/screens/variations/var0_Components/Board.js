@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import colors from "../../../config/colors";
-import SquaresRow from "./SquaresRow";
+import SquaresRow from "./Board_Components/SquaresRow";
 
 function Board(props) {
   const options = props.options;

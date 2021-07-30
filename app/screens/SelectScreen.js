@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import colors from "../config/colors";
-import VarContainer from "./components/VarContainer";
+import VarContainer from "./VarLoadScreen_Components/VarContainer";
 import {
   View,
   StyleSheet,

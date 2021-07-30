@@ -3,21 +3,10 @@ import { View, Text, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
 import TimeControlButton from "./TimeControlButton";
 import colors from "../../config/colors";
-import TimeText from "./TimeText";
 
 function TimeSelect(props) {
-  const {
-    isTimeLock,
-    toggleTimeLock,
-    p1,
-    p2,
-    setP1,
-    setP2,
-    increment,
-    setIncrement,
-    delay,
-    setDelay,
-  } = props.timeDetails;
+  const { p1, p2, setP1, setP2, increment, setIncrement, delay } =
+    props.timeDetails;
 
   const bulletButtons = [
     {
@@ -131,8 +120,6 @@ function TimeSelect(props) {
           ))}
         </View>
       </View>
-      <TimeText style={styles.timeText} value={p1} />
-      <Icon class="fa fa-lock" aria-hidden="true" />
     </View>
   );
 

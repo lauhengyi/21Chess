@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import colors from "../../../config/colors";
-import PromotionSelector from "./PromotionSelector";
+import PromotionSelector from "./AdditionalInfo_Components/PromotionSelector";
 import { getPiece } from "../../../mechanisms/normalChess";
 
 function AdditionalInfo(props) {
