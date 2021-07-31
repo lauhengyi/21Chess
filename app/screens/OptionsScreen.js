@@ -58,17 +58,14 @@ function OptionsScreen({ route, navigation }) {
   const [isAdditional, setAdditional] = useState(false);
   const toggleAdditional = () =>
     setAdditional((previousState) => !previousState);
-  const [p1Time, setP1Time] = useState("1000");
-  const [p2Time, setP2Time] = useState("1000");
+  const [time, setTime] = useState("1000");
   const [increment, setIncrement] = useState("0");
   const [delay, setDelay] = useState("0");
   const timeDetails = {
     isTimeLock: isTimeLock,
     toggleTimeLock: toggleTimeLock,
-    p1: p1Time,
-    p2: p2Time,
-    setP1: setP1Time,
-    setP2: setP2Time,
+    time: time,
+    setTime: setTime,
     increment: increment,
     setIncrement: setIncrement,
     delay: delay,
@@ -82,8 +79,7 @@ function OptionsScreen({ route, navigation }) {
     isFlipped: isAutoturn ? false : isFlipped,
     startingSide: side === 0 ? true : false,
     isChessClock: isChessClock,
-    p1Time: p1Time,
-    p2Time: p2Time,
+    time: time,
   };
   return (
     <ScrollView contentContainerStyle={styles.background}>

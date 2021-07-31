@@ -2,10 +2,10 @@ import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import colors from "../../config/colors";
 import TimeText from "../components/TimeText";
-import convertTimeToNum from "../functions/convertTimetoNum";
+import changeTimeValue from "../functions/changeTimeValue";
 
 function AdditionTimeControls(props) {
-  const { p1, setP1, p2, setP2, increment, setIncrement, delay, setDelay } =
+  const { time, setTime, increment, setIncrement, delay, setDelay } =
     props.timeDetails;
   const subHeaderStyle = props.textStyle;
   const fastIncrementText = ">";
@@ -18,19 +18,19 @@ function AdditionTimeControls(props) {
       <View style={styles.controllerContainer}>
         <Text style={subHeaderStyle}>Time per player:</Text>
         <View style={styles.controller}>
-          <Pressable onPress={() => handleTimePress(p1, "-500", setP1)}>
+          <Pressable onPress={() => handleTimePress(time, "-500", setTime)}>
             <Text style={styles.buttonText}>{fastDecrementText}</Text>
           </Pressable>
-          <Pressable onPress={() => handleTimePress(p1, "-100", setP1)}>
+          <Pressable onPress={() => handleTimePress(time, "-100", setTime)}>
             <Text style={styles.buttonText}>{slowDecrementText}</Text>
           </Pressable>
           <View style={styles.valueText}>
-            <TimeText value={p1} style={subHeaderStyle} />
+            <TimeText value={time} style={subHeaderStyle} />
           </View>
-          <Pressable onPress={() => handleTimePress(p1, "100", setP1)}>
+          <Pressable onPress={() => handleTimePress(time, "100", setTime)}>
             <Text style={styles.buttonText}>{slowIncrementText}</Text>
           </Pressable>
-          <Pressable onPress={() => handleTimePress(p1, "500", setP1)}>
+          <Pressable onPress={() => handleTimePress(time, "500", setTime)}>
             <Text style={styles.buttonText}>{fastIncrementText}</Text>
           </Pressable>
         </View>
@@ -100,76 +100,6 @@ function AdditionTimeControls(props) {
     } else {
       setFunction(changeTimeValue(value, change));
     }
-  }
-
-  function changeTimeValue(value, change) {
-    //get hours, minutes, seconds
-    let [hours, minutes, seconds] = convertTimeToNum(value);
-
-    //categoriseChange
-    //Check for add or minus
-    let changeString = change;
-    let isNegative = false;
-    if (changeString[0] === "-") {
-      changeString = changeString.slice(-(changeString.length - 1));
-      isNegative = true;
-    }
-
-    let [changeHours, changeMinutes, changeSeconds] =
-      convertTimeToNum(changeString);
-
-    //Factor in negative
-    if (isNegative) {
-      changeHours = -changeHours;
-      changeMinutes = -changeMinutes;
-      changeSeconds = -changeSeconds;
-    }
-
-    //Carry out change
-    hours += changeHours;
-    minutes += changeMinutes;
-    seconds += changeSeconds;
-
-    //account for excess and negatives
-    while (seconds < 0) {
-      minutes -= 1;
-      seconds += 60;
-    }
-    while (seconds > 59) {
-      minutes += 1;
-      seconds -= 60;
-    }
-
-    while (minutes < 0) {
-      hours -= 1;
-      minutes += 60;
-    }
-    while (minutes > 59) {
-      hours += 1;
-      minutes -= 60;
-    }
-
-    if (hours < 0) {
-      hours = 0;
-      minutes = 0;
-      seconds = 0;
-    }
-
-    if (hours > 99) {
-      hours = 99;
-      minutes = 99;
-      seconds = 99;
-    }
-
-    return formatNum(hours) + formatNum(minutes) + formatNum(seconds);
-  }
-
-  function formatNum(num) {
-    let numString = String(num);
-    while (numString.length < 2) {
-      numString = "0" + numString;
-    }
-    return numString;
   }
 
   function handleOtherPress(value, change, setFunction) {

@@ -12,7 +12,7 @@ function TimeControlButton(props) {
     <Pressable onPress={() => props.onButtonPress()}>
       <View style={isClicked ? styles.clickedContainer : styles.container}>
         <Text style={isClicked ? styles.clickedText : styles.text}>
-          {props.text}
+          {props.isChanged && isClicked ? props.text + "*" : props.text}
         </Text>
       </View>
     </Pressable>

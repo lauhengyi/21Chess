@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import TimeControlButton from "./TimeControlButton";
 import colors from "../../config/colors";
-import convertTimeToNum from "../functions/convertTimetoNum";
+import convertTimeToNum from "../functions/convertTimeToNum";
 
 function TimeSelect(props) {
-  const { p1, p2, setP1, setP2, increment, setIncrement, delay } =
+  const { time, p2, setTime, setP2, increment, setIncrement, delay, setDelay } =
     props.timeDetails;
 
   const bulletButtons = [
@@ -13,18 +13,21 @@ function TimeSelect(props) {
       id: 0,
       time: "100",
       increment: "0",
+      delay: "0",
     },
 
     {
       id: 1,
       time: "100",
       increment: "1",
+      delay: "0",
     },
 
     {
       id: 2,
       time: "200",
       increment: "1",
+      delay: "0",
     },
   ];
 
@@ -33,18 +36,21 @@ function TimeSelect(props) {
       id: 3,
       time: "300",
       increment: "0",
+      delay: "0",
     },
 
     {
       id: 4,
       time: "300",
       increment: "2",
+      delay: "0",
     },
 
     {
       id: 5,
       time: "500",
       increment: "0",
+      delay: "0",
     },
   ];
 
@@ -53,23 +59,26 @@ function TimeSelect(props) {
       id: 6,
       time: "1000",
       increment: "0",
+      delay: "0",
     },
 
     {
       id: 7,
       time: "3000",
       increment: "0",
+      delay: "0",
     },
 
     {
       id: 8,
       time: "1500",
       increment: "10",
+      delay: "0",
     },
   ];
 
-  const timeControlText = getTimeControlText(p1, increment, delay);
-  const [clickedButton, setClickedButton] = useState(0);
+  const timeControlText = getTimeControlText(time, increment, delay);
+  const [clickedButton, setClickedButton] = useState(6);
 
   return (
     <View>
@@ -83,11 +92,26 @@ function TimeSelect(props) {
             <TimeControlButton
               key={button.id}
               id={button.id}
-              text={getTimeControlText(button.time, button.increment, "0")}
+              text={getTimeControlText(
+                button.time,
+                button.increment,
+                button.delay
+              )}
               onButtonPress={() =>
-                onButtonPress(button.time, button.increment, button.id, setP1)
+                onButtonPress(
+                  button.time,
+                  button.increment,
+                  button.delay,
+                  button.id,
+                  setTime
+                )
               }
               clickedButton={clickedButton}
+              isChanged={checkChanged(
+                button.time,
+                button.increment,
+                button.delay
+              )}
             />
           ))}
         </View>
@@ -97,11 +121,26 @@ function TimeSelect(props) {
             <TimeControlButton
               key={button.id}
               id={button.id}
-              text={getTimeControlText(button.time, button.increment, "0")}
+              text={getTimeControlText(
+                button.time,
+                button.increment,
+                button.delay
+              )}
               onButtonPress={() =>
-                onButtonPress(button.time, button.increment, button.id, setP1)
+                onButtonPress(
+                  button.time,
+                  button.increment,
+                  button.delay,
+                  button.id,
+                  setTime
+                )
               }
               clickedButton={clickedButton}
+              isChanged={checkChanged(
+                button.time,
+                button.increment,
+                button.delay
+              )}
             />
           ))}
         </View>
@@ -111,11 +150,26 @@ function TimeSelect(props) {
             <TimeControlButton
               key={button.id}
               id={button.id}
-              text={getTimeControlText(button.time, button.increment, "0")}
+              text={getTimeControlText(
+                button.time,
+                button.increment,
+                button.delay
+              )}
               onButtonPress={() =>
-                onButtonPress(button.time, button.increment, button.id, setP1)
+                onButtonPress(
+                  button.time,
+                  button.increment,
+                  button.delay,
+                  button.id,
+                  setTime
+                )
               }
               clickedButton={clickedButton}
+              isChanged={checkChanged(
+                button.time,
+                button.increment,
+                button.delay
+              )}
             />
           ))}
         </View>
@@ -153,10 +207,19 @@ function TimeSelect(props) {
     return timeText + incrementText + delayText;
   }
 
-  function onButtonPress(time, increment, id, setTime) {
+  function onButtonPress(time, increment, delay, id, setTime) {
     setTime(time);
     setIncrement(increment);
+    setDelay(delay);
     setClickedButton(id);
+  }
+
+  function checkChanged(t, i, d) {
+    let isChanged = true;
+    if (time === t && increment === i && delay === d) {
+      isChanged = false;
+    }
+    return isChanged;
   }
 }
 
