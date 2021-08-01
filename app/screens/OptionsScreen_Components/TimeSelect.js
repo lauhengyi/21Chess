@@ -2,11 +2,24 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import TimeControlButton from "./TimeControlButton";
 import colors from "../../config/colors";
-import convertTimeToNum from "../functions/convertTimeToNum";
+import getTimeControlText from "../functions/getTimeControlText";
 
 function TimeSelect(props) {
-  const { time, p2, setTime, setP2, increment, setIncrement, delay, setDelay } =
-    props.timeDetails;
+  const {
+    isTimeLock,
+    p1Time,
+    setP1Time,
+    p2Time,
+    setP2Time,
+    p1Increment,
+    setP1Increment,
+    p2Increment,
+    setP2Increment,
+    p1Delay,
+    setP1Delay,
+    p2Delay,
+    setP2Delay,
+  } = props.timeDetails;
 
   const bulletButtons = [
     {
@@ -77,13 +90,41 @@ function TimeSelect(props) {
     },
   ];
 
-  const timeControlText = getTimeControlText(time, increment, delay);
+  const p1TimeControlText = getTimeControlText(p1Time, p1Increment, p1Delay);
+  const p2TimeControlText = getTimeControlText(p2Time, p2Increment, p2Delay);
   const [clickedButton, setClickedButton] = useState(6);
 
   return (
     <View>
-      <View style={styles.timeControlTextContainer}>
-        <Text style={styles.timeControlText}>{timeControlText}</Text>
+      <View style={styles.timeControlContainer}>
+        <View style={styles.perPlayerTimeControlContainer}>
+          <Text
+            style={
+              isTimeLock
+                ? styles.timeControlText
+                : styles.perPlayerTimeControlText
+            }
+          >
+            {p1TimeControlText}
+          </Text>
+          {!isTimeLock ? (
+            <Text style={styles.timeControlCaption}>P1</Text>
+          ) : null}
+        </View>
+        {!isTimeLock ? (
+          <View style={styles.perPlayerTimeControlContainer}>
+            <Text
+              style={
+                isTimeLock
+                  ? styles.timeControlText
+                  : styles.perPlayerTimeControlText
+              }
+            >
+              {p2TimeControlText}
+            </Text>
+            <Text style={styles.timeControlCaption}>P2</Text>
+          </View>
+        ) : null}
       </View>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonsColumn}>
@@ -102,8 +143,7 @@ function TimeSelect(props) {
                   button.time,
                   button.increment,
                   button.delay,
-                  button.id,
-                  setTime
+                  button.id
                 )
               }
               clickedButton={clickedButton}
@@ -131,8 +171,7 @@ function TimeSelect(props) {
                   button.time,
                   button.increment,
                   button.delay,
-                  button.id,
-                  setTime
+                  button.id
                 )
               }
               clickedButton={clickedButton}
@@ -160,8 +199,7 @@ function TimeSelect(props) {
                   button.time,
                   button.increment,
                   button.delay,
-                  button.id,
-                  setTime
+                  button.id
                 )
               }
               clickedButton={clickedButton}
@@ -177,46 +215,26 @@ function TimeSelect(props) {
     </View>
   );
 
-  //show time control text for one player
-  function getTimeControlText(time, increment, delay) {
-    const [hours, minutes, seconds] = convertTimeToNum(time);
-
-    //Add hours to minutes
-    let timeText = String(hours * 60 + minutes);
-    //Update time text for 30 seconds
-    if (seconds === 30) {
-      timeText = "0.5";
-    }
-
-    let incrementText = "";
-    if (increment != "0") {
-      incrementText = "|" + increment;
-    }
-
-    let delayText = "";
-    if (delay != "0") {
-      delayText = " d" + delay;
-    }
-
-    if (increment === "0" && delay === "0") {
-      timeText = timeText + "min";
-    } else if (increment === "0") {
-      timeText = timeText + "|0";
-    }
-
-    return timeText + incrementText + delayText;
-  }
-
-  function onButtonPress(time, increment, delay, id, setTime) {
-    setTime(time);
-    setIncrement(increment);
-    setDelay(delay);
+  function onButtonPress(time, increment, delay, id) {
+    setP1Time(time);
+    setP1Increment(increment);
+    setP1Delay(delay);
+    setP2Time(time);
+    setP2Increment(increment);
+    setP2Delay(delay);
     setClickedButton(id);
   }
 
   function checkChanged(t, i, d) {
     let isChanged = true;
-    if (time === t && increment === i && delay === d) {
+    if (
+      p1Time === t &&
+      p1Increment === i &&
+      p1Delay === d &&
+      p2Time === t &&
+      p2Increment === i &&
+      p2Delay === d
+    ) {
       isChanged = false;
     }
     return isChanged;
@@ -224,13 +242,30 @@ function TimeSelect(props) {
 }
 
 const styles = StyleSheet.create({
-  timeControlTextContainer: {
+  timeControlContainer: {
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+  },
+
+  perPlayerTimeControlContainer: {
     alignItems: "center",
   },
 
   timeControlText: {
     fontFamily: "FogtwoNo5",
     fontSize: 60,
+    color: colors.black,
+  },
+
+  perPlayerTimeControlText: {
+    fontFamily: "FogtwoNo5",
+    fontSize: 50,
+    color: colors.black,
+  },
+
+  timeControlCaption: {
+    fontFamily: "ELM",
+    fontSize: 18,
     color: colors.black,
   },
 

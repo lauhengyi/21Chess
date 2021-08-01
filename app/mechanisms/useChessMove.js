@@ -1,9 +1,11 @@
 import { useReducer } from "react";
 import { executeMove, checkCheck, validMoves, getPiece } from "./normalChess";
+import changeTimeValue from "../screens/functions/changeTimeValue";
 
 function chessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = Object.assign({}, state);
+
   switch (action.type) {
     case "pieceClick": {
       //Check for pawn promoting, if so, prevent other pieces from moving until promotion
@@ -62,8 +64,6 @@ function chessMovesReducer(state, action) {
       if (!newDetails.promotion) {
         newDetails.currentSide = !state.currentSide;
       }
-
-      return newDetails;
 
       function getPieceIdandMoved() {
         let pieceId;
@@ -218,6 +218,7 @@ function useChessMove(initialBoard, initialSide) {
     checkmated: 0,
     promotion: null,
   };
+
   return useReducer(chessMovesReducer, initialDetails);
 }
 

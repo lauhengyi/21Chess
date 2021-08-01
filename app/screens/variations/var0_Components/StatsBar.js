@@ -1,15 +1,28 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import colors from "../../../config/colors";
+import TimeText from "../../components/TimeText";
+import getTimeControlText from "../../functions/getTimeControlText";
 
 function StatsBar(props) {
-  const { currentSide, eatenPieces } = props.gameDetails;
+  const { currentSide, eatenPieces, timeDetails, whiteTime, blackTime } =
+    props.gameDetails;
   const options = props.options;
   //Get players
   const [player, opponent] = getPlayers();
 
   //Get header text
   const headerText = getHeaderText();
+
+  //Get time relavant details
+  const isChessClock = timeDetails.isChessClock;
+  const isClockActive = player[1] === currentSide ? true : false;
+  const timeLeft = player[1] ? whiteTime : blackTime;
+  const timeControlText = getTimeControlText(
+    timeDetails.time,
+    timeDetails.increment,
+    timeDetails.delay
+  );
 
   //Linking each piece's type to their corresponding chess font
   const PieceKeyBoth = {
@@ -56,10 +69,24 @@ function StatsBar(props) {
                 : styles.statsBarBottom
             }
           >
-            <View style={styles.headerContainer}>
-              <Text style={styles.header}>{headerText}</Text>
+            <View style={styles.topStatsSection}>
+              <View style={styles.headerContainer}>
+                <Text style={styles.header}>{headerText}</Text>
+                <Text style={styles.subHeader}>Captured Pieces:</Text>
+              </View>
+              <View style={styles.timeSection}>
+                <View
+                  style={
+                    isClockActive
+                      ? styles.timeTextContainerActive
+                      : styles.timeTextContainerInactive
+                  }
+                >
+                  <TimeText value={timeLeft} style={styles.timeText} />
+                </View>
+                <Text style={styles.timeControlText}>{timeControlText}</Text>
+              </View>
             </View>
-            <Text style={styles.subHeader}>Captured Pieces:</Text>
             <View style={styles.eatenContainer}>
               {eatenList.map((eaten) => (
                 <Text key={eaten[0]} style={styles.eatenPiece}>
@@ -73,7 +100,21 @@ function StatsBar(props) {
     } else if (statsBarType === "supplementary") {
       return (
         <View style={styles.container}>
-          <Text style={styles.subHeader}>Pieces Lost:</Text>
+          <View style={styles.topStatsSection}>
+            <Text style={styles.subHeader}>Pieces Lost:</Text>
+            <View style={styles.timeSection}>
+              <View
+                style={
+                  isClockActive
+                    ? styles.timeTextContainerActive
+                    : styles.timeTextContainerInactive
+                }
+              >
+                <TimeText value={timeLeft} style={styles.timeText} />
+              </View>
+              <Text style={styles.timeControlText}>{timeControlText}</Text>
+            </View>
+          </View>
           <View style={styles.eatenContainer}>
             {eatenList.map((eaten) => (
               <Text key={eaten[0]} style={styles.eatenPiece}>
@@ -131,6 +172,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
+  topStatsSection: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
   statsBarTop: {
     flex: 1,
     transform: [{ rotate: "180deg" }],
@@ -159,6 +205,40 @@ const styles = StyleSheet.create({
   eatenPiece: {
     fontFamily: "Meri",
     fontSize: 25,
+    color: colors.black,
+  },
+
+  timeSection: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  timeTextContainerActive: {
+    borderWidth: 5,
+    borderColor: colors.grey1,
+    elevation: 50,
+    backgroundColor: colors.primary,
+    justifyContent: "center",
+  },
+
+  timeTextContainerInactive: {
+    borderWidth: 5,
+    borderColor: colors.grey1,
+    elevation: 50,
+    backgroundColor: colors.grey2,
+    justifyContent: "center",
+  },
+
+  timeText: {
+    fontFamily: "ELM",
+    fontSize: 20,
+    paddingHorizontal: 5,
+    color: colors.black,
+  },
+
+  timeControlText: {
+    fontFamily: "ELM",
+    fontSize: 15,
     color: colors.black,
   },
 });

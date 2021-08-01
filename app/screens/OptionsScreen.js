@@ -58,18 +58,28 @@ function OptionsScreen({ route, navigation }) {
   const [isAdditional, setAdditional] = useState(false);
   const toggleAdditional = () =>
     setAdditional((previousState) => !previousState);
-  const [time, setTime] = useState("1000");
-  const [increment, setIncrement] = useState("0");
-  const [delay, setDelay] = useState("0");
+  const [p1Time, setP1Time] = useState("1000");
+  const [p2Time, setP2Time] = useState("1000");
+  const [p1Increment, setP1Increment] = useState("0");
+  const [p2Increment, setP2Increment] = useState("0");
+  const [p1Delay, setP1Delay] = useState("0");
+  const [p2Delay, setP2Delay] = useState("0");
+
   const timeDetails = {
     isTimeLock: isTimeLock,
     toggleTimeLock: toggleTimeLock,
-    time: time,
-    setTime: setTime,
-    increment: increment,
-    setIncrement: setIncrement,
-    delay: delay,
-    setDelay: setDelay,
+    p1Time: p1Time,
+    setP1Time: setP1Time,
+    p2Time: p2Time,
+    setP2Time: setP2Time,
+    p1Increment: p1Increment,
+    setP1Increment: setP1Increment,
+    p2Increment: p2Increment,
+    setP2Increment: setP2Increment,
+    p1Delay: p1Delay,
+    setP1Delay: setP1Delay,
+    p2Delay: p2Delay,
+    setP2Delay: setP2Delay,
   };
   //Create options object
   const options = {
@@ -78,8 +88,15 @@ function OptionsScreen({ route, navigation }) {
     isAutoturn: mode ? isAutoturn : false,
     isFlipped: isAutoturn ? false : isFlipped,
     startingSide: side === 0 ? true : false,
-    isChessClock: isChessClock,
-    time: time,
+    timeDetails: {
+      isChessClock: isChessClock,
+      p1Time: p1Time,
+      p2Time: p2Time,
+      p1Increment: p1Increment,
+      p2Increment: p2Increment,
+      p1Delay: p1Delay,
+      p2Delay: p2Delay,
+    },
   };
   return (
     <ScrollView contentContainerStyle={styles.background}>

@@ -15,6 +15,7 @@ function Board(props) {
   useEffect(() => {
     let orientation = getOrientation();
     timer.current = setTimeout(() => setBoardOrientation(orientation), 400);
+    return clearTimeout(timer.current);
   }, [currentSide]);
 
   return (

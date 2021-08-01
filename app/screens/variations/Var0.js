@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import Board from "./var0_Components/Board";
 import StatsBar from "./var0_Components/StatsBar";
@@ -11,6 +11,7 @@ function Var0({ route, navigation }) {
   const options = route.params.options;
   const initialBoard = layout;
   const initialSide = true;
+  const timeDetails = options.timeDetails;
   const [gameDetails, chessActions] = useChessMove(initialBoard, initialSide);
 
   return (
@@ -50,6 +51,11 @@ function Var0({ route, navigation }) {
       </View>
     </>
   );
+
+  function useTime() {
+    //Initialise time left
+    const [p1TimeLeft, setP1TimeLeft] = useState();
+  }
 }
 
 const styles = StyleSheet.create({
