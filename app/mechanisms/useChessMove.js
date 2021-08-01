@@ -65,6 +65,8 @@ function chessMovesReducer(state, action) {
         newDetails.currentSide = !state.currentSide;
       }
 
+      return newDetails;
+
       function getPieceIdandMoved() {
         let pieceId;
         let moved;

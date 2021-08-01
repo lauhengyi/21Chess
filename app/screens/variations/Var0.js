@@ -13,12 +13,17 @@ function Var0({ route, navigation }) {
   const initialSide = true;
   const timeDetails = options.timeDetails;
   const [gameDetails, chessActions] = useChessMove(initialBoard, initialSide);
+  const timeLeft = {
+    p1Time: "1",
+    p2Time: "1",
+  };
 
   return (
     <>
       <View style={styles.statsBarTop}>
         <StatsBar
           gameDetails={gameDetails}
+          timeLeft={timeLeft}
           position={"top"}
           options={options}
         />
@@ -44,6 +49,7 @@ function Var0({ route, navigation }) {
       </View>
       <View style={styles.statsBarBottom}>
         <StatsBar
+          timeLeft={timeLeft}
           gameDetails={gameDetails}
           position={"bottom"}
           options={options}

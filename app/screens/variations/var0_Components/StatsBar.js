@@ -5,8 +5,8 @@ import TimeText from "../../components/TimeText";
 import getTimeControlText from "../../functions/getTimeControlText";
 
 function StatsBar(props) {
-  const { currentSide, eatenPieces, timeDetails, whiteTime, blackTime } =
-    props.gameDetails;
+  const { currentSide, eatenPieces } = props.gameDetails;
+  const { p1Time, p2Time } = props.timeLeft;
   const options = props.options;
   //Get players
   const [player, opponent] = getPlayers();
@@ -15,14 +15,22 @@ function StatsBar(props) {
   const headerText = getHeaderText();
 
   //Get time relavant details
+  const timeDetails = options.timeDetails;
   const isChessClock = timeDetails.isChessClock;
   const isClockActive = player[1] === currentSide ? true : false;
-  const timeLeft = player[1] ? whiteTime : blackTime;
-  const timeControlText = getTimeControlText(
-    timeDetails.time,
-    timeDetails.increment,
-    timeDetails.delay
-  );
+  const timeLeft = player[0] === 1 ? p1Time : p2Time;
+  const timeControlText =
+    player[0] === 1
+      ? getTimeControlText(
+          timeDetails.p1Time,
+          timeDetails.p1Increment,
+          timeDetails.p1Delay
+        )
+      : getTimeControlText(
+          timeDetails.p2Time,
+          timeDetails.p2Increment,
+          timeDetails.p2Delay
+        );
 
   //Linking each piece's type to their corresponding chess font
   const PieceKeyBoth = {
@@ -151,7 +159,7 @@ function StatsBar(props) {
   function getHeaderText() {
     let headerText;
     //Form header statements
-    const opponentsName = options.mode ? "Player " + opponent[0] : "Computer";
+    const opponentsName = options.mode ? "Player " + opponent[0] : "Com";
     headerText =
       player[1] === currentSide ? "Your Turn" : opponentsName + "' s Turn";
 
