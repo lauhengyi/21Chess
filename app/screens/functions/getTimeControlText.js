@@ -13,12 +13,12 @@ function getTimeControlText(time, increment, delay) {
 
   let incrementText = "";
   if (increment != "0") {
-    incrementText = "|" + increment;
+    incrementText = "|" + convertTimeToSeconds(increment);
   }
 
   let delayText = "";
   if (delay != "0") {
-    delayText = " d" + delay;
+    delayText = " d" + convertTimeToSeconds(delay);
   }
 
   if (increment === "0" && delay === "0") {
@@ -28,6 +28,11 @@ function getTimeControlText(time, increment, delay) {
   }
 
   return timeText + incrementText + delayText;
+
+  function convertTimeToSeconds(number) {
+    const [hours, minutes, seconds] = convertTimeToNum(number);
+    return String(hours * 3600 + minutes * 60 + seconds);
+  }
 }
 
 export default getTimeControlText;

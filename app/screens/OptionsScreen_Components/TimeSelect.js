@@ -104,6 +104,7 @@ function TimeSelect(props) {
                 ? styles.timeControlText
                 : styles.perPlayerTimeControlText
             }
+            adjustsFontSizeToFit={true}
           >
             {p1TimeControlText}
           </Text>
@@ -119,6 +120,7 @@ function TimeSelect(props) {
                   ? styles.timeControlText
                   : styles.perPlayerTimeControlText
               }
+              adjustsFontSizeToFit={true}
             >
               {p2TimeControlText}
             </Text>

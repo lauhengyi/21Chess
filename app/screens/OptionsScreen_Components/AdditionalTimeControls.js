@@ -1,9 +1,7 @@
 import React from "react";
 import { View, Text, Pressable, Switch, StyleSheet } from "react-native";
-import { set } from "react-native-reanimated";
 import colors from "../../config/colors";
-import TimeText from "../components/TimeText";
-import changeTimeValue from "../functions/changeTimeValue";
+import TimeController from "./TimeController";
 
 function AdditionTimeControls(props) {
   const {
@@ -22,11 +20,21 @@ function AdditionTimeControls(props) {
     p2Delay,
     setP2Delay,
   } = props.timeDetails;
+
+  function setTime(time) {
+    setP1Time(time);
+    setP2Time(time);
+  }
+  function setIncrement(increment) {
+    setP1Increment(increment);
+    setP2Increment(increment);
+  }
+  function setDelay(delay) {
+    setP1Delay(delay);
+    setP2Delay(delay);
+  }
+
   const subHeaderStyle = props.textStyle;
-  const fastIncrementText = ">";
-  const slowIncrementText = ":";
-  const fastDecrementText = "?";
-  const slowDecrementText = ";";
 
   return (
     <View style={styles.background}>
@@ -45,423 +53,111 @@ function AdditionTimeControls(props) {
       {isTimeLock ? (
         <>
           <View style={styles.controllerContainer}>
-            <Text style={subHeaderStyle}>Time per player:</Text>
-            <View style={styles.controller}>
-              <Pressable
-                onPress={() =>
-                  handleTimePress(p1Time, "-500", setP1Time, setP2Time)
-                }
-              >
-                <Text style={styles.buttonText}>{fastDecrementText}</Text>
-              </Pressable>
-              <Pressable
-                onPress={() =>
-                  handleTimePress(p1Time, "-100", setP1Time, setP2Time)
-                }
-              >
-                <Text style={styles.buttonText}>{slowDecrementText}</Text>
-              </Pressable>
-              <View style={styles.valueText}>
-                <TimeText value={p1Time} style={subHeaderStyle} />
-              </View>
-              <Pressable
-                onPress={() =>
-                  handleTimePress(p1Time, "100", setP1Time, setP2Time)
-                }
-              >
-                <Text style={styles.buttonText}>{slowIncrementText}</Text>
-              </Pressable>
-              <Pressable
-                onPress={() =>
-                  handleTimePress(p1Time, "500", setP1Time, setP2Time)
-                }
-              >
-                <Text style={styles.buttonText}>{fastIncrementText}</Text>
-              </Pressable>
-            </View>
+            <TimeController
+              text={"Time per player"}
+              isTime={true}
+              type={"both"}
+              largeChange={"500"}
+              smallChange={"100"}
+              value={p1Time}
+              setFunction={setTime}
+            />
           </View>
           <View style={styles.controllerContainer}>
-            <Text style={subHeaderStyle}>Increment per player(min):</Text>
-            <View style={styles.controller}>
-              <Pressable
-                onPress={() =>
-                  handleOtherPress(
-                    p1Increment,
-                    "-5",
-                    setP1Increment,
-                    setP2Increment
-                  )
-                }
-              >
-                <Text style={styles.buttonText}>{fastDecrementText}</Text>
-              </Pressable>
-              <Pressable
-                onPress={() =>
-                  handleOtherPress(
-                    p1Increment,
-                    "-1",
-                    setP1Increment,
-                    setP2Increment
-                  )
-                }
-              >
-                <Text style={styles.buttonText}>{slowDecrementText}</Text>
-              </Pressable>
-              <View style={styles.valueText}>
-                <Text style={subHeaderStyle}>{p1Increment}</Text>
-              </View>
-              <Pressable
-                onPress={() =>
-                  handleOtherPress(
-                    p1Increment,
-                    "1",
-                    setP1Increment,
-                    setP2Increment
-                  )
-                }
-              >
-                <Text style={styles.buttonText}>{slowIncrementText}</Text>
-              </Pressable>
-              <Pressable
-                onPress={() =>
-                  handleOtherPress(
-                    p1Increment,
-                    "5",
-                    setP1Increment,
-                    setP2Increment
-                  )
-                }
-              >
-                <Text style={styles.buttonText}>{fastIncrementText}</Text>
-              </Pressable>
-            </View>
+            <TimeController
+              text={"Increment per player"}
+              isTime={false}
+              type={"both"}
+              largeChange={"5"}
+              smallChange={"1"}
+              value={p1Increment}
+              setFunction={setIncrement}
+            />
           </View>
           <View style={styles.controllerContainer}>
-            <Text style={subHeaderStyle}>Delay per player(sec):</Text>
-            <View style={styles.controller}>
-              <Pressable
-                onPress={() =>
-                  handleOtherPress(p1Delay, "-5", setP1Delay, setP2Delay)
-                }
-              >
-                <Text style={styles.buttonText}>{fastDecrementText}</Text>
-              </Pressable>
-              <Pressable
-                onPress={() =>
-                  handleOtherPress(p1Delay, "-1", setP1Delay, setP2Delay)
-                }
-              >
-                <Text style={styles.buttonText}>{slowDecrementText}</Text>
-              </Pressable>
-              <View style={styles.valueText}>
-                <Text style={subHeaderStyle}>{p1Delay}</Text>
-              </View>
-              <Pressable
-                onPress={() =>
-                  handleOtherPress(p1Delay, "1", setP1Delay, setP2Delay)
-                }
-              >
-                <Text style={styles.buttonText}>{slowIncrementText}</Text>
-              </Pressable>
-              <Pressable
-                onPress={() =>
-                  handleOtherPress(p1Delay, "5", setP1Delay, setP2Delay)
-                }
-              >
-                <Text style={styles.buttonText}>{fastIncrementText}</Text>
-              </Pressable>
-            </View>
+            <TimeController
+              text={"Delay per player"}
+              isTime={false}
+              type={"both"}
+              largeChange={"5"}
+              smallChange={"1"}
+              value={p1Delay}
+              setFunction={setDelay}
+            />
           </View>
         </>
       ) : (
         <>
           <View style={styles.controllerContainer}>
             <View style={styles.bothPlayerControllerContainer}>
-              <View style={styles.perPlayerControllerContainer}>
-                <Text style={subHeaderStyle}>P1 time:</Text>
-                <View style={styles.controller}>
-                  <Pressable
-                    onPress={() => handleTimePress(p1Time, "-500", setP1Time)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastDecrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => handleTimePress(p1Time, "-100", setP1Time)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowDecrementText}
-                    </Text>
-                  </Pressable>
-                  <View style={styles.perPlayerValueText}>
-                    <TimeText value={p1Time} style={styles.perPlayerTimeText} />
-                  </View>
-                  <Pressable
-                    onPress={() => handleTimePress(p1Time, "100", setP1Time)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowIncrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => handleTimePress(p1Time, "500", setP1Time)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastIncrementText}
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
-              <View style={styles.perPlayerControllerContainer}>
-                <Text style={subHeaderStyle}>P2 time:</Text>
-                <View style={styles.controller}>
-                  <Pressable
-                    onPress={() => handleTimePress(p2Time, "-500", setP2Time)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastDecrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => handleTimePress(p2Time, "-100", setP2Time)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowDecrementText}
-                    </Text>
-                  </Pressable>
-                  <View style={styles.perPlayerValueText}>
-                    <TimeText value={p2Time} style={styles.perPlayerTimeText} />
-                  </View>
-                  <Pressable
-                    onPress={() => handleTimePress(p2Time, "100", setP2Time)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowIncrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => handleTimePress(p2Time, "500", setP2Time)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastIncrementText}
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
+              <TimeController
+                text={"P1 time:"}
+                isTime={true}
+                type={"perPlayer"}
+                largeChange={"500"}
+                smallChange={"100"}
+                value={p1Time}
+                setFunction={setP1Time}
+              />
+              <TimeController
+                text={"P2 time:"}
+                isTime={true}
+                type={"perPlayer"}
+                largeChange={"500"}
+                smallChange={"100"}
+                value={p2Time}
+                setFunction={setP2Time}
+              />
             </View>
           </View>
           <View style={styles.controllerContainer}>
             <View style={styles.bothPlayerControllerContainer}>
-              <View style={styles.perPlayerControllerContainer}>
-                <Text style={subHeaderStyle}>P1 increment(min):</Text>
-                <View style={styles.controller}>
-                  <Pressable
-                    onPress={() =>
-                      handleOtherPress(p1Increment, "-5", setP1Increment)
-                    }
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastDecrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() =>
-                      handleOtherPress(p1Increment, "-1", setP1Increment)
-                    }
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowDecrementText}
-                    </Text>
-                  </Pressable>
-                  <View style={styles.perPlayerValueText}>
-                    <Text style={styles.perPlayerTimeText}>{p1Increment}</Text>
-                  </View>
-                  <Pressable
-                    onPress={() =>
-                      handleOtherPress(p1Increment, "1", setP1Increment)
-                    }
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowIncrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() =>
-                      handleOtherPress(p1Increment, "5", setP1Increment)
-                    }
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastIncrementText}
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
-              <View style={styles.perPlayerControllerContainer}>
-                <Text style={subHeaderStyle}>P2 increment(min):</Text>
-                <View style={styles.controller}>
-                  <Pressable
-                    onPress={() =>
-                      handleOtherPress(p2Increment, "-5", setP2Increment)
-                    }
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastDecrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() =>
-                      handleOtherPress(p2Increment, "-1", setP2Increment)
-                    }
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowDecrementText}
-                    </Text>
-                  </Pressable>
-                  <View style={styles.perPlayerValueText}>
-                    <Text style={styles.perPlayerTimeText}>{p2Increment}</Text>
-                  </View>
-                  <Pressable
-                    onPress={() =>
-                      handleOtherPress(p2Increment, "1", setP2Increment)
-                    }
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowIncrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() =>
-                      handleOtherPress(p2Increment, "5", setP2Increment)
-                    }
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastIncrementText}
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
+              <TimeController
+                text={"P1 increment:"}
+                isTime={false}
+                type={"perPlayer"}
+                largeChange={"5"}
+                smallChange={"1"}
+                value={p1Increment}
+                setFunction={setP1Increment}
+              />
+              <TimeController
+                text={"P2 increment:"}
+                isTime={false}
+                type={"perPlayer"}
+                largeChange={"5"}
+                smallChange={"1"}
+                value={p2Increment}
+                setFunction={setP2Increment}
+              />
             </View>
           </View>
           <View style={styles.controllerContainer}>
             <View style={styles.bothPlayerControllerContainer}>
-              <View style={styles.perPlayerControllerContainer}>
-                <Text style={subHeaderStyle}>P1 delay(sec):</Text>
-                <View style={styles.controller}>
-                  <Pressable
-                    onPress={() => handleOtherPress(p1Delay, "-5", setP1Delay)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastDecrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => handleOtherPress(p1Delay, "-1", setP1Delay)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowDecrementText}
-                    </Text>
-                  </Pressable>
-                  <View style={styles.perPlayerValueText}>
-                    <Text style={styles.perPlayerTimeText}>{p1Delay}</Text>
-                  </View>
-                  <Pressable
-                    onPress={() => handleOtherPress(p1Delay, "1", setP1Delay)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowIncrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => handleOtherPress(p1Delay, "5", setP1Delay)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastIncrementText}
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
-              <View style={styles.perPlayerControllerContainer}>
-                <Text style={subHeaderStyle}>P2 delay(sec):</Text>
-                <View style={styles.controller}>
-                  <Pressable
-                    onPress={() => handleOtherPress(p2Delay, "-5", setP2Delay)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastDecrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => handleOtherPress(p2Delay, "-1", setP2Delay)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowDecrementText}
-                    </Text>
-                  </Pressable>
-                  <View style={styles.perPlayerValueText}>
-                    <Text style={styles.perPlayerTimeText}>{p2Delay}</Text>
-                  </View>
-                  <Pressable
-                    onPress={() => handleOtherPress(p2Delay, "1", setP2Delay)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {slowIncrementText}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => handleOtherPress(p2Delay, "5", setP2Delay)}
-                  >
-                    <Text style={styles.perPlayerButtonText}>
-                      {fastIncrementText}
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
+              <TimeController
+                text={"P1 delay:"}
+                isTime={false}
+                type={"perPlayer"}
+                largeChange={"5"}
+                smallChange={"1"}
+                value={p1Delay}
+                setFunction={setP1Delay}
+              />
+              <TimeController
+                text={"P2 delay:"}
+                isTime={false}
+                type={"perPlayer"}
+                largeChange={"5"}
+                smallChange={"1"}
+                value={p2Delay}
+                setFunction={setP2Delay}
+              />
             </View>
           </View>
         </>
       )}
     </View>
   );
-
-  //Note: both value and change are strings of numbers i.e. NaN
-  function handleTimePress(value, change, setFunction, set2Function) {
-    const actualValue = parseInt(value);
-    const actualChange = parseInt(change);
-    let setValue;
-
-    if (-actualChange >= actualValue && actualValue > 30) {
-      setValue = "30";
-    } else if (actualChange > 0 && actualValue === 30) {
-      setValue = "30";
-    } else if (actualValue === 0 && actualChange === 100) {
-      setValue = "30";
-    } else {
-      setValue = changeTimeValue(value, change);
-    }
-
-    setFunction(setValue);
-    if (set2Function) {
-      set2Function(setValue);
-    }
-  }
-
-  function handleOtherPress(value, change, setFunction, set2Function) {
-    const actualValue = parseInt(value);
-    const actualChange = parseInt(change);
-    let setValue;
-
-    if (-actualChange > actualValue) {
-      setValue = "0";
-    } else {
-      setValue = String(actualValue + actualChange);
-    }
-
-    setFunction(setValue);
-    if (set2Function) {
-      set2Function(setValue);
-    }
-  }
 }
 
 const styles = StyleSheet.create({
@@ -474,51 +170,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 
-  controllerContainer: {
-    margin: 5,
-  },
-
-  controller: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  buttonText: {
-    marginHorizontal: 5,
-    fontFamily: "ElegantIcons",
-    fontSize: 30,
-    color: colors.black,
-  },
-
-  valueText: {
-    width: 100,
-    alignItems: "center",
-  },
-
   bothPlayerControllerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
 
-  perPlayerControllerContainer: {},
-
-  perPlayerValueText: {
-    alignItems: "center",
-    width: 80,
-  },
-
-  perPlayerButtonText: {
-    marginHorizontal: 1,
-    fontFamily: "ElegantIcons",
-    fontSize: 20,
-    color: colors.black,
-  },
-
-  perPlayerTimeText: {
-    fontFamily: "ELM",
-    fontSize: 15,
-    color: colors.black,
+  controllerContainer: {
+    margin: 5,
   },
 });
 

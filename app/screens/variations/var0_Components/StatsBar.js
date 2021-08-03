@@ -6,11 +6,10 @@ import getTimeControlText from "../../functions/getTimeControlText";
 
 function StatsBar(props) {
   const { currentSide, eatenPieces } = props.gameDetails;
-  const { p1Time, p2Time } = props.timeLeft;
+  const { p1TimeLeft, p2TimeLeft } = props.timeLeft;
   const options = props.options;
   //Get players
   const [player, opponent] = getPlayers();
-
   //Get header text
   const headerText = getHeaderText();
 
@@ -18,7 +17,7 @@ function StatsBar(props) {
   const timeDetails = options.timeDetails;
   const isChessClock = timeDetails.isChessClock;
   const isClockActive = player[1] === currentSide ? true : false;
-  const timeLeft = player[0] === 1 ? p1Time : p2Time;
+  const timeLeft = player[0] === 1 ? p1TimeLeft : p2TimeLeft;
   const timeControlText =
     player[0] === 1
       ? getTimeControlText(
@@ -149,7 +148,7 @@ function StatsBar(props) {
     }
 
     if (options.isAutoturn) {
-      if (opponent[1] === currentSide) {
+      if (false === currentSide) {
         player = opponent;
       }
     }
@@ -159,7 +158,7 @@ function StatsBar(props) {
   function getHeaderText() {
     let headerText;
     //Form header statements
-    const opponentsName = options.mode ? "Player " + opponent[0] : "Com";
+    const opponentsName = options.mode ? "Player " + opponent[0] : "Computer";
     headerText =
       player[1] === currentSide ? "Your Turn" : opponentsName + "' s Turn";
 
@@ -224,8 +223,9 @@ const styles = StyleSheet.create({
   timeTextContainerActive: {
     borderWidth: 5,
     borderColor: colors.grey1,
-    elevation: 50,
+    width: 110,
     backgroundColor: colors.primary,
+    alignItems: "center",
     justifyContent: "center",
   },
 

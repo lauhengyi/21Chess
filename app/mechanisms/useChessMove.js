@@ -208,11 +208,11 @@ function chessMovesReducer(state, action) {
   }
 }
 
-function useChessMove(initialBoard, initialSide) {
+function useChessMove(initialBoard) {
   const initialDetails = {
     boardLayout: initialBoard,
     moveables: [null, null],
-    currentSide: initialSide,
+    currentSide: true,
     lastMoved: [null, null, null],
     eatenPieces: [],
     checked: 0,
