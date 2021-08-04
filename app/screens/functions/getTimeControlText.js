@@ -1,4 +1,5 @@
 import convertTimeToNum from "./convertTimeToNum";
+import convertTimeToSeconds from "./convertTimeToSeconds";
 
 //show time control text for one player
 function getTimeControlText(time, increment, delay) {
@@ -28,11 +29,6 @@ function getTimeControlText(time, increment, delay) {
   }
 
   return timeText + incrementText + delayText;
-
-  function convertTimeToSeconds(number) {
-    const [hours, minutes, seconds] = convertTimeToNum(number);
-    return String(hours * 3600 + minutes * 60 + seconds);
-  }
 }
 
 export default getTimeControlText;

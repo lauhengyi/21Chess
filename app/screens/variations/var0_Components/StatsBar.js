@@ -6,7 +6,7 @@ import getTimeControlText from "../../functions/getTimeControlText";
 
 function StatsBar(props) {
   const { currentSide, eatenPieces } = props.gameDetails;
-  const { p1TimeLeft, p2TimeLeft } = props.timeLeft;
+  const { p1TimeLeft, p2TimeLeft, isRunning } = props.timeLeft;
   const options = props.options;
   //Get players
   const [player, opponent] = getPlayers();
@@ -16,7 +16,7 @@ function StatsBar(props) {
   //Get time relavant details
   const timeDetails = options.timeDetails;
   const isChessClock = timeDetails.isChessClock;
-  const isClockActive = player[1] === currentSide ? true : false;
+  const isClockActive = player[0] === isRunning ? true : false;
   const timeLeft = player[0] === 1 ? p1TimeLeft : p2TimeLeft;
   const timeControlText =
     player[0] === 1
