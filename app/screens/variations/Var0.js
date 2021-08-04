@@ -13,7 +13,6 @@ function Var0({ route, navigation }) {
   const initialBoard = layout;
   const timeDetails = options.timeDetails;
   const [gameDetails, chessActions] = useChessMove(initialBoard);
-  console.log(timeDetails.p1Delay);
   //Initialise time left
   const timeLeft = useTime();
 
@@ -60,20 +59,30 @@ function Var0({ route, navigation }) {
   function useTime() {
     const [p1TimeLeft, setP1TimeLeft] = useState(timeDetails.p1Time);
     const [p2TimeLeft, setP2TimeLeft] = useState(timeDetails.p2Time);
-    const [count, setCount] = useState(0);
     const timer = useRef();
     useEffect(() => {
-      if (options.startingSide === gameDetails.currentSide) {
-        const timeLeft = changeTimeValue(p1TimeLeft, "-1");
-        timer.current = setInterval(() => setP1TimeLeft(timeLeft), 1000);
-      } else {
-        const timeLeft = changeTimeValue(p2TimeLeft, "-1");
-        timer.current = setInterval(() => setP2TimeLeft(timeLeft), 1000);
+      if (timer.current) {
+        clearInterval(timer.current);
       }
-      console.log("in");
+      const player = getPlayer();
+      const setTime = player === 1 ? setP1TimeLeft : setP2TimeLeft;
+      //Decrement time
+
+      timer.current = setInterval(
+        () => setTime((timeLeft) => changeTimeValue(timeLeft, "-1")),
+        1000
+      );
       return () => clearInterval(timer.current);
     }, [gameDetails.currentSide]);
     return { p1TimeLeft: p1TimeLeft, p2TimeLeft: p2TimeLeft };
+
+    function getPlayer() {
+      if (options.startingSide === gameDetails.currentSide) {
+        return 1;
+      } else {
+        return 2;
+      }
+    }
   }
 }
 

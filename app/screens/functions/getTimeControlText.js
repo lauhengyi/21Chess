@@ -17,11 +17,11 @@ function getTimeControlText(time, increment, delay) {
   }
 
   let delayText = "";
-  if (delay != "0") {
+  if (parseInt(delay) != 0) {
     delayText = " d" + convertTimeToSeconds(delay);
   }
 
-  if (increment === "0" && delay === "0") {
+  if (parseInt(increment) === 0 && parseInt(delay) === 0) {
     timeText = timeText + "min";
   } else if (increment === "0") {
     timeText = timeText + "|0";
