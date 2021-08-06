@@ -25,7 +25,7 @@ function AdditionalInfo(props) {
   //get promoting, where promoting = [whether additional Info will include promoting, side of piece promoting]
   const promoting = checkPromoting();
 
-  if (props.position === "top" && options.isAutoturn) {
+  if (props.position === "top" && (options.isAutoturn || options.mode === 0)) {
     return (
       //Exclude statement
       <View style={styles.container}>

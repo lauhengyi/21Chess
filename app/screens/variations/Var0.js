@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import Board from "./var0_Components/Board";
 import StatsBar from "./var0_Components/StatsBar";
+import AdditionalInfo from "./var0_Components/AdditionalInfo";
+import ToggleMenuButton from "./var0_Components/ToggleMenuButton";
+import Menu from "./var0_Components/Menu";
 import useChessMove from "../../mechanisms/useChessMove";
 import useTime from "../../mechanisms/useTime";
-import AdditionalInfo from "./var0_Components/AdditionalInfo";
 import layout from "./boardLayouts/var0Layout";
 import colors from "../../config/colors";
 
@@ -13,11 +15,14 @@ function Var0({ route, navigation }) {
   const initialBoard = layout;
   const timeDetails = options.timeDetails;
   const [gameDetails, chessActions] = useChessMove(initialBoard);
+  const [isMenu, setMenu] = useState(false);
+  console.log(isMenu);
   //Initialise time left
   const timeLeft = useTime(timeDetails, gameDetails, options);
 
   return (
-    <>
+    <View style={styles.background}>
+      <Menu isMenu={isMenu} />
       <View style={styles.statsBarTop}>
         <StatsBar
           gameDetails={gameDetails}
@@ -27,6 +32,7 @@ function Var0({ route, navigation }) {
         />
       </View>
       <View style={styles.boardContainer}>
+        <ToggleMenuButton onPress={setMenu} isMenu={isMenu} />
         <AdditionalInfo
           gameDetails={gameDetails}
           position={"top"}
@@ -53,15 +59,20 @@ function Var0({ route, navigation }) {
           options={options}
         />
       </View>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    backgroundColor: colors.white,
+    flex: 1,
+  },
+
   boardContainer: {
     flex: 1,
+    flexDirection: "column",
     justifyContent: "center",
-    backgroundColor: colors.white,
   },
 
   statsBarBottom: {

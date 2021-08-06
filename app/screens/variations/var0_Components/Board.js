@@ -20,18 +20,20 @@ function Board(props) {
 
   return (
     //make board
-    <View style={boardOrientation ? styles.orientWhite : styles.orientBlack}>
-      <View style={styles.board}>
-        {rows.map((index) => (
-          <SquaresRow
-            key={index}
-            index={index}
-            gameDetails={props.gameDetails}
-            options={props.options}
-            onAction={(action) => props.onAction(action)}
-            boardOrientation={boardOrientation}
-          />
-        ))}
+    <View style={styles.boardContainer}>
+      <View style={boardOrientation ? styles.orientWhite : styles.orientBlack}>
+        <View style={styles.board}>
+          {rows.map((index) => (
+            <SquaresRow
+              key={index}
+              index={index}
+              gameDetails={props.gameDetails}
+              options={props.options}
+              onAction={(action) => props.onAction(action)}
+              boardOrientation={boardOrientation}
+            />
+          ))}
+        </View>
       </View>
     </View>
   );
@@ -45,6 +47,10 @@ function Board(props) {
   }
 }
 const styles = StyleSheet.create({
+  boardContainer: {
+    position: "absolute",
+    alignSelf: "center",
+  },
   orientWhite: {},
 
   orientBlack: {

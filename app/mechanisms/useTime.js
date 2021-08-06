@@ -7,9 +7,14 @@ function useTime(timeDetails, gameDetails, options) {
   const [p1TimeLeft, setP1TimeLeft] = useState(timeDetails.p1Time);
   const [p2TimeLeft, setP2TimeLeft] = useState(timeDetails.p2Time);
   const timer = useRef();
+  const delayTimer = useRef();
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    //Clear possible timers
+    if (delayTimer.current) {
+      clearTimeout(delayTimer.current);
+    }
     if (timer.current) {
       clearInterval(timer.current);
     }
@@ -25,7 +30,7 @@ function useTime(timeDetails, gameDetails, options) {
       const delayInMiliseconds =
         parseInt(convertTimeToSeconds(timeDelay)) * 1000;
       //Add delay
-      setTimeout(() => {
+      delayTimer.current = setTimeout(() => {
         //Decrement time
         timer.current = setInterval(
           () => setTimePlayer((timeLeft) => changeTimeValue(timeLeft, "-1")),
@@ -45,10 +50,21 @@ function useTime(timeDetails, gameDetails, options) {
 
     return () => clearInterval(timer.current);
   }, [gameDetails.currentSide]);
+
+  //Check timeout
+  let timeOut = 0;
+  if (parseInt(p1TimeLeft) === 0) {
+    timeOut = 1;
+  }
+  if (parseInt(p2TimeLeft) === 0) {
+    timeOut = 2;
+  }
+
   return {
     p1TimeLeft: p1TimeLeft,
     p2TimeLeft: p2TimeLeft,
     isRunning: isRunning,
+    timeOut: timeOut,
   };
 
   function getPlayer() {
