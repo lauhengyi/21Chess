@@ -86,7 +86,7 @@ function OptionsScreen({ route, navigation }) {
     mode: mode,
     diff: diff,
     isAutoturn: mode ? isAutoturn : false,
-    isFlipped: isAutoturn ? false : isFlipped,
+    isFlipped: isAutoturn || !mode ? false : isFlipped,
     startingSide: side === 0 ? true : false,
     timeDetails: {
       isChessClock: isChessClock,

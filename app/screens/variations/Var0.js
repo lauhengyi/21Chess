@@ -3,7 +3,6 @@ import { View, StyleSheet } from "react-native";
 import Board from "./var0_Components/Board";
 import StatsBar from "./var0_Components/StatsBar";
 import AdditionalInfo from "./var0_Components/AdditionalInfo";
-import ToggleMenuButton from "./var0_Components/ToggleMenuButton";
 import Menu from "./var0_Components/Menu";
 import useChessMove from "../../mechanisms/useChessMove";
 import useTime from "../../mechanisms/useTime";
@@ -16,7 +15,6 @@ function Var0({ route, navigation }) {
   const timeDetails = options.timeDetails;
   const [gameDetails, chessActions] = useChessMove(initialBoard);
   const [isMenu, setMenu] = useState(false);
-  console.log(isMenu);
   //Initialise time left
   const timeLeft = useTime(timeDetails, gameDetails, options);
 
@@ -32,7 +30,6 @@ function Var0({ route, navigation }) {
         />
       </View>
       <View style={styles.boardContainer}>
-        <ToggleMenuButton onPress={setMenu} isMenu={isMenu} />
         <AdditionalInfo
           gameDetails={gameDetails}
           position={"top"}

@@ -48,7 +48,6 @@ function Board(props) {
 }
 const styles = StyleSheet.create({
   boardContainer: {
-    position: "absolute",
     alignSelf: "center",
   },
   orientWhite: {},
