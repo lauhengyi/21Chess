@@ -1,6 +1,5 @@
 import { useReducer } from "react";
 import { executeMove, checkCheck, validMoves, getPiece } from "./normalChess";
-import changeTimeValue from "../screens/functions/changeTimeValue";
 
 function chessMovesReducer(state, action) {
   //Making deep copy
@@ -12,7 +11,9 @@ function chessMovesReducer(state, action) {
       if (state.promotion) {
         return state;
       }
-      let moves = validMoves(
+
+      //Get moveableSquares
+      const moves = validMoves(
         action.pieceId,
         state.boardLayout,
         state.lastMoved
@@ -22,6 +23,18 @@ function chessMovesReducer(state, action) {
         newDetails.moveables = [null, null];
       } else {
         newDetails.moveables = moves;
+      }
+
+      //Get clickedSquare
+      const clickedSquare = getPiece(
+        action.pieceId,
+        state.boardLayout
+      ).position;
+
+      if (clickedSquare === state.clickedSquare) {
+        newDetails.clickedSquare = null;
+      } else {
+        newDetails.clickedSquare = clickedSquare;
       }
       return newDetails;
     }
@@ -212,6 +225,7 @@ function useChessMove(initialBoard) {
   const initialDetails = {
     boardLayout: initialBoard,
     moveables: [null, null],
+    clickedSquare: null,
     currentSide: true,
     lastMoved: [null, null, null],
     eatenPieces: [],

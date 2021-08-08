@@ -25,6 +25,7 @@ function Var0({ route, navigation }) {
         gameDetails={gameDetails}
         options={options}
         timeLeft={timeLeft}
+        navigation={navigation}
       />
       <Menu isMenu={isMenu} onExitPress={setMenu} navigation={navigation} />
       <View style={styles.statsBarTop}>

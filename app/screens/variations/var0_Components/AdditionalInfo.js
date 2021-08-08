@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
+    marginHorizontal: 22,
   },
 
   isFlipped: {
@@ -147,7 +148,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: colors.black,
     alignSelf: "flex-end",
-    marginRight: 25,
   },
 });
 export default AdditionalInfo;

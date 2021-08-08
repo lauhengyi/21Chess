@@ -21,7 +21,6 @@ function ToggleMenuButton(props) {
 const styles = StyleSheet.create({
   buttonContainer: {
     alignSelf: "flex-end",
-    marginRight: 25,
     marginTop: 10,
   },
   buttonText: {

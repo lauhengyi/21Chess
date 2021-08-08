@@ -9,14 +9,20 @@ function Square(props) {
     props.onAction(action);
   }
 
+  const squareLength = 46;
+
   const [
     color,
+    isClicked,
     isPieceOnSquare,
     pieceId,
     isMoveableOnSquare,
     moveableMove,
     castling,
   ] = checkSquare(props.gameDetails, props.position, props.color);
+
+  //Determines the border length of a square
+  const clickedIndicator = isClicked ? 2 : 0;
   // Render moveables and render pieces
   if (isMoveableOnSquare) {
     return (
@@ -31,8 +37,8 @@ function Square(props) {
       >
         <View
           style={{
-            height: 45,
-            width: 45,
+            height: squareLength,
+            width: squareLength,
             backgroundColor: color[1],
             alignItems: "center",
             justifyContent: "center",
@@ -54,11 +60,13 @@ function Square(props) {
     return (
       <View
         style={{
-          height: 45,
-          width: 45,
+          height: squareLength,
+          width: squareLength,
           backgroundColor: color[0],
           alignItems: "center",
           justifyContent: "center",
+          borderColor: color[1],
+          borderWidth: clickedIndicator,
         }}
       >
         {isPieceOnSquare ? (
@@ -75,15 +83,18 @@ function Square(props) {
   }
 }
 
-//returns [color matrix of square, whether piece on square, piece ID, whether moveable on square, moveableMove, whether moveable is a castle move]
+//returns [color matrix of square, isClicked, whether piece on square, piece ID, whether moveable on square, moveableMove, whether moveable is a castle move]
 function checkSquare(gameDetails, position, colorId) {
   // Passing down constants
   const boardLayout = gameDetails.boardLayout;
   const moveables = gameDetails.moveables;
   const lastMoved = gameDetails.lastMoved;
 
+  // Find isClicked
+  const isClicked = gameDetails.clickedSquare === position ? true : false;
+
   // Find whether there is a piece on the square
-  let [isPieceOnSquare, , pieceId] = checkCollision(position, boardLayout);
+  const [isPieceOnSquare, , pieceId] = checkCollision(position, boardLayout);
 
   // Find whether these is a moveable on the square
   let isMoveableOnSquare = false;
@@ -136,6 +147,7 @@ function checkSquare(gameDetails, position, colorId) {
 
   return [
     color,
+    isClicked,
     isPieceOnSquare,
     pieceId,
     isMoveableOnSquare,

@@ -9,11 +9,11 @@ export default {
   grey3: "#495057",
   grey4: "#343a40",
 
-  moveableSquareBlack: "#bf9d9d",
-  moveableSquareWhite: "#e6d3d3",
+  moveableSquareBlack: "#c29191",
+  moveableSquareWhite: "#e3b6b6",
 
-  lastMovedSquareBlack: "#bfbe9d",
-  lastMovedSquareWhite: "#e6e5d3",
+  lastMovedSquareBlack: "#c7c587",
+  lastMovedSquareWhite: "#e6e2b3",
 };
 // https://coolors.co/f8f9fa-e9ecef-dee2e6-ced4da-adb5bd-6c757d-495057-343a40-212529
 /* --cultured: #f8f9faff;

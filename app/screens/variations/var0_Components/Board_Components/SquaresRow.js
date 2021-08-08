@@ -25,7 +25,6 @@ function SquaresRow(props) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    justifyContent: "center",
   },
 });
 

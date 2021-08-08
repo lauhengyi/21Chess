@@ -5,12 +5,13 @@ import checkStatus from "../../functions/checkStatus";
 
 function EndPopUp(props) {
   const ending = checkEnd(props.gameDetails, props.options, props.timeLeft);
+  const navigation = props.navigation;
   //Give a pause before screen appears
   const [isVisible, setVisible] = useState(false);
   if (ending[0]) {
     setTimeout(() => {
       setVisible(true);
-    }, 2000);
+    }, 1500);
   }
   const [statement1, statement2] = getStatement(ending, props.options);
   return (
@@ -28,12 +29,20 @@ function EndPopUp(props) {
                   <Text style={styles.buttonText}>Play again</Text>
                 </View>
               </Pressable>
-              <Pressable>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("Select");
+                }}
+              >
                 <View style={styles.button}>
                   <Text style={styles.buttonText}>Choose var</Text>
                 </View>
               </Pressable>
-              <Pressable>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("Welcome");
+                }}
+              >
                 <View style={styles.button}>
                   <Text style={styles.buttonText}>Exit game</Text>
                 </View>
