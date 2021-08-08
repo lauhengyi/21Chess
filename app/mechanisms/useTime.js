@@ -52,19 +52,19 @@ function useTime(timeDetails, gameDetails, options) {
   }, [gameDetails.currentSide]);
 
   //Check timeout
-  let timeOut = 0;
+  let timeout = 0;
   if (parseInt(p1TimeLeft) === 0) {
-    timeOut = 1;
+    timeout = 1;
   }
   if (parseInt(p2TimeLeft) === 0) {
-    timeOut = 2;
+    timeout = 2;
   }
 
   return {
     p1TimeLeft: p1TimeLeft,
     p2TimeLeft: p2TimeLeft,
     isRunning: isRunning,
-    timeOut: timeOut,
+    timeout: timeout,
   };
 
   function getPlayer() {

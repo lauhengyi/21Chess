@@ -3,23 +3,24 @@ import { View, StyleSheet, Text } from "react-native";
 import colors from "../../../config/colors";
 import PromotionSelector from "./AdditionalInfo_Components/PromotionSelector";
 import { getPiece } from "../../../mechanisms/normalChess";
-import ToggleMenuButton from "./ToggleMenuButton";
+import getPlayers from "../../functions/getPlayers";
+import ToggleMenuButton from "./AdditionalInfo_Components/ToggleMenuButton";
+import checkStatus from "../../functions/checkStatus";
 
 function AdditionalInfo(props) {
-  const { checked, checkmated, stalemated, boardLayout, promotion } =
-    props.gameDetails;
+  const {
+    checked,
+    checkmated,
+    stalemated,
+    boardLayout,
+    promotion,
+    currentSide,
+  } = props.gameDetails;
   const options = props.options;
   const position = props.position;
+  const timeLeft = props.timeLeft;
   //Create Player and Opponent
-  let player;
-  let opponent;
-  if (position === "bottom") {
-    player = [1, options.startingSide];
-    opponent = [2, !options.startingSide];
-  } else {
-    player = [2, !options.startingSide];
-    opponent = [1, options.startingSide];
-  }
+  const [player, opponent] = getPlayers(props.position, options, currentSide);
   const flipped = options.isFlipped && position === "top" ? true : false;
   const statement = getStatement();
 
@@ -47,7 +48,7 @@ function AdditionalInfo(props) {
       </View>
       {isButton && (
         <View style={styles.buttonContainer}>
-          <ToggleMenuButton />
+          <ToggleMenuButton onButtonPress={() => props.onButtonPress()} />
         </View>
       )}
     </View>
@@ -57,15 +58,17 @@ function AdditionalInfo(props) {
     let statement = null;
     const opponentsName = options.mode ? "Player " + opponent[0] : "Computer";
 
-    const sc = "You are Checked";
-    const scm = "You are Checkmated";
-    const ss = "You are Stalemated";
-    const pc = opponentsName + " Checked";
-    const pcm = opponentsName + " Checkmated";
-    const ps = opponentsName + " Stalemated";
+    const sc = "You are checked";
+    const scm = "You are checkmated";
+    const ss = "You are stalemated";
+    const st = "You lost by timeout";
+    const pc = opponentsName + " checked";
+    const pcm = opponentsName + " checkmated";
+    const ps = opponentsName + " stalemated";
+    const pt = opponentsName + " timeout";
 
     //Check opponent for check and checkmate
-    if ((opponent[1] && checked === 1) || (!opponent[1] && checked === 2)) {
+    if (checkStatus(opponent[1], checked)) {
       statement = pc;
       if (checkmated) {
         statement = pcm;
@@ -73,23 +76,31 @@ function AdditionalInfo(props) {
     }
 
     //Check opponent for stalemate
-    if (
-      (opponent[1] && stalemated === 1) ||
-      (!opponent[1] && stalemated === 2)
-    ) {
+    if (checkStatus(opponent[1], stalemated)) {
       statement = ps;
     }
 
-    //Check self
-    if ((player[1] && checked === 1) || (!player[1] && checked === 2)) {
+    //Check opponent for timeout
+    if (checkStatus(opponent[1], timeLeft.timeout)) {
+      statement = pt;
+    }
+
+    //Check self for check and checkmate
+    if (checkStatus(player[1], checked)) {
       statement = sc;
       if (checkmated) {
         statement = scm;
       }
     }
 
-    if ((player[1] && stalemated === 1) || (!player[1] && stalemated === 2)) {
+    //Check self for stalemate
+    if (checkStatus(player[1], stalemated)) {
       statement = ss;
+    }
+
+    //Check self for timeout
+    if (checkStatus(player[1], timeLeft.timeout)) {
+      statement = st;
     }
 
     //Remove statement if statement is from the top and autoTurn is not turned off

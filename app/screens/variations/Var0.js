@@ -4,6 +4,7 @@ import Board from "./var0_Components/Board";
 import StatsBar from "./var0_Components/StatsBar";
 import AdditionalInfo from "./var0_Components/AdditionalInfo";
 import Menu from "./var0_Components/Menu";
+import EndPopUp from "./var0_Components/EndPopUp";
 import useChessMove from "../../mechanisms/useChessMove";
 import useTime from "../../mechanisms/useTime";
 import layout from "./boardLayouts/var0Layout";
@@ -20,7 +21,12 @@ function Var0({ route, navigation }) {
 
   return (
     <View style={styles.background}>
-      <Menu isMenu={isMenu} />
+      <EndPopUp
+        gameDetails={gameDetails}
+        options={options}
+        timeLeft={timeLeft}
+      />
+      <Menu isMenu={isMenu} onExitPress={setMenu} navigation={navigation} />
       <View style={styles.statsBarTop}>
         <StatsBar
           gameDetails={gameDetails}
@@ -34,7 +40,9 @@ function Var0({ route, navigation }) {
           gameDetails={gameDetails}
           position={"top"}
           options={options}
+          timeLeft={timeLeft}
           onAction={chessActions}
+          onButtonPress={setMenu}
         />
         <Board
           gameDetails={gameDetails}
@@ -45,6 +53,7 @@ function Var0({ route, navigation }) {
           gameDetails={gameDetails}
           position={"bottom"}
           options={options}
+          timeLeft={timeLeft}
           onAction={chessActions}
         />
       </View>

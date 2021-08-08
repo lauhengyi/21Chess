@@ -13,7 +13,7 @@ function getTimeControlText(time, increment, delay) {
   }
 
   let incrementText = "";
-  if (increment != "0") {
+  if (parseInt(increment) != "0") {
     incrementText = "|" + convertTimeToSeconds(increment);
   }
 

@@ -3,13 +3,14 @@ import { View, Text, StyleSheet } from "react-native";
 import colors from "../../../config/colors";
 import TimeText from "../../components/TimeText";
 import getTimeControlText from "../../functions/getTimeControlText";
+import getPlayers from "../../functions/getPlayers";
 
 function StatsBar(props) {
   const { currentSide, eatenPieces } = props.gameDetails;
   const { p1TimeLeft, p2TimeLeft, isRunning } = props.timeLeft;
   const options = props.options;
   //Get players
-  const [player, opponent] = getPlayers();
+  const [player, opponent] = getPlayers(props.position, options, currentSide);
   //Get header text
   const headerText = getHeaderText();
 
@@ -133,28 +134,7 @@ function StatsBar(props) {
       );
     }
   }
-  //return [player, opponent]
-  function getPlayers() {
-    //Create Player and Opponent
-    //Player will switch if autoturn is on
-    let player;
-    let opponent;
-    if (props.position === "bottom") {
-      player = [1, options.startingSide];
-      opponent = [2, !options.startingSide];
-    } else {
-      player = [2, !options.startingSide];
-      opponent = [1, options.startingSide];
-    }
 
-    if (options.isAutoturn) {
-      if (false === currentSide) {
-        player = opponent;
-      }
-    }
-
-    return [player, opponent];
-  }
   function getHeaderText() {
     let headerText;
     //Form header statements

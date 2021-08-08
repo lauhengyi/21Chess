@@ -8,7 +8,7 @@ function ToggleMenuButton(props) {
     <Pressable onPress={() => {}}>
       <View style={styles.buttonContainer}>
         <Text
-          onPress={() => props.onPress((previousState) => !previousState)}
+          onPress={() => props.onButtonPress(true)}
           style={styles.buttonText}
         >
           {buttonText}
