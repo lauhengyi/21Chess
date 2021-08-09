@@ -9,7 +9,7 @@ export default {
   grey3: "#495057",
   grey4: "#343a40",
 
-  moveableSquareBlack: "#c29191",
+  moveableSquareBlack: "#d19b9b",
   moveableSquareWhite: "#e3b6b6",
 
   lastMovedSquareBlack: "#c7c587",
