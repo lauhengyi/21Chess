@@ -1,3 +1,5 @@
+import getPiece from "../../primaryFunctions/getPiece";
+
 // returns a board with the move made:
 // move = [eaterId, position, eatenId]
 function movePiece(move, board) {

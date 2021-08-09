@@ -16,7 +16,7 @@ function EndPopUp(props) {
   const [statement1, statement2] = getStatement(ending, props.options);
   return (
     <Modal animationType="fade" visible={ending[0]} transparent={true}>
-      {isVisible && (
+      <Modal animationType="fade" visible={isVisible} transparent={true}>
         <View style={styles.background}>
           <View style={styles.popUpContainer}>
             <View style={styles.headerContainer}>
@@ -50,7 +50,7 @@ function EndPopUp(props) {
             </View>
           </View>
         </View>
-      )}
+      </Modal>
     </Modal>
   );
 
