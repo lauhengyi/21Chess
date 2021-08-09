@@ -1,5 +1,5 @@
 import { executeMove, getPiece, validMoves } from "./normalChess.js";
-import layout from "../screens/variations/boardLayouts/var0Layout";
+import layout from "../../screens/variations/boardLayouts/var0Layout";
 
 function countMoves(board, side, lastMoved, depth) {
   //Add end case

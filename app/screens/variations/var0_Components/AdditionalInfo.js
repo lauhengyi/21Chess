@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import colors from "../../../config/colors";
 import PromotionSelector from "./AdditionalInfo_Components/PromotionSelector";
-import { getPiece } from "../../../mechanisms/normalChess";
+import getPiece from "../../../mechanisms/primaryFunctions/getPiece";
 import getPlayers from "../../functions/getPlayers";
 import ToggleMenuButton from "./AdditionalInfo_Components/ToggleMenuButton";
 import checkStatus from "../../functions/checkStatus";

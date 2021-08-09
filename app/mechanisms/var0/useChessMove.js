@@ -1,5 +1,8 @@
 import { useReducer } from "react";
-import { executeMove, checkCheck, validMoves, getPiece } from "./normalChess";
+import executeMove from "./functions/executeMove";
+import checkCheck from "./functions/checkCheck";
+import getPiece from "../primaryFunctions/getPiece";
+import { validMoves } from "./getChessMoves";
 
 function chessMovesReducer(state, action) {
   //Making deep copy
@@ -61,6 +64,9 @@ function chessMovesReducer(state, action) {
 
       //Remove moveables
       newDetails.moveables = [null, null];
+
+      //Removed clickedSquare
+      newDetails.clickedSquare = null;
 
       //update status
       updateGameStatus();

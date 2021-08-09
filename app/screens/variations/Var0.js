@@ -5,8 +5,8 @@ import StatsBar from "./var0_Components/StatsBar";
 import AdditionalInfo from "./var0_Components/AdditionalInfo";
 import Menu from "./var0_Components/Menu";
 import EndPopUp from "./var0_Components/EndPopUp";
-import useChessMove from "../../mechanisms/useChessMove";
-import useTime from "../../mechanisms/useTime";
+import useChessMove from "../../mechanisms/var0/useChessMove";
+import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
 import colors from "../../config/colors";
 

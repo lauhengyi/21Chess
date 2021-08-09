@@ -1,222 +1,4 @@
-//returns list of valid moves a piece can make with consideration of pinning
-// Last moved [id, movedFrom, moved] specialMoves: normalMoves = null, doublePawn move = 'dp', castling = 'c', enPassant = 'p'
-function validMoves(id, board, lastMoved) {
-  let piece = getPiece(id, board);
-  // Get normal moves
-  let moves = normalMoves(id, board);
-  // Check for castling
-  let castlingMoves = [];
-  if (piece.type === "k") {
-    castlingMoves = checkCastling(id, board, moves);
-  }
-
-  // Check for en Passant
-  // Check for piece to be pawn, last move to be pawn)
-  let enPassantMove;
-  if (lastMoved[0]) {
-    if (piece.type === "p" && getPiece(lastMoved[0], board).type === "p") {
-      // Make sure the pawn double moved
-      if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
-        enPassantMove = checkEnPassant(id, board, lastMoved);
-      }
-    }
-  }
-  if (enPassantMove) {
-    moves.push(enPassantMove);
-  }
-  return [moves, castlingMoves];
-}
-
-// function will execute move on board, if castling is true then the move is a castle
-// A normal move will have a list of two values, [id, position]
-function executeMove(move, board, castling) {
-  if (castling) {
-    // move king then rook
-    let newBoard = makeMove(move[0], board);
-    return makeMove(move[1], newBoard);
-  } else {
-    return makeMove(move, board);
-  }
-}
-// Returns a list of normal moves checked for pins
-function normalMoves(id, board) {
-  let piece = getPiece(id, board);
-  let pieceData = createPieceDataCalculator(piece, board);
-  // Check whether move is pinned
-  let normalPositions = pieceData.moves;
-  // turn positions into moves, checking whether that move eats
-  let movesUnchecked = [];
-  for (let position of normalPositions) {
-    let collided, side, eatenId;
-    [collided, side, eatenId] = checkCollision(position, board);
-    if (collided && side != piece.side) {
-      movesUnchecked.push([id, position, eatenId]);
-    } else {
-      movesUnchecked.push([id, position]);
-    }
-  }
-  // Removing move if pinned
-  let moves = [];
-  for (let move of movesUnchecked) {
-    if (checkPin(move, board) === false) {
-      moves.push(move);
-    }
-  }
-  return moves;
-}
-
-// Check enPassant in the moves list
-function checkEnPassant(id, board, lastMoved) {
-  let ghostPosition = (lastMoved[1] + lastMoved[2]) / 2;
-  // Add temporary pawn in board to see pawn can declare enPassant
-  let newBoard = makeMove([lastMoved[0], ghostPosition], board);
-  let moves = normalMoves(id, newBoard);
-  // Check whether pawn can attacked the double moved piece
-  for (let move of moves) {
-    if (move[1] === ghostPosition) {
-      //checkPin
-      if (checkPin(move, board) === false) {
-        return move;
-      }
-    }
-  }
-}
-// Check castling in the moves list
-function checkCastling(id, board, validMoves) {
-  let piece = getPiece(id, board);
-  let castleMoves = [];
-  // make sure king and rook has not been moved
-  if (piece.moved) {
-    return castleMoves;
-  }
-
-  let castlingRookRight = [false, 0];
-  let castlingRookLeft = [false, 0];
-  for (let otherPiece of board) {
-    if (
-      otherPiece.type === "r" &&
-      otherPiece.side === piece.side &&
-      otherPiece.moved === false
-    ) {
-      //Identify is castling rook is on the right or left of king, from the perspective of white
-      if (otherPiece.side === true) {
-        //king is white
-        if (otherPiece.position === 0) {
-          castlingRookLeft = [true, otherPiece.id];
-        }
-        if (otherPiece.position === 7) {
-          castlingRookRight = [true, otherPiece.id];
-        }
-      } else {
-        //king is black
-        if (otherPiece.position === 56) {
-          castlingRookLeft = [true, otherPiece.id];
-        }
-        if (otherPiece.position === 63) {
-          castlingRookRight = [true, otherPiece.id];
-        }
-      }
-    }
-  }
-  // return if no castling rook
-  if (!(castlingRookLeft[0] || castlingRookRight[0])) {
-    return castleMoves;
-  }
-
-  //check whether in check
-  if (checkCheck(board, piece.side)) {
-    return castleMoves;
-  }
-  //check whether valid moves include pieces moving left or right
-  for (let validMove of validMoves) {
-    // For queen side castling
-    if (validMove[1] === piece.position - 1 && castlingRookLeft[0]) {
-      // Check for occupied pieces between the rook and king
-      if (
-        !(
-          checkCollision(piece.position - 1, board)[0] &&
-          checkCollision(piece.position - 2, board)[0] &&
-          checkCollision(piece.position - 3, board)[0]
-        )
-      ) {
-        // Check whether king can move one more step to the right
-        let newBoard = makeMove(validMove, board);
-        let moves = normalMoves(id, newBoard);
-        // Check whether that move is in moves
-        for (let move of moves) {
-          if (move[1] === piece.position - 2) {
-            //Can castle
-            let castleMove = [move, [castlingRookLeft[1], move[1] + 1]];
-            castleMoves.push(castleMove);
-          }
-        }
-      }
-    }
-    // For normal castling
-    if (validMove[1] === piece.position + 1 && castlingRookRight[0]) {
-      // Check for occupied pieces between the rook and king
-      if (
-        !(
-          checkCollision(piece.position + 1, board)[0] &&
-          checkCollision(piece.position + 2, board)[0]
-        )
-      ) {
-        // Check whether king can move one more step to the right
-        let newBoard = makeMove(validMove, board);
-        let moves = normalMoves(id, newBoard);
-        // Check whether that move is in moves
-        for (let move of moves) {
-          if (move[1] === piece.position + 2) {
-            //Can castle
-            let castleMove = [move, [castlingRookRight[1], move[1] - 1]];
-            castleMoves.push(castleMove);
-          }
-        }
-      }
-    }
-  }
-  return castleMoves;
-}
-
-//Return attacks from pieces
-function validAttacks(id, board, lastMoved) {
-  // Get moveable moves
-  let pieceData = createPieceDataCalculator(getPiece(id, board), board);
-  // Check whether attack is pinned
-  let result = [];
-  for (let attack in pieceData.attacks) {
-    if (checkPin(id, attack, board) == false) {
-      result.push(attack);
-    }
-  }
-  // Check for en Passant
-  // Check for piece to be pawn, last move to be pawn)
-  let enPassantMoves = [];
-  if (
-    lastMoves &&
-    getPiece(id, board).type === "p" &&
-    getPiece(lastMoved[0], board).type === "p"
-  ) {
-    // Make sure the pawn double moved
-    if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
-      enPassantMoves = checkEnPassant(id, board, normalMoves, lastMoved);
-    }
-  }
-  return result.concat(enPassantMoves[1]);
-}
-
-function validDefended(id, board) {
-  // Get moveable moves
-  let pieceData = createPieceDataCalculator(board[id], board);
-  // Check whether attack is pinned
-  let result = [];
-  for (let defend in pieceData.defended) {
-    if (checkPin(id, defend, board) == false) {
-      result.push(defend);
-    }
-  }
-  return result;
-}
+import checkCollision from "./functions/checkCollision";
 
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value
@@ -328,67 +110,6 @@ class kingCalculator extends pieceDataCalculator {
   get defended() {
     return kingMoves(this.piece, this.board, false);
   }
-}
-
-// returns a board with the move made:
-// move = [eaterId, position, eatenId]
-function makeMove(move, board) {
-  // Create version of board with theoretically moved piece
-  // Copy new board
-  let newBoard = board.map((a) => ({ ...a }));
-  let id = move[0];
-  let piece = getPiece(id, board);
-  for (let i = 0; i < newBoard.length; i++) {
-    if (newBoard[i].id === id) {
-      newBoard[i] = {
-        id: id,
-        position: move[1],
-        type: piece.type,
-        side: piece.side,
-        moved: true,
-      };
-    }
-  }
-  // Can eat
-  if (move.length > 2) {
-    return newBoard.filter((piece) => piece.id != move[2]);
-  }
-
-  return newBoard;
-}
-
-//returns whether pieces will be pinned when moved
-function checkPin(move, board) {
-  // move is pinned if new board is checked
-  return checkCheck(makeMove(move, board), getPiece(move[0], board).side);
-}
-
-// Check whether a board is checked
-function checkCheck(board, side) {
-  let positions = [];
-  // Compile list of positions where enemies attacks
-  for (let piece of board) {
-    // Isolate enemy pieces
-    if (piece.side != side) {
-      let pieceData = createPieceDataCalculator(piece, board);
-      positions = positions.concat(pieceData.attacks);
-    }
-  }
-  // Find king's position
-  let kingPos = 0;
-  for (let piece of board) {
-    if (piece.type == "k" && piece.side == side) {
-      kingPos = piece.position;
-    }
-  }
-
-  // Make sure the king's position is not under attack
-  for (let position of positions) {
-    if (kingPos === position) {
-      return true;
-    }
-  }
-  return false;
 }
 
 //returns a list of positions that the pawn can move and attack
@@ -894,52 +615,6 @@ function kingMoves(piece, board, AorD) {
   return positions;
 }
 
-//function that when given position of move, side of piece, and list of previously compiled moves,
-//Last parameter, AorD, refers to whether accounting attacked squares, or checking defended squares, true for attack, false for defend
-//will return [updated moves, whether the position is collided]
-function accountCollidedPiece(position, side, moves, board, AorD) {
-  let ifcollided = checkCollision(position, board);
-  if (AorD === true) {
-    if (ifcollided[0]) {
-      if (side === ifcollided[1]) {
-        return [moves, true];
-      } else {
-        moves.push(position);
-        return [moves, true];
-      }
-    } else {
-      moves.push(position);
-      return [moves, false];
-    }
-  } else {
-    if (ifcollided[0]) {
-      moves.push(position);
-      return [moves, true];
-    } else {
-      moves.push(position);
-      return [moves, false];
-    }
-  }
-}
-
-// function that returns a list, [boolean of whether position is occupied, boolean of side of piece occupying, pieceId]
-function checkCollision(position, board) {
-  for (let piece of board) {
-    if (piece.position === position) {
-      return [true, piece.side, piece.id];
-    }
-  }
-  return [false, null, null];
-}
-
-function getPiece(id, board) {
-  for (let piece of board) {
-    if (piece.id === id) {
-      return piece;
-    }
-  }
-}
-
 function checkTopEdge(position) {
   if (position > 55) {
     return true;
@@ -1004,11 +679,32 @@ function checkRightEdge2(position) {
   }
 }
 
-export {
-  createPieceDataCalculator,
-  executeMove,
-  checkCheck,
-  validMoves,
-  checkCollision,
-  getPiece,
-};
+//function that when given position of move, side of piece, and list of previously compiled moves,
+//Last parameter, AorD, refers to whether accounting attacked squares, or checking defended squares, true for attack, false for defend
+//will return [updated moves, whether the position is collided]
+function accountCollidedPiece(position, side, moves, board, AorD) {
+  let ifcollided = checkCollision(position, board);
+  if (AorD === true) {
+    if (ifcollided[0]) {
+      if (side === ifcollided[1]) {
+        return [moves, true];
+      } else {
+        moves.push(position);
+        return [moves, true];
+      }
+    } else {
+      moves.push(position);
+      return [moves, false];
+    }
+  } else {
+    if (ifcollided[0]) {
+      moves.push(position);
+      return [moves, true];
+    } else {
+      moves.push(position);
+      return [moves, false];
+    }
+  }
+}
+
+export default createPieceDataCalculator;

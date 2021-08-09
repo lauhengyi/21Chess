@@ -2,7 +2,7 @@ import React from "react";
 import colors from "../../../../config/colors";
 import { View, Pressable } from "react-native";
 import Piece from "./Piece";
-import { checkCollision } from "../../../../mechanisms/normalChess";
+import checkCollision from "../../../../mechanisms/var0/functions/checkCollision";
 
 function Square(props) {
   function onAction(action) {

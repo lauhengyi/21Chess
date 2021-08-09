@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import changeTimeValue from "../screens/functions/changeTimeValue";
-import convertTimeToSeconds from "../screens/functions/convertTimeToSeconds";
+import changeTimeValue from "../../screens/functions/changeTimeValue";
+import convertTimeToSeconds from "../../screens/functions/convertTimeToSeconds";
 
 function useTime(timeDetails, gameDetails, options) {
   const [isRunning, setRunning] = useState(0);

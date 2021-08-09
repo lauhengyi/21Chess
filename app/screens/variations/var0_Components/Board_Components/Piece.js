@@ -1,7 +1,7 @@
 import React from "react";
 import colors from "../../../../config/colors";
 import { Text, Pressable, StyleSheet } from "react-native";
-import { getPiece } from "../../../../mechanisms/normalChess";
+import getPiece from "../../../../mechanisms/primaryFunctions/getPiece";
 
 function Piece(props) {
   // Passing down constants
