@@ -137,6 +137,22 @@ function chessMovesReducer(state, action) {
       return newDetails;
     }
 
+    case "restart": {
+      newDetails = {
+        boardLayout: action.boardLayout,
+        moveables: [null, null],
+        clickedSquare: null,
+        currentSide: true,
+        lastMoved: [null, null, null],
+        eatenPieces: [],
+        checked: 0,
+        stalemated: 0,
+        checkmated: 0,
+        promotion: null,
+      };
+      return newDetails;
+    }
+
     default:
       {
         console.log("type not specified");

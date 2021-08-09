@@ -22,7 +22,7 @@ function Menu(props) {
             </View>
           </View>
           <View style={styles.buttonsContainer}>
-            <Pressable>
+            <Pressable onPress={() => props.onRestart()}>
               <View style={styles.button}>
                 <Text style={styles.buttonText}>Restart</Text>
               </View>

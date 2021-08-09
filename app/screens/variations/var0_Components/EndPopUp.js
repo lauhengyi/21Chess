@@ -24,7 +24,7 @@ function EndPopUp(props) {
               <Text style={styles.statement2}>{statement2}</Text>
             </View>
             <View style={styles.buttonsContainer}>
-              <Pressable>
+              <Pressable onPress={() => props.onRestart()}>
                 <View style={styles.button}>
                   <Text style={styles.buttonText}>Play again</Text>
                 </View>

@@ -17,7 +17,7 @@ function Var0({ route, navigation }) {
   const [gameDetails, chessActions] = useChessMove(initialBoard);
   const [isMenu, setMenu] = useState(false);
   //Initialise time left
-  const timeLeft = useTime(timeDetails, gameDetails, options);
+  const [timeLeft, restartTimer] = useTime(timeDetails, gameDetails, options);
 
   return (
     <View style={styles.background}>
@@ -26,8 +26,14 @@ function Var0({ route, navigation }) {
         options={options}
         timeLeft={timeLeft}
         navigation={navigation}
+        onRestart={() => onRestart()}
       />
-      <Menu isMenu={isMenu} onExitPress={setMenu} navigation={navigation} />
+      <Menu
+        isMenu={isMenu}
+        onExitPress={setMenu}
+        navigation={navigation}
+        onRestart={() => onRestart()}
+      />
       <View style={styles.statsBarTop}>
         <StatsBar
           gameDetails={gameDetails}
@@ -68,6 +74,12 @@ function Var0({ route, navigation }) {
       </View>
     </View>
   );
+
+  function onRestart() {
+    chessActions({ type: "restart", boardLayout: initialBoard });
+    restartTimer();
+    setMenu(false);
+  }
 }
 
 const styles = StyleSheet.create({

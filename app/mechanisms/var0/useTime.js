@@ -25,8 +25,8 @@ function useTime(timeDetails, gameDetails, options) {
     const opponentIncrement =
       player === 1 ? timeDetails.p2Increment : timeDetails.p1Increment;
 
-    //Exclude first move
-    if (count > 0) {
+    //Exclude first move of each player
+    if (count > 1) {
       const delayInMiliseconds =
         parseInt(convertTimeToSeconds(timeDelay)) * 1000;
       //Add delay
@@ -60,12 +60,23 @@ function useTime(timeDetails, gameDetails, options) {
     timeout = 2;
   }
 
-  return {
+  const timeLeft = {
     p1TimeLeft: p1TimeLeft,
     p2TimeLeft: p2TimeLeft,
     isRunning: isRunning,
     timeout: timeout,
   };
+
+  function restartTimer() {
+    setRunning(0);
+    setP1TimeLeft(timeDetails.p1Time);
+    setP2TimeLeft(timeDetails.p2Time);
+    setCount(1);
+    clearTimeout(delayTimer.current);
+    clearInterval(timer.current);
+  }
+
+  return [timeLeft, restartTimer];
 
   function getPlayer() {
     if (options.startingSide === gameDetails.currentSide) {
