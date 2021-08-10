@@ -9,8 +9,6 @@ function Square(props) {
     props.onAction(action);
   }
 
-  const squareLength = 46;
-
   const [
     color,
     isClicked,
@@ -21,8 +19,19 @@ function Square(props) {
     castling,
   ] = checkSquare(props.gameDetails, props.position, props.color);
 
-  //Determines the border length of a square
-  const clickedIndicator = isClicked ? 2 : 0;
+  const styles = getStyle(color, isMoveableOnSquare, isClicked);
+
+  function PieceWithProps() {
+    return (
+      <Piece
+        gameDetails={props.gameDetails}
+        options={props.options}
+        pieceId={pieceId}
+        onAction={(moves) => props.onAction(moves)}
+        boardOrientation={props.boardOrientation}
+      />
+    );
+  }
   // Render moveables and render pieces
   if (isMoveableOnSquare) {
     return (
@@ -35,52 +44,34 @@ function Square(props) {
           });
         }}
       >
-        <View
-          style={{
-            height: squareLength,
-            width: squareLength,
-            backgroundColor: color[1],
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {isPieceOnSquare ? (
-            <Piece
-              gameDetails={props.gameDetails}
-              options={props.options}
-              pieceId={pieceId}
-              onAction={(moves) => props.onAction(moves)}
-              boardOrientation={props.boardOrientation}
-            />
-          ) : null}
+        <View style={styles}>
+          {isPieceOnSquare ? <PieceWithProps /> : null}
         </View>
       </Pressable>
     );
   } else {
     return (
-      <View
-        style={{
-          height: squareLength,
-          width: squareLength,
-          backgroundColor: color[0],
-          alignItems: "center",
-          justifyContent: "center",
-          borderColor: color[1],
-          borderWidth: clickedIndicator,
-        }}
-      >
-        {isPieceOnSquare ? (
-          <Piece
-            gameDetails={props.gameDetails}
-            options={props.options}
-            pieceId={pieceId}
-            onAction={(moves) => props.onAction(moves)}
-            boardOrientation={props.boardOrientation}
-          />
-        ) : null}
-      </View>
+      <View style={styles}>{isPieceOnSquare ? <PieceWithProps /> : null}</View>
     );
   }
+}
+
+function getStyle(color, isMoveableOnSquare, isClicked) {
+  //Determines the border length of a square
+  const clickedIndicator = isClicked ? 8 : 0;
+
+  const squareLength = 46;
+  const squareColor = isMoveableOnSquare ? color[1] : color[0];
+  const style = {
+    height: squareLength,
+    width: squareLength,
+    backgroundColor: squareColor,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: clickedIndicator,
+    borderColor: color[1],
+  };
+  return style;
 }
 
 //returns [color matrix of square, isClicked, whether piece on square, piece ID, whether moveable on square, moveableMove, whether moveable is a castle move]
