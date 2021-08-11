@@ -38,9 +38,9 @@ function Piece(props) {
   if (currentSide === piece.side) {
     return (
       <Pressable
-        onPress={() =>
-          props.onAction({ type: "pieceClick", pieceId: props.pieceId })
-        }
+        onPress={() => {
+          props.onAction({ type: "pieceClick", pieceId: props.pieceId });
+        }}
       >
         <Text style={pieceStyle}>{PieceKey[piece.side][piece.type]}</Text>
       </Pressable>

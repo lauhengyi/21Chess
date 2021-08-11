@@ -1,6 +1,6 @@
-import getPiece from "../../primaryFunctions/getPiece";
-import movePiece from "./movePiece";
-import checkCheck from "./checkCheck";
+import getPiece from "../../primaryFunctions/getPiece.js";
+import movePiece from "./movePiece.js";
+import checkCheck from "./checkCheck.js";
 
 //returns whether pieces will be pinned when moved
 function checkPin(move, board) {

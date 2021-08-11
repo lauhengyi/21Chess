@@ -1,9 +1,9 @@
-import checkPin from "./functions/checkPin";
-import checkCheck from "./functions/checkCheck";
-import getPiece from "../primaryFunctions/getPiece";
-import movePiece from "./functions/movePiece";
-import checkCollision from "./functions/checkCollision";
-import createPieceDataCalculator from "./normalChessMovements";
+import checkPin from "./functions/checkPin.js";
+import checkCheck from "./functions/checkCheck.js";
+import getPiece from "../primaryFunctions/getPiece.js";
+import movePiece from "./functions/movePiece.js";
+import checkCollision from "./functions/checkCollision.js";
+import createPieceDataCalculator from "./normalChessMovements.js";
 
 //returns list of valid moves a piece can make with consideration of pinning
 // Last moved [id, movedFrom, moved] specialMoves: normalMoves = null, doublePawn move = 'dp', castling = 'c', enPassant = 'p'
@@ -35,21 +35,19 @@ function validMoves(id, board, lastMoved) {
 }
 
 //Return attacks from pieces
-function validAttacks(id, board, lastMoved) {
+function validAttacks(piece, board, lastMoved) {
   // Get moveable moves
-  let pieceData = createPieceDataCalculator(getPiece(id, board), board);
+  let pieceData = createPieceDataCalculator(piece, board);
   // Check whether attack is pinned
   let result = [];
-  for (let attack in pieceData.attacks) {
-    if (checkPin(id, attack, board) == false) {
-      result.push(attack);
-    }
+  for (let attack of pieceData.attacks) {
+    result.push(attack);
   }
   // Check for en Passant
   // Check for piece to be pawn, last move to be pawn)
   let enPassantMoves = [];
   if (
-    lastMoves &&
+    lastMoved &&
     getPiece(id, board).type === "p" &&
     getPiece(lastMoved[0], board).type === "p"
   ) {
@@ -58,18 +56,16 @@ function validAttacks(id, board, lastMoved) {
       enPassantMoves = checkEnPassant(id, board, normalMoves, lastMoved);
     }
   }
-  return result.concat(enPassantMoves[1]);
+  return result;
 }
 
-function validDefended(id, board) {
+function validDefended(piece, board) {
   // Get moveable moves
-  let pieceData = createPieceDataCalculator(board[id], board);
+  let pieceData = createPieceDataCalculator(piece, board);
   // Check whether attack is pinned
   let result = [];
-  for (let defend in pieceData.defended) {
-    if (checkPin(id, defend, board) == false) {
-      result.push(defend);
-    }
+  for (let defend of pieceData.defended) {
+    result.push(defend);
   }
   return result;
 }

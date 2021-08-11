@@ -1,4 +1,4 @@
-import movePiece from "./movePiece";
+import movePiece from "./movePiece.js";
 
 // function will execute move on board, if castling is true then the move is a castle
 // A normal move will have a list of two values, [id, position]

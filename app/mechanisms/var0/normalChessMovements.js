@@ -1,4 +1,4 @@
-import checkCollision from "./functions/checkCollision";
+import checkCollision from "./functions/checkCollision.js";
 
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value

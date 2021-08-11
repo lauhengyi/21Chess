@@ -1,4 +1,4 @@
-import getPiece from "../../primaryFunctions/getPiece";
+import getPiece from "../../primaryFunctions/getPiece.js";
 
 // returns a board with the move made:
 // move = [eaterId, position, eatenId]

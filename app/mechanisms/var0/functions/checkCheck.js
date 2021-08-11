@@ -1,4 +1,4 @@
-import createPieceDataCalculator from "../normalChessMovements";
+import createPieceDataCalculator from "../normalChessMovements.js";
 
 // Check whether a board is checked
 function checkCheck(board, side) {

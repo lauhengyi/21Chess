@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import colors from "../../../config/colors";
+import evaluateBoard from "../../../mechanisms/var0/evalutateBoard";
 import SquaresRow from "./Board_Components/SquaresRow";
 
 function Board(props) {

@@ -58,7 +58,7 @@ function Square(props) {
 
 function getStyle(color, isMoveableOnSquare, isClicked) {
   //Determines the border length of a square
-  const clickedIndicator = isClicked ? 8 : 0;
+  const clickedIndicator = isClicked ? 2 : 0;
 
   const squareLength = 46;
   const squareColor = isMoveableOnSquare ? color[1] : color[0];

@@ -9,6 +9,7 @@ import useChessMove from "../../mechanisms/var0/useChessMove";
 import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
 import colors from "../../config/colors";
+import evaluateBoard from "../../mechanisms/var0/evalutateBoard";
 
 function Var0({ route, navigation }) {
   const options = route.params.options;
