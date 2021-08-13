@@ -1,22 +1,25 @@
 import { validAttacks, validDefended } from "./getChessMoves.js";
 import layout from "../../screens/variations/boardLayouts/var0Layout.js";
 
-function evaluateBoard(board) {
-  // Declare evaluation functions
+function evaluateBoard(gameDetails) {
+  // Declare evaluation constants
   const coveredSquareValue = 20;
   const pawnValue = 60;
   const rookValue = 300;
   const knightValue = 240;
-  const bishopValue = 180;
-  const queenValue = 400;
-  const kingValue = 700;
+  const bishopValue = 200;
+  const queenValue = 600;
+  const kingValue = 300;
+  const checkmateValue = 100000;
 
   //Multipllier on coveredSquareValue based on how many pieces attacked that square
-  const coveredSquareMatrix = [0, 1, 0, 8, 0.7, 0.6, 0.5, 0.4, 0.3];
+  const coveredSquareMatrix = [0, 1, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3];
   //Multiplier on piece base value based on how many pieces defends it
   const defendedMatrix = [1, 2, 3, 4, 5, 6, 7, 8];
   //Multiplier on piece base value based on how many pieces attacks it
   const attackedMatrix = [1, 0.5, 0.25, 0.2, 0.166, 0.143, 0.125, 0.111];
+
+  const board = gameDetails.boardLayout;
 
   return evaluateSide(true) - evaluateSide(false);
 
@@ -32,6 +35,9 @@ function evaluateBoard(board) {
     }
 
     evaluation += evaluateCoveredSquares(covered);
+
+    evaluation += evaluateCheckmate(side);
+
     return evaluation;
   }
 
@@ -47,7 +53,7 @@ function evaluateBoard(board) {
       // check side of piece
       if (piece.side === side) {
         // get attacked squares of piece
-        let attacks = validAttacks(piece, board, null);
+        let attacks = validAttacks(piece, board, gameDetails.lastMoved);
         // Add attacks to result
         for (let attack of attacks) {
           result[attack] += 1;
@@ -106,6 +112,19 @@ function evaluateBoard(board) {
       // Pass through coveredMatrix then add to result
       result +=
         coveredSquareValue * coveredIndex * coveredSquareMatrix[coveredIndex];
+    }
+    return result;
+  }
+
+  function evaluateCheckmate(side) {
+    let result = 0;
+    if (gameDetails.checkmated) {
+      if (
+        (gameDetails.checkmated === 2 && side === true) ||
+        (gameDetails.checkmated === 1 && side === false)
+      ) {
+        result = checkmateValue;
+      }
     }
     return result;
   }

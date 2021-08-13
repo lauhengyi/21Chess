@@ -48,12 +48,12 @@ function validAttacks(piece, board, lastMoved) {
   let enPassantMoves = [];
   if (
     lastMoved &&
-    getPiece(id, board).type === "p" &&
+    piece.type === "p" &&
     getPiece(lastMoved[0], board).type === "p"
   ) {
     // Make sure the pawn double moved
     if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
-      enPassantMoves = checkEnPassant(id, board, normalMoves, lastMoved);
+      enPassantMoves = checkEnPassant(piece.id, board, normalMoves, lastMoved);
     }
   }
   return result;

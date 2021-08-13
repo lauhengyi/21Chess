@@ -5,20 +5,24 @@ import StatsBar from "./var0_Components/StatsBar";
 import AdditionalInfo from "./var0_Components/AdditionalInfo";
 import Menu from "./var0_Components/Menu";
 import EndPopUp from "./var0_Components/EndPopUp";
-import useChessMove from "../../mechanisms/var0/useChessMove";
+import { useChessMove } from "../../mechanisms/var0/useChessMove";
+import useComputer from "../../mechanisms/var0/useComputer";
 import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
 import colors from "../../config/colors";
-import evaluateBoard from "../../mechanisms/var0/evalutateBoard";
+import getBestMove from "../../mechanisms/var0/getBestMove";
 
 function Var0({ route, navigation }) {
   const options = route.params.options;
   const initialBoard = layout;
-  const timeDetails = options.timeDetails;
   const [gameDetails, chessActions] = useChessMove(initialBoard);
   const [isMenu, setMenu] = useState(false);
   //Initialise time left
-  const [timeLeft, restartTimer] = useTime(timeDetails, gameDetails, options);
+  const [timeLeft, restartTimer] = useTime(gameDetails, options);
+  //Activate computer
+  if (options.mode === 0) {
+    useComputer(gameDetails, chessActions, options);
+  }
 
   return (
     <View style={styles.background}>

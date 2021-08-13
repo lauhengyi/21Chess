@@ -32,7 +32,4 @@ function countMoves(board, side, lastMoved, depth) {
   return count;
 }
 
-/* let count = countMoves(layout, false, [null, null, null], 2);
-console.log(count); */
-
 export default countMoves;

@@ -1,12 +1,13 @@
 import { useReducer } from "react";
-import executeMove from "./functions/executeMove";
-import checkCheck from "./functions/checkCheck";
-import getPiece from "../primaryFunctions/getPiece";
-import { validMoves } from "./getChessMoves";
+import executeMove from "./functions/executeMove.js";
+import checkCheck from "./functions/checkCheck.js";
+import getPiece from "../primaryFunctions/getPiece.js";
+import { validMoves } from "./getChessMoves.js";
 
 function chessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = Object.assign({}, state);
+  newDetails.eatenPieces = [...state.eatenPieces];
 
   switch (action.type) {
     case "pieceClick": {
@@ -260,4 +261,4 @@ function useChessMove(initialBoard) {
   return useReducer(chessMovesReducer, initialDetails);
 }
 
-export default useChessMove;
+export { useChessMove, chessMovesReducer };

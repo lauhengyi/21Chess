@@ -82,18 +82,20 @@ function StatsBar(props) {
                 <Text style={styles.header}>{headerText}</Text>
                 <Text style={styles.subHeader}>Captured Pieces:</Text>
               </View>
-              <View style={styles.timeSection}>
-                <View
-                  style={
-                    isClockActive
-                      ? styles.timeTextContainerActive
-                      : styles.timeTextContainerInactive
-                  }
-                >
-                  <TimeText value={timeLeft} style={styles.timeText} />
+              {isChessClock && (
+                <View style={styles.timeSection}>
+                  <View
+                    style={
+                      isClockActive
+                        ? styles.timeTextContainerActive
+                        : styles.timeTextContainerInactive
+                    }
+                  >
+                    <TimeText value={timeLeft} style={styles.timeText} />
+                  </View>
+                  <Text style={styles.timeControlText}>{timeControlText}</Text>
                 </View>
-                <Text style={styles.timeControlText}>{timeControlText}</Text>
-              </View>
+              )}
             </View>
             <View style={styles.eatenContainer}>
               {eatenList.map((eaten) => (
@@ -110,18 +112,20 @@ function StatsBar(props) {
         <View style={styles.container}>
           <View style={styles.topStatsSection}>
             <Text style={styles.subHeader}>Pieces Lost:</Text>
-            <View style={styles.timeSection}>
-              <View
-                style={
-                  isClockActive
-                    ? styles.timeTextContainerActive
-                    : styles.timeTextContainerInactive
-                }
-              >
-                <TimeText value={timeLeft} style={styles.timeText} />
+            {isChessClock && (
+              <View style={styles.timeSection}>
+                <View
+                  style={
+                    isClockActive
+                      ? styles.timeTextContainerActive
+                      : styles.timeTextContainerInactive
+                  }
+                >
+                  <TimeText value={timeLeft} style={styles.timeText} />
+                </View>
+                <Text style={styles.timeControlText}>{timeControlText}</Text>
               </View>
-              <Text style={styles.timeControlText}>{timeControlText}</Text>
-            </View>
+            )}
           </View>
           <View style={styles.eatenContainer}>
             {eatenList.map((eaten) => (

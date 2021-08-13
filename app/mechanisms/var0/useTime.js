@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import changeTimeValue from "../../screens/functions/changeTimeValue";
 import convertTimeToSeconds from "../../screens/functions/convertTimeToSeconds";
 
-function useTime(timeDetails, gameDetails, options) {
+function useTime(gameDetails, options) {
+  const timeDetails = options.timeDetails;
   const [isRunning, setRunning] = useState(0);
   const [p1TimeLeft, setP1TimeLeft] = useState(timeDetails.p1Time);
   const [p2TimeLeft, setP2TimeLeft] = useState(timeDetails.p2Time);
@@ -10,46 +11,50 @@ function useTime(timeDetails, gameDetails, options) {
   const delayTimer = useRef();
   const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    //Clear possible timers
-    if (delayTimer.current) {
-      clearTimeout(delayTimer.current);
-    }
-    if (timer.current) {
-      clearInterval(timer.current);
-    }
-    const player = getPlayer();
-    const setTimePlayer = player === 1 ? setP1TimeLeft : setP2TimeLeft;
-    const setTimeOpponent = player === 1 ? setP2TimeLeft : setP1TimeLeft;
-    const timeDelay = player === 1 ? timeDetails.p1Delay : timeDetails.p2Delay;
-    const opponentIncrement =
-      player === 1 ? timeDetails.p2Increment : timeDetails.p1Increment;
+  //Check whether clock exists
+  if (timeDetails.isChessClock) {
+    useEffect(() => {
+      //Clear possible timers
+      if (delayTimer.current) {
+        clearTimeout(delayTimer.current);
+      }
+      if (timer.current) {
+        clearInterval(timer.current);
+      }
+      const player = getPlayer();
+      const setTimePlayer = player === 1 ? setP1TimeLeft : setP2TimeLeft;
+      const setTimeOpponent = player === 1 ? setP2TimeLeft : setP1TimeLeft;
+      const timeDelay =
+        player === 1 ? timeDetails.p1Delay : timeDetails.p2Delay;
+      const opponentIncrement =
+        player === 1 ? timeDetails.p2Increment : timeDetails.p1Increment;
 
-    //Exclude first move of each player
-    if (count > 1) {
-      const delayInMiliseconds =
-        parseInt(convertTimeToSeconds(timeDelay)) * 1000;
-      //Add delay
-      delayTimer.current = setTimeout(() => {
-        //Decrement time
-        timer.current = setInterval(
-          () => setTimePlayer((timeLeft) => changeTimeValue(timeLeft, "-1")),
-          1000
+      //Exclude first move of each player
+      if (count > 1) {
+        const delayInMiliseconds =
+          parseInt(convertTimeToSeconds(timeDelay)) * 1000;
+        //Add delay
+        delayTimer.current = setTimeout(() => {
+          //Decrement time
+          timer.current = setInterval(
+            () => setTimePlayer((timeLeft) => changeTimeValue(timeLeft, "-1")),
+            1000
+          );
+        }, delayInMiliseconds);
+
+        //Add increment
+        setTimeOpponent((timeLeft) =>
+          changeTimeValue(timeLeft, opponentIncrement)
         );
-      }, delayInMiliseconds);
 
-      //Add increment
-      setTimeOpponent((timeLeft) =>
-        changeTimeValue(timeLeft, opponentIncrement)
-      );
+        //Update running clock
+        setRunning(player);
+      }
+      setCount((count) => count + 1);
 
-      //Update running clock
-      setRunning(player);
-    }
-    setCount((count) => count + 1);
-
-    return () => clearInterval(timer.current);
-  }, [gameDetails.currentSide]);
+      return () => clearInterval(timer.current);
+    }, [gameDetails.currentSide]);
+  }
 
   //Check timeout
   let timeout = 0;
