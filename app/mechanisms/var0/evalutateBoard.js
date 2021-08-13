@@ -3,12 +3,12 @@ import layout from "../../screens/variations/boardLayouts/var0Layout.js";
 
 function evaluateBoard(gameDetails) {
   // Declare evaluation constants
-  const coveredSquareValue = 20;
+  const coveredSquareValue = 10;
   const pawnValue = 60;
   const rookValue = 300;
   const knightValue = 240;
   const bishopValue = 200;
-  const queenValue = 600;
+  const queenValue = 700;
   const kingValue = 300;
   const checkmateValue = 100000;
 

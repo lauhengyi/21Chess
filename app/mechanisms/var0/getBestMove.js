@@ -158,6 +158,12 @@ function getBestEvaluation(gameDetails, currentBest, depth) {
   return bestEvaluation;
 }
 
+function makeMove(gameDetails, move, castling) {
+  let movedFrom = getPiece(move[0], board).position;
+  let newBoard = executeMove(move, board, false);
+  let newlastMoved = [move[0], movedFrom, move[1]];
+}
+
 function isBestEvaluation(side, evaluation, bestEvaluation) {
   if (side === true) {
     //Maximise evaluation

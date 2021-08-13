@@ -7,7 +7,7 @@ function useComputer(gameDetails, chessActions, options) {
       gameDetails.currentSide === !options.startingSide &&
       !gameDetails.checkmated
     ) {
-      const bestMove = getBestMove(gameDetails, 2);
+      const bestMove = getBestMove(gameDetails, 3);
       chessActions({
         type: "makeTurn",
         move: bestMove[0],
