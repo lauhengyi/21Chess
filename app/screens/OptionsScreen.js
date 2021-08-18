@@ -89,7 +89,7 @@ function OptionsScreen({ route, navigation }) {
     isFlipped: isAutoturn || !mode ? false : isFlipped,
     startingSide: side === 0 ? true : false,
     timeDetails: {
-      isChessClock: isChessClock,
+      isChessClock: mode ? isChessClock : false,
       p1Time: p1Time,
       p2Time: p2Time,
       p1Increment: p1Increment,
