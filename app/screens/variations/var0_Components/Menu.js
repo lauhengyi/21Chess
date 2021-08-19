@@ -32,7 +32,12 @@ function Menu(props) {
                 <Text style={styles.buttonText}>Instructions</Text>
               </View>
             </Pressable>
-            <Pressable onPress={() => navigation.navigate("Welcome")}>
+            <Pressable
+              onPress={() => {
+                props.onExitPress(false);
+                navigation.navigate("Welcome");
+              }}
+            >
               <View style={styles.button}>
                 <Text style={styles.buttonText}>Exit game</Text>
               </View>

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   variationOuterContainer: {
     backgroundColor: colors.secondary,
     width: "90%",
-    height: "40%",
+    height: 330,
     alignItems: "center",
     marginBottom: 30,
     marginTop: 20,

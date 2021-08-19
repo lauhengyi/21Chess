@@ -31,7 +31,7 @@ function Var0({ route, navigation }) {
         handleBackButtonClick
       );
     };
-  }, [route]);
+  }, []);
 
   return (
     <View style={styles.background}>
