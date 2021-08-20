@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, BackHandler } from "react-native";
 import Board from "./var0_Components/Board";
 import StatsBar from "./var0_Components/StatsBar";
 import AdditionalInfo from "./var0_Components/AdditionalInfo";
@@ -10,7 +10,6 @@ import useComputer from "../../mechanisms/var0/useComputer";
 import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
 import colors from "../../config/colors";
-import getBestMove from "../../mechanisms/var0/getBestMove";
 
 function Var0({ route, navigation }) {
   const options = route.params.options;
@@ -23,6 +22,16 @@ function Var0({ route, navigation }) {
   if (options.mode === 0) {
     useComputer(gameDetails, chessActions, options);
   }
+  //Override device back button to open menu instead
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackButtonClick
+      );
+    };
+  }, []);
 
   return (
     <View style={styles.background}>
@@ -84,6 +93,11 @@ function Var0({ route, navigation }) {
     chessActions({ type: "restart", boardLayout: initialBoard });
     restartTimer();
     setMenu(false);
+  }
+
+  function handleBackButtonClick() {
+    setMenu(true);
+    return true;
   }
 }
 

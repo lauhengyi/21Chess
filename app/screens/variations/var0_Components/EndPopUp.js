@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import colors from "../../../config/colors";
 import checkStatus from "../../functions/checkStatus";
@@ -8,11 +8,15 @@ function EndPopUp(props) {
   const navigation = props.navigation;
   //Give a pause before screen appears
   const [isVisible, setVisible] = useState(false);
-  if (ending[0]) {
-    setTimeout(() => {
-      setVisible(true);
-    }, 1500);
-  }
+  const timer = useRef();
+  useEffect(() => {
+    if (ending[0]) {
+      timer.current = setTimeout(() => {
+        setVisible(true);
+      }, 1500);
+    }
+    return () => clearTimeout(timer.current);
+  });
   const [statement1, statement2] = getStatement(ending, props.options);
   return (
     <Modal animationType="fade" visible={ending[0]} transparent={true}>
@@ -24,13 +28,20 @@ function EndPopUp(props) {
               <Text style={styles.statement2}>{statement2}</Text>
             </View>
             <View style={styles.buttonsContainer}>
-              <Pressable onPress={() => props.onRestart()}>
+              <Pressable
+                onPress={() => {
+                  setVisible(false);
+                  props.onRestart();
+                  console.log("in");
+                }}
+              >
                 <View style={styles.button}>
                   <Text style={styles.buttonText}>Play again</Text>
                 </View>
               </Pressable>
               <Pressable
                 onPress={() => {
+                  setVisible(false);
                   navigation.navigate("Select");
                 }}
               >
@@ -40,6 +51,7 @@ function EndPopUp(props) {
               </Pressable>
               <Pressable
                 onPress={() => {
+                  setVisible(false);
                   navigation.navigate("Welcome");
                 }}
               >

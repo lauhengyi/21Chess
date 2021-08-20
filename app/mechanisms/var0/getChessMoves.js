@@ -47,7 +47,7 @@ function validAttacks(piece, board, lastMoved) {
   // Check for piece to be pawn, last move to be pawn)
   let enPassantMoves = [];
   if (
-    lastMoved &&
+    lastMoved[0] &&
     piece.type === "p" &&
     getPiece(lastMoved[0], board).type === "p"
   ) {
