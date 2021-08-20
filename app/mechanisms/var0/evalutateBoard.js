@@ -9,7 +9,7 @@ function evaluateBoard(gameDetails) {
   const knightValue = 240;
   const bishopValue = 200;
   const queenValue = 700;
-  const kingValue = 300;
+  const kingValue = 100;
   const checkmateValue = 100000;
 
   //Multipllier on coveredSquareValue based on how many pieces attacked that square
