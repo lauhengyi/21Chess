@@ -2,9 +2,11 @@ import React from "react";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import SelectScreen from "./app/screens/SelectScreen";
 import VarLoadScreen from "./app/screens/VarLoadScreen";
+import SettingsScreen from "./app/screens/SettingsScreen";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import useSettings from "./app/screens/functions/useSettings";
 
 // Create navigator
 const Stack = createStackNavigator();
@@ -23,6 +25,7 @@ export default function App() {
     return null;
   }
 
+  //Load settings
   return (
     <>
       <NavigationContainer>
@@ -30,6 +33,7 @@ export default function App() {
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Select" component={SelectScreen} />
           <Stack.Screen name="VarLoad" component={VarLoadScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

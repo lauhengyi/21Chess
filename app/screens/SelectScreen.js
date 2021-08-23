@@ -316,6 +316,7 @@ const styles = StyleSheet.create({
     fontFamily: "FogtwoNo5",
     fontSize: 19,
     color: colors.black,
+    textTransform: "none",
   },
 
   indicator: {

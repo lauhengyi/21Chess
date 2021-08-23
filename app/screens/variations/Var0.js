@@ -18,10 +18,12 @@ function Var0({ route, navigation }) {
   const [isMenu, setMenu] = useState(false);
   //Initialise time left
   const [timeLeft, restartTimer] = useTime(gameDetails, options);
+
   //Activate computer
   if (options.mode === 0) {
     useComputer(gameDetails, chessActions, options);
   }
+
   //Override device back button to open menu instead
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);

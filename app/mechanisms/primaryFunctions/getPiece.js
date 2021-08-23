@@ -1,9 +1,5 @@
 function getPiece(id, board) {
-  for (let piece of board) {
-    if (piece.id === id) {
-      return piece;
-    }
-  }
+  return board.find((piece) => piece.id === id);
 }
 
 export default getPiece;

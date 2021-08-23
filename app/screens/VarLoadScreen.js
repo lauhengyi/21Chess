@@ -8,10 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 
 function VarLoadScreen({ route, navigation }) {
-  const varNum = route.params.varNum;
-  const title = route.params.title;
-  const header = route.params.header;
-  const caption = route.params.caption;
+  const { varNum, title, header, caption } = route.params;
   const variations = [Var0, Var1, Var2];
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

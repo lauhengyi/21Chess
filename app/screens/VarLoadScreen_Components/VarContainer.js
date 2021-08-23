@@ -1,7 +1,6 @@
 import React from "react";
 import colors from "../../config/colors";
 import { View, StyleSheet, Text, Pressable, Image } from "react-native";
-import { color } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 
 function VarContainer(props) {
