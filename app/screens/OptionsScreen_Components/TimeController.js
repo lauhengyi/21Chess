@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import colors from "../../config/colors";
+import colors from "../../config/colorPalatte";
 import changeTimeValue from "../functions/changeTimeValue";
 import TimeText from "../components/TimeText";
 import { RecyclerViewBackedScrollViewComponent } from "react-native";

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, StyleSheet } from "react-native";
-import colors from "../../../config/colors";
-import evaluateBoard from "../../../mechanisms/var0/evalutateBoard";
 import SquaresRow from "./Board_Components/SquaresRow";
 
 function Board(props) {
@@ -32,6 +30,7 @@ function Board(props) {
               options={props.options}
               onAction={(action) => props.onAction(action)}
               boardOrientation={boardOrientation}
+              settings={props.settings}
             />
           ))}
         </View>
@@ -59,7 +58,6 @@ const styles = StyleSheet.create({
 
   board: {
     flexDirection: "column-reverse",
-    color: colors.white,
   },
 });
 

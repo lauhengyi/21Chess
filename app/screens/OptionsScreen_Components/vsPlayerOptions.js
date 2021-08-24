@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Switch, Text, useColorScheme } from "react-native";
-import colors from "../../config/colors";
+import { View, Switch, Text } from "react-native";
 
 function VsComputerOptions(props) {
   const styles = props.style;
+  const colors = props.colors;
   const autoturnDetails = props.autoturnDetails;
   const flippedDetails = props.flippedDetails;
   return (

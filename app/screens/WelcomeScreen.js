@@ -1,11 +1,11 @@
 import React from "react";
-import colors from "../config/colors";
+import colorPalatte from "../config/colorPalatte";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import useSettings from "./functions/useSettings";
 
 function WelcomeScreen({ navigation, route }) {
   const [settings, setters] = useSettings();
-  const styles = getStyles(settings, colors);
+  const styles = getStyles(settings, colorPalatte);
   return (
     <>
       <View style={styles.background}>
@@ -45,7 +45,7 @@ function WelcomeScreen({ navigation, route }) {
 }
 
 function getStyles(settings, colorPalatte) {
-  const colors = settings.isDarkMode ? colorPalatte[1] : colorPalatte[0];
+  const colors = colorPalatte[settings.theme];
   return StyleSheet.create({
     background: {
       flex: 1,

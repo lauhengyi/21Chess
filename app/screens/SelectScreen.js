@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import colors from "../config/colors";
+import colorPalatte from "../config/colorPalatte";
 import VarTypeContainer from "./VarLoadScreen_Components/VarTypeContainer";
 import {
   LENTO_VAR,
@@ -53,7 +53,7 @@ function SelectScreen({ navigation, route }) {
     { key: "presto", title: "Presto" },
   ]);
 
-  const [styles, color] = getStyles(settings, colors);
+  const [styles, colors] = getStyles(settings, colorPalatte);
 
   const renderScene = SceneMap({
     lento: () => Lento(settings),
@@ -75,14 +75,14 @@ function SelectScreen({ navigation, route }) {
         renderScene={renderScene}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
-        renderTabBar={renderTabBar(styles, color)}
+        renderTabBar={renderTabBar(styles, colors)}
       />
     </>
   );
 }
 
 function getStyles(settings, colorPalatte) {
-  const colors = settings.isDarkMode ? colorPalatte[1] : colorPalatte[0];
+  const colors = colorPalatte[settings.theme];
   const styles = StyleSheet.create({
     headerContainer: {
       backgroundColor: colors.white,

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import TimeControlButton from "./TimeControlButton";
-import colors from "../../config/colors";
 import getTimeControlText from "../functions/getTimeControlText";
+import colorPalatte from "../../config/colorPalatte";
 
 function TimeSelect(props) {
   const {
@@ -94,6 +94,9 @@ function TimeSelect(props) {
   const p2TimeControlText = getTimeControlText(p2Time, p2Increment, p2Delay);
   const [clickedButton, setClickedButton] = useState(6);
 
+  const settings = props.settings;
+  const styles = getStyles(settings, colorPalatte);
+
   return (
     <View>
       <View style={styles.timeControlContainer}>
@@ -154,6 +157,7 @@ function TimeSelect(props) {
                 button.increment,
                 button.delay
               )}
+              settings={settings}
             />
           ))}
         </View>
@@ -182,6 +186,7 @@ function TimeSelect(props) {
                 button.increment,
                 button.delay
               )}
+              settings={settings}
             />
           ))}
         </View>
@@ -210,6 +215,7 @@ function TimeSelect(props) {
                 button.increment,
                 button.delay
               )}
+              settings={settings}
             />
           ))}
         </View>
@@ -243,60 +249,64 @@ function TimeSelect(props) {
   }
 }
 
-const styles = StyleSheet.create({
-  timeControlContainer: {
-    justifyContent: "space-evenly",
-    flexDirection: "row",
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
 
-  perPlayerTimeControlContainer: {
-    alignItems: "center",
-  },
+  return StyleSheet.create({
+    timeControlContainer: {
+      justifyContent: "space-evenly",
+      flexDirection: "row",
+    },
 
-  timeControlText: {
-    fontFamily: "FogtwoNo5",
-    fontSize: 60,
-    color: colors.black,
-  },
+    perPlayerTimeControlContainer: {
+      alignItems: "center",
+    },
 
-  perPlayerTimeControlText: {
-    fontFamily: "FogtwoNo5",
-    fontSize: 50,
-    color: colors.black,
-  },
+    timeControlText: {
+      fontFamily: "FogtwoNo5",
+      fontSize: 60,
+      color: colors.black,
+    },
 
-  timeControlCaption: {
-    fontFamily: "ELM",
-    fontSize: 18,
-    color: colors.black,
-  },
+    perPlayerTimeControlText: {
+      fontFamily: "FogtwoNo5",
+      fontSize: 50,
+      color: colors.black,
+    },
 
-  timeText: {
-    color: colors.black,
-    fontSize: 25,
-  },
+    timeControlCaption: {
+      fontFamily: "ELM",
+      fontSize: 18,
+      color: colors.black,
+    },
 
-  buttonsContainer: {
-    flexDirection: "row",
-    width: "100%",
-  },
+    timeText: {
+      color: colors.black,
+      fontSize: 25,
+    },
 
-  buttonsColumn: {
-    flex: 1,
-  },
+    buttonsContainer: {
+      flexDirection: "row",
+      width: "100%",
+    },
 
-  buttonsColumnCenter: {
-    flex: 1,
-    marginHorizontal: 5,
-  },
+    buttonsColumn: {
+      flex: 1,
+    },
 
-  timeTypeText: {
-    alignSelf: "center",
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.grey3,
-    textDecorationLine: "underline",
-  },
-});
+    buttonsColumnCenter: {
+      flex: 1,
+      marginHorizontal: 5,
+    },
+
+    timeTypeText: {
+      alignSelf: "center",
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.grey3,
+      textDecorationLine: "underline",
+    },
+  });
+}
 
 export default TimeSelect;

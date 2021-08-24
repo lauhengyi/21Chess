@@ -1,25 +1,33 @@
 import React from "react";
-import colors from "../../../../config/colors";
+import colorPalatte from "../../../../config/colorPalatte";
 import { View, Pressable } from "react-native";
 import Piece from "./Piece";
 import checkCollision from "../../../../mechanisms/var0/functions/checkCollision";
 
 function Square(props) {
+  const settings = props.settings;
   function onAction(action) {
     props.onAction(action);
   }
 
   const [
-    color,
     isClicked,
+    isLastMoveOnSquare,
     isPieceOnSquare,
     pieceId,
     isMoveableOnSquare,
     moveableMove,
     castling,
-  ] = checkSquare(props.gameDetails, props.position, props.color);
+  ] = checkSquare(props.gameDetails, props.position);
 
-  const styles = getStyle(color, isMoveableOnSquare, isClicked);
+  const styles = getStyle(
+    settings,
+    colorPalatte,
+    props.color,
+    isMoveableOnSquare,
+    isLastMoveOnSquare,
+    isClicked
+  );
 
   function PieceWithProps() {
     return (
@@ -29,6 +37,7 @@ function Square(props) {
         pieceId={pieceId}
         onAction={(moves) => props.onAction(moves)}
         boardOrientation={props.boardOrientation}
+        settings={settings}
       />
     );
   }
@@ -56,7 +65,28 @@ function Square(props) {
   }
 }
 
-function getStyle(color, isMoveableOnSquare, isClicked) {
+function getStyle(
+  settings,
+  colorPalatte,
+  colorId,
+  isMoveableOnSquare,
+  isLastMoveOnSquare,
+  isClicked
+) {
+  const colors = colorPalatte[settings.theme];
+  // Determine color of square: black and white, moveable or not
+  let color;
+  if (isLastMoveOnSquare) {
+    color =
+      colorId === 1
+        ? [colors.lastMovedSquareBlack, colors.moveableSquareBlack]
+        : [colors.lastMovedSquareWhite, colors.moveableSquareWhite];
+  } else {
+    color =
+      colorId === 1
+        ? [colors.squareBlack, colors.moveableSquareBlack]
+        : [colors.squareWhite, colors.moveableSquareWhite];
+  }
   //Determines the border length of a square
   const clickedIndicator = isClicked ? 2 : 0;
 
@@ -74,8 +104,8 @@ function getStyle(color, isMoveableOnSquare, isClicked) {
   return style;
 }
 
-//returns [color matrix of square, isClicked, whether piece on square, piece ID, whether moveable on square, moveableMove, whether moveable is a castle move]
-function checkSquare(gameDetails, position, colorId) {
+//returns [isClicked, whether piece on square, piece ID, whether moveable on square, moveableMove, whether moveable is a castle move]
+function checkSquare(gameDetails, position) {
   // Passing down constants
   const boardLayout = gameDetails.boardLayout;
   const moveables = gameDetails.moveables;
@@ -115,30 +145,16 @@ function checkSquare(gameDetails, position, colorId) {
   //Check for last moved
   let isLastMoveOnSquare = false;
 
-  //Check movedFrom
+  //Check
   if (lastMoved[0]) {
     if (lastMoved[1] === position || lastMoved[2] === position) {
       isLastMoveOnSquare = true;
     }
   }
 
-  // Determine color of square: black and white, moveable or not
-  let color;
-  if (isLastMoveOnSquare) {
-    color =
-      colorId === 1
-        ? [colors.lastMovedSquareBlack, colors.moveableSquareBlack]
-        : [colors.lastMovedSquareWhite, colors.moveableSquareWhite];
-  } else {
-    color =
-      colorId === 1
-        ? [colors.grey1, colors.moveableSquareBlack]
-        : [colors.secondary, colors.moveableSquareWhite];
-  }
-
   return [
-    color,
     isClicked,
+    isLastMoveOnSquare,
     isPieceOnSquare,
     pieceId,
     isMoveableOnSquare,

@@ -16,6 +16,7 @@ function SquaresRow(props) {
           options={props.options}
           onAction={(action) => props.onAction(action)}
           boardOrientation={props.boardOrientation}
+          settings={props.settings}
         />
       ))}
     </View>

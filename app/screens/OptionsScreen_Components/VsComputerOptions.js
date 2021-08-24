@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 function VsComputerOptions(props) {

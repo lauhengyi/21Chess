@@ -10,6 +10,11 @@ export default [
     grey3: "#495057",
     grey4: "#343a40",
 
+    piece: "#000000",
+
+    squareBlack: "#adb5bd",
+    squareWhite: "#dee2e6",
+
     moveableSquareBlack: "#d19b9b",
     moveableSquareWhite: "#e3b6b6",
 
@@ -26,6 +31,11 @@ export default [
     grey2: "#6c757d",
     grey3: "#495057",
     grey4: "#343a40",
+
+    piece: "#000000",
+
+    squareBlack: "#adb5bd",
+    squareWhite: "#dee2e6",
 
     moveableSquareBlack: "#d19b9b",
     moveableSquareWhite: "#e3b6b6",

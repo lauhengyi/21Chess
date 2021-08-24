@@ -7,20 +7,20 @@ function useSettings() {
   const [masterVolume, setMasterVolume] = useState(100);
   const [musicVolume, setMusicVolume] = useState(100);
   const [sfxVolume, setSfxVolume] = useState(100);
-  const [isDarkMode, setDarkMode] = useState(false);
+  const [theme, setTheme] = useState(0);
 
   const settings = {
     masterVolume: masterVolume,
     musicVolume: musicVolume,
     sfxVolume: sfxVolume,
-    isDarkMode: isDarkMode,
+    theme: theme,
   };
 
   const setters = {
     setMasterVolume: setMasterVolume,
     musicVolume: setMusicVolume,
     setSfxVolume: setSfxVolume,
-    setDarkMode: setDarkMode,
+    setTheme: setTheme,
   };
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function useSettings() {
               masterVolume: 100,
               musicVolume: 100,
               sfxVolume: 100,
-              isDarkMode: false,
+              theme: 0,
             };
       } catch (e) {
         throw new Error("Unable to get settings");
@@ -46,7 +46,7 @@ function useSettings() {
         setMasterVolume(initSettings.masterVolume);
         setMusicVolume(initSettings.musicVolume);
         setSfxVolume(initSettings.sfxVolume);
-        setDarkMode(initSettings.isDarkMode);
+        setTheme(initSettings.theme);
       });
     }
   }, [loading]);

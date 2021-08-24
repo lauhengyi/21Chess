@@ -1,45 +1,41 @@
 import React from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
-import colors from "../config/colors";
+import colorPalatte from "../config/colorPalatte";
 
 function SettingsScreen({ navigation, route }) {
   const settings = route.params.settings;
   const setters = route.params.setters;
   console.log({ settings, setters });
-  const toggleDarkMode = () => setters.setDarkMode((p) => !p);
+  const [styles, colors] = getStyles(settings, colorPalatte);
   return (
     <View style={styles.background}>
       <View style={styles.headerContainer}>
         <Text style={styles.header}>Settings</Text>
       </View>
-      <View style={styles.settings}>
-        <Switch
-          trackColor={{ false: colors.grey1, true: colors.black }}
-          thumbColor={colors.grey2}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleDarkMode}
-          value={settings.isDarkMode}
-        />
-      </View>
+      <View style={styles.settings}></View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  const styles = StyleSheet.create({
+    background: {
+      flex: 1,
+      backgroundColor: colors.white,
+    },
 
-  headerContainer: {
-    alignItems: "center",
-    marginTop: 70,
-  },
+    headerContainer: {
+      alignItems: "center",
+      marginTop: 70,
+    },
 
-  header: {
-    fontFamily: "FogtwoNo5",
-    fontSize: 70,
-  },
-});
+    header: {
+      fontFamily: "FogtwoNo5",
+      fontSize: 70,
+    },
+  });
+  return [styles, color];
+}
 
 export default SettingsScreen;

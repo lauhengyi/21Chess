@@ -9,10 +9,11 @@ import { useChessMove } from "../../mechanisms/var0/useChessMove";
 import useComputer from "../../mechanisms/var0/useComputer";
 import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
-import colors from "../../config/colors";
+import colors from "../../config/colorPalatte";
 
 function Var0({ route, navigation }) {
   const options = route.params.options;
+  const settings = route.params.settings;
   const initialBoard = layout;
   const [gameDetails, chessActions] = useChessMove(initialBoard);
   const [isMenu, setMenu] = useState(false);
@@ -43,12 +44,14 @@ function Var0({ route, navigation }) {
         timeLeft={timeLeft}
         navigation={navigation}
         onRestart={() => onRestart()}
+        settings={settings}
       />
       <Menu
         isMenu={isMenu}
         onExitPress={setMenu}
         navigation={navigation}
         onRestart={() => onRestart()}
+        settings={settings}
       />
       <View style={styles.statsBarTop}>
         <StatsBar
@@ -56,6 +59,7 @@ function Var0({ route, navigation }) {
           timeLeft={timeLeft}
           position={"top"}
           options={options}
+          settings={settings}
         />
       </View>
       <View style={styles.boardContainer}>
@@ -66,11 +70,13 @@ function Var0({ route, navigation }) {
           timeLeft={timeLeft}
           onAction={chessActions}
           onButtonPress={setMenu}
+          settings={settings}
         />
         <Board
           gameDetails={gameDetails}
           options={options}
           onAction={chessActions}
+          settings={settings}
         />
         <AdditionalInfo
           gameDetails={gameDetails}
@@ -78,6 +84,7 @@ function Var0({ route, navigation }) {
           options={options}
           timeLeft={timeLeft}
           onAction={chessActions}
+          settings={settings}
         />
       </View>
       <View style={styles.statsBarBottom}>
@@ -86,6 +93,7 @@ function Var0({ route, navigation }) {
           gameDetails={gameDetails}
           position={"bottom"}
           options={options}
+          settings={settings}
         />
       </View>
     </View>

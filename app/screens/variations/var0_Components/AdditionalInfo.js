@@ -1,11 +1,11 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import colors from "../../../config/colors";
 import PromotionSelector from "./AdditionalInfo_Components/PromotionSelector";
 import getPiece from "../../../mechanisms/primaryFunctions/getPiece";
 import getPlayers from "../../functions/getPlayers";
 import ToggleMenuButton from "./AdditionalInfo_Components/ToggleMenuButton";
 import checkStatus from "../../functions/checkStatus";
+import colorPalatte from "../../../config/colorPalatte";
 
 function AdditionalInfo(props) {
   const {
@@ -30,6 +30,7 @@ function AdditionalInfo(props) {
   //Get whether the button is present
   const isButton = promoting[0] || position === "bottom" ? false : true;
 
+  const styles = getStyles(props.settings, colorPalatte);
   return (
     //Include statement
     <View style={styles.container}>
@@ -42,13 +43,17 @@ function AdditionalInfo(props) {
               side={promoting[1]}
               onAction={(action) => props.onAction(action)}
               promotion={promotion}
+              settings={props.settings}
             />
           )}
         </View>
       </View>
       {isButton && (
         <View style={styles.buttonContainer}>
-          <ToggleMenuButton onButtonPress={() => props.onButtonPress()} />
+          <ToggleMenuButton
+            onButtonPress={() => props.onButtonPress()}
+            settings={props.settings}
+          />
         </View>
       )}
     </View>
@@ -122,32 +127,36 @@ function AdditionalInfo(props) {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    marginHorizontal: 22,
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  return (styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: "row",
+      marginHorizontal: 22,
+    },
 
-  isFlipped: {
-    transform: [{ rotate: "180deg" }],
-    flex: 1,
-  },
+    isFlipped: {
+      transform: [{ rotate: "180deg" }],
+      flex: 1,
+    },
 
-  notFlipped: {
-    flex: 1,
-  },
+    notFlipped: {
+      flex: 1,
+    },
 
-  statementContainer: {
-    flex: 1,
-    justifyContent: "center",
-  },
+    statementContainer: {
+      flex: 1,
+      justifyContent: "center",
+    },
 
-  statement: {
-    fontFamily: "ELM",
-    fontSize: 30,
-    color: colors.black,
-    alignSelf: "flex-end",
-  },
-});
+    statement: {
+      fontFamily: "ELM",
+      fontSize: 30,
+      color: colors.black,
+      alignSelf: "flex-end",
+    },
+  }));
+}
+
 export default AdditionalInfo;

@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import colors from "../../../config/colors";
 import TimeText from "../../components/TimeText";
 import getTimeControlText from "../../functions/getTimeControlText";
 import getPlayers from "../../functions/getPlayers";
+import colorPalatte from "../../../config/colorPalatte";
 
 function StatsBar(props) {
   const { currentSide, eatenPieces } = props.gameDetails;
@@ -59,6 +59,8 @@ function StatsBar(props) {
     eatenPiece[1].id,
     PieceKeyBoth[eatenPiece[1].side][eatenPiece[1].type],
   ]);
+
+  const styles = getStyles(props.settings, colorPalatte);
 
   //Find statsbar type (only for top statsBar, whether it is normal or supplementary)
   let statsBarType = "normal";
@@ -155,83 +157,86 @@ function StatsBar(props) {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: 120,
-    width: "100%",
-    backgroundColor: colors.secondary,
-    padding: 10,
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  return StyleSheet.create({
+    container: {
+      height: 120,
+      width: "100%",
+      backgroundColor: colors.secondary,
+      padding: 10,
+    },
 
-  topStatsSection: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+    topStatsSection: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
 
-  statsBarTop: {
-    flex: 1,
-    transform: [{ rotate: "180deg" }],
-  },
+    statsBarTop: {
+      flex: 1,
+      transform: [{ rotate: "180deg" }],
+    },
 
-  statsBarBottom: {},
+    statsBarBottom: {},
 
-  headerContainer: {},
+    headerContainer: {},
 
-  header: {
-    fontFamily: "FogtwoNo5",
-    fontSize: 40,
-    color: colors.black,
-  },
+    header: {
+      fontFamily: "FogtwoNo5",
+      fontSize: 40,
+      color: colors.black,
+    },
 
-  subHeader: {
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.black,
-  },
+    subHeader: {
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.black,
+    },
 
-  eatenContainer: {
-    flexDirection: "row",
-  },
+    eatenContainer: {
+      flexDirection: "row",
+    },
 
-  eatenPiece: {
-    fontFamily: "Meri",
-    fontSize: 25,
-    color: colors.black,
-  },
+    eatenPiece: {
+      fontFamily: "Meri",
+      fontSize: 25,
+      color: colors.black,
+    },
 
-  timeSection: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
+    timeSection: {
+      justifyContent: "center",
+      alignItems: "center",
+    },
 
-  timeTextContainerActive: {
-    borderWidth: 5,
-    borderColor: colors.grey1,
-    width: 110,
-    backgroundColor: colors.primary,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    timeTextContainerActive: {
+      borderWidth: 5,
+      borderColor: colors.grey1,
+      width: 110,
+      backgroundColor: colors.primary,
+      alignItems: "center",
+      justifyContent: "center",
+    },
 
-  timeTextContainerInactive: {
-    borderWidth: 5,
-    borderColor: colors.grey1,
-    elevation: 50,
-    backgroundColor: colors.grey2,
-    justifyContent: "center",
-  },
+    timeTextContainerInactive: {
+      borderWidth: 5,
+      borderColor: colors.grey1,
+      elevation: 50,
+      backgroundColor: colors.grey2,
+      justifyContent: "center",
+    },
 
-  timeText: {
-    fontFamily: "ELM",
-    fontSize: 20,
-    paddingHorizontal: 5,
-    color: colors.black,
-  },
+    timeText: {
+      fontFamily: "ELM",
+      fontSize: 20,
+      paddingHorizontal: 5,
+      color: colors.black,
+    },
 
-  timeControlText: {
-    fontFamily: "ELM",
-    fontSize: 15,
-    color: colors.black,
-  },
-});
+    timeControlText: {
+      fontFamily: "ELM",
+      fontSize: 15,
+      color: colors.black,
+    },
+  });
+}
 export default StatsBar;

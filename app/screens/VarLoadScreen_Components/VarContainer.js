@@ -1,5 +1,5 @@
 import React from "react";
-import colors from "../../config/colors";
+import colorPalatte from "../../config/colorPalatte";
 import { View, StyleSheet, Text, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -7,7 +7,7 @@ function VarContainer(props) {
   const navigation = useNavigation();
   const variation = props.var;
   const settings = props.settings;
-  const styles = getStyles(settings, colors);
+  const styles = getStyles(settings, colorPalatte);
   return (
     <>
       <View style={styles.variationOuterContainer}>
@@ -27,6 +27,7 @@ function VarContainer(props) {
                   title: props.title,
                   header: props.header,
                   caption: props.caption,
+                  settings: settings,
                 })
               }
             >
@@ -47,7 +48,7 @@ function VarContainer(props) {
 }
 
 function getStyles(settings, colorPalatte) {
-  const colors = settings.isDarkMode ? colorPalatte[1] : colorPalatte[0];
+  const colors = colorPalatte[settings.theme];
   return StyleSheet.create({
     variationOuterContainer: {
       backgroundColor: colors.secondary,

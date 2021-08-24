@@ -7,7 +7,7 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import colors from "../config/colors";
+import colorPalatte from "../config/colorPalatte";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import VsComputerOptions from "./OptionsScreen_Components/VsComputerOptions";
 import VsPlayerOptions from "./OptionsScreen_Components/vsPlayerOptions";
@@ -98,6 +98,9 @@ function OptionsScreen({ route, navigation }) {
       p2Delay: p2Delay,
     },
   };
+
+  const settings = route.params.settings;
+  const [styles, colors] = getStyles(settings, colorPalatte);
   return (
     <ScrollView contentContainerStyle={styles.background}>
       <View style={styles.introContainer}>
@@ -122,6 +125,7 @@ function OptionsScreen({ route, navigation }) {
         ) : (
           <VsPlayerOptions
             style={styles}
+            colors={colors}
             autoturnDetails={autoturnDetails}
             flippedDetails={flippedDetails}
           />
@@ -153,7 +157,7 @@ function OptionsScreen({ route, navigation }) {
             {isChessClock ? (
               <>
                 <Text style={styles.subHeader}>Time controls:</Text>
-                <TimeSelect timeDetails={timeDetails} />
+                <TimeSelect timeDetails={timeDetails} settings={settings} />
                 <View style={styles.toggleOptionsContainer}>
                   <Text style={styles.subHeader}>Additional time controls</Text>
                   <Switch
@@ -168,6 +172,7 @@ function OptionsScreen({ route, navigation }) {
                   <AdditionalTimeControls
                     textStyle={styles.subHeader}
                     timeDetails={timeDetails}
+                    settings={settings}
                   />
                 ) : null}
               </>
@@ -180,6 +185,7 @@ function OptionsScreen({ route, navigation }) {
           onPress={() =>
             navigation.navigate(String(route.params.var), {
               options: options,
+              settings: settings,
             })
           }
         >
@@ -190,91 +196,96 @@ function OptionsScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  background: {
-    alignItems: "center",
-    color: colors.white,
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  const styles = StyleSheet.create({
+    background: {
+      alignItems: "center",
+      color: colors.white,
+    },
 
-  introContainer: {
-    marginTop: 80,
-    alignItems: "center",
-  },
+    introContainer: {
+      marginTop: 80,
+      alignItems: "center",
+    },
 
-  title: {
-    fontFamily: "FogtwoNo5",
-    fontSize: 70,
-    color: colors.black,
-  },
+    title: {
+      fontFamily: "FogtwoNo5",
+      fontSize: 70,
+      color: colors.black,
+    },
 
-  header: {
-    fontFamily: "ELM",
-    fontSize: 25,
-    color: colors.black,
-  },
+    header: {
+      fontFamily: "ELM",
+      fontSize: 25,
+      color: colors.black,
+    },
 
-  caption: {
-    fontFamily: "ELM",
-    fontSize: 15,
-    color: colors.grey3,
-  },
+    caption: {
+      fontFamily: "ELM",
+      fontSize: 15,
+      color: colors.grey3,
+    },
 
-  subHeader: {
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.black,
-  },
+    subHeader: {
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.black,
+    },
 
-  subHeaderGreyed: {
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.grey1,
-  },
+    subHeaderGreyed: {
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.grey1,
+    },
 
-  optionsContainer: {
-    width: "90%",
-    marginTop: 10,
-    flex: 1,
-    height: "100%",
-  },
+    optionsContainer: {
+      width: "90%",
+      marginTop: 10,
+      flex: 1,
+      height: "100%",
+    },
 
-  tabsContainerStyle: {
-    paddingBottom: 15,
-  },
+    tabsContainerStyle: {
+      paddingBottom: 15,
+    },
 
-  tabStyle: {
-    borderColor: colors.black,
-    backgroundColor: colors.white,
-    shadowColor: colors.black,
-  },
+    tabStyle: {
+      borderColor: colors.black,
+      backgroundColor: colors.white,
+      shadowColor: colors.black,
+    },
 
-  tabTextStyle: {
-    color: colors.black,
-  },
+    tabTextStyle: {
+      color: colors.black,
+    },
 
-  activeTabStyle: {
-    backgroundColor: colors.black,
-    shadowColor: colors.black,
-  },
+    activeTabStyle: {
+      backgroundColor: colors.black,
+      shadowColor: colors.black,
+    },
 
-  toggleOptionsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+    toggleOptionsContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
 
-  beginContainer: {
-    justifyContent: "flex-end",
-    marginTop: 10,
-    width: "100%",
-    flex: 1,
-  },
+    beginContainer: {
+      justifyContent: "flex-end",
+      marginTop: 10,
+      width: "100%",
+      flex: 1,
+    },
 
-  begin: {
-    alignSelf: "center",
-    fontFamily: "FogtwoNo5",
-    fontSize: 50,
-    color: colors.black,
-    textAlignVertical: "bottom",
-  },
-});
+    begin: {
+      alignSelf: "center",
+      fontFamily: "FogtwoNo5",
+      fontSize: 50,
+      color: colors.black,
+      textAlignVertical: "bottom",
+    },
+  });
+  return [styles, colors];
+}
+
 export default OptionsScreen;

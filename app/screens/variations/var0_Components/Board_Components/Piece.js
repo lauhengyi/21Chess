@@ -1,11 +1,12 @@
 import React from "react";
-import colors from "../../../../config/colors";
 import { Text, Pressable, StyleSheet } from "react-native";
 import getPiece from "../../../../mechanisms/primaryFunctions/getPiece";
+import colorPalatte from "../../../../config/colorPalatte";
 
 function Piece(props) {
   // Passing down constants
   const options = props.options;
+  const settings = props.settings;
   const boardLayout = props.gameDetails.boardLayout;
   const piece = getPiece(props.pieceId, boardLayout);
   const currentSide = props.gameDetails.currentSide;
@@ -65,16 +66,18 @@ function Piece(props) {
       }
     }
 
-    return createStyles(rotateAmount);
+    return createStyles(rotateAmount, settings, colorPalatte);
   }
 }
 
-function createStyles(rotateAmount) {
+function createStyles(rotateAmount, settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
   const styles = StyleSheet.create({
     piece: {
       fontFamily: "Meri",
       fontSize: 40,
       transform: [{ rotate: rotateAmount }],
+      color: colors.piece,
     },
   });
   return styles.piece;

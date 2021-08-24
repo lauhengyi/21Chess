@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable, Switch, StyleSheet } from "react-native";
-import colors from "../../config/colors";
+import colorPalatte from "../../config/colorPalatte";
 import TimeController from "./TimeController";
 
 function AdditionTimeControls(props) {
@@ -34,6 +34,8 @@ function AdditionTimeControls(props) {
     setP2Delay(delay);
   }
 
+  const settings = props.settings;
+  const [styles, colors] = getStyles(settings, colorPalatte);
   const subHeaderStyle = props.textStyle;
 
   return (
@@ -160,24 +162,28 @@ function AdditionTimeControls(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  const styles = StyleSheet.create({
+    background: {
+      flex: 1,
+    },
 
-  toggleOptionsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+    toggleOptionsContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
 
-  bothPlayerControllerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+    bothPlayerControllerContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
 
-  controllerContainer: {
-    margin: 5,
-  },
-});
+    controllerContainer: {
+      margin: 5,
+    },
+  });
+  return [styles, colors];
+}
 
 export default AdditionTimeControls;

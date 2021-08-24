@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import colors from "../../config/colors";
+import colorPalatte from "../../config/colorPalatte";
 
 function TimeControlButton(props) {
   //checked whether clicked
@@ -8,6 +8,8 @@ function TimeControlButton(props) {
   if (props.clickedButton === props.id) {
     isClicked = true;
   }
+  const settings = props.settings;
+  const styles = getStyles(settings, colorPalatte);
   return (
     <Pressable onPress={() => props.onButtonPress()}>
       <View style={isClicked ? styles.clickedContainer : styles.container}>
@@ -19,38 +21,41 @@ function TimeControlButton(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  clickedContainer: {
-    borderColor: colors.black,
-    borderWidth: 1,
-    borderRadius: 5,
-    alignContent: "center",
-    alignItems: "center",
-    marginVertical: 5,
-    backgroundColor: colors.black,
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  return StyleSheet.create({
+    clickedContainer: {
+      borderColor: colors.black,
+      borderWidth: 1,
+      borderRadius: 5,
+      alignContent: "center",
+      alignItems: "center",
+      marginVertical: 5,
+      backgroundColor: colors.black,
+    },
 
-  clickedText: {
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.white,
-  },
+    clickedText: {
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.white,
+    },
 
-  container: {
-    borderColor: colors.black,
-    borderWidth: 1,
-    borderRadius: 5,
-    alignContent: "center",
-    alignItems: "center",
-    marginVertical: 5,
-    backgroundColor: colors.white,
-  },
+    container: {
+      borderColor: colors.black,
+      borderWidth: 1,
+      borderRadius: 5,
+      alignContent: "center",
+      alignItems: "center",
+      marginVertical: 5,
+      backgroundColor: colors.white,
+    },
 
-  text: {
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.black,
-  },
-});
+    text: {
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.black,
+    },
+  });
+}
 
 export default TimeControlButton;

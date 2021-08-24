@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
-import colors from "../../../config/colors";
+import colorPalatte from "../../../config/colorPalatte";
 import checkStatus from "../../functions/checkStatus";
 
 function EndPopUp(props) {
@@ -18,6 +18,7 @@ function EndPopUp(props) {
     return () => clearTimeout(timer.current);
   });
   const [statement1, statement2] = getStatement(ending, props.options);
+  const styles = getStyles(props.settings, colorPalatte);
   return (
     <Modal animationType="fade" visible={ending[0]} transparent={true}>
       <Modal animationType="fade" visible={isVisible} transparent={true}>
@@ -32,7 +33,6 @@ function EndPopUp(props) {
                 onPress={() => {
                   setVisible(false);
                   props.onRestart();
-                  console.log("in");
                 }}
               >
                 <View style={styles.button}>
@@ -161,55 +161,58 @@ function EndPopUp(props) {
   }
 }
 
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  return StyleSheet.create({
+    background: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
 
-  popUpContainer: {
-    alignItems: "center",
-    backgroundColor: colors.tertiary,
-    borderWidth: 1,
-    borderColor: colors.grey2,
-    width: "90%",
-    padding: 10,
-  },
+    popUpContainer: {
+      alignItems: "center",
+      backgroundColor: colors.tertiary,
+      borderWidth: 1,
+      borderColor: colors.grey2,
+      width: "90%",
+      padding: 10,
+    },
 
-  headerContainer: {
-    alignItems: "center",
-  },
+    headerContainer: {
+      alignItems: "center",
+    },
 
-  statement1: {
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.black,
-  },
+    statement1: {
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.black,
+    },
 
-  statement2: {
-    fontFamily: "ELMB",
-    fontSize: 20,
-    color: colors.black,
-  },
+    statement2: {
+      fontFamily: "ELMB",
+      fontSize: 20,
+      color: colors.black,
+    },
 
-  buttonsContainer: {
-    flexDirection: "row",
-  },
+    buttonsContainer: {
+      flexDirection: "row",
+    },
 
-  button: {
-    backgroundColor: colors.primary,
-    margin: 5,
-    borderWidth: 1,
-    borderColor: colors.grey2,
-    alignItems: "center",
-  },
+    button: {
+      backgroundColor: colors.primary,
+      margin: 5,
+      borderWidth: 1,
+      borderColor: colors.grey2,
+      alignItems: "center",
+    },
 
-  buttonText: {
-    padding: 5,
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.black,
-  },
-});
+    buttonText: {
+      padding: 5,
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.black,
+    },
+  });
+}
 export default EndPopUp;

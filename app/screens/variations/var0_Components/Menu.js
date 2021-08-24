@@ -1,10 +1,11 @@
 import React from "react";
 import { Modal, Text, View, Pressable, StyleSheet } from "react-native";
-import colors from "../../../config/colors";
+import colorPalatte from "../../../config/colorPalatte";
 
 function Menu(props) {
   const navigation = props.navigation;
   const exitText = "M";
+  const styles = getStyles(props.settings, colorPalatte);
 
   return (
     <Modal animationType="fade" visible={props.isMenu} transparent={true}>
@@ -49,64 +50,67 @@ function Menu(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  return StyleSheet.create({
+    background: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
 
-  menuContainer: {
-    alignItems: "center",
-    backgroundColor: colors.tertiary,
-    borderWidth: 1,
-    borderColor: colors.grey2,
-    width: "60%",
-    padding: 10,
-  },
+    menuContainer: {
+      alignItems: "center",
+      backgroundColor: colors.tertiary,
+      borderWidth: 1,
+      borderColor: colors.grey2,
+      width: "60%",
+      padding: 10,
+    },
 
-  headerContainer: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "center",
-  },
+    headerContainer: {
+      flexDirection: "row",
+      width: "100%",
+      justifyContent: "center",
+    },
 
-  header: {
-    fontFamily: "FogtwoNo5",
-    fontSize: 50,
-    color: colors.black,
-  },
+    header: {
+      fontFamily: "FogtwoNo5",
+      fontSize: 50,
+      color: colors.black,
+    },
 
-  exitContainer: {
-    position: "absolute",
-    right: 0,
-    alignSelf: "baseline",
-    alignItems: "flex-end",
-    alignSelf: "baseline",
-  },
+    exitContainer: {
+      position: "absolute",
+      right: 0,
+      alignSelf: "baseline",
+      alignItems: "flex-end",
+      alignSelf: "baseline",
+    },
 
-  exitButton: {
-    fontFamily: "ElegantIcons",
-    fontSize: 30,
-    color: colors.black,
-  },
+    exitButton: {
+      fontFamily: "ElegantIcons",
+      fontSize: 30,
+      color: colors.black,
+    },
 
-  buttonsContainer: {},
+    buttonsContainer: {},
 
-  button: {
-    backgroundColor: colors.primary,
-    margin: 15,
-    borderWidth: 1,
-    borderColor: colors.grey2,
-    alignItems: "center",
-  },
+    button: {
+      backgroundColor: colors.primary,
+      margin: 15,
+      borderWidth: 1,
+      borderColor: colors.grey2,
+      alignItems: "center",
+    },
 
-  buttonText: {
-    padding: 5,
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.black,
-  },
-});
+    buttonText: {
+      padding: 5,
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.black,
+    },
+  });
+}
 
 export default Menu;
