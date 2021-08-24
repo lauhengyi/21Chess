@@ -2,38 +2,12 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function useSettings() {
-  let initSettings;
-  useEffect(() => {
-    //Get initial settings
-    async function getInit() {
-      try {
-        const jsonValue = await AsyncStorage.getItem("@settings");
-        console.log("in");
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
-      } catch (e) {
-        throw new Error("Unable to get settings");
-      }
-    }
-    getInit();
-  }, []);
-
-  //Default settings
-  if (initSettings === null) {
-    initSettings = {
-      masterVolume: 100,
-      musicVolume: 100,
-      sfxVolume: 100,
-      isDarkMode: false,
-    };
-  }
-
-  console.log(initSettings);
+  const [loading, setLoading] = useState(true);
   //Make settings and setters
-  const [masterVolume, setMasterVolume] = useState(initSettings.masterVolume);
-  const [musicVolume, setMusicVolume] = useState(initSettings.musicVolume);
-  const [sfxVolume, setSfxVolume] = useState(initSettings.sfxVolume);
-  const [isDarkMode, setDarkMode] = useState(initSettings.isDarkMode);
-  const toggleDarkMode = () => setDarkMode((p) => !p);
+  const [masterVolume, setMasterVolume] = useState(100);
+  const [musicVolume, setMusicVolume] = useState(100);
+  const [sfxVolume, setSfxVolume] = useState(100);
+  const [isDarkMode, setDarkMode] = useState(false);
 
   const settings = {
     masterVolume: masterVolume,
@@ -41,14 +15,41 @@ function useSettings() {
     sfxVolume: sfxVolume,
     isDarkMode: isDarkMode,
   };
-  console.log(settings);
 
   const setters = {
     setMasterVolume: setMasterVolume,
     musicVolume: setMusicVolume,
     setSfxVolume: setSfxVolume,
-    toggleDarkMode: toggleDarkMode,
+    setDarkMode: setDarkMode,
   };
+
+  useEffect(() => {
+    //Get initial settings
+    async function getInit() {
+      try {
+        const jsonValue = await AsyncStorage.getItem("@settings");
+        return jsonValue != null
+          ? JSON.parse(jsonValue)
+          : {
+              masterVolume: 100,
+              musicVolume: 100,
+              sfxVolume: 100,
+              isDarkMode: false,
+            };
+      } catch (e) {
+        throw new Error("Unable to get settings");
+      }
+    }
+
+    if (!loading) {
+      getInit().then((initSettings) => {
+        setMasterVolume(initSettings.masterVolume);
+        setMusicVolume(initSettings.musicVolume);
+        setSfxVolume(initSettings.sfxVolume);
+        setDarkMode(initSettings.isDarkMode);
+      });
+    }
+  }, [loading]);
 
   useEffect(() => {
     async function saveSettings() {
@@ -59,8 +60,14 @@ function useSettings() {
         throw new Error("Unable to save settings");
       }
     }
-    saveSettings();
+    if (!loading) {
+      saveSettings();
+    }
   }, [settings]);
+
+  if (loading) {
+    setLoading(false);
+  }
 
   return [settings, setters];
 }

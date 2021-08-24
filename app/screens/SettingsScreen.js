@@ -2,7 +2,11 @@ import React from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 import colors from "../config/colors";
 
-function SettingsScreen() {
+function SettingsScreen({ navigation, route }) {
+  const settings = route.params.settings;
+  const setters = route.params.setters;
+  console.log({ settings, setters });
+  const toggleDarkMode = () => setters.setDarkMode((p) => !p);
   return (
     <View style={styles.background}>
       <View style={styles.headerContainer}>
@@ -13,7 +17,8 @@ function SettingsScreen() {
           trackColor={{ false: colors.grey1, true: colors.black }}
           thumbColor={colors.grey2}
           ios_backgroundColor="#3e3e3e"
-          value={isDarkMode}
+          onValueChange={toggleDarkMode}
+          value={settings.isDarkMode}
         />
       </View>
     </View>

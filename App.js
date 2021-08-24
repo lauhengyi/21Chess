@@ -25,7 +25,6 @@ export default function App() {
     return null;
   }
 
-  //Load settings
   return (
     <>
       <NavigationContainer>

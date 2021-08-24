@@ -6,6 +6,8 @@ import { useNavigation } from "@react-navigation/native";
 function VarContainer(props) {
   const navigation = useNavigation();
   const variation = props.var;
+  const settings = props.settings;
+  const styles = getStyles(settings, colors);
   return (
     <>
       <View style={styles.variationOuterContainer}>
@@ -44,66 +46,69 @@ function VarContainer(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  variationOuterContainer: {
-    backgroundColor: colors.secondary,
-    width: "90%",
-    height: 330,
-    alignItems: "center",
-    marginBottom: 30,
-    marginTop: 20,
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = settings.isDarkMode ? colorPalatte[1] : colorPalatte[0];
+  return StyleSheet.create({
+    variationOuterContainer: {
+      backgroundColor: colors.secondary,
+      width: "90%",
+      height: 330,
+      alignItems: "center",
+      marginBottom: 30,
+      marginTop: 20,
+    },
 
-  variationInnerContainer: {},
+    variationInnerContainer: {},
 
-  varTitle: {
-    fontFamily: "FogtwoNo5",
-    fontSize: 30,
-    alignSelf: "flex-start",
-    marginTop: 5,
-  },
+    varTitle: {
+      fontFamily: "FogtwoNo5",
+      fontSize: 30,
+      alignSelf: "flex-start",
+      marginTop: 5,
+    },
 
-  varPreview: {
-    height: 150,
-    width: 300,
-    resizeMode: "cover",
-  },
+    varPreview: {
+      height: 150,
+      width: 300,
+      resizeMode: "cover",
+    },
 
-  varHeader: {
-    fontFamily: "ELM",
-    fontSize: 25,
-    alignSelf: "center",
-    color: colors.black,
-  },
+    varHeader: {
+      fontFamily: "ELM",
+      fontSize: 25,
+      alignSelf: "center",
+      color: colors.black,
+    },
 
-  varOrnament: {},
+    varOrnament: {},
 
-  varCaption: {
-    fontFamily: "ELM",
-    fontSize: 18,
-    alignSelf: "center",
-    color: colors.black,
-    paddingBottom: 15,
-  },
+    varCaption: {
+      fontFamily: "ELM",
+      fontSize: 18,
+      alignSelf: "center",
+      color: colors.black,
+      paddingBottom: 15,
+    },
 
-  varButtonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginBottom: 40,
-  },
+    varButtonsContainer: {
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      marginBottom: 40,
+    },
 
-  varButton: {
-    backgroundColor: colors.tertiary,
-    width: 100,
-  },
+    varButton: {
+      backgroundColor: colors.tertiary,
+      width: 100,
+    },
 
-  varButtonText: {
-    fontFamily: "FogtwoNo5",
-    fontSize: 25,
-    color: colors.black,
-    alignSelf: "center",
-    padding: 5,
-  },
-});
+    varButtonText: {
+      fontFamily: "FogtwoNo5",
+      fontSize: 25,
+      color: colors.black,
+      alignSelf: "center",
+      padding: 5,
+    },
+  });
+}
 
 export default VarContainer;
