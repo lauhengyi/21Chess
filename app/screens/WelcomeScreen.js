@@ -5,6 +5,7 @@ import useSettings from "./functions/useSettings";
 
 function WelcomeScreen({ navigation, route }) {
   const [settings, setters] = useSettings();
+  console.log({ settings });
   const styles = getStyles(settings, colorPalatte);
   return (
     <>

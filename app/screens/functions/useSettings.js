@@ -7,7 +7,7 @@ function useSettings() {
   const [masterVolume, setMasterVolume] = useState(100);
   const [musicVolume, setMusicVolume] = useState(100);
   const [sfxVolume, setSfxVolume] = useState(100);
-  const [theme, setTheme] = useState(0);
+  const [theme, setTheme] = useState(1);
 
   const settings = {
     masterVolume: masterVolume,
@@ -34,7 +34,7 @@ function useSettings() {
               masterVolume: 100,
               musicVolume: 100,
               sfxVolume: 100,
-              theme: 0,
+              theme: 1,
             };
       } catch (e) {
         throw new Error("Unable to get settings");
