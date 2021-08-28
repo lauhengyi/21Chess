@@ -1,11 +1,12 @@
-import render from "dom-serializer";
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
+import colorPalatte from "../../config/colorPalatte";
 import VarContainer from "./VarContainer";
 
 function VarTypeContainer(props) {
   const varData = props.varData;
   const settings = props.settings;
+  const styles = getStyles(settings, colorPalatte);
   return (
     <ScrollView contentContainerStyle={styles.variationSelectContainer}>
       {varData.map((variation) => (
@@ -22,10 +23,14 @@ function VarTypeContainer(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  variationSelectContainer: {
-    alignItems: "center",
-  },
-});
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  return (styles = StyleSheet.create({
+    variationSelectContainer: {
+      alignItems: "center",
+      backgroundColor: colors.white,
+    },
+  }));
+}
 
 export default VarTypeContainer;

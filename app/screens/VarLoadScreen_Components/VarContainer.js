@@ -65,6 +65,7 @@ function getStyles(settings, colorPalatte) {
       fontFamily: "FogtwoNo5",
       fontSize: 30,
       alignSelf: "flex-start",
+      color: colors.black,
       marginTop: 5,
     },
 

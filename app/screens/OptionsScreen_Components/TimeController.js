@@ -1,9 +1,8 @@
 import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import colors from "../../config/colorPalatte";
 import changeTimeValue from "../functions/changeTimeValue";
 import TimeText from "../components/TimeText";
-import { RecyclerViewBackedScrollViewComponent } from "react-native";
+import colorPalatte from "../../config/colorPalatte";
 
 function TimeController(props) {
   const { text, largeChange, smallChange, value, setFunction, type, isTime } =
@@ -19,6 +18,8 @@ function TimeController(props) {
       return setOtherPress(value, change, setFunction);
     }
   }
+
+  const styles = getStyles(props.settings, colorPalatte);
   if (type === "both") {
     return (
       <>
@@ -107,50 +108,54 @@ function TimeController(props) {
   }
 }
 
-const styles = StyleSheet.create({
-  controller: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
 
-  buttonText: {
-    marginHorizontal: 5,
-    fontFamily: "ElegantIcons",
-    fontSize: 30,
-    color: colors.black,
-  },
+  return StyleSheet.create({
+    controller: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+    },
 
-  valueTextContainer: {
-    width: 100,
-    alignItems: "center",
-  },
+    buttonText: {
+      marginHorizontal: 5,
+      fontFamily: "ElegantIcons",
+      fontSize: 30,
+      color: colors.black,
+    },
 
-  valueText: {
-    fontFamily: "ELM",
-    fontSize: 20,
-    color: colors.black,
-  },
+    valueTextContainer: {
+      width: 100,
+      alignItems: "center",
+    },
 
-  perPlayerControllerContainer: {},
+    valueText: {
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.black,
+    },
 
-  perPlayerValueTextContainer: {
-    alignItems: "center",
-    width: 80,
-  },
+    perPlayerControllerContainer: {},
 
-  perPlayerButtonText: {
-    marginHorizontal: 1,
-    fontFamily: "ElegantIcons",
-    fontSize: 20,
-    color: colors.black,
-  },
+    perPlayerValueTextContainer: {
+      alignItems: "center",
+      width: 80,
+    },
 
-  perPlayerValueText: {
-    fontFamily: "ELM",
-    fontSize: 15,
-    color: colors.black,
-  },
-});
+    perPlayerButtonText: {
+      marginHorizontal: 1,
+      fontFamily: "ElegantIcons",
+      fontSize: 20,
+      color: colors.black,
+    },
+
+    perPlayerValueText: {
+      fontFamily: "ELM",
+      fontSize: 15,
+      color: colors.black,
+    },
+  });
+}
 
 export default TimeController;

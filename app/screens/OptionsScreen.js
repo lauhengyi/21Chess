@@ -13,6 +13,7 @@ import VsComputerOptions from "./OptionsScreen_Components/VsComputerOptions";
 import VsPlayerOptions from "./OptionsScreen_Components/vsPlayerOptions";
 import TimeSelect from "./OptionsScreen_Components/TimeSelect";
 import AdditionalTimeControls from "./OptionsScreen_Components/AdditionalTimeControls";
+import { color } from "react-native-elements/dist/helpers";
 
 function OptionsScreen({ route, navigation }) {
   //Create states for the options
@@ -102,97 +103,101 @@ function OptionsScreen({ route, navigation }) {
   const settings = route.params.settings;
   const [styles, colors] = getStyles(settings, colorPalatte);
   return (
-    <ScrollView contentContainerStyle={styles.background}>
-      <View style={styles.introContainer}>
-        <Text style={styles.title}>{route.params.title}</Text>
-        <Text style={styles.header}>{route.params.header}</Text>
-        <Text style={styles.caption}>{route.params.caption}</Text>
-      </View>
-      <View style={styles.optionsContainer}>
-        <Text style={styles.subHeader}>Gamemode</Text>
-        <SegmentedControlTab
-          tabsContainerStyle={styles.tabsContainerStyle}
-          tabStyle={styles.tabStyle}
-          tabTextStyle={styles.tabTextStyle}
-          activeTabStyle={styles.activeTabStyle}
-          activeTabTextStyle={styles.activeTabTextStyle}
-          values={modeTypes}
-          selectedIndex={mode}
-          onTabPress={(index) => setMode(index)}
-        />
-        {mode === 0 ? (
-          <VsComputerOptions style={styles} diffDetails={diffDetails} />
-        ) : (
-          <VsPlayerOptions
-            style={styles}
-            colors={colors}
-            autoturnDetails={autoturnDetails}
-            flippedDetails={flippedDetails}
+    <View style={styles.background}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.introContainer}>
+          <Text style={styles.title}>{route.params.title}</Text>
+          <Text style={styles.header}>{route.params.header}</Text>
+          <Text style={styles.caption}>{route.params.caption}</Text>
+        </View>
+        <View style={styles.optionsContainer}>
+          <Text style={styles.subHeader}>Gamemode</Text>
+          <SegmentedControlTab
+            tabsContainerStyle={styles.tabsContainerStyle}
+            tabStyle={styles.tabStyle}
+            tabTextStyle={styles.tabTextStyle}
+            activeTabStyle={styles.activeTabStyle}
+            activeTabTextStyle={styles.activeTabTextStyle}
+            values={modeTypes}
+            selectedIndex={mode}
+            onTabPress={(index) => setMode(index)}
           />
-        )}
+          {mode === 0 ? (
+            <VsComputerOptions style={styles} diffDetails={diffDetails} />
+          ) : (
+            <VsPlayerOptions
+              style={styles}
+              colors={colors}
+              autoturnDetails={autoturnDetails}
+              flippedDetails={flippedDetails}
+            />
+          )}
 
-        <Text style={styles.subHeader}>Starting side</Text>
-        <SegmentedControlTab
-          tabsContainerStyle={styles.tabsContainerStyle}
-          tabStyle={styles.tabStyle}
-          tabTextStyle={styles.tabTextStyle}
-          activeTabStyle={styles.activeTabStyle}
-          activeTabTextStyle={styles.activeTabTextStyle}
-          values={startingSide}
-          selectedIndex={side}
-          onTabPress={(index) => setSide(index)}
-        />
-        {mode === 1 ? (
-          <>
-            <View style={styles.toggleOptionsContainer}>
-              <Text style={styles.subHeader}>Chess clock</Text>
-              <Switch
-                trackColor={{ false: colors.grey1, true: colors.black }}
-                thumbColor={colors.grey2}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleChessClock}
-                value={isChessClock}
-              />
-            </View>
-            {isChessClock ? (
-              <>
-                <Text style={styles.subHeader}>Time controls:</Text>
-                <TimeSelect timeDetails={timeDetails} settings={settings} />
-                <View style={styles.toggleOptionsContainer}>
-                  <Text style={styles.subHeader}>Additional time controls</Text>
-                  <Switch
-                    trackColor={{ false: colors.grey1, true: colors.black }}
-                    thumbColor={colors.grey2}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleAdditional}
-                    value={isAdditional}
-                  />
-                </View>
-                {isAdditional ? (
-                  <AdditionalTimeControls
-                    textStyle={styles.subHeader}
-                    timeDetails={timeDetails}
-                    settings={settings}
-                  />
-                ) : null}
-              </>
-            ) : null}
-          </>
-        ) : null}
-      </View>
-      <View style={styles.beginContainer}>
-        <Pressable
-          onPress={() =>
-            navigation.navigate(String(route.params.var), {
-              options: options,
-              settings: settings,
-            })
-          }
-        >
-          <Text style={styles.begin}>Begin</Text>
-        </Pressable>
-      </View>
-    </ScrollView>
+          <Text style={styles.subHeader}>Starting side</Text>
+          <SegmentedControlTab
+            tabsContainerStyle={styles.tabsContainerStyle}
+            tabStyle={styles.tabStyle}
+            tabTextStyle={styles.tabTextStyle}
+            activeTabStyle={styles.activeTabStyle}
+            activeTabTextStyle={styles.activeTabTextStyle}
+            values={startingSide}
+            selectedIndex={side}
+            onTabPress={(index) => setSide(index)}
+          />
+          {mode === 1 ? (
+            <>
+              <View style={styles.toggleOptionsContainer}>
+                <Text style={styles.subHeader}>Chess clock</Text>
+                <Switch
+                  trackColor={{ false: colors.grey1, true: colors.black }}
+                  thumbColor={colors.grey2}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleChessClock}
+                  value={isChessClock}
+                />
+              </View>
+              {isChessClock ? (
+                <>
+                  <Text style={styles.subHeader}>Time controls:</Text>
+                  <TimeSelect timeDetails={timeDetails} settings={settings} />
+                  <View style={styles.toggleOptionsContainer}>
+                    <Text style={styles.subHeader}>
+                      Additional time controls
+                    </Text>
+                    <Switch
+                      trackColor={{ false: colors.grey1, true: colors.black }}
+                      thumbColor={colors.grey2}
+                      ios_backgroundColor="#3e3e3e"
+                      onValueChange={toggleAdditional}
+                      value={isAdditional}
+                    />
+                  </View>
+                  {isAdditional ? (
+                    <AdditionalTimeControls
+                      textStyle={styles.subHeader}
+                      timeDetails={timeDetails}
+                      settings={settings}
+                    />
+                  ) : null}
+                </>
+              ) : null}
+            </>
+          ) : null}
+        </View>
+        <View style={styles.beginContainer}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate(String(route.params.var), {
+                options: options,
+                settings: settings,
+              })
+            }
+          >
+            <Text style={styles.begin}>Begin</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -200,8 +205,13 @@ function getStyles(settings, colorPalatte) {
   const colors = colorPalatte[settings.theme];
   const styles = StyleSheet.create({
     background: {
+      backgroundColor: colors.white,
+      flex: 1,
+    },
+
+    scrollContainer: {
       alignItems: "center",
-      color: colors.white,
+      backgroundColor: colors.white,
     },
 
     introContainer: {

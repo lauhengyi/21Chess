@@ -11,9 +11,9 @@ function useTime(gameDetails, options) {
   const delayTimer = useRef();
   const [count, setCount] = useState(0);
 
-  //Check whether clock exists
-  if (timeDetails.isChessClock) {
-    useEffect(() => {
+  useEffect(() => {
+    //Check whether clock exists
+    if (timeDetails.isChessClock) {
       //Clear possible timers
       if (delayTimer.current) {
         clearTimeout(delayTimer.current);
@@ -53,8 +53,8 @@ function useTime(gameDetails, options) {
       setCount((count) => count + 1);
 
       return () => clearInterval(timer.current);
-    }, [gameDetails.currentSide]);
-  }
+    }
+  }, [gameDetails.currentSide]);
 
   //Check timeout
   let timeout = 0;

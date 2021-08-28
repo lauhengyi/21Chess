@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import OptionsScreen from "./OptionsScreen";
 import Var0 from "./variations/Var0";
 import Var1 from "./variations/Var1";
@@ -8,7 +8,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 
 function VarLoadScreen({ route, navigation }) {
-  const { varNum, title, header, caption, settings } = route.params;
+  const { varNum, title, header, caption } = route.params;
+  const { settings } = useContext(useContext);
   const variations = [Var0, Var1, Var2];
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

@@ -9,7 +9,6 @@ export default [
     grey1: "#adb5bd",
     grey2: "#6c757d",
     grey3: "#495057",
-    grey4: "#343a40",
 
     piece: "#000000",
 
@@ -32,7 +31,6 @@ export default [
     grey1: "#adb5bd",
     grey2: "#6c757d",
     grey3: "#495057",
-    grey4: "#343a40",
 
     piece: "#000000",
 
@@ -47,20 +45,19 @@ export default [
   },
   {
     //Arctic
-    white: "#212529",
-    black: "#f8f9fa",
-    primary: "#e9ecef",
-    secondary: "#dee2e6",
-    tertiary: "#ced4da",
-    grey1: "#adb5bd",
-    grey2: "#6c757d",
-    grey3: "#495057",
-    grey4: "#343a40",
+    white: "#CAF0F8",
+    black: "#023E8A",
+    primary: "#ADE8F4",
+    secondary: "#90E0EF",
+    tertiary: "#48CAE4",
+    grey1: "#00B4D8",
+    grey2: "#0096C7",
+    grey3: "#0077B6",
 
-    piece: "#000000",
+    piece: "#03045E",
 
-    squareBlack: "#adb5bd",
-    squareWhite: "#dee2e6",
+    squareBlack: "#00B4D8",
+    squareWhite: "#90E0EF",
 
     moveableSquareBlack: "#d19b9b",
     moveableSquareWhite: "#e3b6b6",

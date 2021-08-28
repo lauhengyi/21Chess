@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import colorPalatte from "../config/colorPalatte";
 import { View, StyleSheet, Text, Pressable } from "react-native";
-import useSettings from "./functions/useSettings";
+import SettingsContext from "./functions/SettingsContext";
 
 function WelcomeScreen({ navigation, route }) {
-  const [settings, setters] = useSettings();
-  console.log({ settings });
+  const { settings } = useContext(SettingsContext);
   const styles = getStyles(settings, colorPalatte);
   return (
     <>
@@ -16,24 +15,13 @@ function WelcomeScreen({ navigation, route }) {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <Pressable
-            onPress={() =>
-              navigation.navigate("Select", { settings: settings })
-            }
-          >
+          <Pressable onPress={() => navigation.navigate("Select")}>
             <Text style={styles.button}>Play</Text>
           </Pressable>
           <Pressable>
             <Text style={styles.button}>Random</Text>
           </Pressable>
-          <Pressable
-            onPress={() =>
-              navigation.navigate("Settings", {
-                settings: settings,
-                setters: setters,
-              })
-            }
-          >
+          <Pressable onPress={() => navigation.navigate("Settings")}>
             <Text style={styles.button}>Settings</Text>
           </Pressable>
         </View>

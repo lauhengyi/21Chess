@@ -7,7 +7,7 @@ function useSettings() {
   const [masterVolume, setMasterVolume] = useState(100);
   const [musicVolume, setMusicVolume] = useState(100);
   const [sfxVolume, setSfxVolume] = useState(100);
-  const [theme, setTheme] = useState(1);
+  const [theme, setTheme] = useState(0);
 
   const settings = {
     masterVolume: masterVolume,
@@ -24,6 +24,7 @@ function useSettings() {
   };
 
   useEffect(() => {
+    console.log("run useEffect1");
     //Get initial settings
     async function getInit() {
       try {
@@ -52,6 +53,7 @@ function useSettings() {
   }, [loading]);
 
   useEffect(() => {
+    console.log("run useEffect2");
     async function saveSettings() {
       try {
         const jsonValue = JSON.stringify(settings);

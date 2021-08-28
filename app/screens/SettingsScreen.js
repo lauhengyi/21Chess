@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import ThemeButton from "./SettingsScreen_Components/ThemeButton";
 import colorPalatte from "../config/colorPalatte";
+import SettingsContext from "./functions/SettingsContext";
 
 function SettingsScreen({ navigation, route }) {
-  const settings = route.params.settings;
-  const setters = route.params.setters;
+  const { settings, setters } = useContext(SettingsContext);
 
   console.log({ settings, setters });
   const themes = [

@@ -1,13 +1,13 @@
-import { executeMove, getPiece, validMoves } from "./normalChess.js";
-import layout from "../../screens/variations/boardLayouts/var0Layout";
+import executeMove from "./functions/executeMove.js";
+import getPiece from "../primaryFunctions/getPiece.js";
+import { validMoves } from "./getChessMoves.js";
+import layout from "../../screens/variations/boardLayouts/var0Layout.js";
 
 function countMoves(board, side, lastMoved, depth) {
-  //Add end case
-  if (depth === 0) {
-    return 1;
-  }
-
   let count = 0;
+  if (depth === 1) {
+    return countOneLayer(board, side, lastMoved);
+  }
   for (let piece of board) {
     if (piece.side === side) {
       let moves = validMoves(piece.id, board, lastMoved);
@@ -31,5 +31,23 @@ function countMoves(board, side, lastMoved, depth) {
   }
   return count;
 }
+
+function countOneLayer(board, side, lastMoved) {
+  let count = 0;
+  for (let piece of board) {
+    if (piece.side === side) {
+      let moves = validMoves(piece.id, board, lastMoved);
+      if (moves[0]) {
+        count += moves[0].length;
+      }
+      if (moves[1]) {
+        count += moves[1].length;
+      }
+    }
+  }
+  return count;
+}
+
+console.log(countMoves(layout, true, [null, null], 6));
 
 export default countMoves;

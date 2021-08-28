@@ -63,6 +63,7 @@ function AdditionTimeControls(props) {
               smallChange={"100"}
               value={p1Time}
               setFunction={setTime}
+              settings={settings}
             />
           </View>
           <View style={styles.controllerContainer}>
@@ -74,6 +75,7 @@ function AdditionTimeControls(props) {
               smallChange={"1"}
               value={p1Increment}
               setFunction={setIncrement}
+              settings={settings}
             />
           </View>
           <View style={styles.controllerContainer}>
@@ -85,6 +87,7 @@ function AdditionTimeControls(props) {
               smallChange={"1"}
               value={p1Delay}
               setFunction={setDelay}
+              settings={settings}
             />
           </View>
         </>
@@ -100,6 +103,7 @@ function AdditionTimeControls(props) {
                 smallChange={"100"}
                 value={p1Time}
                 setFunction={setP1Time}
+                settings={settings}
               />
               <TimeController
                 text={"P2 time:"}
@@ -109,6 +113,7 @@ function AdditionTimeControls(props) {
                 smallChange={"100"}
                 value={p2Time}
                 setFunction={setP2Time}
+                settings={settings}
               />
             </View>
           </View>
@@ -122,6 +127,7 @@ function AdditionTimeControls(props) {
                 smallChange={"1"}
                 value={p1Increment}
                 setFunction={setP1Increment}
+                settings={settings}
               />
               <TimeController
                 text={"P2 increment:"}
@@ -131,6 +137,7 @@ function AdditionTimeControls(props) {
                 smallChange={"1"}
                 value={p2Increment}
                 setFunction={setP2Increment}
+                settings={settings}
               />
             </View>
           </View>
@@ -144,6 +151,7 @@ function AdditionTimeControls(props) {
                 smallChange={"1"}
                 value={p1Delay}
                 setFunction={setP1Delay}
+                settings={settings}
               />
               <TimeController
                 text={"P2 delay:"}
@@ -153,6 +161,7 @@ function AdditionTimeControls(props) {
                 smallChange={"1"}
                 value={p2Delay}
                 setFunction={setP2Delay}
+                settings={settings}
               />
             </View>
           </View>

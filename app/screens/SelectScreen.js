@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import colorPalatte from "../config/colorPalatte";
 import VarTypeContainer from "./VarLoadScreen_Components/VarTypeContainer";
 import {
@@ -9,6 +9,7 @@ import {
 } from "./VarLoadScreen_Components/varData";
 import { View, StyleSheet, Text, useWindowDimensions } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import SettingsContext from "./functions/SettingsContext";
 
 const Lento = (settings) => (
   <VarTypeContainer varData={LENTO_VAR} settings={settings} />
@@ -43,7 +44,7 @@ const renderTabBar = (styles, colors) => {
 
 function SelectScreen({ navigation, route }) {
   const layout = useWindowDimensions();
-  const settings = route.params.settings;
+  const { settings } = useContext(SettingsContext);
 
   const [index, setIndex] = useState(0);
   const [routes] = useState([

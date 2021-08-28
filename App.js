@@ -7,11 +7,15 @@ import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import useSettings from "./app/screens/functions/useSettings";
+import SettingsContext from "./app/screens/functions/SettingsContext";
 
 // Create navigator
 const Stack = createStackNavigator();
 
 export default function App() {
+  //Load settings
+  const [settings, setters] = useSettings();
+  console.log("in");
   //Load fonts
   const [loaded] = useFonts({
     FogtwoNo5: require("./app/assets/fonts/FogtwoNo5.ttf"),
@@ -26,7 +30,7 @@ export default function App() {
   }
 
   return (
-    <>
+    <SettingsContext.Provider value={{ settings, setters }}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
@@ -35,6 +39,6 @@ export default function App() {
           <Stack.Screen name="Settings" component={SettingsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </SettingsContext.Provider>
   );
 }

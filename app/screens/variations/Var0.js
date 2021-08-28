@@ -9,7 +9,7 @@ import { useChessMove } from "../../mechanisms/var0/useChessMove";
 import useComputer from "../../mechanisms/var0/useComputer";
 import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
-import colors from "../../config/colorPalatte";
+import colorPalatte from "../../config/colorPalatte";
 
 function Var0({ route, navigation }) {
   const options = route.params.options;
@@ -35,6 +35,8 @@ function Var0({ route, navigation }) {
       );
     };
   }, []);
+
+  const styles = getStyles(settings, colorPalatte);
 
   return (
     <View style={styles.background}>
@@ -111,25 +113,27 @@ function Var0({ route, navigation }) {
   }
 }
 
-const styles = StyleSheet.create({
-  background: {
-    backgroundColor: colors.white,
-    flex: 1,
-  },
+function getStyles(settings, colorPalatte) {
+  const colors = colorPalatte[settings.theme];
+  return StyleSheet.create({
+    background: {
+      backgroundColor: colors.white,
+      flex: 1,
+    },
 
-  boardContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-  },
+    boardContainer: {
+      flex: 1,
+      flexDirection: "column",
+      justifyContent: "center",
+    },
 
-  statsBarBottom: {
-    flexDirection: "row",
-  },
+    statsBarBottom: {
+      flexDirection: "row",
+    },
 
-  statsBarTop: {
-    marginTop: 50,
-  },
-});
-
+    statsBarTop: {
+      marginTop: 50,
+    },
+  });
+}
 export default Var0;
