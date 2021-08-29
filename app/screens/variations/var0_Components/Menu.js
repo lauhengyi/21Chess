@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, Text, View, Pressable, StyleSheet } from "react-native";
+import { Modal, Text, View, StyleSheet } from "react-native";
+import Clickable from "../../components/Clickable";
 import colorPalatte from "../../../config/colorPalatte";
 
 function Menu(props) {
@@ -23,17 +24,17 @@ function Menu(props) {
             </View>
           </View>
           <View style={styles.buttonsContainer}>
-            <Pressable onPress={() => props.onRestart()}>
+            <Clickable onPress={() => props.onRestart()}>
               <View style={styles.button}>
                 <Text style={styles.buttonText}>Restart</Text>
               </View>
-            </Pressable>
-            <Pressable>
+            </Clickable>
+            <Clickable>
               <View style={styles.button}>
                 <Text style={styles.buttonText}>Instructions</Text>
               </View>
-            </Pressable>
-            <Pressable
+            </Clickable>
+            <Clickable
               onPress={() => {
                 props.onExitPress(false);
                 navigation.navigate("Welcome");
@@ -42,7 +43,7 @@ function Menu(props) {
               <View style={styles.button}>
                 <Text style={styles.buttonText}>Exit game</Text>
               </View>
-            </Pressable>
+            </Clickable>
           </View>
         </View>
       </View>

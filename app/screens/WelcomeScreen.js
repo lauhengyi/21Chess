@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import colorPalatte from "../config/colorPalatte";
-import { View, StyleSheet, Text, Pressable } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import SettingsContext from "./functions/SettingsContext";
+import Clickable from "./components/Clickable";
 
 function WelcomeScreen({ navigation, route }) {
   const { settings } = useContext(SettingsContext);
@@ -15,15 +16,15 @@ function WelcomeScreen({ navigation, route }) {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <Pressable onPress={() => navigation.navigate("Select")}>
+          <Clickable onPress={() => navigation.navigate("Select")}>
             <Text style={styles.button}>Play</Text>
-          </Pressable>
-          <Pressable>
+          </Clickable>
+          <Clickable>
             <Text style={styles.button}>Random</Text>
-          </Pressable>
-          <Pressable onPress={() => navigation.navigate("Settings")}>
+          </Clickable>
+          <Clickable onPress={() => navigation.navigate("Settings")}>
             <Text style={styles.button}>Settings</Text>
-          </Pressable>
+          </Clickable>
         </View>
         <View style={styles.nameContainer}>
           <Text style={styles.name}>Lau Heng Yi</Text>

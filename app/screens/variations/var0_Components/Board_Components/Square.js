@@ -1,6 +1,7 @@
 import React from "react";
 import colorPalatte from "../../../../config/colorPalatte";
-import { View, Pressable } from "react-native";
+import { View } from "react-native";
+import Clickable from "../../../components/Clickable";
 import Piece from "./Piece";
 import checkCollision from "../../../../mechanisms/var0/functions/checkCollision";
 import checkDarkTheme from "../../../functions/checkDarkTheme";
@@ -45,7 +46,7 @@ function Square(props) {
   // Render moveables and render pieces
   if (isMoveableOnSquare) {
     return (
-      <Pressable
+      <Clickable
         onPress={() => {
           onAction({
             type: "makeTurn",
@@ -57,7 +58,7 @@ function Square(props) {
         <View style={styles}>
           {isPieceOnSquare ? <PieceWithProps /> : null}
         </View>
-      </Pressable>
+      </Clickable>
     );
   } else {
     return (

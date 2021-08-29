@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Text, Pressable } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
+import Clickable from "../../../components/Clickable";
 import colorPalatte from "../../../../config/colorPalatte";
 import checkDarkTheme from "../../../functions/checkDarkTheme";
 
@@ -36,7 +37,7 @@ function PromotionSelector(props) {
     <View style={props.flipped ? styles.isFlipped : styles.notFlipped}>
       <View style={styles.container}>
         {pieceKey.map((piece) => (
-          <Pressable
+          <Clickable
             key={piece[1]}
             onPress={() =>
               props.onAction({
@@ -46,7 +47,7 @@ function PromotionSelector(props) {
             }
           >
             <Text style={styles.piece}>{piece[1]}</Text>
-          </Pressable>
+          </Clickable>
         ))}
       </View>
     </View>

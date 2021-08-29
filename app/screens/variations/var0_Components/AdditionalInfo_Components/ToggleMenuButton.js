@@ -1,16 +1,17 @@
 import React from "react";
-import { View, Pressable, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import Clickable from "../../../components/Clickable";
 import colorPalatte from "../../../../config/colorPalatte";
 
 function ToggleMenuButton(props) {
   const buttonText = "b";
   const styles = getStyles(props.settings, colorPalatte);
   return (
-    <Pressable onPress={() => props.onButtonPress(true)}>
+    <Clickable onPress={() => props.onButtonPress(true)}>
       <View style={styles.buttonContainer}>
         <Text style={styles.buttonText}>{buttonText}</Text>
       </View>
-    </Pressable>
+    </Clickable>
   );
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import Clickable from "../components/Clickable";
 import colorPalatte from "../../config/colorPalatte";
 
 function ThemeButton(props) {
@@ -10,7 +11,7 @@ function ThemeButton(props) {
   const unselectedText = "V";
   const buttonText = settings.theme === themeID ? selectedText : unselectedText;
   return (
-    <Pressable onPress={() => props.onPress()}>
+    <Clickable onPress={() => props.onPress()}>
       <View style={styles.container}>
         <View style={styles.outerButton}>
           <View style={styles.innerButton}>
@@ -19,7 +20,7 @@ function ThemeButton(props) {
         </View>
         <Text style={styles.buttonText}>{buttonText}</Text>
       </View>
-    </Pressable>
+    </Clickable>
   );
 }
 

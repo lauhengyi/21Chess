@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, Pressable, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
+import Clickable from "../../../components/Clickable";
 import getPiece from "../../../../mechanisms/primaryFunctions/getPiece";
 import colorPalatte from "../../../../config/colorPalatte";
 import getPieceText from "../../../functions/getPieceText";
@@ -20,13 +21,13 @@ function Piece(props) {
 
   if (currentSide === piece.side) {
     return (
-      <Pressable
+      <Clickable
         onPress={() => {
           props.onAction({ type: "pieceClick", pieceId: props.pieceId });
         }}
       >
         <Text style={pieceStyle}>{pieceText}</Text>
-      </Pressable>
+      </Clickable>
     );
   } else {
     return <Text style={pieceStyle}>{pieceText}</Text>;

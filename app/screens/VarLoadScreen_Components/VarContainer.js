@@ -1,6 +1,7 @@
 import React from "react";
 import colorPalatte from "../../config/colorPalatte";
-import { View, StyleSheet, Text, Pressable, Image } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
+import Clickable from "../components/Clickable";
 import { useNavigation } from "@react-navigation/native";
 
 function VarContainer(props) {
@@ -20,7 +21,7 @@ function VarContainer(props) {
           <Text style={styles.varHeader}>{props.header}</Text>
           <Text style={styles.varCaption}>{props.caption}</Text>
           <View style={styles.varButtonsContainer}>
-            <Pressable
+            <Clickable
               onPress={() =>
                 navigation.navigate("VarLoad", {
                   varNum: variation,
@@ -34,12 +35,12 @@ function VarContainer(props) {
               <View style={styles.varButton}>
                 <Text style={styles.varButtonText}>Play</Text>
               </View>
-            </Pressable>
-            <Pressable>
+            </Clickable>
+            <Clickable>
               <View style={styles.varButton}>
                 <Text style={styles.varButtonText}>Rules</Text>
               </View>
-            </Pressable>
+            </Clickable>
           </View>
         </View>
       </View>

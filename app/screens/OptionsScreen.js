@@ -1,19 +1,12 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Switch,
-  Pressable,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Switch, ScrollView } from "react-native";
+import Clickable from "./components/Clickable";
 import colorPalatte from "../config/colorPalatte";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import VsComputerOptions from "./OptionsScreen_Components/VsComputerOptions";
 import VsPlayerOptions from "./OptionsScreen_Components/vsPlayerOptions";
 import TimeSelect from "./OptionsScreen_Components/TimeSelect";
 import AdditionalTimeControls from "./OptionsScreen_Components/AdditionalTimeControls";
-import { color } from "react-native-elements/dist/helpers";
 
 function OptionsScreen({ route, navigation }) {
   //Create states for the options
@@ -185,7 +178,7 @@ function OptionsScreen({ route, navigation }) {
           ) : null}
         </View>
         <View style={styles.beginContainer}>
-          <Pressable
+          <Clickable
             onPress={() =>
               navigation.navigate(String(route.params.var), {
                 options: options,
@@ -194,7 +187,7 @@ function OptionsScreen({ route, navigation }) {
             }
           >
             <Text style={styles.begin}>Begin</Text>
-          </Pressable>
+          </Clickable>
         </View>
       </ScrollView>
     </View>

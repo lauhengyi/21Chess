@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Pressable, Switch, StyleSheet } from "react-native";
+import { View, Text, Switch, StyleSheet } from "react-native";
+import Clickable from "../components/Clickable";
 import colorPalatte from "../../config/colorPalatte";
 import TimeController from "./TimeController";
 

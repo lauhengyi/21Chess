@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import Clickable from "../components/Clickable";
 import colorPalatte from "../../config/colorPalatte";
 
 function TimeControlButton(props) {
@@ -11,13 +12,13 @@ function TimeControlButton(props) {
   const settings = props.settings;
   const styles = getStyles(settings, colorPalatte);
   return (
-    <Pressable onPress={() => props.onButtonPress()}>
+    <Clickable onPress={() => props.onButtonPress()}>
       <View style={isClicked ? styles.clickedContainer : styles.container}>
         <Text style={isClicked ? styles.clickedText : styles.text}>
           {props.isChanged && isClicked ? props.text + "*" : props.text}
         </Text>
       </View>
-    </Pressable>
+    </Clickable>
   );
 }
 

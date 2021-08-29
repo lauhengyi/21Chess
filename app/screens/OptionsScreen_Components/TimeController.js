@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import Clickable from "../components/Clickable";
 import changeTimeValue from "../functions/changeTimeValue";
 import TimeText from "../components/TimeText";
 import colorPalatte from "../../config/colorPalatte";
@@ -25,29 +26,29 @@ function TimeController(props) {
       <>
         <Text style={styles.valueText}>{text}</Text>
         <View style={styles.controller}>
-          <Pressable
+          <Clickable
             onPress={() => handlePress(value, "-" + largeChange, setFunction)}
           >
             <Text style={styles.buttonText}>{fastDecrementText}</Text>
-          </Pressable>
-          <Pressable
+          </Clickable>
+          <Clickable
             onPress={() => handlePress(value, "-" + smallChange, setFunction)}
           >
             <Text style={styles.buttonText}>{slowDecrementText}</Text>
-          </Pressable>
+          </Clickable>
           <View style={styles.valueTextContainer}>
             <TimeText value={value} style={styles.valueText} />
           </View>
-          <Pressable
+          <Clickable
             onPress={() => handlePress(value, smallChange, setFunction)}
           >
             <Text style={styles.buttonText}>{slowIncrementText}</Text>
-          </Pressable>
-          <Pressable
+          </Clickable>
+          <Clickable
             onPress={() => handlePress(value, largeChange, setFunction)}
           >
             <Text style={styles.buttonText}>{fastIncrementText}</Text>
-          </Pressable>
+          </Clickable>
         </View>
       </>
     );
@@ -56,29 +57,29 @@ function TimeController(props) {
       <View style={styles.perPlayerControllerContainer}>
         <Text style={styles.valueText}>{text}</Text>
         <View style={styles.controller}>
-          <Pressable
+          <Clickable
             onPress={() => handlePress(value, "-" + largeChange, setFunction)}
           >
             <Text style={styles.perPlayerButtonText}>{fastDecrementText}</Text>
-          </Pressable>
-          <Pressable
+          </Clickable>
+          <Clickable
             onPress={() => handlePress(value, "-" + smallChange, setFunction)}
           >
             <Text style={styles.perPlayerButtonText}>{slowDecrementText}</Text>
-          </Pressable>
+          </Clickable>
           <View style={styles.perPlayerValueTextContainer}>
             <TimeText value={value} style={styles.perPlayerValueText} />
           </View>
-          <Pressable
+          <Clickable
             onPress={() => handlePress(value, smallChange, setFunction)}
           >
             <Text style={styles.perPlayerButtonText}>{slowIncrementText}</Text>
-          </Pressable>
-          <Pressable
+          </Clickable>
+          <Clickable
             onPress={() => handlePress(value, largeChange, setFunction)}
           >
             <Text style={styles.perPlayerButtonText}>{fastIncrementText}</Text>
-          </Pressable>
+          </Clickable>
         </View>
       </View>
     );

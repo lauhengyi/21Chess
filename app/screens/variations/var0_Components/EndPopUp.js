@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
+import { Modal, View, Text, StyleSheet } from "react-native";
+import Clickable from "../../components/Clickable";
 import colorPalatte from "../../../config/colorPalatte";
 import checkStatus from "../../functions/checkStatus";
 
@@ -29,7 +30,7 @@ function EndPopUp(props) {
               <Text style={styles.statement2}>{statement2}</Text>
             </View>
             <View style={styles.buttonsContainer}>
-              <Pressable
+              <Clickable
                 onPress={() => {
                   setVisible(false);
                   props.onRestart();
@@ -38,8 +39,8 @@ function EndPopUp(props) {
                 <View style={styles.button}>
                   <Text style={styles.buttonText}>Play again</Text>
                 </View>
-              </Pressable>
-              <Pressable
+              </Clickable>
+              <Clickable
                 onPress={() => {
                   setVisible(false);
                   navigation.navigate("Select");
@@ -48,8 +49,8 @@ function EndPopUp(props) {
                 <View style={styles.button}>
                   <Text style={styles.buttonText}>Choose var</Text>
                 </View>
-              </Pressable>
-              <Pressable
+              </Clickable>
+              <Clickable
                 onPress={() => {
                   setVisible(false);
                   navigation.navigate("Welcome");
@@ -58,7 +59,7 @@ function EndPopUp(props) {
                 <View style={styles.button}>
                   <Text style={styles.buttonText}>Exit game</Text>
                 </View>
-              </Pressable>
+              </Clickable>
             </View>
           </View>
         </View>
