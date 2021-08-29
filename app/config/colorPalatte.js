@@ -12,9 +12,6 @@ export default [
 
     piece: "#000000",
 
-    squareBlack: "#adb5bd",
-    squareWhite: "#dee2e6",
-
     moveableSquareBlack: "#d19b9b",
     moveableSquareWhite: "#e3b6b6",
 
@@ -23,25 +20,22 @@ export default [
   },
   {
     //Dark
-    white: "#212529",
-    black: "#f8f9fa",
-    primary: "#e9ecef",
-    secondary: "#dee2e6",
-    tertiary: "#ced4da",
-    grey1: "#adb5bd",
-    grey2: "#6c757d",
-    grey3: "#495057",
+    white: "#1b1e21",
+    black: "#F8F9FA",
+    primary: "#212529",
+    secondary: "#343a40",
+    tertiary: "#495057",
+    grey1: "#6c757d",
+    grey2: "#ADB5BD",
+    grey3: "#ced4da",
 
-    piece: "#000000",
+    piece: "#ffffff",
 
-    squareBlack: "#adb5bd",
-    squareWhite: "#dee2e6",
+    moveableSquareBlack: "#804d4d",
+    moveableSquareWhite: "#592424",
 
-    moveableSquareBlack: "#d19b9b",
-    moveableSquareWhite: "#e3b6b6",
-
-    lastMovedSquareBlack: "#c7c587",
-    lastMovedSquareWhite: "#e6e2b3",
+    lastMovedSquareBlack: "#807f4d",
+    lastMovedSquareWhite: "#595524",
   },
   {
     //Arctic
@@ -56,14 +50,11 @@ export default [
 
     piece: "#03045E",
 
-    squareBlack: "#00B4D8",
-    squareWhite: "#90E0EF",
+    moveableSquareBlack: "#ed8ca3",
+    moveableSquareWhite: "#edb9c6",
 
-    moveableSquareBlack: "#d19b9b",
-    moveableSquareWhite: "#e3b6b6",
-
-    lastMovedSquareBlack: "#c7c587",
-    lastMovedSquareWhite: "#e6e2b3",
+    lastMovedSquareBlack: "#b67be0",
+    lastMovedSquareWhite: "#d3a2eb",
   },
   ,
 ];

@@ -1,10 +1,22 @@
 import React from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import colorPalatte from "../../../../config/colorPalatte";
+import checkDarkTheme from "../../../functions/checkDarkTheme";
 
 function PromotionSelector(props) {
+  const styles = getStyles(props.settings, colorPalatte);
+
+  //Swich pieceKey around if darkMode
+  const isDark = checkDarkTheme(props.settings.theme);
+  const pieceColor = function () {
+    if (isDark) {
+      return props.side ? "black" : "white";
+    } else {
+      return props.side ? "white" : "black";
+    }
+  };
   let pieceKey;
-  if (props.side) {
+  if (pieceColor === "white") {
     pieceKey = [
       ["q", "q"],
       ["n", "n"],
@@ -19,7 +31,6 @@ function PromotionSelector(props) {
       ["b", "v"],
     ];
   }
-  const styles = getStyles(props.settings, colorPalatte);
 
   return (
     <View style={props.flipped ? styles.isFlipped : styles.notFlipped}>

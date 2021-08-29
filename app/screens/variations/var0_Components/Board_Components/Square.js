@@ -3,6 +3,7 @@ import colorPalatte from "../../../../config/colorPalatte";
 import { View, Pressable } from "react-native";
 import Piece from "./Piece";
 import checkCollision from "../../../../mechanisms/var0/functions/checkCollision";
+import checkDarkTheme from "../../../functions/checkDarkTheme";
 
 function Square(props) {
   const settings = props.settings;
@@ -20,14 +21,14 @@ function Square(props) {
     castling,
   ] = checkSquare(props.gameDetails, props.position);
 
-  const styles = getStyle(
+  const color = getColor(
     settings,
     colorPalatte,
-    props.color,
-    isMoveableOnSquare,
-    isLastMoveOnSquare,
-    isClicked
+    props.colorId,
+    isLastMoveOnSquare
   );
+
+  const styles = getStyle(color, isMoveableOnSquare, isClicked);
 
   function PieceWithProps() {
     return (
@@ -65,33 +66,14 @@ function Square(props) {
   }
 }
 
-function getStyle(
-  settings,
-  colorPalatte,
-  colorId,
-  isMoveableOnSquare,
-  isLastMoveOnSquare,
-  isClicked
-) {
-  const colors = colorPalatte[settings.theme];
-  // Determine color of square: black and white, moveable or not
-  let color;
-  if (isLastMoveOnSquare) {
-    color =
-      colorId === 1
-        ? [colors.lastMovedSquareBlack, colors.moveableSquareBlack]
-        : [colors.lastMovedSquareWhite, colors.moveableSquareWhite];
-  } else {
-    color =
-      colorId === 1
-        ? [colors.squareBlack, colors.moveableSquareBlack]
-        : [colors.squareWhite, colors.moveableSquareWhite];
-  }
+function getStyle(color, isMoveableOnSquare, isClicked) {
   //Determines the border length of a square
   const clickedIndicator = isClicked ? 2 : 0;
 
   const squareLength = 46;
+  //Get square color (Switch square color around if theme is dark)
   const squareColor = isMoveableOnSquare ? color[1] : color[0];
+
   const style = {
     height: squareLength,
     width: squareLength,
@@ -102,6 +84,31 @@ function getStyle(
     borderColor: color[1],
   };
   return style;
+}
+
+function getColor(settings, colorPalatte, colorId, isLastMoveOnSquare) {
+  const colors = colorPalatte[settings.theme];
+  const isDark = checkDarkTheme(settings.theme);
+  const colorType = (function () {
+    if (isDark) {
+      return colorId === 1 ? "white" : "black";
+    } else {
+      return colorId === 1 ? "black" : "white";
+    }
+  })();
+  let color;
+  if (isLastMoveOnSquare) {
+    color =
+      colorType === "black"
+        ? [colors.lastMovedSquareBlack, colors.moveableSquareBlack]
+        : [colors.lastMovedSquareWhite, colors.moveableSquareWhite];
+  } else {
+    color =
+      colorType === "black"
+        ? [colors.grey1, colors.moveableSquareBlack]
+        : [colors.secondary, colors.moveableSquareWhite];
+  }
+  return color;
 }
 
 //returns [isClicked, whether piece on square, piece ID, whether moveable on square, moveableMove, whether moveable is a castle move]

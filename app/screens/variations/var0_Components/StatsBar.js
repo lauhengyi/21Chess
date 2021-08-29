@@ -4,8 +4,10 @@ import TimeText from "../../components/TimeText";
 import getTimeControlText from "../../functions/getTimeControlText";
 import getPlayers from "../../functions/getPlayers";
 import colorPalatte from "../../../config/colorPalatte";
+import getPieceText from "../../functions/getPieceText";
 
 function StatsBar(props) {
+  const styles = getStyles(props.settings, colorPalatte);
   const { currentSide, eatenPieces } = props.gameDetails;
   const { p1TimeLeft, p2TimeLeft, isRunning } = props.timeLeft;
   const options = props.options;
@@ -32,35 +34,13 @@ function StatsBar(props) {
           timeDetails.p2Delay
         );
 
-  //Linking each piece's type to their corresponding chess font
-  const PieceKeyBoth = {
-    true: {
-      p: "p",
-      r: "r",
-      n: "n",
-      b: "b",
-      q: "q",
-      k: "k",
-    },
-
-    false: {
-      p: "o",
-      r: "t",
-      n: "m",
-      b: "v",
-      q: "w",
-      k: "l",
-    },
-  };
   const eatenFiltered = eatenPieces.filter(
     (eatenPiece) => eatenPiece[0] === player[1]
   );
   const eatenList = eatenFiltered.map((eatenPiece) => [
     eatenPiece[1].id,
-    PieceKeyBoth[eatenPiece[1].side][eatenPiece[1].type],
+    getPieceText(eatenPiece[1], props.settings.theme),
   ]);
-
-  const styles = getStyles(props.settings, colorPalatte);
 
   //Find statsbar type (only for top statsBar, whether it is normal or supplementary)
   let statsBarType = "normal";

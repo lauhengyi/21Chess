@@ -15,7 +15,6 @@ const Stack = createStackNavigator();
 export default function App() {
   //Load settings
   const [settings, setters] = useSettings();
-  console.log("in");
   //Load fonts
   const [loaded] = useFonts({
     FogtwoNo5: require("./app/assets/fonts/FogtwoNo5.ttf"),

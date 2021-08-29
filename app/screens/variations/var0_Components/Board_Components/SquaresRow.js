@@ -11,7 +11,7 @@ function SquaresRow(props) {
         <Square
           key={squares.position}
           position={squares.position}
-          color={squares.color}
+          colorId={squares.color}
           gameDetails={props.gameDetails}
           options={props.options}
           onAction={(action) => props.onAction(action)}

@@ -24,7 +24,6 @@ function useSettings() {
   };
 
   useEffect(() => {
-    console.log("run useEffect1");
     //Get initial settings
     async function getInit() {
       try {
@@ -53,7 +52,6 @@ function useSettings() {
   }, [loading]);
 
   useEffect(() => {
-    console.log("run useEffect2");
     async function saveSettings() {
       try {
         const jsonValue = JSON.stringify(settings);

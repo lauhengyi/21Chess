@@ -275,6 +275,10 @@ function getStyles(settings, colorPalatte) {
       shadowColor: colors.black,
     },
 
+    activeTabTextStyle: {
+      color: colors.white,
+    },
+
     toggleOptionsContainer: {
       flexDirection: "row",
       justifyContent: "space-between",

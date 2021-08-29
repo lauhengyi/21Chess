@@ -7,7 +7,6 @@ import SettingsContext from "./functions/SettingsContext";
 function SettingsScreen({ navigation, route }) {
   const { settings, setters } = useContext(SettingsContext);
 
-  console.log({ settings, setters });
   const themes = [
     {
       id: 0,
