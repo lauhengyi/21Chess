@@ -16,7 +16,7 @@ function Menu(props) {
             <Text style={styles.header}>Menu</Text>
             <View style={styles.exitContainer}>
               <Text
-                onPress={() => props.onExitPress(false)}
+                onPress={() => props.setMenu(false)}
                 style={styles.exitButton}
               >
                 {exitText}
@@ -24,7 +24,7 @@ function Menu(props) {
             </View>
           </View>
           <View style={styles.buttonsContainer}>
-            <Clickable onPress={() => props.onRestart()}>
+            <Clickable onPress={() => props.handleRestart()}>
               <View style={styles.button}>
                 <Text style={styles.buttonText}>Restart</Text>
               </View>
@@ -36,8 +36,7 @@ function Menu(props) {
             </Clickable>
             <Clickable
               onPress={() => {
-                props.onExitPress(false);
-                navigation.navigate("Welcome");
+                props.handleExitPress();
               }}
             >
               <View style={styles.button}>

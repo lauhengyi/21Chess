@@ -3,9 +3,12 @@ import colorPalatte from "../config/colorPalatte";
 import { View, StyleSheet, Text } from "react-native";
 import SettingsContext from "./functions/SettingsContext";
 import Clickable from "./components/Clickable";
+import SavedContext from "./functions/SavedContext";
 
 function WelcomeScreen({ navigation, route }) {
   const { settings } = useContext(SettingsContext);
+  const { saved } = useContext(SavedContext);
+
   const styles = getStyles(settings, colorPalatte);
   return (
     <>
@@ -19,6 +22,13 @@ function WelcomeScreen({ navigation, route }) {
           <Clickable onPress={() => navigation.navigate("Select")}>
             <Text style={styles.button}>Play</Text>
           </Clickable>
+          {saved ? (
+            <Clickable>
+              <Text style={styles.button}>Continue</Text>
+            </Clickable>
+          ) : (
+            <Text style={styles.disabledButton}>Continue</Text>
+          )}
           <Clickable>
             <Text style={styles.button}>Random</Text>
           </Clickable>
@@ -70,6 +80,13 @@ function getStyles(settings, colorPalatte) {
       fontSize: 60,
       marginBottom: "5%",
       color: colors.black,
+    },
+
+    disabledButton: {
+      fontFamily: "FogtwoNo5",
+      fontSize: 60,
+      marginBottom: "5%",
+      color: colors.grey1,
     },
 
     nameContainer: {

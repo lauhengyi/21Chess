@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, BackHandler } from "react-native";
 import Board from "./var0_Components/Board";
 import StatsBar from "./var0_Components/StatsBar";
@@ -10,13 +10,20 @@ import useComputer from "../../mechanisms/var0/useComputer";
 import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
 import colorPalatte from "../../config/colorPalatte";
+import getInitGameDetails from "../functions/getInitGameDetails";
+import handleGameExit from "../functions/handleGameExit";
+import SavedContext from "../functions/SavedContext";
 
 function Var0({ route, navigation }) {
   const options = route.params.options;
   const settings = route.params.settings;
-  const initialBoard = layout;
-  const [gameDetails, chessActions] = useChessMove(initialBoard);
+  const saved = route.params.saved;
+  const initialGameDetails = saved
+    ? saved.gameDetails
+    : getInitGameDetails(layout);
+  const [gameDetails, chessActions] = useChessMove(initialGameDetails);
   const [isMenu, setMenu] = useState(false);
+  const { setSaved } = useContext(SavedContext);
   //Initialise time left
   const [timeLeft, restartTimer] = useTime(gameDetails, options);
 
@@ -45,14 +52,14 @@ function Var0({ route, navigation }) {
         options={options}
         timeLeft={timeLeft}
         navigation={navigation}
-        onRestart={() => onRestart()}
+        handleRestart={() => handleRestart()}
         settings={settings}
       />
       <Menu
         isMenu={isMenu}
-        onExitPress={setMenu}
-        navigation={navigation}
-        onRestart={() => onRestart()}
+        setMenu={setMenu}
+        handleExitPress={() => handleExitPress()}
+        handleRestart={() => handleRestart()}
         settings={settings}
       />
       <View style={styles.statsBarTop}>
@@ -101,8 +108,8 @@ function Var0({ route, navigation }) {
     </View>
   );
 
-  function onRestart() {
-    chessActions({ type: "restart", boardLayout: initialBoard });
+  function handleRestart() {
+    chessActions({ type: "restart", boardLayout: layout });
     restartTimer();
     setMenu(false);
   }
@@ -110,6 +117,18 @@ function Var0({ route, navigation }) {
   function handleBackButtonClick() {
     setMenu(true);
     return true;
+  }
+
+  function handleExitPress() {
+    return handleGameExit(
+      setMenu,
+      setSaved,
+      navigation,
+      0,
+      gameDetails,
+      options,
+      timeLeft
+    );
   }
 }
 

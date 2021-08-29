@@ -180,7 +180,7 @@ function OptionsScreen({ route, navigation }) {
         <View style={styles.beginContainer}>
           <Clickable
             onPress={() =>
-              navigation.navigate(String(route.params.var), {
+              navigation.navigate(String(route.params.varNum), {
                 options: options,
                 settings: settings,
               })

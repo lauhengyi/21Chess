@@ -33,7 +33,7 @@ function EndPopUp(props) {
               <Clickable
                 onPress={() => {
                   setVisible(false);
-                  props.onRestart();
+                  props.handleRestart();
                 }}
               >
                 <View style={styles.button}>

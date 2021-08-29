@@ -8,6 +8,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import useSettings from "./app/screens/functions/useSettings";
 import SettingsContext from "./app/screens/functions/SettingsContext";
+import useSaved from "./app/screens/functions/useSaved";
+import SavedContext from "./app/screens/functions/SavedContext";
 
 // Create navigator
 const Stack = createStackNavigator();
@@ -15,6 +17,9 @@ const Stack = createStackNavigator();
 export default function App() {
   //Load settings
   const [settings, setters] = useSettings();
+  //Load saves
+  const [saved, setSaved] = useSaved();
+
   //Load fonts
   const [loaded] = useFonts({
     FogtwoNo5: require("./app/assets/fonts/FogtwoNo5.ttf"),
@@ -30,14 +35,16 @@ export default function App() {
 
   return (
     <SettingsContext.Provider value={{ settings, setters }}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
-          <Stack.Screen name="Select" component={SelectScreen} />
-          <Stack.Screen name="VarLoad" component={VarLoadScreen} />
-          <Stack.Screen name="Settings" component={SettingsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SavedContext.Provider value={{ saved, setSaved }}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="Select" component={SelectScreen} />
+            <Stack.Screen name="VarLoad" component={VarLoadScreen} />
+            <Stack.Screen name="Settings" component={SettingsScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SavedContext.Provider>
     </SettingsContext.Provider>
   );
 }

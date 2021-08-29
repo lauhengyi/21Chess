@@ -18,7 +18,7 @@ function VarLoadScreen({ route, navigation }) {
         name={"Options"}
         component={OptionsScreen}
         initialParams={{
-          var: varNum,
+          varNum: varNum,
           title: title,
           header: header,
           caption: caption,
