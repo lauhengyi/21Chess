@@ -244,8 +244,25 @@ function chessMovesReducer(state, action) {
   }
 }
 
-function useChessMove(gameDetails) {
-  return useReducer(chessMovesReducer, gameDetails);
+function useChessMove(boardLayout, saved) {
+  let initialDetails;
+  if (saved) {
+    initialDetails = saved.gameDetails;
+  } else {
+    initialDetails = {
+      boardLayout: boardLayout,
+      moveables: [null, null],
+      clickedSquare: null,
+      currentSide: true,
+      lastMoved: [null, null, null],
+      eatenPieces: [],
+      checked: 0,
+      stalemated: 0,
+      checkmated: 0,
+      promotion: null,
+    };
+  }
+  return useReducer(chessMovesReducer, initialDetails);
 }
 
 export { useChessMove, chessMovesReducer };

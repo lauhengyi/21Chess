@@ -183,6 +183,7 @@ function OptionsScreen({ route, navigation }) {
               navigation.navigate(String(route.params.varNum), {
                 options: options,
                 settings: settings,
+                saved: null,
               })
             }
           >

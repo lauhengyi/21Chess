@@ -1,9 +1,20 @@
+import { VariablesDefaultValueAllowedRule } from "graphql";
 import { useState, useRef, useEffect } from "react";
 import changeTimeValue from "../../screens/functions/changeTimeValue";
 import convertTimeToSeconds from "../../screens/functions/convertTimeToSeconds";
 
-function useTime(gameDetails, options) {
-  const timeDetails = options.timeDetails;
+function useTime(gameDetails, options, saved) {
+  let timeDetails;
+  if (saved) {
+    timeDetails = {
+      //Create timeDetails with less time left
+      ...saved.options.timeDetails,
+      p1Time: saved.timeLeft.p1TimeLeft,
+      p2Time: saved.timeLeft.p2TimeLeft,
+    };
+  } else {
+    timeDetails = options.timeDetails;
+  }
   const [isRunning, setRunning] = useState(0);
   const [p1TimeLeft, setP1TimeLeft] = useState(timeDetails.p1Time);
   const [p2TimeLeft, setP2TimeLeft] = useState(timeDetails.p2Time);

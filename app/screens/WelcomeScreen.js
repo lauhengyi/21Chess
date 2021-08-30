@@ -4,6 +4,7 @@ import { View, StyleSheet, Text } from "react-native";
 import SettingsContext from "./functions/SettingsContext";
 import Clickable from "./components/Clickable";
 import SavedContext from "./functions/SavedContext";
+import loadSaved from "./functions/loadSaved";
 
 function WelcomeScreen({ navigation, route }) {
   const { settings } = useContext(SettingsContext);
@@ -23,7 +24,7 @@ function WelcomeScreen({ navigation, route }) {
             <Text style={styles.button}>Play</Text>
           </Clickable>
           {saved ? (
-            <Clickable>
+            <Clickable onPress={() => loadSaved(navigation, saved, settings)}>
               <Text style={styles.button}>Continue</Text>
             </Clickable>
           ) : (
