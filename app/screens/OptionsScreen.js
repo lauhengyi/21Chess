@@ -1,95 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, Switch, ScrollView } from "react-native";
 import Clickable from "./components/Clickable";
 import colorPalatte from "../config/colorPalatte";
 import SegmentedControlTab from "react-native-segmented-control-tab";
+import useOptions from "./functions/useOptions";
 import VsComputerOptions from "./OptionsScreen_Components/VsComputerOptions";
 import VsPlayerOptions from "./OptionsScreen_Components/vsPlayerOptions";
 import TimeSelect from "./OptionsScreen_Components/TimeSelect";
 import AdditionalTimeControls from "./OptionsScreen_Components/AdditionalTimeControls";
 
 function OptionsScreen({ route, navigation }) {
-  //Create states for the options
-  //Gamemodes
-  const modeTypes = ["vs Computer", "vs Player (local)"];
-  const [mode, setMode] = useState(0);
+  const {
+    modeDetails,
+    diffDetails,
+    isAutoturnDetails,
+    isFlippedDetails,
+    startingSideDetails,
+    isChessClockDetails,
+    isAdditionalDetails,
+    timeDetails,
+  } = useOptions(route.params.varNum);
 
-  //Computer ai difficulty
-  const comDiff = ["easy", "medium", "hard", "vs Heng Yi"];
-  const [diff, setDiff] = useState(0);
-  const diffDetails = {
-    values: comDiff,
-    selectedIndex: diff,
-    onTabPress: setDiff,
-  };
-
-  //Autoturn
-  const [isAutoturn, setAutoturn] = useState(true);
-  const toggleAutoturn = () => setAutoturn((previousState) => !previousState);
-  const autoturnDetails = {
-    value: isAutoturn,
-    onValueChange: toggleAutoturn,
-  };
-
-  const [isFlipped, setFlipped] = useState(true);
-  const toggleFlipped = () => setFlipped((previousState) => !previousState);
-  const flippedDetails = {
-    value: isFlipped,
-    onValueChange: toggleFlipped,
-  };
-
-  //Starting side
-  const startingSide = ["white", "black"];
-  const [side, setSide] = useState(0);
-
-  //Timer
-  const [isChessClock, setChessClock] = useState(false);
-  const toggleChessClock = () =>
-    setChessClock((previousState) => !previousState);
-
-  const [isTimeLock, setTimeLock] = useState(true);
-  const toggleTimeLock = () => setTimeLock((previousState) => !previousState);
-  const [isAdditional, setAdditional] = useState(false);
-  const toggleAdditional = () =>
-    setAdditional((previousState) => !previousState);
-  const [p1Time, setP1Time] = useState("1000");
-  const [p2Time, setP2Time] = useState("1000");
-  const [p1Increment, setP1Increment] = useState("0");
-  const [p2Increment, setP2Increment] = useState("0");
-  const [p1Delay, setP1Delay] = useState("0");
-  const [p2Delay, setP2Delay] = useState("0");
-
-  const timeDetails = {
-    isTimeLock: isTimeLock,
-    toggleTimeLock: toggleTimeLock,
-    p1Time: p1Time,
-    setP1Time: setP1Time,
-    p2Time: p2Time,
-    setP2Time: setP2Time,
-    p1Increment: p1Increment,
-    setP1Increment: setP1Increment,
-    p2Increment: p2Increment,
-    setP2Increment: setP2Increment,
-    p1Delay: p1Delay,
-    setP1Delay: setP1Delay,
-    p2Delay: p2Delay,
-    setP2Delay: setP2Delay,
-  };
   //Create options object
+  const mode = modeDetails.selectedIndex;
+  const diff = diffDetails.selectedIndex;
+  const isAutoturn = mode ? isAutoturnDetails.value : false;
+  const isFlipped = isAutoturnDetails.value ? false : isFlippedDetails.value;
+  const startingSide = startingSideDetails.values === 0 ? true : false;
+  const isChessClock = mode ? isChessClockDetails.value : false;
   const options = {
-    mode: mode,
-    diff: diff,
-    isAutoturn: mode ? isAutoturn : false,
-    isFlipped: isAutoturn || !mode ? false : isFlipped,
-    startingSide: side === 0 ? true : false,
+    mode,
+    diff,
+    isAutoturn,
+    isFlipped,
+    startingSide,
     timeDetails: {
-      isChessClock: mode ? isChessClock : false,
-      p1Time: p1Time,
-      p2Time: p2Time,
-      p1Increment: p1Increment,
-      p2Increment: p2Increment,
-      p1Delay: p1Delay,
-      p2Delay: p2Delay,
+      isChessClock,
+      p1Time: timeDetails.p1Time,
+      p2Time: timeDetails.p2Time,
+      p1Increment: timeDetails.p1Increment,
+      p2Increment: timeDetails.p2Increment,
+      p1Delay: timeDetails.p1Delay,
+      p2Delay: timeDetails.p2Delay,
     },
   };
 
@@ -111,9 +63,9 @@ function OptionsScreen({ route, navigation }) {
             tabTextStyle={styles.tabTextStyle}
             activeTabStyle={styles.activeTabStyle}
             activeTabTextStyle={styles.activeTabTextStyle}
-            values={modeTypes}
-            selectedIndex={mode}
-            onTabPress={(index) => setMode(index)}
+            values={modeDetails.values}
+            selectedIndex={modeDetails.selectedIndex}
+            onTabPress={(index) => modeDetails.onTabPress(index)}
           />
           {mode === 0 ? (
             <VsComputerOptions style={styles} diffDetails={diffDetails} />
@@ -121,8 +73,8 @@ function OptionsScreen({ route, navigation }) {
             <VsPlayerOptions
               style={styles}
               colors={colors}
-              autoturnDetails={autoturnDetails}
-              flippedDetails={flippedDetails}
+              isAutoturnDetails={isAutoturnDetails}
+              isFlippedDetails={isFlippedDetails}
             />
           )}
 
@@ -133,9 +85,9 @@ function OptionsScreen({ route, navigation }) {
             tabTextStyle={styles.tabTextStyle}
             activeTabStyle={styles.activeTabStyle}
             activeTabTextStyle={styles.activeTabTextStyle}
-            values={startingSide}
-            selectedIndex={side}
-            onTabPress={(index) => setSide(index)}
+            values={startingSideDetails.values}
+            selectedIndex={startingSideDetails.selectedIndex}
+            onTabPress={(index) => startingSideDetails.onTabPress(index)}
           />
           {mode === 1 ? (
             <>
@@ -145,8 +97,8 @@ function OptionsScreen({ route, navigation }) {
                   trackColor={{ false: colors.grey1, true: colors.black }}
                   thumbColor={colors.grey2}
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleChessClock}
-                  value={isChessClock}
+                  onValueChange={isChessClockDetails.onValueChange}
+                  value={isChessClockDetails.value}
                 />
               </View>
               {isChessClock ? (
@@ -161,11 +113,11 @@ function OptionsScreen({ route, navigation }) {
                       trackColor={{ false: colors.grey1, true: colors.black }}
                       thumbColor={colors.grey2}
                       ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleAdditional}
-                      value={isAdditional}
+                      onValueChange={isAdditionalDetails.onValueChange}
+                      value={isAdditionalDetails.value}
                     />
                   </View>
-                  {isAdditional ? (
+                  {isAdditionalDetails.value ? (
                     <AdditionalTimeControls
                       textStyle={styles.subHeader}
                       timeDetails={timeDetails}

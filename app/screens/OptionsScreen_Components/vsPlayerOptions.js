@@ -4,8 +4,8 @@ import { View, Switch, Text } from "react-native";
 function VsComputerOptions(props) {
   const styles = props.style;
   const colors = props.colors;
-  const autoturnDetails = props.autoturnDetails;
-  const flippedDetails = props.flippedDetails;
+  const isAutoturnDetails = props.isAutoturnDetails;
+  const isFlippedDetails = props.isFlippedDetails;
   return (
     <View>
       <View style={styles.toggleOptionsContainer}>
@@ -14,14 +14,14 @@ function VsComputerOptions(props) {
           trackColor={{ false: colors.grey1, true: colors.black }}
           thumbColor={colors.grey2}
           ios_backgroundColor="#3e3e3e"
-          onValueChange={autoturnDetails.onValueChange}
-          value={autoturnDetails.value}
+          onValueChange={isAutoturnDetails.onValueChange}
+          value={isAutoturnDetails.value}
         />
       </View>
       <View style={styles.toggleOptionsContainer}>
         <Text
           style={
-            autoturnDetails.value ? styles.subHeaderGreyed : styles.subHeader
+            isAutoturnDetails.value ? styles.subHeaderGreyed : styles.subHeader
           }
         >
           Flip pieces
@@ -30,9 +30,9 @@ function VsComputerOptions(props) {
           trackColor={{ false: colors.grey1, true: colors.black }}
           thumbColor={colors.grey2}
           ios_backgroundColor="#3e3e3e"
-          onValueChange={flippedDetails.onValueChange}
-          value={flippedDetails.value}
-          disabled={autoturnDetails.value === true ? true : false}
+          onValueChange={isFlippedDetails.onValueChange}
+          value={isFlippedDetails.value}
+          disabled={isAutoturnDetails.value === true ? true : false}
         />
       </View>
     </View>

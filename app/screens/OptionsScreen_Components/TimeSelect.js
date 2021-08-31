@@ -6,6 +6,8 @@ import colorPalatte from "../../config/colorPalatte";
 
 function TimeSelect(props) {
   const {
+    clickedButton,
+    setClickedButton,
     isTimeLock,
     p1Time,
     setP1Time,
@@ -92,7 +94,6 @@ function TimeSelect(props) {
 
   const p1TimeControlText = getTimeControlText(p1Time, p1Increment, p1Delay);
   const p2TimeControlText = getTimeControlText(p2Time, p2Increment, p2Delay);
-  const [clickedButton, setClickedButton] = useState(6);
 
   const settings = props.settings;
   const styles = getStyles(settings, colorPalatte);
