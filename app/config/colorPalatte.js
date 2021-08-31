@@ -38,6 +38,25 @@ export default [
     lastMovedSquareWhite: "#595524",
   },
   {
+    //Classic
+    white: "#ede0d4",
+    black: "#352208",
+    primary: "#b08968",
+    secondary: "#ddb892",
+    tertiary: "#a97952",
+    grey1: "#7f5539",
+    grey2: "#8b5e34",
+    grey3: "#583101",
+
+    piece: "#1d0302",
+
+    moveableSquareBlack: "#b05858",
+    moveableSquareWhite: "#dd9292",
+
+    lastMovedSquareBlack: "#888f3b",
+    lastMovedSquareWhite: "#a8b35d",
+  },
+  {
     //Arctic
     white: "#CAF0F8",
     black: "#023E8A",
@@ -56,7 +75,44 @@ export default [
     lastMovedSquareBlack: "#b67be0",
     lastMovedSquareWhite: "#d3a2eb",
   },
-  ,
+  {
+    //Material
+    white: "#f8f9fa",
+    black: "#212529",
+    primary: "#e9ecef",
+    secondary: "#dee2e6",
+    tertiary: "#ced4da",
+    grey1: "#adb5bd",
+    grey2: "#6c757d",
+    grey3: "#495057",
+
+    piece: "#000000",
+
+    moveableSquareBlack: "#d19b9b",
+    moveableSquareWhite: "#e3b6b6",
+
+    lastMovedSquareBlack: "#c7c587",
+    lastMovedSquareWhite: "#e6e2b3",
+  },
+  {
+    //Default
+    white: "#f8f9fa",
+    black: "#212529",
+    primary: "#e9ecef",
+    secondary: "#dee2e6",
+    tertiary: "#ced4da",
+    grey1: "#adb5bd",
+    grey2: "#6c757d",
+    grey3: "#495057",
+
+    piece: "#000000",
+
+    moveableSquareBlack: "#d19b9b",
+    moveableSquareWhite: "#e3b6b6",
+
+    lastMovedSquareBlack: "#c7c587",
+    lastMovedSquareWhite: "#e6e2b3",
+  },
 ];
 // https://coolors.co/f8f9fa-e9ecef-dee2e6-ced4da-adb5bd-6c757d-495057-343a40-212529
 /* --cultured: #f8f9faff;

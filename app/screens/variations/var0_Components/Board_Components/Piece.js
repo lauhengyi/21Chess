@@ -58,7 +58,7 @@ function createStyles(rotateAmount, settings, colorPalatte) {
   const styles = StyleSheet.create({
     piece: {
       fontFamily: "Meri",
-      fontSize: 40,
+      fontSize: 38,
       transform: [{ rotate: rotateAmount }],
       color: colors.piece,
     },

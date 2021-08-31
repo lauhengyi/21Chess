@@ -7,7 +7,7 @@ import SettingsContext from "./functions/SettingsContext";
 function SettingsScreen({ navigation, route }) {
   const { settings, setters } = useContext(SettingsContext);
 
-  const themes = [
+  const themesRow1 = [
     {
       id: 0,
       name: "Default",
@@ -18,7 +18,22 @@ function SettingsScreen({ navigation, route }) {
     },
     {
       id: 2,
+      name: "Classic",
+    },
+  ];
+
+  const themesRow2 = [
+    {
+      id: 3,
       name: "Arctic",
+    },
+    {
+      id: 4,
+      name: "Material",
+    },
+    {
+      id: 5,
+      name: "Neon",
     },
   ];
   const [styles, colors] = getStyles(settings, colorPalatte);
@@ -37,7 +52,18 @@ function SettingsScreen({ navigation, route }) {
       <View style={styles.themes}>
         <Text style={styles.subHeader}>Themes</Text>
         <View style={styles.themeButtonContainer}>
-          {themes.map((theme) => (
+          {themesRow1.map((theme) => (
+            <ThemeButton
+              key={theme.id}
+              themeID={theme.id}
+              themeName={theme.name}
+              onPress={() => setters.setTheme(theme.id)}
+              settings={settings}
+            />
+          ))}
+        </View>
+        <View style={styles.themeButtonContainer}>
+          {themesRow2.map((theme) => (
             <ThemeButton
               key={theme.id}
               themeID={theme.id}

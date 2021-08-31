@@ -36,6 +36,7 @@ function GameUI(props) {
         options={options}
         timeLeft={timeLeft}
         navigation={navigation}
+        setSaved={setSaved}
         handleRestart={() => handleRestart()}
         settings={settings}
       />

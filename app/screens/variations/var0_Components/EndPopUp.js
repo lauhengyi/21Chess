@@ -9,12 +9,15 @@ function EndPopUp(props) {
   const navigation = props.navigation;
   //Give a pause before screen appears
   const [isVisible, setVisible] = useState(false);
+  console.log({ isVisible, ending });
   const timer = useRef();
   useEffect(() => {
     if (ending[0]) {
       timer.current = setTimeout(() => {
         setVisible(true);
       }, 1500);
+      //Erase any data of saved after game ended
+      props.setSaved(null);
     }
     return () => clearTimeout(timer.current);
   });
@@ -43,6 +46,8 @@ function EndPopUp(props) {
               <Clickable
                 onPress={() => {
                   setVisible(false);
+                  //Have to first navigate to 'Welcome' screen to prevent modal from reappearing after clicking choose var after resuming a game.
+                  navigation.navigate("Welcome");
                   navigation.navigate("Select");
                 }}
               >

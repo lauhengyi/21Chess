@@ -1,6 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useContext } from "react";
-import SavedContext from "./SavedContext";
 //Function that occurs when the game is exited midway via the menu exit button
 async function handleGameExit(
   setMenu,

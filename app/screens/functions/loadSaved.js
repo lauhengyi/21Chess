@@ -1,8 +1,8 @@
 function loadSaved(navigation, saved, settings) {
   //navigate to VarLoad
   navigation.navigate("VarLoad", {
-    screen: String(saved.varNum),
     varNum: saved.varNum,
+    screen: String(saved.varNum),
     params: {
       settings: settings,
       options: saved.options,
