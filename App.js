@@ -10,6 +10,7 @@ import useSettings from "./app/screens/functions/useSettings";
 import SettingsContext from "./app/screens/functions/SettingsContext";
 import useSaved from "./app/screens/functions/useSaved";
 import SavedContext from "./app/screens/functions/SavedContext";
+import colorPalatte from "./app/config/colorPalatte";
 
 // Create navigator
 const Stack = createStackNavigator();
@@ -33,11 +34,26 @@ export default function App() {
     return null;
   }
 
+  const backgroundColor = colorPalatte[settings.theme].white;
+
   return (
     <SettingsContext.Provider value={{ settings, setters }}>
       <SavedContext.Provider value={{ saved, setSaved }}>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              cardStyle: { backgroundColor: "transparent" },
+              cardStyleInterpolator: ({ current: { progress } }) => ({
+                cardStyle: {
+                  opacity: progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 1],
+                  }),
+                },
+              }),
+            }}
+          >
             <Stack.Screen name="Welcome" component={WelcomeScreen} />
             <Stack.Screen name="Select" component={SelectScreen} />
             <Stack.Screen name="VarLoad" component={VarLoadScreen} />

@@ -106,6 +106,7 @@ function getStyles(settings, colorPalatte) {
     themeButtonContainer: {
       flexDirection: "row",
       justifyContent: "space-evenly",
+      marginTop: 8,
     },
   });
   return [styles, colors];

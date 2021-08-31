@@ -9,7 +9,6 @@ function EndPopUp(props) {
   const navigation = props.navigation;
   //Give a pause before screen appears
   const [isVisible, setVisible] = useState(false);
-  console.log({ isVisible, ending });
   const timer = useRef();
   useEffect(() => {
     if (ending[0]) {
