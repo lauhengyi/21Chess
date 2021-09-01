@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import SelectScreen from "./app/screens/SelectScreen";
 import VarLoadScreen from "./app/screens/VarLoadScreen";
@@ -39,27 +40,20 @@ export default function App() {
   return (
     <SettingsContext.Provider value={{ settings, setters }}>
       <SavedContext.Provider value={{ saved, setSaved }}>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-              cardStyle: { backgroundColor: "transparent" },
-              cardStyleInterpolator: ({ current: { progress } }) => ({
-                cardStyle: {
-                  opacity: progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, 1],
-                  }),
-                },
-              }),
-            }}
-          >
-            <Stack.Screen name="Welcome" component={WelcomeScreen} />
-            <Stack.Screen name="Select" component={SelectScreen} />
-            <Stack.Screen name="VarLoad" component={VarLoadScreen} />
-            <Stack.Screen name="Settings" component={SettingsScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <View style={{ backgroundColor: backgroundColor, flex: 1 }}>
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name="Welcome" component={WelcomeScreen} />
+              <Stack.Screen name="Select" component={SelectScreen} />
+              <Stack.Screen name="VarLoad" component={VarLoadScreen} />
+              <Stack.Screen name="Settings" component={SettingsScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
       </SavedContext.Provider>
     </SettingsContext.Provider>
   );

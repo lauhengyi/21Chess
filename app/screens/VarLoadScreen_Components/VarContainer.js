@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import colorPalatte from "../../config/colorPalatte";
 import { View, StyleSheet, Text, Image } from "react-native";
 import Clickable from "../components/Clickable";
 import { useNavigation } from "@react-navigation/native";
+import RulesPopUp from "../RulesPopUp";
 
 function VarContainer(props) {
   const navigation = useNavigation();
   const variation = props.var;
   const settings = props.settings;
+  const [isRules, setRules] = useState(false);
   const styles = getStyles(settings, colorPalatte);
+
   return (
     <>
+      <RulesPopUp
+        varNum={variation}
+        isVisible={isRules}
+        setVisible={setRules}
+        settings={settings}
+      />
       <View style={styles.variationOuterContainer}>
         <View style={styles.variationInnerContainer}>
           <Text style={styles.varTitle}>{props.title}</Text>
@@ -36,7 +45,7 @@ function VarContainer(props) {
                 <Text style={styles.varButtonText}>Play</Text>
               </View>
             </Clickable>
-            <Clickable>
+            <Clickable onPress={() => setRules(true)}>
               <View style={styles.varButton}>
                 <Text style={styles.varButtonText}>Rules</Text>
               </View>

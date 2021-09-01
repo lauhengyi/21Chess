@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
+import { View } from "react-native";
 import OptionsScreen from "./OptionsScreen";
 import Var0 from "./variations/Var0";
 import Var1 from "./variations/Var1";
 import Var2 from "./variations/Var2";
 import { createStackNavigator } from "@react-navigation/stack";
 import SettingsContext from "./functions/SettingsContext";
+import colorPalatte from "../config/colorPalatte";
 
 const Stack = createStackNavigator();
 
@@ -12,34 +14,28 @@ function VarLoadScreen({ route, navigation }) {
   const { varNum, title, header, caption } = route.params;
   const { settings } = useContext(SettingsContext);
   const variations = [Var0, Var1, Var2];
+  const backgroundColor = colorPalatte[settings.theme].white;
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        cardStyle: { backgroundColor: "transparent" },
-        cardStyleInterpolator: ({ current: { progress } }) => ({
-          cardStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 1],
-            }),
-          },
-        }),
-      }}
-    >
-      <Stack.Screen
-        name={"Options"}
-        component={OptionsScreen}
-        initialParams={{
-          varNum: varNum,
-          title: title,
-          header: header,
-          caption: caption,
-          settings: settings,
+    <View style={{ backgroundColor: backgroundColor, flex: 1 }}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
         }}
-      />
-      <Stack.Screen name={String(varNum)} component={variations[varNum]} />
-    </Stack.Navigator>
+      >
+        <Stack.Screen
+          name={"Options"}
+          component={OptionsScreen}
+          initialParams={{
+            varNum: varNum,
+            title: title,
+            header: header,
+            caption: caption,
+            settings: settings,
+          }}
+        />
+        <Stack.Screen name={String(varNum)} component={variations[varNum]} />
+      </Stack.Navigator>
+    </View>
   );
 }
 

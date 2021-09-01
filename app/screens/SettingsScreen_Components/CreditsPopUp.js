@@ -54,6 +54,9 @@ function CreditsPopUp(props) {
             <CreditsSpecial header={"for providing me his phone"}>
               Akshay Changaroth
             </CreditsSpecial>
+            <CreditsSpecial header={"for thinking he can fly"}>
+              Jowen Ng
+            </CreditsSpecial>
           </View>
         </View>
       </View>

@@ -27,7 +27,7 @@ function Menu(props) {
             </Clickable>
             <Clickable>
               <View style={styles.button}>
-                <Text style={styles.buttonText}>Instructions</Text>
+                <Text style={styles.buttonText}>Rules</Text>
               </View>
             </Clickable>
             <Clickable
