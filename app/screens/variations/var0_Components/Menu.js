@@ -4,7 +4,6 @@ import Clickable from "../../components/Clickable";
 import colorPalatte from "../../../config/colorPalatte";
 
 function Menu(props) {
-  const navigation = props.navigation;
   const exitText = "M";
   const styles = getStyles(props.settings, colorPalatte);
 
@@ -15,12 +14,9 @@ function Menu(props) {
           <View style={styles.headerContainer}>
             <Text style={styles.header}>Menu</Text>
             <View style={styles.exitContainer}>
-              <Text
-                onPress={() => props.setMenu(false)}
-                style={styles.exitButton}
-              >
-                {exitText}
-              </Text>
+              <Clickable onPress={() => props.setMenu(false)}>
+                <Text style={styles.exitButton}>{exitText}</Text>
+              </Clickable>
             </View>
           </View>
           <View style={styles.buttonsContainer}>

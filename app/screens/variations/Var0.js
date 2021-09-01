@@ -7,8 +7,10 @@ import layout from "./boardLayouts/var0Layout";
 import GameUI from "./var0_Components/GameUI";
 
 function Var0({ route, navigation }) {
+  //Bring up the constants
   const { options, settings, saved } = route.params;
 
+  //Initialise game
   const [gameDetails, chessActions] = useChessMove(layout, saved);
 
   //Initialise time left

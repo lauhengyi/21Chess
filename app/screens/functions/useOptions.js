@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 function useOptions(varNum) {
   //Create loading component
   const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   //Create states for the options
 
   //Gamemodes
@@ -149,23 +150,25 @@ function useOptions(varNum) {
     }
     if (!loading) {
       //Load the details in
-      getOptions().then((options) => {
-        setMode(options.mode);
-        setDiff(options.diff);
-        setAutoturn(options.isAutoturn);
-        setFlipped(options.isFlipped);
-        setSide(options.startingSide);
-        setChessClock(options.isChessClock);
-        setAdditional(options.isAdditional);
-        setClickedButton(options.timeDetails.clickedButton);
-        setTimeLock(options.timeDetails.isTimeLock);
-        setP1Time(options.timeDetails.p1Time);
-        setP2Time(options.timeDetails.p2Time);
-        setP1Increment(options.timeDetails.p1Increment);
-        setP2Increment(options.timeDetails.p2Increment);
-        setP1Delay(options.timeDetails.p1Delay);
-        setP2Delay(options.timeDetails.p2Delay);
-      });
+      getOptions()
+        .then((options) => {
+          setMode(options.mode);
+          setDiff(options.diff);
+          setAutoturn(options.isAutoturn);
+          setFlipped(options.isFlipped);
+          setSide(options.startingSide);
+          setChessClock(options.isChessClock);
+          setAdditional(options.isAdditional);
+          setClickedButton(options.timeDetails.clickedButton);
+          setTimeLock(options.timeDetails.isTimeLock);
+          setP1Time(options.timeDetails.p1Time);
+          setP2Time(options.timeDetails.p2Time);
+          setP1Increment(options.timeDetails.p1Increment);
+          setP2Increment(options.timeDetails.p2Increment);
+          setP1Delay(options.timeDetails.p1Delay);
+          setP2Delay(options.timeDetails.p2Delay);
+        })
+        .finally(() => setLoaded(true));
     }
   }, [loading]);
 
@@ -187,6 +190,7 @@ function useOptions(varNum) {
   }
 
   return {
+    loaded,
     modeDetails,
     diffDetails,
     isAutoturnDetails,

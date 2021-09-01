@@ -11,6 +11,7 @@ import AdditionalTimeControls from "./OptionsScreen_Components/AdditionalTimeCon
 
 function OptionsScreen({ route, navigation }) {
   const {
+    loaded,
     modeDetails,
     diffDetails,
     isAutoturnDetails,
@@ -55,93 +56,105 @@ function OptionsScreen({ route, navigation }) {
           <Text style={styles.header}>{route.params.header}</Text>
           <Text style={styles.caption}>{route.params.caption}</Text>
         </View>
-        <View style={styles.optionsContainer}>
-          <Text style={styles.subHeader}>Gamemode</Text>
-          <SegmentedControlTab
-            tabsContainerStyle={styles.tabsContainerStyle}
-            tabStyle={styles.tabStyle}
-            tabTextStyle={styles.tabTextStyle}
-            activeTabStyle={styles.activeTabStyle}
-            activeTabTextStyle={styles.activeTabTextStyle}
-            values={modeDetails.values}
-            selectedIndex={modeDetails.selectedIndex}
-            onTabPress={(index) => modeDetails.onTabPress(index)}
-          />
-          {mode === 0 ? (
-            <VsComputerOptions style={styles} diffDetails={diffDetails} />
-          ) : (
-            <VsPlayerOptions
-              style={styles}
-              colors={colors}
-              isAutoturnDetails={isAutoturnDetails}
-              isFlippedDetails={isFlippedDetails}
-            />
-          )}
-
-          <Text style={styles.subHeader}>Starting side</Text>
-          <SegmentedControlTab
-            tabsContainerStyle={styles.tabsContainerStyle}
-            tabStyle={styles.tabStyle}
-            tabTextStyle={styles.tabTextStyle}
-            activeTabStyle={styles.activeTabStyle}
-            activeTabTextStyle={styles.activeTabTextStyle}
-            values={startingSideDetails.values}
-            selectedIndex={startingSideDetails.selectedIndex}
-            onTabPress={(index) => startingSideDetails.onTabPress(index)}
-          />
-          {mode === 1 ? (
-            <>
-              <View style={styles.toggleOptionsContainer}>
-                <Text style={styles.subHeader}>Chess clock</Text>
-                <Switch
-                  trackColor={{ false: colors.grey1, true: colors.black }}
-                  thumbColor={colors.grey2}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={isChessClockDetails.onValueChange}
-                  value={isChessClockDetails.value}
+        {loaded ? (
+          <>
+            <View style={styles.optionsContainer}>
+              <Text style={styles.subHeader}>Gamemode</Text>
+              <SegmentedControlTab
+                tabsContainerStyle={styles.tabsContainerStyle}
+                tabStyle={styles.tabStyle}
+                tabTextStyle={styles.tabTextStyle}
+                activeTabStyle={styles.activeTabStyle}
+                activeTabTextStyle={styles.activeTabTextStyle}
+                values={modeDetails.values}
+                selectedIndex={modeDetails.selectedIndex}
+                onTabPress={(index) => modeDetails.onTabPress(index)}
+              />
+              {mode === 0 ? (
+                <VsComputerOptions style={styles} diffDetails={diffDetails} />
+              ) : (
+                <VsPlayerOptions
+                  style={styles}
+                  colors={colors}
+                  isAutoturnDetails={isAutoturnDetails}
+                  isFlippedDetails={isFlippedDetails}
                 />
-              </View>
-              {isChessClock ? (
+              )}
+
+              <Text style={styles.subHeader}>Starting side</Text>
+              <SegmentedControlTab
+                tabsContainerStyle={styles.tabsContainerStyle}
+                tabStyle={styles.tabStyle}
+                tabTextStyle={styles.tabTextStyle}
+                activeTabStyle={styles.activeTabStyle}
+                activeTabTextStyle={styles.activeTabTextStyle}
+                values={startingSideDetails.values}
+                selectedIndex={startingSideDetails.selectedIndex}
+                onTabPress={(index) => startingSideDetails.onTabPress(index)}
+              />
+              {mode === 1 ? (
                 <>
-                  <Text style={styles.subHeader}>Time controls:</Text>
-                  <TimeSelect timeDetails={timeDetails} settings={settings} />
                   <View style={styles.toggleOptionsContainer}>
-                    <Text style={styles.subHeader}>
-                      Additional time controls
-                    </Text>
+                    <Text style={styles.subHeader}>Chess clock</Text>
                     <Switch
                       trackColor={{ false: colors.grey1, true: colors.black }}
                       thumbColor={colors.grey2}
                       ios_backgroundColor="#3e3e3e"
-                      onValueChange={isAdditionalDetails.onValueChange}
-                      value={isAdditionalDetails.value}
+                      onValueChange={isChessClockDetails.onValueChange}
+                      value={isChessClockDetails.value}
                     />
                   </View>
-                  {isAdditionalDetails.value ? (
-                    <AdditionalTimeControls
-                      textStyle={styles.subHeader}
-                      timeDetails={timeDetails}
-                      settings={settings}
-                    />
+                  {isChessClock ? (
+                    <>
+                      <Text style={styles.subHeader}>Time controls:</Text>
+                      <TimeSelect
+                        timeDetails={timeDetails}
+                        settings={settings}
+                      />
+                      <View style={styles.toggleOptionsContainer}>
+                        <Text style={styles.subHeader}>
+                          Additional time controls
+                        </Text>
+                        <Switch
+                          trackColor={{
+                            false: colors.grey1,
+                            true: colors.black,
+                          }}
+                          thumbColor={colors.grey2}
+                          ios_backgroundColor="#3e3e3e"
+                          onValueChange={isAdditionalDetails.onValueChange}
+                          value={isAdditionalDetails.value}
+                        />
+                      </View>
+                      {isAdditionalDetails.value ? (
+                        <AdditionalTimeControls
+                          textStyle={styles.subHeader}
+                          timeDetails={timeDetails}
+                          settings={settings}
+                        />
+                      ) : null}
+                    </>
                   ) : null}
                 </>
               ) : null}
-            </>
-          ) : null}
-        </View>
-        <View style={styles.beginContainer}>
-          <Clickable
-            onPress={() =>
-              navigation.navigate(String(route.params.varNum), {
-                options: options,
-                settings: settings,
-                saved: null,
-              })
-            }
-          >
-            <Text style={styles.begin}>Begin</Text>
-          </Clickable>
-        </View>
+            </View>
+            <View style={styles.beginContainer}>
+              <Clickable
+                onPress={() =>
+                  navigation.navigate(String(route.params.varNum), {
+                    options: options,
+                    settings: settings,
+                    saved: null,
+                  })
+                }
+              >
+                <Text style={styles.begin}>Begin</Text>
+              </Clickable>
+            </View>
+          </>
+        ) : (
+          <Text style={styles.loading}>Loading</Text>
+        )}
       </ScrollView>
     </View>
   );
@@ -243,6 +256,12 @@ function getStyles(settings, colorPalatte) {
       fontSize: 50,
       color: colors.black,
       textAlignVertical: "bottom",
+    },
+
+    loading: {
+      fontFamily: "ELM",
+      fontSize: 30,
+      color: colors.black,
     },
   });
   return [styles, colors];
