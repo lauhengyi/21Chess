@@ -68,6 +68,7 @@ function getBestMove(gameDetails, depth) {
     }
   }
 
+  console.log({ bestMove, bestEvaluation, depth });
   return [bestMove, castling];
 }
 
@@ -179,18 +180,5 @@ function isBestEvaluation(side, evaluation, bestEvaluation) {
 
   return false;
 }
-
-const initialDetails = {
-  boardLayout: var0Layout,
-  moveables: [null, null],
-  clickedSquare: null,
-  currentSide: true,
-  lastMoved: [null, null, null],
-  eatenPieces: [],
-  checked: 0,
-  stalemated: 0,
-  checkmated: 0,
-  promotion: null,
-};
 
 export default getBestMove;

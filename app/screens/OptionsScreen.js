@@ -26,8 +26,8 @@ function OptionsScreen({ route, navigation }) {
   const mode = modeDetails.selectedIndex;
   const diff = diffDetails.selectedIndex;
   const isAutoturn = mode ? isAutoturnDetails.value : false;
-  const isFlipped = isAutoturnDetails.value ? false : isFlippedDetails.value;
-  const startingSide = startingSideDetails.values === 0 ? true : false;
+  const isFlipped = isAutoturn || !mode ? false : isFlippedDetails.value;
+  const startingSide = startingSideDetails.selectedIndex === 0 ? true : false;
   const isChessClock = mode ? isChessClockDetails.value : false;
   const options = {
     mode,

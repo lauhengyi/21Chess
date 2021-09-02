@@ -5,6 +5,7 @@ import useComputer from "../../mechanisms/var0/useComputer";
 import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
 import GameUI from "./var0_Components/GameUI";
+import evaluateBoard from "../../mechanisms/var0/evalutateBoard";
 
 function Var0({ route, navigation }) {
   //Bring up the constants
@@ -21,6 +22,8 @@ function Var0({ route, navigation }) {
     useComputer(gameDetails, chessActions, options);
   }
 
+  const currentEvaluation = evaluateBoard(gameDetails);
+  console.log({ currentEvaluation });
   return (
     <GameUI
       varNum={0}

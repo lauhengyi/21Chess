@@ -2,12 +2,12 @@ import React from "react";
 import { View, ScrollView, Text, Modal, StyleSheet } from "react-native";
 import Clickable from "./components/Clickable";
 import colorPalatte from "../config/colorPalatte";
+import Var0Rules from "./Rules_Components/Var0Rules";
 
 function RulesPopUp(props) {
   const varNum = props.varNum;
   const isVisible = props.isVisible;
   const setVisible = props.setVisible;
-  const header = "Var. " + String(varNum);
   const exitText = "M";
 
   const styles = getStyles(props.settings, colorPalatte);
@@ -18,18 +18,29 @@ function RulesPopUp(props) {
         <View style={styles.instructionsContainer}>
           <ScrollView contentContainerStyle={styles.instructionsScroll}>
             <View style={styles.headerContainer}>
-              <Text style={styles.header}>{header}</Text>
+              <Text style={styles.header}>{props.title}</Text>
               <View style={styles.exitContainer}>
                 <Clickable onPress={() => setVisible(false)}>
                   <Text style={styles.exitButton}>{exitText}</Text>
                 </Clickable>
               </View>
             </View>
+            <Text style={styles.subHeader}>{props.header}</Text>
+            <View style={styles.rules}>
+              <Rules varNum={varNum} settings={props.settings} />
+            </View>
+            <Text style={styles.endText}>~END~</Text>
           </ScrollView>
         </View>
       </View>
     </Modal>
   );
+}
+function Rules(props) {
+  const varNum = props.varNum;
+  const settings = props.settings;
+  const rulesList = [<Var0Rules settings={settings} />];
+  return rulesList[varNum];
 }
 
 function getStyles(settings, colorPalatte) {
@@ -52,11 +63,10 @@ function getStyles(settings, colorPalatte) {
 
     instructionsScroll: {
       alignItems: "center",
-      padding: 10,
+      padding: 15,
     },
 
     headerContainer: {
-      margin: 5,
       flexDirection: "row",
       width: "100%",
       justifyContent: "center",
@@ -66,6 +76,13 @@ function getStyles(settings, colorPalatte) {
       fontFamily: "FogtwoNo5",
       fontSize: 40,
       color: colors.black,
+    },
+
+    subHeader: {
+      fontFamily: "ELM",
+      fontSize: 20,
+      color: colors.black,
+      marginBottom: 20,
     },
 
     exitContainer: {
@@ -79,6 +96,16 @@ function getStyles(settings, colorPalatte) {
     exitButton: {
       fontFamily: "ElegantIcons",
       fontSize: 35,
+      color: colors.black,
+    },
+
+    rules: {
+      flex: 1,
+    },
+
+    endText: {
+      fontFamily: "ELMB",
+      fontSize: 15,
       color: colors.black,
     },
   });

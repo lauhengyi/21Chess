@@ -19,6 +19,8 @@ function VarContainer(props) {
         isVisible={isRules}
         setVisible={setRules}
         settings={settings}
+        title={props.title}
+        header={props.header}
       />
       <View style={styles.variationOuterContainer}>
         <View style={styles.variationInnerContainer}>

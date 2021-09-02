@@ -3,7 +3,7 @@ import layout from "../../screens/variations/boardLayouts/var0Layout.js";
 
 function evaluateBoard(gameDetails) {
   // Declare evaluation constants
-  const coveredSquareValue = 10;
+  const coveredSquareValue = 50;
   const pawnValue = 60;
   const rookValue = 300;
   const knightValue = 240;
@@ -15,9 +15,9 @@ function evaluateBoard(gameDetails) {
   //Multipllier on coveredSquareValue based on how many pieces attacked that square
   const coveredSquareMatrix = [0, 1, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3];
   //Multiplier on piece base value based on how many pieces defends it
-  const defendedMatrix = [1, 2, 3, 4, 5, 6, 7, 8];
+  const defendedMatrix = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2];
   //Multiplier on piece base value based on how many pieces attacks it
-  const attackedMatrix = [1, 0.5, 0.25, 0.2, 0.166, 0.143, 0.125, 0.111];
+  const attackedMatrix = [1, 0.909, 0.833, 0.769, 0.714, 0.666, 0.625, 0.588];
 
   const board = gameDetails.boardLayout;
 
