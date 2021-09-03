@@ -4,20 +4,13 @@ import colorPalatte from "../../config/colorPalatte";
 import VarContainer from "./VarContainer";
 
 function VarTypeContainer(props) {
-  const varData = props.varData;
+  const varList = props.varList;
   const settings = props.settings;
   const styles = getStyles(settings, colorPalatte);
   return (
     <ScrollView contentContainerStyle={styles.variationSelectContainer}>
-      {varData.map((variation) => (
-        <VarContainer
-          key={variation.id}
-          var={variation.id}
-          title={variation.title}
-          header={variation.header}
-          caption={variation.caption}
-          settings={settings}
-        />
+      {varList.map((varNum) => (
+        <VarContainer key={varNum} varNum={varNum} settings={settings} />
       ))}
     </ScrollView>
   );

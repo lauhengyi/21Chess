@@ -2,6 +2,7 @@ import React from "react";
 import { View, ScrollView, Text, Modal, StyleSheet } from "react-native";
 import Clickable from "./components/Clickable";
 import colorPalatte from "../config/colorPalatte";
+import varData from "./VarLoadScreen_Components/varData";
 import Var0Rules from "./Rules_Components/Var0Rules";
 
 function RulesPopUp(props) {
@@ -10,6 +11,9 @@ function RulesPopUp(props) {
   const setVisible = props.setVisible;
   const exitText = "M";
 
+  //Load title and header
+  const { title, header } = varData[varNum];
+
   const styles = getStyles(props.settings, colorPalatte);
 
   return (
@@ -17,15 +21,15 @@ function RulesPopUp(props) {
       <View style={styles.background}>
         <View style={styles.instructionsContainer}>
           <ScrollView contentContainerStyle={styles.instructionsScroll}>
-            <View style={styles.headerContainer}>
-              <Text style={styles.header}>{props.title}</Text>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{title}</Text>
               <View style={styles.exitContainer}>
                 <Clickable onPress={() => setVisible(false)}>
                   <Text style={styles.exitButton}>{exitText}</Text>
                 </Clickable>
               </View>
             </View>
-            <Text style={styles.subHeader}>{props.header}</Text>
+            <Text style={styles.header}>{header}</Text>
             <View style={styles.rules}>
               <Rules varNum={varNum} settings={props.settings} />
             </View>
@@ -66,19 +70,19 @@ function getStyles(settings, colorPalatte) {
       padding: 15,
     },
 
-    headerContainer: {
+    titleContainer: {
       flexDirection: "row",
       width: "100%",
       justifyContent: "center",
     },
 
-    header: {
+    title: {
       fontFamily: "FogtwoNo5",
       fontSize: 40,
       color: colors.black,
     },
 
-    subHeader: {
+    header: {
       fontFamily: "ELM",
       fontSize: 20,
       color: colors.black,

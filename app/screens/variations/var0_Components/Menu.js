@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Text, View, StyleSheet } from "react-native";
 import Clickable from "../../components/Clickable";
 import colorPalatte from "../../../config/colorPalatte";
+import RulesPopUp from "../../RulesPopUp";
 
 function Menu(props) {
   const exitText = "M";
   const styles = getStyles(props.settings, colorPalatte);
+  const [isRules, setRules] = useState(false);
 
   return (
     <Modal animationType="fade" visible={props.isMenu} transparent={true}>
@@ -25,11 +27,17 @@ function Menu(props) {
                 <Text style={styles.buttonText}>Restart</Text>
               </View>
             </Clickable>
-            <Clickable>
+            <Clickable onPress={() => setRules(true)}>
               <View style={styles.button}>
                 <Text style={styles.buttonText}>Rules</Text>
               </View>
             </Clickable>
+            <RulesPopUp
+              varNum={props.varNum}
+              isVisible={isRules}
+              setVisible={setRules}
+              settings={props.settings}
+            />
             <Clickable
               onPress={() => {
                 props.handleExitPress();

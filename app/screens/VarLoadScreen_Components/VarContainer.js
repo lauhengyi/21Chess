@@ -3,11 +3,13 @@ import colorPalatte from "../../config/colorPalatte";
 import { View, StyleSheet, Text, Image } from "react-native";
 import Clickable from "../components/Clickable";
 import { useNavigation } from "@react-navigation/native";
+import varData from "./varData";
 import RulesPopUp from "../RulesPopUp";
 
 function VarContainer(props) {
   const navigation = useNavigation();
-  const variation = props.var;
+  const varNum = props.varNum;
+  const { title, header, caption } = varData[varNum];
   const settings = props.settings;
   const [isRules, setRules] = useState(false);
   const styles = getStyles(settings, colorPalatte);
@@ -15,30 +17,25 @@ function VarContainer(props) {
   return (
     <>
       <RulesPopUp
-        varNum={variation}
+        varNum={varNum}
         isVisible={isRules}
         setVisible={setRules}
         settings={settings}
-        title={props.title}
-        header={props.header}
       />
       <View style={styles.variationOuterContainer}>
         <View style={styles.variationInnerContainer}>
-          <Text style={styles.varTitle}>{props.title}</Text>
+          <Text style={styles.varTitle}>{title}</Text>
           <Image
             style={styles.varPreview}
             source={require("../../assets/images/previews/placeHolder.jpg")}
           />
-          <Text style={styles.varHeader}>{props.header}</Text>
-          <Text style={styles.varCaption}>{props.caption}</Text>
+          <Text style={styles.varHeader}>{header}</Text>
+          <Text style={styles.varCaption}>{caption}</Text>
           <View style={styles.varButtonsContainer}>
             <Clickable
               onPress={() =>
                 navigation.navigate("VarLoad", {
-                  varNum: variation,
-                  title: props.title,
-                  header: props.header,
-                  caption: props.caption,
+                  varNum: varNum,
                   settings: settings,
                 })
               }

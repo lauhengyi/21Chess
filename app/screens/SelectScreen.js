@@ -1,30 +1,28 @@
 import React, { useContext, useState } from "react";
 import colorPalatte from "../config/colorPalatte";
 import VarTypeContainer from "./VarLoadScreen_Components/VarTypeContainer";
-import {
-  LENTO_VAR,
-  ANDANTE_VAR,
-  ALLEGRO_VAR,
-  PRESTO_VAR,
-} from "./VarLoadScreen_Components/varData";
 import { View, StyleSheet, Text, useWindowDimensions } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import SettingsContext from "./functions/SettingsContext";
 
+const LENTO_VAR = [0, 1, 2, 3, 4];
+const ANDANTE_VAR = [5, 6, 7, 8, 9];
+const ALLEGRO_VAR = [10, 11, 12, 13, 14, 15];
+const PRESTO_VAR = [16, 17, 18, 19, 20, 21];
 const Lento = (settings) => (
-  <VarTypeContainer varData={LENTO_VAR} settings={settings} />
+  <VarTypeContainer varList={LENTO_VAR} settings={settings} />
 );
 
 const Andante = (settings) => (
-  <VarTypeContainer varData={ANDANTE_VAR} settings={settings} />
+  <VarTypeContainer varList={ANDANTE_VAR} settings={settings} />
 );
 
 const Allegro = (settings) => (
-  <VarTypeContainer varData={ALLEGRO_VAR} settings={settings} />
+  <VarTypeContainer varList={ALLEGRO_VAR} settings={settings} />
 );
 
 const Presto = (settings) => (
-  <VarTypeContainer varData={PRESTO_VAR} settings={settings} />
+  <VarTypeContainer varList={PRESTO_VAR} settings={settings} />
 );
 
 const renderTabBar = (styles, colors) => {

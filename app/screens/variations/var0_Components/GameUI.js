@@ -45,6 +45,7 @@ function GameUI(props) {
         setMenu={setMenu}
         handleExitPress={() => handleExitPress()}
         handleRestart={() => handleRestart()}
+        varNum={varNum}
         settings={settings}
       />
       <View style={styles.statsBarTop}>

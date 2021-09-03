@@ -8,6 +8,7 @@ import VsComputerOptions from "./OptionsScreen_Components/VsComputerOptions";
 import VsPlayerOptions from "./OptionsScreen_Components/vsPlayerOptions";
 import TimeSelect from "./OptionsScreen_Components/TimeSelect";
 import AdditionalTimeControls from "./OptionsScreen_Components/AdditionalTimeControls";
+import varData from "./VarLoadScreen_Components/varData";
 
 function OptionsScreen({ route, navigation }) {
   const {
@@ -21,6 +22,9 @@ function OptionsScreen({ route, navigation }) {
     isAdditionalDetails,
     timeDetails,
   } = useOptions(route.params.varNum);
+
+  //Get title, header, and caption of var
+  const { title, header, caption } = varData[route.params.varNum];
 
   //Create options object
   const mode = modeDetails.selectedIndex;
@@ -52,9 +56,9 @@ function OptionsScreen({ route, navigation }) {
     <View style={styles.background}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.introContainer}>
-          <Text style={styles.title}>{route.params.title}</Text>
-          <Text style={styles.header}>{route.params.header}</Text>
-          <Text style={styles.caption}>{route.params.caption}</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.header}>{header}</Text>
+          <Text style={styles.caption}>{caption}</Text>
         </View>
         {loaded ? (
           <>

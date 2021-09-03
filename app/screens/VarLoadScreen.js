@@ -11,7 +11,7 @@ import colorPalatte from "../config/colorPalatte";
 const Stack = createStackNavigator();
 
 function VarLoadScreen({ route, navigation }) {
-  const { varNum, title, header, caption } = route.params;
+  const varNum = route.params.varNum;
   const { settings } = useContext(SettingsContext);
   const variations = [Var0, Var1, Var2];
   const backgroundColor = colorPalatte[settings.theme].white;
@@ -27,9 +27,6 @@ function VarLoadScreen({ route, navigation }) {
           component={OptionsScreen}
           initialParams={{
             varNum: varNum,
-            title: title,
-            header: header,
-            caption: caption,
             settings: settings,
           }}
         />
