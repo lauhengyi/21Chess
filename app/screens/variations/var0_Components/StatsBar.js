@@ -179,7 +179,7 @@ function getStyles(settings, colorPalatte) {
 
     eatenPiece: {
       fontFamily: "Meri",
-      fontSize: 25,
+      fontSize: 22,
       color: colors.black,
     },
 

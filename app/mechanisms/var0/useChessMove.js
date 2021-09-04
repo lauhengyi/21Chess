@@ -3,11 +3,11 @@ import executeMove from "./functions/executeMove.js";
 import checkCheck from "./functions/checkCheck.js";
 import getPiece from "../primaryFunctions/getPiece.js";
 import { validMoves } from "./getChessMoves.js";
+import clone from "just-clone";
 
 function chessMovesReducer(state, action) {
   //Making deep copy
-  let newDetails = Object.assign({}, state);
-  newDetails.eatenPieces = [...state.eatenPieces];
+  let newDetails = clone(state);
 
   switch (action.type) {
     case "pieceClick": {

@@ -166,8 +166,8 @@ function checkCastling(id, board, validMoves) {
       // Check for occupied pieces between the rook and king
       if (
         !(
-          checkCollision(piece.position - 1, board)[0] &&
-          checkCollision(piece.position - 2, board)[0] &&
+          checkCollision(piece.position - 1, board)[0] ||
+          checkCollision(piece.position - 2, board)[0] ||
           checkCollision(piece.position - 3, board)[0]
         )
       ) {
@@ -189,7 +189,7 @@ function checkCastling(id, board, validMoves) {
       // Check for occupied pieces between the rook and king
       if (
         !(
-          checkCollision(piece.position + 1, board)[0] &&
+          checkCollision(piece.position + 1, board)[0] ||
           checkCollision(piece.position + 2, board)[0]
         )
       ) {
