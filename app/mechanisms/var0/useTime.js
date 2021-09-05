@@ -41,7 +41,8 @@ function useTime(gameDetails, options, saved) {
         player === 1 ? timeDetails.p2Increment : timeDetails.p1Increment;
 
       //Exclude first move of each player
-      if (count > 1) {
+      //Clocks stops running after game ends
+      if (count > 1 && !checkEnd()) {
         const delayInMiliseconds =
           parseInt(convertTimeToSeconds(timeDelay)) * 1000;
         //Add delay
@@ -60,6 +61,8 @@ function useTime(gameDetails, options, saved) {
 
         //Update running clock
         setRunning(player);
+      } else if (checkEnd()) {
+        setRunning(0);
       }
       setCount((count) => count + 1);
 
@@ -100,6 +103,14 @@ function useTime(gameDetails, options, saved) {
     } else {
       return 2;
     }
+  }
+
+  function checkEnd() {
+    const { stalemated, checkmated } = gameDetails;
+    if (stalemated || checkmated) {
+      return true;
+    }
+    return false;
   }
 }
 

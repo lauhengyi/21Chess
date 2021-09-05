@@ -1,7 +1,8 @@
 import { validAttacks, validDefended } from "./getChessMoves.js";
 import layout from "../../screens/variations/boardLayouts/var0Layout.js";
+import getPiece from "../primaryFunctions/getPiece.js";
 
-function evaluateBoard(gameDetails) {
+function evaluateBoard(gameDetails, oldDetails, move) {
   // Declare evaluation constants
   const coveredSquareValue = 20;
   const pawnValue = 60;
@@ -11,6 +12,7 @@ function evaluateBoard(gameDetails) {
   const queenValue = 700;
   const kingValue = 100;
   const checkmateValue = Infinity;
+  const stalemateValue = 0;
 
   //Multipllier on coveredSquareValue based on how many pieces attacked that square
   const coveredSquareMatrix = [0, 1, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3];
@@ -24,11 +26,30 @@ function evaluateBoard(gameDetails) {
   return evaluateSide(true) - evaluateSide(false);
 
   function evaluateSide(side) {
+    let evaluation = 0;
     const attacked = compileAttackedSquares(!side);
     const defended = compileDefendedSquares(side);
+    if (move && side === oldDetails.currentSide) {
+      //Captures with pieces of lower value to pieces of higher value are likely to be good moves
+      const movedPiece = getPiece(move[0], oldDetails.boardLayout);
+      if (move.length === 3) {
+        const capturingValue = getBaseValue(movedPiece);
+        const capturedValue = getBaseValue(
+          getPiece(move[2], oldDetails.boardLayout)
+        );
+        if (capturingValue < capturedValue) {
+          evaluation += 10 * capturedValue - capturedValue;
+        }
+      }
+      //It is likely a bad move if a non pawn piece moves to a position where it can be attacked and not defended
+      if (movedPiece.type != "p") {
+        //Check whether moved piece is being attacked and against
+        if (attacked.includes(move[1]) && !defended.includes(move[1])) {
+          evaluation -= getBaseValue(movedPiece);
+        }
+      }
+    }
     const covered = compileAttackedSquares(side);
-
-    let evaluation = 0;
 
     for (let piece of board) {
       if (piece.side === side) {
@@ -38,7 +59,7 @@ function evaluateBoard(gameDetails) {
 
     evaluation += evaluateCoveredSquares(covered);
 
-    evaluation += evaluateCheckmate(side);
+    evaluation += evaluateStatus(side);
 
     return evaluation;
   }
@@ -58,7 +79,7 @@ function evaluateBoard(gameDetails) {
         let attacks = validAttacks(piece, board, gameDetails.lastMoved);
         // Add attacks to result
         for (let attack of attacks) {
-          result[attack] += 1;
+          result[attack[1]] += 1;
         }
       }
     }
@@ -81,7 +102,7 @@ function evaluateBoard(gameDetails) {
         let defended = validDefended(piece, board);
         // Add attacks to result
         for (let defend of defended) {
-          result[defend] += 1;
+          result[defend[1]] += 1;
         }
       }
     }
@@ -118,7 +139,7 @@ function evaluateBoard(gameDetails) {
     return result;
   }
 
-  function evaluateCheckmate(side) {
+  function evaluateStatus(side) {
     let result = 0;
     if (gameDetails.checkmated) {
       if (
@@ -126,6 +147,13 @@ function evaluateBoard(gameDetails) {
         (gameDetails.checkmated === 1 && side === false)
       ) {
         result = checkmateValue;
+      }
+    } else if (gameDetails.stalemated) {
+      if (
+        (gameDetails.stalemated === 2 && side === true) ||
+        (gameDetails.stalemated === 1 && side === false)
+      ) {
+        result = stalemateValue;
       }
     }
     return result;

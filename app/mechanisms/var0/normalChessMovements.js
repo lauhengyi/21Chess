@@ -1,3 +1,4 @@
+import clone from "just-clone";
 import checkCollision from "./functions/checkCollision.js";
 
 // attacks and moves and defends are without consideration of pinning
@@ -122,12 +123,11 @@ function pawnMoves(piece, board) {
   //get attack moves
   let Amoves = pawnAttacks(piece, board, true);
   //update attacks to only when there is an enemy
-  let positions = [];
+  let moves = [];
   for (let move of Amoves) {
-    let collided, side;
-    [collided, side] = checkCollision(move, board);
+    const [collided, side, eatenId] = checkCollision(move[1], board);
     if (collided && side != piece.side) {
-      positions.push(move);
+      moves.push([move[0], move[1], eatenId]);
     }
   }
 
@@ -139,10 +139,10 @@ function pawnMoves(piece, board) {
       let collided;
       [collided] = checkCollision(piece.position + 8, board);
       if (!collided) {
-        positions.push(piece.position + 8);
+        moves.push([piece.id, piece.position + 8]);
         [collided] = checkCollision(piece.position + 16, board);
         if (!collided) {
-          positions.push(piece.position + 16);
+          moves.push([piece.id, piece.position + 16]);
         }
       }
     } else {
@@ -150,10 +150,10 @@ function pawnMoves(piece, board) {
       let collided;
       [collided] = checkCollision(piece.position - 8, board);
       if (!collided) {
-        positions.push(piece.position - 8);
+        moves.push([piece.id, piece.position - 8]);
         [collided] = checkCollision(piece.position - 16, board);
         if (!collided) {
-          positions.push(piece.position - 16);
+          moves.push([piece.id, piece.position - 16]);
         }
       }
     }
@@ -162,16 +162,16 @@ function pawnMoves(piece, board) {
     if (piece.side) {
       //piece is white
       if (!checkCollision(piece.position + 8, board)[0]) {
-        positions.push(piece.position + 8);
+        moves.push([piece.id, piece.position + 8]);
       }
     } else {
       //piece is black
       if (!checkCollision(piece.position - 8, board)[0]) {
-        positions.push(piece.position - 8);
+        moves.push([piece.id, piece.position - 8]);
       }
     }
   }
-  return positions;
+  return moves;
 }
 
 //returns a list of positions that the pawn can attack, regardless of enemies and without accounting for pinning
@@ -187,28 +187,27 @@ function pawnAttacks(piece, board, AorD) {
     //consider edge cases
     //consider extreme left and extreme right respectively
     if (!checkLeftEdge(piece.position)) {
-      attacks.push(piece.position + 7);
+      attacks.push([piece.id, piece.position + 7]);
     }
     if (!checkRightEdge(piece.position)) {
-      attacks.push(piece.position + 9);
+      attacks.push([piece.id, piece.position + 9]);
     }
   } else {
     //pawn is black
     //consider edge cases
     //consider extreme left and extreme right respectively
     if (!checkLeftEdge(piece.position)) {
-      attacks.push(piece.position - 9);
+      attacks.push([piece.id, piece.position - 9]);
     }
     if (!checkRightEdge(piece.position)) {
-      attacks.push(piece.position - 7);
+      attacks.push([piece.id, piece.position - 7]);
     }
   }
   //return nothing if attack is on an allied piece
   if (AorD) {
     let result = [];
     for (let attack of attacks) {
-      let collided, side;
-      [collided, side] = checkCollision(attack, board);
+      const [collided, side] = checkCollision(attack[1], board);
       if (collided === false || side != piece.side) {
         result.push(attack);
       }
@@ -242,7 +241,7 @@ function rookMoves(piece, board, AorD) {
 
     //Check for blocking pieces
     let collided;
-    [up, collided] = accountCollidedPiece(i, piece.side, up, board, AorD);
+    [up, collided] = accountCollidedPiece(i, piece, up, board, AorD);
     if (collided) {
       break;
     }
@@ -260,7 +259,7 @@ function rookMoves(piece, board, AorD) {
 
     //Check for blocking pieces
     let collided;
-    [down, collided] = accountCollidedPiece(i, piece.side, down, board, AorD);
+    [down, collided] = accountCollidedPiece(i, piece, down, board, AorD);
     if (collided) {
       break;
     }
@@ -278,7 +277,7 @@ function rookMoves(piece, board, AorD) {
 
     //Check for blocking pieces
     let collided;
-    [left, collided] = accountCollidedPiece(i, piece.side, left, board, AorD);
+    [left, collided] = accountCollidedPiece(i, piece, left, board, AorD);
     if (collided) {
       break;
     }
@@ -296,7 +295,7 @@ function rookMoves(piece, board, AorD) {
 
     //Check for blocking pieces
     let collided;
-    [right, collided] = accountCollidedPiece(i, piece.side, right, board, AorD);
+    [right, collided] = accountCollidedPiece(i, piece, right, board, AorD);
     if (collided) {
       break;
     }
@@ -326,60 +325,54 @@ function knightMoves(piece, board, AorD) {
 
   // compile moves before accounting for positions blocked by allies
   // adding relevant moves depending on the pieces edge cases
-  let moves = [];
+  let positions = [];
 
   // consider up moves
   if (!checkTopEdge2(piece.position)) {
     if (!checkLeftEdge(piece.position)) {
-      moves.push(ul);
+      positions.push(ul);
     }
     if (!checkRightEdge(piece.position)) {
-      moves.push(ur);
+      positions.push(ur);
     }
   }
 
   // consider down moves
   if (!checkBottomEdge2(piece.position)) {
     if (!checkLeftEdge(piece.position)) {
-      moves.push(dl);
+      positions.push(dl);
     }
     if (!checkRightEdge(piece.position)) {
-      moves.push(dr);
+      positions.push(dr);
     }
   }
 
   // consider left moves
   if (!checkLeftEdge2(piece.position) && !checkLeftEdge(piece.position)) {
     if (!checkTopEdge(piece.position)) {
-      moves.push(lu);
+      positions.push(lu);
     }
     if (!checkBottomEdge(piece.position)) {
-      moves.push(ld);
+      positions.push(ld);
     }
   }
 
   // consider right moves
   if (!checkRightEdge2(piece.position) && !checkRightEdge(piece.position)) {
     if (!checkTopEdge(piece.position)) {
-      moves.push(ru);
+      positions.push(ru);
     }
     if (!checkBottomEdge(piece.position)) {
-      moves.push(rd);
+      positions.push(rd);
     }
   }
 
   //update positions which is moves - positions when knight is blocked by ally
-  let positions = [];
-  for (let move of moves) {
-    [positions] = accountCollidedPiece(
-      move,
-      piece.side,
-      positions,
-      board,
-      AorD
-    );
+  let moves = [];
+  for (let position of positions) {
+    [moves] = accountCollidedPiece(position, piece, moves, board, AorD);
   }
-  return positions;
+  return moves;
 }
 
 //returns a list of positions that a bishop can attack without considering pinning
@@ -409,19 +402,10 @@ function bishopMoves(piece, board, AorD) {
 
     //Check for blocking pieces
     let collided;
-    [northE, collided] = accountCollidedPiece(
-      i,
-      piece.side,
-      northE,
-      board,
-      AorD
-    );
+    [northE, collided] = accountCollidedPiece(i, piece, northE, board, AorD);
     if (collided) {
       break;
     }
-
-    //add to northE
-    northE.push(i);
   }
 
   //find southW
@@ -440,19 +424,10 @@ function bishopMoves(piece, board, AorD) {
 
     //Check for blocking pieces
     let collided;
-    [southW, collided] = accountCollidedPiece(
-      i,
-      piece.side,
-      southW,
-      board,
-      AorD
-    );
+    [southW, collided] = accountCollidedPiece(i, piece, southW, board, AorD);
     if (collided) {
       break;
     }
-
-    //add to northE
-    southW.push(i);
   }
 
   //find northW
@@ -471,19 +446,10 @@ function bishopMoves(piece, board, AorD) {
 
     //Check for blocking pieces
     let collided;
-    [northW, collided] = accountCollidedPiece(
-      i,
-      piece.side,
-      northW,
-      board,
-      AorD
-    );
+    [northW, collided] = accountCollidedPiece(i, piece, northW, board, AorD);
     if (collided) {
       break;
     }
-
-    //add to northE
-    northW.push(i);
   }
 
   //find southE
@@ -502,19 +468,10 @@ function bishopMoves(piece, board, AorD) {
 
     //Check for blocking pieces
     let collided;
-    [southE, collided] = accountCollidedPiece(
-      i,
-      piece.side,
-      southE,
-      board,
-      AorD
-    );
+    [southE, collided] = accountCollidedPiece(i, piece, southE, board, AorD);
     if (collided) {
       break;
     }
-
-    //add to northE
-    southE.push(i);
   }
 
   //add all four directions together
@@ -530,6 +487,7 @@ function queenMoves(piece, board, AorD) {
   //Get rook moves
   let rm = rookMoves(
     {
+      id: piece.id,
       position: piece.position,
       type: "r",
       moved: piece.moved,
@@ -541,6 +499,7 @@ function queenMoves(piece, board, AorD) {
   //Get bishop moves
   let bm = bishopMoves(
     {
+      id: piece.id,
       position: piece.position,
       type: "b",
       moved: piece.moved,
@@ -560,7 +519,7 @@ function kingMoves(piece, board, AorD) {
     throw new Error("input piece not king");
   }
 
-  //list possible moves
+  //list possible positions
   let u = piece.position + 8;
   let d = piece.position - 8;
   let l = piece.position - 1;
@@ -571,48 +530,42 @@ function kingMoves(piece, board, AorD) {
   let dr = piece.position - 7;
 
   //compile moves
-  let moves = [];
+  let positions = [];
   //considering up moves
   if (!checkTopEdge(piece.position)) {
-    moves.push(u);
+    positions.push(u);
     if (!checkLeftEdge(piece.position)) {
-      moves.push(ul);
+      positions.push(ul);
     }
     if (!checkRightEdge(piece.position)) {
-      moves.push(ur);
+      positions.push(ur);
     }
   }
   //consider down moves
   if (!checkBottomEdge(piece.position)) {
-    moves.push(d);
+    positions.push(d);
     if (!checkLeftEdge(piece.position)) {
-      moves.push(dl);
+      positions.push(dl);
     }
     if (!checkRightEdge(piece.position)) {
-      moves.push(dr);
+      positions.push(dr);
     }
   }
 
   //consider side moves
   if (!checkLeftEdge(piece.position)) {
-    moves.push(l);
+    positions.push(l);
   }
   if (!checkRightEdge(piece.position)) {
-    moves.push(r);
+    positions.push(r);
   }
 
-  let positions = [];
-  for (let move of moves) {
-    [positions] = accountCollidedPiece(
-      move,
-      piece.side,
-      positions,
-      board,
-      AorD
-    );
+  let moves = [];
+  for (let position of positions) {
+    [moves] = accountCollidedPiece(position, piece, moves, board, AorD);
   }
 
-  return positions;
+  return moves;
 }
 
 function checkTopEdge(position) {
@@ -682,26 +635,26 @@ function checkRightEdge2(position) {
 //function that when given position of move, side of piece, and list of previously compiled moves,
 //Last parameter, AorD, refers to whether accounting attacked squares, or checking defended squares, true for attack, false for defend
 //will return [updated moves, whether the position is collided]
-function accountCollidedPiece(position, side, moves, board, AorD) {
-  let ifcollided = checkCollision(position, board);
+function accountCollidedPiece(position, piece, moves, board, AorD) {
+  const [collided, collidedSide, eatenId] = checkCollision(position, board);
   if (AorD === true) {
-    if (ifcollided[0]) {
-      if (side === ifcollided[1]) {
+    if (collided) {
+      if (piece.side === collidedSide) {
         return [moves, true];
       } else {
-        moves.push(position);
+        moves.push([piece.id, position, eatenId]);
         return [moves, true];
       }
     } else {
-      moves.push(position);
+      moves.push([piece.id, position]);
       return [moves, false];
     }
   } else {
-    if (ifcollided[0]) {
-      moves.push(position);
+    if (collided) {
+      moves.push([piece.id, position]);
       return [moves, true];
     } else {
-      moves.push(position);
+      moves.push([piece.id, position]);
       return [moves, false];
     }
   }

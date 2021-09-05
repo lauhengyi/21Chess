@@ -4,6 +4,7 @@ import checkCheck from "./functions/checkCheck.js";
 import getPiece from "../primaryFunctions/getPiece.js";
 import { validMoves } from "./getChessMoves.js";
 import clone from "just-clone";
+import "react-native-console-time-polyfill";
 
 function chessMovesReducer(state, action) {
   //Making deep copy
@@ -16,29 +17,19 @@ function chessMovesReducer(state, action) {
         return state;
       }
 
-      //Get moveableSquares
-      const moves = validMoves(
-        action.pieceId,
-        state.boardLayout,
-        state.lastMoved
-      );
-
-      if (JSON.stringify(moves) == JSON.stringify(state.moveables)) {
-        newDetails.moveables = [null, null];
-      } else {
-        newDetails.moveables = moves;
-      }
-
       //Get clickedSquare
-      const clickedSquare = getPiece(
-        action.pieceId,
-        state.boardLayout
-      ).position;
+      const piece = getPiece(action.pieceId, state.boardLayout);
+      const clickedSquare = piece.position;
+
+      //Get moveableSquares
+      const moves = validMoves(piece, state.boardLayout, state.lastMoved);
 
       if (clickedSquare === state.clickedSquare) {
         newDetails.clickedSquare = null;
+        newDetails.moveables = [null, null];
       } else {
         newDetails.clickedSquare = clickedSquare;
+        newDetails.moveables = moves;
       }
       return newDetails;
     }
@@ -108,24 +99,16 @@ function chessMovesReducer(state, action) {
 
     //move = [id of pawn, type of piece to promote]
     case "promotion": {
-      newDetails.boardLayout = state.boardLayout.map((a) => ({ ...a }));
       //Find piece id
-      let oldPiece;
       let pieceIndex;
+      //Get index of piece on board
       for (let i = 0; i < newDetails.boardLayout.length; i++) {
         if (newDetails.boardLayout[i].id === action.move[0]) {
-          oldPiece = newDetails.boardLayout[i];
           pieceIndex = i;
         }
       }
       //update new piece
-      newDetails.boardLayout[pieceIndex] = {
-        id: oldPiece.id,
-        position: oldPiece.position,
-        type: action.move[1],
-        side: oldPiece.side,
-        moved: oldPiece.moved,
-      };
+      newDetails.boardLayout[pieceIndex].type = action.move[1];
       //remove promotion selection after selection is done
       newDetails.promotion = null;
 
@@ -192,12 +175,13 @@ function chessMovesReducer(state, action) {
             if (piece.side === true) {
               if (
                 validMoves(
-                  piece.id,
+                  piece,
                   newDetails.boardLayout,
                   newDetails.lastMoved
                 )[0].length
               ) {
                 whiteStalemated = false;
+                break;
               }
             }
           }
@@ -216,12 +200,13 @@ function chessMovesReducer(state, action) {
             if (piece.side === false) {
               if (
                 validMoves(
-                  piece.id,
+                  piece,
                   newDetails.boardLayout,
                   newDetails.lastMoved
                 )[0].length
               ) {
                 blackStalemated = false;
+                break;
               }
             }
           }

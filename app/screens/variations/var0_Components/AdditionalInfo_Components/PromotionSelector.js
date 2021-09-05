@@ -9,13 +9,13 @@ function PromotionSelector(props) {
 
   //Swich pieceKey around if darkMode
   const isDark = checkDarkTheme(props.settings.theme);
-  const pieceColor = function () {
+  const pieceColor = (function () {
     if (isDark) {
       return props.side ? "black" : "white";
     } else {
       return props.side ? "white" : "black";
     }
-  };
+  })();
   let pieceKey;
   if (pieceColor === "white") {
     pieceKey = [

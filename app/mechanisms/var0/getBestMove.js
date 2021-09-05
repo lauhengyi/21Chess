@@ -2,11 +2,11 @@ import { validMoves } from "./getChessMoves.js";
 import evaluateBoard from "./evalutateBoard.js";
 import getPiece from "../primaryFunctions/getPiece.js";
 import executeMove from "./functions/executeMove.js";
-import clone from "just-clone";
 import var0Layout from "../../screens/variations/boardLayouts/var0Layout.js";
+import { chessMovesReducer } from "./useChessMove.js";
 
 function getBestMove(gameDetails, depth) {
-  const currentDetails = clone(gameDetails);
+  const currentDetails = gameDetails;
   const board = currentDetails.boardLayout;
 
   let bestEvaluation = currentDetails.currentSide ? -Infinity : Infinity;
@@ -14,14 +14,28 @@ function getBestMove(gameDetails, depth) {
   let castling = false;
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
-      let moves = validMoves(piece.id, board, currentDetails.lastMoved);
+      let moves = validMoves(piece, board, currentDetails.lastMoved);
       if (moves[0]) {
         //Normal moves
         for (let move of moves[0]) {
-          const newDetails = makeMove(currentDetails, move, false);
+          let newDetails = chessMovesReducer(currentDetails, {
+            type: "makeTurn",
+            move: move,
+            castling: false,
+          });
+          //Check Promotion
+          if (newDetails.promotion) {
+            newDetails = chessMovesReducer(currentDetails, {
+              type: "promotion",
+              move: [newDetails.promotion, "q"],
+            });
+            move = null;
+          }
           const evaluation = getBestEvaluation(
             newDetails,
             bestEvaluation,
+            currentDetails,
+            move,
             depth - 1
           );
           if (
@@ -40,10 +54,16 @@ function getBestMove(gameDetails, depth) {
       if (moves[1]) {
         //castling moves
         for (let move of moves[1]) {
-          const newDetails = makeMove(currentDetails, move, true);
+          let newDetails = chessMovesReducer(currentDetails, {
+            type: "makeTurn",
+            move: move,
+            castling: true,
+          });
           const evaluation = getBestEvaluation(
             newDetails,
             bestEvaluation,
+            currentDetails,
+            null,
             depth - 1
           );
           if (
@@ -62,30 +82,43 @@ function getBestMove(gameDetails, depth) {
     }
   }
 
-  console.log({ bestMove, bestEvaluation, depth });
   return [bestMove, castling];
 }
 
-function getBestEvaluation(gameDetails, currentBest, depth) {
+function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
   const currentDetails = gameDetails;
   const board = gameDetails.boardLayout;
 
   //Add end point
   if (depth === 0) {
-    return evaluateBoard(currentDetails);
+    return evaluateBoard(currentDetails, oldDetails, move);
   }
   let bestEvaluation = currentDetails.currentSide ? -Infinity : Infinity;
 
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
-      let moves = validMoves(piece.id, board, currentDetails.lastMoved);
+      let moves = validMoves(piece, board, currentDetails.lastMoved);
       if (moves[0]) {
         //Normal moves
         for (let move of moves[0]) {
-          const newDetails = makeMove(currentDetails, move, false);
+          let newDetails = chessMovesReducer(currentDetails, {
+            type: "makeTurn",
+            move: move,
+            castling: false,
+          });
+          //Check Promotion
+          if (newDetails.promotion) {
+            newDetails = chessMovesReducer(currentDetails, {
+              type: "promotion",
+              move: [newDetails.promotion, "q"],
+            });
+            move = null;
+          }
           const evaluation = getBestEvaluation(
             newDetails,
             bestEvaluation,
+            currentDetails,
+            move,
             depth - 1
           );
           if (
@@ -112,10 +145,16 @@ function getBestEvaluation(gameDetails, currentBest, depth) {
       if (moves[1]) {
         //castling moves
         for (let move of moves[1]) {
-          const newDetails = makeMove(currentDetails, move, true);
+          let newDetails = chessMovesReducer(currentDetails, {
+            type: "makeTurn",
+            move: move,
+            castling: true,
+          });
           const evaluation = getBestEvaluation(
             newDetails,
             bestEvaluation,
+            currentDetails,
+            null,
             depth - 1
           );
           if (
@@ -180,5 +219,23 @@ function isBestEvaluation(side, evaluation, bestEvaluation) {
 
   return false;
 }
+
+/* console.log(
+  getBestMove(
+    {
+      boardLayout: var0Layout,
+      moveables: [null, null],
+      clickedSquare: null,
+      currentSide: true,
+      lastMoved: [null, null, null],
+      eatenPieces: [],
+      checked: 0,
+      stalemated: 0,
+      checkmated: 0,
+      promotion: null,
+    },
+    3
+  )
+); */
 
 export default getBestMove;

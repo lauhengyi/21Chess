@@ -4,8 +4,10 @@ import { useChessMove } from "../../mechanisms/var0/useChessMove";
 import useComputer from "../../mechanisms/var0/useComputer";
 import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
+import testLayout from "./boardLayouts/testLayout";
 import GameUI from "./var0_Components/GameUI";
 import evaluateBoard from "../../mechanisms/var0/evalutateBoard";
+import countMoves from "../../mechanisms/var0/test";
 
 function Var0({ route, navigation }) {
   //Bring up the constants
@@ -24,6 +26,14 @@ function Var0({ route, navigation }) {
 
   const currentEvaluation = evaluateBoard(gameDetails);
   console.log({ currentEvaluation });
+  /*   console.log(
+    countMoves(
+      gameDetails.boardLayout,
+      gameDetails.currentSide,
+      gameDetails.lastMoved,
+      3
+    )
+  ); */
   return (
     <GameUI
       varNum={0}
