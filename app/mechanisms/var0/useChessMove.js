@@ -5,10 +5,13 @@ import getPiece from "../primaryFunctions/getPiece.js";
 import { validMoves } from "./getChessMoves.js";
 import clone from "just-clone";
 import "react-native-console-time-polyfill";
+import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
 function chessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = clone(state);
+  //Initialised occupiedMatrix
+  const occupiedMatrix = getOccupiedMatrix(state.boardLayout);
 
   switch (action.type) {
     case "pieceClick": {
@@ -22,7 +25,12 @@ function chessMovesReducer(state, action) {
       const clickedSquare = piece.position;
 
       //Get moveableSquares
-      const moves = validMoves(piece, state.boardLayout, state.lastMoved);
+      const moves = validMoves(
+        piece,
+        state.boardLayout,
+        occupiedMatrix,
+        state.lastMoved
+      );
 
       if (clickedSquare === state.clickedSquare) {
         newDetails.clickedSquare = null;
@@ -47,6 +55,7 @@ function chessMovesReducer(state, action) {
         state.boardLayout,
         action.castling
       );
+
       //Add eaten pieces
       if (action.move.length > 2) {
         let side = getPiece(action.move[0], state.boardLayout).side;
@@ -139,8 +148,7 @@ function chessMovesReducer(state, action) {
 
     default:
       {
-        console.log("type not specified");
-        return state;
+        throw new Error("type not specified");
       }
 
       function updateGameStatus() {
@@ -151,13 +159,13 @@ function chessMovesReducer(state, action) {
 
       function updateChecks() {
         if (state.currentSide) {
-          if (checkCheck(newDetails.boardLayout, false)) {
+          if (checkCheck(newDetails.boardLayout, occupiedMatrix, false)) {
             newDetails.checked = 2;
           } else {
             newDetails.checked = 0;
           }
         } else {
-          if (checkCheck(newDetails.boardLayout, true)) {
+          if (checkCheck(newDetails.boardLayout, occupiedMatrix, true)) {
             newDetails.checked = 1;
           } else {
             newDetails.checked = 0;
@@ -177,6 +185,7 @@ function chessMovesReducer(state, action) {
                 validMoves(
                   piece,
                   newDetails.boardLayout,
+                  occupiedMatrix,
                   newDetails.lastMoved
                 )[0].length
               ) {
@@ -193,7 +202,7 @@ function chessMovesReducer(state, action) {
 
         //Check stalemate for black
         //Check for valid moves of all pieces
-        if (newDetails.currentSide === true) {
+        else {
           let blackStalemated = true;
           for (let piece of newDetails.boardLayout) {
             //Check for piece to be on white's side
@@ -202,6 +211,7 @@ function chessMovesReducer(state, action) {
                 validMoves(
                   piece,
                   newDetails.boardLayout,
+                  occupiedMatrix,
                   newDetails.lastMoved
                 )[0].length
               ) {

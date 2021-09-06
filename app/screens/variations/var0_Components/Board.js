@@ -16,6 +16,7 @@ function Board(props) {
     timer.current = setTimeout(() => setBoardOrientation(orientation), 400);
     return () => clearTimeout(timer.current);
   }, [currentSide]);
+  const boardLayout = props.gameDetails.boardLayout;
 
   return (
     //make board

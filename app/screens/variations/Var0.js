@@ -8,6 +8,7 @@ import testLayout from "./boardLayouts/testLayout";
 import GameUI from "./var0_Components/GameUI";
 import evaluateBoard from "../../mechanisms/var0/evalutateBoard";
 import countMoves from "../../mechanisms/var0/test";
+import "react-native-console-time-polyfill";
 
 function Var0({ route, navigation }) {
   //Bring up the constants
@@ -24,8 +25,8 @@ function Var0({ route, navigation }) {
     useComputer(gameDetails, chessActions, options);
   }
 
-  const currentEvaluation = evaluateBoard(gameDetails);
-  console.log({ currentEvaluation });
+  const evaluation = evaluateBoard(gameDetails, null, null);
+
   /*   console.log(
     countMoves(
       gameDetails.boardLayout,

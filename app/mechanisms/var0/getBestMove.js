@@ -4,17 +4,24 @@ import getPiece from "../primaryFunctions/getPiece.js";
 import executeMove from "./functions/executeMove.js";
 import var0Layout from "../../screens/variations/boardLayouts/var0Layout.js";
 import { chessMovesReducer } from "./useChessMove.js";
-
+import "react-native-console-time-polyfill";
+import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 function getBestMove(gameDetails, depth) {
   const currentDetails = gameDetails;
   const board = currentDetails.boardLayout;
+  const occupiedMatrix = getOccupiedMatrix(board);
 
   let bestEvaluation = currentDetails.currentSide ? -Infinity : Infinity;
   let bestMove = [1, 1];
   let castling = false;
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
-      let moves = validMoves(piece, board, currentDetails.lastMoved);
+      let moves = validMoves(
+        piece,
+        board,
+        occupiedMatrix,
+        currentDetails.lastMoved
+      );
       if (moves[0]) {
         //Normal moves
         for (let move of moves[0]) {
@@ -25,7 +32,7 @@ function getBestMove(gameDetails, depth) {
           });
           //Check Promotion
           if (newDetails.promotion) {
-            newDetails = chessMovesReducer(currentDetails, {
+            newDetails = chessMovesReducer(newDetails, {
               type: "promotion",
               move: [newDetails.promotion, "q"],
             });
@@ -88,6 +95,7 @@ function getBestMove(gameDetails, depth) {
 function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
   const currentDetails = gameDetails;
   const board = gameDetails.boardLayout;
+  const occupiedMatrix = getOccupiedMatrix(board);
 
   //Add end point
   if (depth === 0) {
@@ -97,7 +105,12 @@ function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
 
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
-      let moves = validMoves(piece, board, currentDetails.lastMoved);
+      let moves = validMoves(
+        piece,
+        board,
+        occupiedMatrix,
+        currentDetails.lastMoved
+      );
       if (moves[0]) {
         //Normal moves
         for (let move of moves[0]) {
@@ -108,7 +121,7 @@ function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
           });
           //Check Promotion
           if (newDetails.promotion) {
-            newDetails = chessMovesReducer(currentDetails, {
+            newDetails = chessMovesReducer(newDetails, {
               type: "promotion",
               move: [newDetails.promotion, "q"],
             });
@@ -184,26 +197,6 @@ function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
   return bestEvaluation;
 }
 
-function makeMove(gameDetails, move, castling) {
-  let newDetails = {};
-  let pieceID;
-  let movedTo;
-  if (castling) {
-    pieceID = move[0][0];
-    movedTo = move[0][1];
-  } else {
-    pieceID = move[0];
-    movedTo = move[1];
-  }
-  let movedFrom = getPiece(pieceID, gameDetails.boardLayout).position;
-  let newBoard = executeMove(move, gameDetails.boardLayout, castling);
-  let newlastMoved = [pieceID, movedFrom, movedTo];
-  newDetails.lastMoved = newlastMoved;
-  newDetails.boardLayout = newBoard;
-  newDetails.currentSide = !gameDetails.currentSide;
-  return newDetails;
-}
-
 function isBestEvaluation(side, evaluation, bestEvaluation) {
   if (side === true) {
     //Maximise evaluation
@@ -220,7 +213,7 @@ function isBestEvaluation(side, evaluation, bestEvaluation) {
   return false;
 }
 
-/* console.log(
+/* console.log'(
   getBestMove(
     {
       boardLayout: var0Layout,

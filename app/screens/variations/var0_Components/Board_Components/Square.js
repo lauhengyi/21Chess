@@ -3,7 +3,6 @@ import colorPalatte from "../../../../config/colorPalatte";
 import { View } from "react-native";
 import Clickable from "../../../components/Clickable";
 import Piece from "./Piece";
-import checkCollision from "../../../../mechanisms/var0/functions/checkCollision";
 import checkDarkTheme from "../../../functions/checkDarkTheme";
 
 function Square(props) {
@@ -123,7 +122,14 @@ function checkSquare(gameDetails, position) {
   const isClicked = gameDetails.clickedSquare === position ? true : false;
 
   // Find whether there is a piece on the square
-  const [isPieceOnSquare, , pieceId] = checkCollision(position, boardLayout);
+  const [isPieceOnSquare, , pieceId] = (function () {
+    for (const piece of boardLayout) {
+      if (piece.position === position) {
+        return [true, piece.side, piece.id];
+      }
+    }
+    return [false, null, null];
+  })();
 
   // Find whether these is a moveable on the square
   let isMoveableOnSquare = false;

@@ -1,6 +1,7 @@
 import { validAttacks, validDefended } from "./getChessMoves.js";
 import layout from "../../screens/variations/boardLayouts/var0Layout.js";
 import getPiece from "../primaryFunctions/getPiece.js";
+import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
 function evaluateBoard(gameDetails, oldDetails, move) {
   // Declare evaluation constants
@@ -8,14 +9,17 @@ function evaluateBoard(gameDetails, oldDetails, move) {
   const pawnValue = 60;
   const rookValue = 300;
   const knightValue = 200;
-  const bishopValue = 240;
+  const bishopValue = 200;
   const queenValue = 700;
   const kingValue = 100;
   const checkmateValue = Infinity;
   const stalemateValue = 0;
 
+  //Initialise occupied matrix
+  const occupiedMatrix = getOccupiedMatrix(gameDetails.boardLayout);
+
   //Multipllier on coveredSquareValue based on how many pieces attacked that square
-  const coveredSquareMatrix = [0, 1, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3];
+  const coveredSquareMatrix = [0, 1, 0.9, 0.85, 0.8, 0.75, 0.7, 0.6];
   //Multiplier on piece base value based on how many pieces defends it
   const defendedMatrix = [1, 1.1, 1.15, 1.18, 1.2, 1.21, 1.23, 1.25];
   //Multiplier on piece base value based on how many pieces attacks it
@@ -28,8 +32,9 @@ function evaluateBoard(gameDetails, oldDetails, move) {
   function evaluateSide(side) {
     let evaluation = 0;
     const attacked = compileAttackedSquares(!side);
+
     const defended = compileDefendedSquares(side);
-    if (move && side === oldDetails.currentSide) {
+    /*     if (move && side === oldDetails.currentSide) {
       //Captures with pieces of lower value to pieces of higher value are likely to be good moves
       const movedPiece = getPiece(move[0], oldDetails.boardLayout);
       if (move.length === 3) {
@@ -48,7 +53,7 @@ function evaluateBoard(gameDetails, oldDetails, move) {
           evaluation -= getBaseValue(movedPiece);
         }
       }
-    }
+    } */
     const covered = compileAttackedSquares(side);
 
     for (let piece of board) {
@@ -58,7 +63,6 @@ function evaluateBoard(gameDetails, oldDetails, move) {
     }
 
     evaluation += evaluateCoveredSquares(covered);
-
     evaluation += evaluateStatus(side);
 
     return evaluation;
@@ -76,7 +80,11 @@ function evaluateBoard(gameDetails, oldDetails, move) {
       // check side of piece
       if (piece.side === side) {
         // get attacked squares of piece
-        let attacks = validAttacks(piece, board, gameDetails.lastMoved);
+        let attacks = validAttacks(
+          piece,
+          occupiedMatrix,
+          gameDetails.lastMoved
+        );
         // Add attacks to result
         for (let attack of attacks) {
           result[attack[1]] += 1;
@@ -99,7 +107,7 @@ function evaluateBoard(gameDetails, oldDetails, move) {
       // check side of piece
       if (piece.side === side) {
         // get attacked squares of piece
-        let defended = validDefended(piece, board);
+        let defended = validDefended(piece, occupiedMatrix);
         // Add attacks to result
         for (let defend of defended) {
           result[defend[1]] += 1;
