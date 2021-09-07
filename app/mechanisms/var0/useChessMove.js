@@ -10,8 +10,6 @@ import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 function chessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = clone(state);
-  //Initialised occupiedMatrix
-  const occupiedMatrix = getOccupiedMatrix(state.boardLayout);
 
   switch (action.type) {
     case "pieceClick": {
@@ -20,8 +18,13 @@ function chessMovesReducer(state, action) {
         return state;
       }
 
-      //Get clickedSquare
+      //Get piece
       const piece = getPiece(action.pieceId, state.boardLayout);
+
+      //Initialised occupiedMatrix
+      const occupiedMatrix = getOccupiedMatrix(state.boardLayout);
+
+      //Get clickedSquare
       const clickedSquare = piece.position;
 
       //Get moveableSquares
@@ -70,7 +73,9 @@ function chessMovesReducer(state, action) {
       newDetails.clickedSquare = null;
 
       //update status
-      updateGameStatus();
+      //Initialised occupiedMatrix
+      const occupiedMatrix = getOccupiedMatrix(state.boardLayout);
+      updateGameStatus(occupiedMatrix);
 
       //Check promotion
       //Promotion = [pieceId, piecePosition]
@@ -122,7 +127,8 @@ function chessMovesReducer(state, action) {
       newDetails.promotion = null;
 
       //update status
-      updateGameStatus();
+      const occupiedMatrix = getOccupiedMatrix(newDetails.boardLayout);
+      updateGameStatus(occupiedMatrix);
 
       //change side
       newDetails.currentSide = !newDetails.currentSide;
@@ -151,13 +157,13 @@ function chessMovesReducer(state, action) {
         throw new Error("type not specified");
       }
 
-      function updateGameStatus() {
-        updateChecks();
-        updateStalemates();
+      function updateGameStatus(occupiedMatrix) {
+        updateChecks(occupiedMatrix);
+        updateStalemates(occupiedMatrix);
         updateCheckmates();
       }
 
-      function updateChecks() {
+      function updateChecks(occupiedMatrix) {
         if (state.currentSide) {
           if (checkCheck(newDetails.boardLayout, occupiedMatrix, false)) {
             newDetails.checked = 2;
@@ -173,7 +179,7 @@ function chessMovesReducer(state, action) {
         }
       }
 
-      function updateStalemates() {
+      function updateStalemates(occupiedMatrix) {
         //Check stalemate for white
         //Check for valid moves of all pieces
         if (newDetails.currentSide === false) {

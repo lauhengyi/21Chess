@@ -2,20 +2,20 @@ import checkCollision from "./functions/checkCollision.js";
 
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value
-function createPieceDataCalculator(piece, board) {
+function createPieceDataCalculator(piece, occupiedMatrix) {
   switch (piece.type) {
     case "p":
-      return new pawnCalculator(piece, board);
+      return new pawnCalculator(piece, occupiedMatrix);
     case "r":
-      return new rookCalculator(piece, board);
+      return new rookCalculator(piece, occupiedMatrix);
     case "n":
-      return new knightCalculator(piece, board);
+      return new knightCalculator(piece, occupiedMatrix);
     case "b":
-      return new bishopCalculator(piece, board);
+      return new bishopCalculator(piece, occupiedMatrix);
     case "q":
-      return new queenCalculator(piece, board);
+      return new queenCalculator(piece, occupiedMatrix);
     case "k":
-      return new kingCalculator(piece, board);
+      return new kingCalculator(piece, occupiedMatrix);
     default:
       throw new Error("Unknown type: ${piece.type}");
   }
@@ -185,20 +185,20 @@ function pawnAttacks(piece, occupiedMatrix, AorD) {
     //pawn is white
     //consider edge cases
     //consider extreme left and extreme right respectively
-    if (!checkLeftEdge(piece.position)) {
+    if (!checkLeftEdge(piece.position) && !checkTopEdge(piece.position)) {
       attacks.push([piece.id, piece.position + 7]);
     }
-    if (!checkRightEdge(piece.position)) {
+    if (!checkRightEdge(piece.position) && !checkTopEdge(piece.position)) {
       attacks.push([piece.id, piece.position + 9]);
     }
   } else {
     //pawn is black
     //consider edge cases
     //consider extreme left and extreme right respectively
-    if (!checkLeftEdge(piece.position)) {
+    if (!checkLeftEdge(piece.position) && !checkBottomEdge(piece.position)) {
       attacks.push([piece.id, piece.position - 9]);
     }
-    if (!checkRightEdge(piece.position)) {
+    if (!checkRightEdge(piece.position) && !checkBottomEdge(piece.position)) {
       attacks.push([piece.id, piece.position - 7]);
     }
   }

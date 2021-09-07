@@ -160,7 +160,7 @@ function checkSquare(gameDetails, position) {
   let isLastMoveOnSquare = false;
 
   //Check
-  if (lastMoved[0]) {
+  if (lastMoved[0] !== null) {
     if (lastMoved[1] === position || lastMoved[2] === position) {
       isLastMoveOnSquare = true;
     }

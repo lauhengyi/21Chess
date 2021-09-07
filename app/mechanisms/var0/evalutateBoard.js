@@ -34,7 +34,7 @@ function evaluateBoard(gameDetails, oldDetails, move) {
     const attacked = compileAttackedSquares(!side);
 
     const defended = compileDefendedSquares(side);
-    /*     if (move && side === oldDetails.currentSide) {
+    if (move && side === oldDetails.currentSide) {
       //Captures with pieces of lower value to pieces of higher value are likely to be good moves
       const movedPiece = getPiece(move[0], oldDetails.boardLayout);
       if (move.length === 3) {
@@ -53,7 +53,7 @@ function evaluateBoard(gameDetails, oldDetails, move) {
           evaluation -= getBaseValue(movedPiece);
         }
       }
-    } */
+    }
     const covered = compileAttackedSquares(side);
 
     for (let piece of board) {

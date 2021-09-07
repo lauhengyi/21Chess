@@ -16,6 +16,13 @@ function useComputer(gameDetails, chessActions, options) {
         move: bestMove[0],
         castling: bestMove[1],
       });
+      //Promote for promotional moves
+      if (bestMove[2]) {
+        chessActions({
+          type: "promotion",
+          move: [bestMove[0][0], "q"],
+        });
+      }
     }
   }, [gameDetails.currentSide]);
 }

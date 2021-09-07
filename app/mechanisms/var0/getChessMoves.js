@@ -170,8 +170,10 @@ function checkCastling(piece, board, occupiedMatrix, validMoves) {
         )
       ) {
         // Check whether king can move one more step to the right
-        let newBoard = movePiece(validMove, board);
-        let moves = normalMoves(piece, newBoard, occupiedMatrix);
+        const newBoard = movePiece(validMove, board);
+        const newPiece = getPiece(piece.id, newBoard);
+        const newOccupiedMatrix = getOccupiedMatrix(newBoard);
+        const moves = normalMoves(newPiece, newBoard, newOccupiedMatrix);
         // Check whether that move is in moves
         for (let move of moves) {
           if (move[1] === piece.position - 2) {
@@ -192,8 +194,10 @@ function checkCastling(piece, board, occupiedMatrix, validMoves) {
         )
       ) {
         // Check whether king can move one more step to the right
-        let newBoard = movePiece(validMove, board);
-        let moves = normalMoves(piece, newBoard, occupiedMatrix);
+        const newBoard = movePiece(validMove, board);
+        const newPiece = getPiece(piece.id, newBoard);
+        const newOccupiedMatrix = getOccupiedMatrix(newBoard);
+        const moves = normalMoves(newPiece, newBoard, newOccupiedMatrix);
         // Check whether that move is in moves
         for (let move of moves) {
           if (move[1] === piece.position + 2) {
