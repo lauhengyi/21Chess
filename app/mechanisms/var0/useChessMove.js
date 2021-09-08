@@ -187,14 +187,14 @@ function chessMovesReducer(state, action) {
           for (const piece of newDetails.boardLayout) {
             //Check for piece to be on white's side
             if (piece.side === true) {
-              let validMove = validMoves(
-                piece,
-                newDetails.boardLayout,
-                occupiedMatrix,
-                newDetails.lastMoved
-              )[0];
-              const boardLayout = newDetails.boardLayout;
-              if (validMove.length) {
+              if (
+                validMoves(
+                  piece,
+                  newDetails.boardLayout,
+                  occupiedMatrix,
+                  newDetails.lastMoved
+                )[0].length
+              ) {
                 whiteStalemated = false;
                 break;
               }
@@ -210,16 +210,17 @@ function chessMovesReducer(state, action) {
         //Check for valid moves of all pieces
         else {
           let blackStalemated = true;
-          for (let piece of newDetails.boardLayout) {
+          for (const piece of newDetails.boardLayout) {
             //Check for piece to be on white's side
             if (piece.side === false) {
-              let validMove = validMoves(
-                piece,
-                newDetails.boardLayout,
-                occupiedMatrix,
-                newDetails.lastMoved
-              )[0];
-              if (validMove.length) {
+              if (
+                validMoves(
+                  piece,
+                  newDetails.boardLayout,
+                  occupiedMatrix,
+                  newDetails.lastMoved
+                )[0].length
+              ) {
                 blackStalemated = false;
                 break;
               }

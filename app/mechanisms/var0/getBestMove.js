@@ -14,6 +14,7 @@ function getBestMove(gameDetails, depth) {
   let bestEvaluation = currentDetails.currentSide ? -Infinity : Infinity;
   let bestMove = [1, 1];
   let castling = false;
+  let promotion = false;
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
       let moves = validMoves(
@@ -31,12 +32,13 @@ function getBestMove(gameDetails, depth) {
             castling: false,
           });
           //Check Promotion
+          let promoted = false;
           if (newDetails.promotion) {
             newDetails = chessMovesReducer(newDetails, {
               type: "promotion",
               move: [newDetails.promotion, "q"],
             });
-            move = null;
+            promoted = true;
           }
           const evaluation = getBestEvaluation(
             newDetails,
@@ -55,6 +57,7 @@ function getBestMove(gameDetails, depth) {
             bestEvaluation = evaluation;
             bestMove = move;
             castling = false;
+            promotion = promoted;
           }
         }
       }
@@ -89,7 +92,7 @@ function getBestMove(gameDetails, depth) {
     }
   }
 
-  return [bestMove, castling];
+  return [bestMove, castling, promotion];
 }
 
 function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
@@ -125,7 +128,6 @@ function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
               type: "promotion",
               move: [newDetails.promotion, "q"],
             });
-            move = null;
           }
           const evaluation = getBestEvaluation(
             newDetails,

@@ -10,6 +10,7 @@ function useComputer(gameDetails, chessActions, options) {
     ) {
       console.time("bestMove");
       const bestMove = getBestMove(gameDetails, 2);
+      console.log({ bestMove });
       console.timeEnd("bestMove");
       chessActions({
         type: "makeTurn",
