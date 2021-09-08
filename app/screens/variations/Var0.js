@@ -4,7 +4,7 @@ import { useChessMove } from "../../mechanisms/var0/useChessMove";
 import useComputer from "../../mechanisms/var0/useComputer";
 import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
-import testLayout from "./boardLayouts/testLayout";
+import bugTest from "./boardLayouts/bugTest";
 import GameUI from "./var0_Components/GameUI";
 import "react-native-console-time-polyfill";
 
@@ -22,7 +22,6 @@ function Var0({ route, navigation }) {
   if (options.mode === 0) {
     useComputer(gameDetails, chessActions, options);
   }
-  console.log(gameDetails.lastMoved);
 
   /*   console.time("evaluation");
   const evaluation = evaluateBoard(gameDetails, null, null);

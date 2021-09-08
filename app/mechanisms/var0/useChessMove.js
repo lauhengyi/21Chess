@@ -74,7 +74,7 @@ function chessMovesReducer(state, action) {
 
       //update status
       //Initialised occupiedMatrix
-      const occupiedMatrix = getOccupiedMatrix(state.boardLayout);
+      const occupiedMatrix = getOccupiedMatrix(newDetails.boardLayout);
       updateGameStatus(occupiedMatrix);
 
       //Check promotion
@@ -184,17 +184,17 @@ function chessMovesReducer(state, action) {
         //Check for valid moves of all pieces
         if (newDetails.currentSide === false) {
           let whiteStalemated = true;
-          for (let piece of newDetails.boardLayout) {
+          for (const piece of newDetails.boardLayout) {
             //Check for piece to be on white's side
             if (piece.side === true) {
-              if (
-                validMoves(
-                  piece,
-                  newDetails.boardLayout,
-                  occupiedMatrix,
-                  newDetails.lastMoved
-                )[0].length
-              ) {
+              let validMove = validMoves(
+                piece,
+                newDetails.boardLayout,
+                occupiedMatrix,
+                newDetails.lastMoved
+              )[0];
+              const boardLayout = newDetails.boardLayout;
+              if (validMove.length) {
                 whiteStalemated = false;
                 break;
               }
@@ -213,14 +213,13 @@ function chessMovesReducer(state, action) {
           for (let piece of newDetails.boardLayout) {
             //Check for piece to be on white's side
             if (piece.side === false) {
-              if (
-                validMoves(
-                  piece,
-                  newDetails.boardLayout,
-                  occupiedMatrix,
-                  newDetails.lastMoved
-                )[0].length
-              ) {
+              let validMove = validMoves(
+                piece,
+                newDetails.boardLayout,
+                occupiedMatrix,
+                newDetails.lastMoved
+              )[0];
+              if (validMove.length) {
                 blackStalemated = false;
                 break;
               }
