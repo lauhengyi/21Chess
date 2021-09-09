@@ -45,69 +45,79 @@ function chessMovesReducer(state, action) {
       return newDetails;
     }
     case "makeTurn": {
-      //Get pieceId and final position of piece
-      const [pieceId, moved] = getPieceIdandMoved();
-      //Get side of moved piece
-      const side = state.currentSide;
+      try {
+        //Get pieceId and final position of piece
+        const [pieceId, moved] = getPieceIdandMoved();
+        //Get side of moved piece
+        const side = state.currentSide;
 
-      updateLastMoved();
+        updateLastMoved();
 
-      //Make move
-      newDetails.boardLayout = executeMove(
-        action.move,
-        state.boardLayout,
-        action.castling
-      );
+        //Make move
+        newDetails.boardLayout = executeMove(
+          action.move,
+          state.boardLayout,
+          action.castling
+        );
 
-      //Add eaten pieces
-      if (action.move.length > 2) {
-        let side = getPiece(action.move[0], state.boardLayout).side;
-        let piece = getPiece(action.move[2], state.boardLayout);
-        newDetails.eatenPieces.push([side, piece]);
-      }
-
-      //Remove moveables
-      newDetails.moveables = [null, null];
-
-      //Removed clickedSquare
-      newDetails.clickedSquare = null;
-
-      //update status
-      //Initialised occupiedMatrix
-      const occupiedMatrix = getOccupiedMatrix(newDetails.boardLayout);
-      updateGameStatus(occupiedMatrix);
-
-      //Check promotion
-      //Promotion = [pieceId, piecePosition]
-      if (getPiece(pieceId, newDetails.boardLayout).type === "p") {
-        if ((side === true && moved > 55) || (side === false && moved < 8)) {
-          newDetails.promotion = pieceId;
+        //Add eaten pieces
+        if (action.move.length > 2) {
+          let side = getPiece(action.move[0], state.boardLayout).side;
+          let piece = getPiece(action.move[2], state.boardLayout);
+          newDetails.eatenPieces.push([side, piece]);
         }
-      }
 
-      //Change Side (only if no promotion)
-      if (!newDetails.promotion) {
-        newDetails.currentSide = !state.currentSide;
-      }
+        //Remove moveables
+        newDetails.moveables = [null, null];
 
-      return newDetails;
+        //Removed clickedSquare
+        newDetails.clickedSquare = null;
 
-      function getPieceIdandMoved() {
-        let pieceId;
-        let moved;
-        if (action.castling) {
-          pieceId = action.move[0][0];
-          moved = action.move[0][1];
-        } else {
-          pieceId = action.move[0];
-          moved = action.move[1];
+        //update status
+        //Initialised occupiedMatrix
+        const occupiedMatrix = getOccupiedMatrix(newDetails.boardLayout);
+        updateGameStatus(occupiedMatrix);
+
+        //Check promotion
+        //Promotion = [pieceId, piecePosition]
+        if (getPiece(pieceId, newDetails.boardLayout).type === "p") {
+          if ((side === true && moved > 55) || (side === false && moved < 8)) {
+            newDetails.promotion = pieceId;
+          }
         }
-        return [pieceId, moved];
-      }
 
-      function updateLastMoved() {
-        let movedFrom = getPiece(pieceId, state.boardLayout).position;
-        newDetails.lastMoved = [pieceId, movedFrom, moved];
+        //Change Side (only if no promotion)
+        if (!newDetails.promotion) {
+          newDetails.currentSide = !state.currentSide;
+        }
+
+        return newDetails;
+        function getPieceIdandMoved() {
+          let pieceId;
+          let moved;
+          if (action.castling) {
+            pieceId = action.move[0][0];
+            moved = action.move[0][1];
+          } else {
+            pieceId = action.move[0];
+            moved = action.move[1];
+          }
+          return [pieceId, moved];
+        }
+
+        function updateLastMoved() {
+          let movedFrom;
+          try {
+            movedFrom = getPiece(pieceId, state.boardLayout).position;
+          } catch (e) {
+            move = action.move;
+            boardLayout = state.boardLayout;
+            console.log({ pieceId, move, boardLayout });
+          }
+          newDetails.lastMoved = [pieceId, movedFrom, moved];
+        }
+      } catch (e) {
+        console.log({ action, state, newDetails });
       }
     }
 

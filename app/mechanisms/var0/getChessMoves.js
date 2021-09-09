@@ -22,10 +22,17 @@ function validMoves(piece, board, occupiedMatrix, lastMoved) {
   // Check for piece to be pawn, last move to be pawn)
   let enPassantMove;
   if (lastMoved[0]) {
-    if (piece.type === "p" && getPiece(lastMoved[0], board).type === "p") {
+    let pieceType;
+    try {
+      pieceType = getPiece(lastMoved[0], board).type;
+    } catch (e) {
+      console.log(lastMoved, board);
+    }
+
+    if (piece.type === "p" && pieceType === "p") {
       // Make sure the pawn double moved
       if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
-        enPassantMove = checkEnPassant(piece, board, occupiedMatrix, lastMoved);
+        enPassantMove = checkEnPassant(piece, board, lastMoved);
       }
     }
   }
@@ -95,12 +102,13 @@ function normalMoves(piece, board, occupiedMatrix) {
 }
 
 // Check enPassant in the moves list
-function checkEnPassant(piece, board, occupiedMatrix, lastMoved) {
+function checkEnPassant(piece, board, lastMoved) {
   let ghostPosition = (lastMoved[1] + lastMoved[2]) / 2;
   // Add temporary pawn in board to see pawn can declare enPassant
   let newBoard = movePiece([lastMoved[0], ghostPosition], board);
   const newOccupiedMatrix = getOccupiedMatrix(newBoard);
-  let moves = normalMoves(piece, newBoard, newOccupiedMatrix);
+  const newPiece = getPiece(piece.id, newBoard);
+  let moves = normalMoves(newPiece, newBoard, newOccupiedMatrix);
   // Check whether pawn can attacked the double moved piece
   for (let move of moves) {
     if (move[1] === ghostPosition) {

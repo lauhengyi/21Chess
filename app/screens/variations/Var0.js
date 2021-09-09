@@ -6,14 +6,16 @@ import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
 import bugTest from "./boardLayouts/bugTest";
 import GameUI from "./var0_Components/GameUI";
+import evaluateBoard from "../../mechanisms/var0/evalutateBoard";
 import "react-native-console-time-polyfill";
+import useEnemyComputer from "../../mechanisms/var0/useEnemyComputer";
 
 function Var0({ route, navigation }) {
   //Bring up the constants
   const { options, settings, saved } = route.params;
 
   //Initialise game
-  const [gameDetails, chessActions] = useChessMove(bugTest, saved);
+  const [gameDetails, chessActions] = useChessMove(layout, saved);
 
   //Initialise time left
   const [timeLeft, restartTimer] = useTime(gameDetails, options, saved);
@@ -21,12 +23,13 @@ function Var0({ route, navigation }) {
   //Activate computer
   if (options.mode === 0) {
     useComputer(gameDetails, chessActions, options);
+    useEnemyComputer(gameDetails, chessActions, options);
   }
 
-  /*   console.time("evaluation");
+  console.time("evaluation");
   const evaluation = evaluateBoard(gameDetails, null, null);
   console.timeEnd("evaluation");
-  console.log({ evaluation }); */
+  console.log({ evaluation });
 
   /*   console.log(
     countMoves(
@@ -39,7 +42,7 @@ function Var0({ route, navigation }) {
   return (
     <GameUI
       varNum={0}
-      boardLayout={bugTest}
+      boardLayout={layout}
       navigation={navigation}
       chessActions={chessActions}
       gameDetails={gameDetails}

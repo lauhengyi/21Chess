@@ -11,13 +11,8 @@ function movePiece(move, board) {
   let piece = getPiece(id, board);
   for (let i = 0; i < newBoard.length; i++) {
     if (newBoard[i].id === id) {
-      newBoard[i] = {
-        id: id,
-        position: move[1],
-        type: piece.type,
-        side: piece.side,
-        moved: true,
-      };
+      newBoard[i].position = move[1];
+      newBoard[i].moved = true;
     }
   }
   // Can eat

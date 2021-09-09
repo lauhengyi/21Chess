@@ -9,8 +9,7 @@ function useComputer(gameDetails, chessActions, options) {
       !gameDetails.checkmated
     ) {
       console.time("bestMove");
-      const bestMove = getBestMove(gameDetails, 2);
-      console.log({ bestMove });
+      const bestMove = getBestMove(gameDetails, 3);
       console.timeEnd("bestMove");
       chessActions({
         type: "makeTurn",

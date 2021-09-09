@@ -31,7 +31,7 @@ function evaluateBoard(gameDetails, oldDetails, move) {
 
   function evaluateSide(side) {
     let evaluation = 0;
-    const attacked = compileAttackedSquares(!side);
+    const [attacked, pawnAttacked] = compileAttackedSquares(!side);
 
     const defended = compileDefendedSquares(side);
     if (move && side === oldDetails.currentSide) {
@@ -43,18 +43,23 @@ function evaluateBoard(gameDetails, oldDetails, move) {
           getPiece(move[2], oldDetails.boardLayout)
         );
         if (capturingValue < capturedValue) {
-          evaluation += 10 * capturedValue - capturedValue;
+          evaluation += 10 * (capturedValue - capturedValue);
         }
       }
       //It is likely a bad move if a non pawn piece moves to a position where it can be attacked and not defended
       if (movedPiece.type != "p") {
-        //Check whether moved piece is being attacked and against
-        if (attacked.includes(move[1]) && !defended.includes(move[1])) {
+        //Check whether moved piece is being attacked and not defended
+        if (attacked[move[1]] && !defended[move[1]]) {
+          evaluation -= getBaseValue(movedPiece);
+        }
+
+        //Check if piece can be attacked by an enemy pawn
+        if (pawnAttacked[move[1]]) {
           evaluation -= getBaseValue(movedPiece);
         }
       }
     }
-    const covered = compileAttackedSquares(side);
+    const [covered] = compileAttackedSquares(side);
 
     for (let piece of board) {
       if (piece.side === side) {
@@ -72,8 +77,10 @@ function evaluateBoard(gameDetails, oldDetails, move) {
   function compileAttackedSquares(side) {
     //initialise object;
     let result = [];
+    let pawnAttacked = [];
     for (let i = 0; i < 64; i++) {
       result.push(0);
+      pawnAttacked.push(0);
     }
 
     for (let piece of board) {
@@ -89,10 +96,15 @@ function evaluateBoard(gameDetails, oldDetails, move) {
         for (let attack of attacks) {
           result[attack[1]] += 1;
         }
+        if (piece.type === "p") {
+          for (const attack of attacks) {
+            pawnAttacked[attack[1]] += 1;
+          }
+        }
       }
     }
 
-    return result;
+    return [result, pawnAttacked];
   }
 
   // return a list of defended squares by the side, in a key value pair object, where key is position, and value is number of pieces attacking it
