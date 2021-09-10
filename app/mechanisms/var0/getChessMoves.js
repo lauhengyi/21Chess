@@ -23,11 +23,7 @@ function validMoves(piece, board, occupiedMatrix, lastMoved) {
   let enPassantMove;
   if (lastMoved[0]) {
     let pieceType;
-    try {
-      pieceType = getPiece(lastMoved[0], board).type;
-    } catch (e) {
-      console.log(lastMoved, board);
-    }
+    pieceType = getPiece(lastMoved[0], board).type;
 
     if (piece.type === "p" && pieceType === "p") {
       // Make sure the pawn double moved
@@ -38,6 +34,10 @@ function validMoves(piece, board, occupiedMatrix, lastMoved) {
   }
   if (enPassantMove) {
     moves.push(enPassantMove);
+  }
+  if (moves.some((e) => e[0] === 1)) {
+    console.log("in");
+    console.log({ moves, board, occupiedMatrix });
   }
   return [moves, castlingMoves];
 }

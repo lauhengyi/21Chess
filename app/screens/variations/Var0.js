@@ -15,7 +15,7 @@ function Var0({ route, navigation }) {
   const { options, settings, saved } = route.params;
 
   //Initialise game
-  const [gameDetails, chessActions] = useChessMove(layout, saved);
+  const [gameDetails, chessActions] = useChessMove(bugTest, saved);
 
   //Initialise time left
   const [timeLeft, restartTimer] = useTime(gameDetails, options, saved);
@@ -25,11 +25,6 @@ function Var0({ route, navigation }) {
     useComputer(gameDetails, chessActions, options);
     useEnemyComputer(gameDetails, chessActions, options);
   }
-
-  console.time("evaluation");
-  const evaluation = evaluateBoard(gameDetails, null, null);
-  console.timeEnd("evaluation");
-  console.log({ evaluation });
 
   /*   console.log(
     countMoves(
@@ -42,7 +37,7 @@ function Var0({ route, navigation }) {
   return (
     <GameUI
       varNum={0}
-      boardLayout={layout}
+      boardLayout={bugTest}
       navigation={navigation}
       chessActions={chessActions}
       gameDetails={gameDetails}

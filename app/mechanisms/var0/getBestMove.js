@@ -6,13 +6,15 @@ import var0Layout from "../../screens/variations/boardLayouts/var0Layout.js";
 import { chessMovesReducer } from "./useChessMove.js";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
+import clone from "just-clone";
+
 function getBestMove(gameDetails, depth) {
   const currentDetails = gameDetails;
   const board = currentDetails.boardLayout;
   const occupiedMatrix = getOccupiedMatrix(board);
 
   let bestEvaluation = currentDetails.currentSide ? -Infinity : Infinity;
-  let bestMove = [1, 1];
+  let bestMove = [-1, -1];
   let castling = false;
   let promotion = false;
   for (let piece of board) {
@@ -97,7 +99,7 @@ function getBestMove(gameDetails, depth) {
 
 function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
   const currentDetails = gameDetails;
-  const board = gameDetails.boardLayout;
+  const board = currentDetails.boardLayout;
   const occupiedMatrix = getOccupiedMatrix(board);
 
   //Add end point
@@ -202,12 +204,12 @@ function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
 function isBestEvaluation(side, evaluation, bestEvaluation) {
   if (side === true) {
     //Maximise evaluation
-    if (evaluation > bestEvaluation) {
+    if (evaluation >= bestEvaluation) {
       return true;
     }
   } else {
     //Minimise evaluation
-    if (evaluation < bestEvaluation) {
+    if (evaluation <= bestEvaluation) {
       return true;
     }
   }

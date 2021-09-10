@@ -13,95 +13,7 @@ export default [
   },
 
   {
-    id: 1,
-    position: 4,
-    type: "k",
-    side: false,
-    moved: true,
-  },
-
-  {
     id: 2,
-    position: 6,
-    type: "n",
-    side: true,
-    moved: false,
-  },
-
-  {
-    id: 3,
-    position: 7,
-    type: "r",
-    side: true,
-    moved: false,
-  },
-
-  {
-    id: 4,
-    position: 8,
-    type: "p",
-    side: true,
-    moved: false,
-  },
-
-  {
-    id: 5,
-    position: 10,
-    type: "r",
-    side: false,
-    moved: true,
-  },
-
-  {
-    id: 6,
-    position: 14,
-    type: "p",
-    side: true,
-    moved: false,
-  },
-
-  {
-    id: 7,
-    position: 15,
-    type: "p",
-    side: true,
-    moved: false,
-  },
-
-  {
-    id: 8,
-    position: 19,
-    type: "q",
-    side: false,
-    moved: true,
-  },
-
-  {
-    id: 9,
-    position: 28,
-    type: "p",
-    side: true,
-    moved: true,
-  },
-
-  {
-    id: 10,
-    position: 36,
-    type: "n",
-    side: false,
-    moved: true,
-  },
-
-  {
-    id: 11,
-    position: 44,
-    type: "b",
-    side: false,
-    moved: true,
-  },
-
-  {
-    id: 12,
     position: 20,
     type: "b",
     side: true,
@@ -109,7 +21,63 @@ export default [
   },
 
   {
+    id: 4,
+    position: 4,
+    type: "k",
+    side: true,
+    moved: false,
+  },
+
+  {
+    id: 6,
+    position: 6,
+    type: "n",
+    side: true,
+    moved: false,
+  },
+
+  {
+    id: 7,
+    position: 7,
+    type: "r",
+    side: true,
+    moved: false,
+  },
+
+  {
+    id: 8,
+    position: 8,
+    type: "p",
+    side: true,
+    moved: false,
+  },
+
+  {
     id: 13,
+    position: 28,
+    type: "p",
+    side: true,
+    moved: true,
+  },
+
+  {
+    id: 14,
+    position: 14,
+    type: "p",
+    side: true,
+    moved: false,
+  },
+
+  {
+    id: 15,
+    position: 15,
+    type: "p",
+    side: true,
+    moved: false,
+  },
+
+  {
+    id: 17,
     position: 49,
     type: "p",
     side: false,
@@ -117,7 +85,7 @@ export default [
   },
 
   {
-    id: 14,
+    id: 21,
     position: 53,
     type: "p",
     side: false,
@@ -125,7 +93,7 @@ export default [
   },
 
   {
-    id: 15,
+    id: 22,
     position: 54,
     type: "p",
     side: false,
@@ -133,7 +101,7 @@ export default [
   },
 
   {
-    id: 16,
+    id: 23,
     position: 55,
     type: "p",
     side: false,
@@ -141,7 +109,39 @@ export default [
   },
 
   {
-    id: 17,
+    id: 24,
+    position: 10,
+    type: "r",
+    side: false,
+    moved: true,
+  },
+
+  {
+    id: 25,
+    position: 36,
+    type: "n",
+    side: false,
+    moved: true,
+  },
+
+  {
+    id: 26,
+    position: 26,
+    type: "b",
+    side: false,
+    moved: true,
+  },
+
+  {
+    id: 27,
+    position: 19,
+    type: "q",
+    side: false,
+    moved: true,
+  },
+
+  {
+    id: 28,
     position: 60,
     type: "k",
     side: false,
@@ -149,7 +149,7 @@ export default [
   },
 
   {
-    id: 18,
+    id: 31,
     position: 63,
     type: "r",
     side: false,
@@ -157,7 +157,7 @@ export default [
   },
 
   {
-    id: 19,
+    id: 32,
     position: 48,
     type: "p",
     side: false,

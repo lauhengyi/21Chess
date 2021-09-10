@@ -9,6 +9,7 @@ function useEnemyComputer(gameDetails, chessActions, options) {
       !gameDetails.checkmated
     ) {
       const bestMove = getBestMove(gameDetails, 2);
+      console.log({ bestMove });
       setTimeout(() => {
         chessActions({
           type: "makeTurn",
