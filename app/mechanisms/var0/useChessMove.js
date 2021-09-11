@@ -105,14 +105,7 @@ function chessMovesReducer(state, action) {
       }
 
       function updateLastMoved() {
-        let movedFrom;
-        try {
-          movedFrom = getPiece(pieceId, state.boardLayout).position;
-        } catch (e) {
-          /*           move = action.move;
-          boardLayout = state.boardLayout;
-          console.log({ pieceId, move, boardLayout }); */
-        }
+        let movedFrom = getPiece(pieceId, state.boardLayout).position;
         newDetails.lastMoved = [pieceId, movedFrom, moved];
       }
     }

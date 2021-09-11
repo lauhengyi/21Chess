@@ -3,7 +3,7 @@ import layout from "../../screens/variations/boardLayouts/var0Layout.js";
 import getPiece from "../primaryFunctions/getPiece.js";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
-function evaluateBoard(gameDetails, oldDetails, move) {
+function evaluateBoardV1(gameDetails, oldDetails, move) {
   // Declare evaluation constants
   const coveredSquareValue = 20;
   const pawnValue = 60;
@@ -21,7 +21,7 @@ function evaluateBoard(gameDetails, oldDetails, move) {
   //Multipllier on coveredSquareValue based on how many pieces attacked that square
   const coveredSquareMatrix = [0, 1, 0.9, 0.85, 0.8, 0.75, 0.7, 0.6];
   //Multiplier on piece base value based on how many pieces defends it
-  const defendedMatrix = [1, 1.1, 1.15, 1.18, 1.2, 1.21, 1.23, 1.25];
+  const defendedMatrix = [20, 30, 35, 38, 40, 41, 41.5];
   //Multiplier on piece base value based on how many pieces attacks it
   const attackedMatrix = [1, 0.909, 0.87, 0.847, 0.833, 0.826, 0.813, 0.8];
 
@@ -142,7 +142,7 @@ function evaluateBoard(gameDetails, oldDetails, move) {
     // Determine how many times piece is defended;
     let defendedIndex = defended[piece.position];
     // Pass base balue by defended matrix
-    pieceValue *= defendedMatrix[defendedIndex];
+    pieceValue += defendedMatrix[defendedIndex];
 
     return pieceValue;
   }
@@ -199,4 +199,4 @@ function evaluateBoard(gameDetails, oldDetails, move) {
   }
 }
 
-export default evaluateBoard;
+export default evaluateBoardV1;

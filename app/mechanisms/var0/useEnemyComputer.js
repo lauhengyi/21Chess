@@ -1,4 +1,5 @@
 import getBestMove from "./getBestMove";
+import getEnemyBestMove from "./getEnemyBestMove";
 import { useEffect } from "react";
 import "react-native-console-time-polyfill";
 
@@ -8,8 +9,7 @@ function useEnemyComputer(gameDetails, chessActions, options) {
       gameDetails.currentSide === options.startingSide &&
       !gameDetails.checkmated
     ) {
-      const bestMove = getBestMove(gameDetails, 2);
-      console.log({ bestMove });
+      const bestMove = getEnemyBestMove(gameDetails, 2);
       setTimeout(() => {
         chessActions({
           type: "makeTurn",

@@ -35,10 +35,6 @@ function validMoves(piece, board, occupiedMatrix, lastMoved) {
   if (enPassantMove) {
     moves.push(enPassantMove);
   }
-  if (moves.some((e) => e[0] === 1)) {
-    console.log("in");
-    console.log({ moves, board, occupiedMatrix });
-  }
   return [moves, castlingMoves];
 }
 
