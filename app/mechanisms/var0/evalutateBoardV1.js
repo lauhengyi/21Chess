@@ -169,12 +169,11 @@ function evaluateBoardV1(gameDetails, oldDetails, move) {
         result = checkmateValue;
       }
     } else if (gameDetails.stalemated) {
-      if (
-        (gameDetails.stalemated === 2 && side === true) ||
-        (gameDetails.stalemated === 1 && side === false)
-      ) {
+      if (gameDetails.stalemated) {
         result = stalemateValue;
       }
+    } else if (gameDetails.repetition) {
+      result = stalemateValue;
     }
     return result;
   }

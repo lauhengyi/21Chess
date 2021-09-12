@@ -66,6 +66,9 @@ function chessMovesReducer(state, action) {
         newDetails.eatenPieces.push([side, piece]);
       }
 
+      //Add to previous board to identify loss by repetition(store a max of 6 and only for boards when its white's turn)
+      updateRepetition();
+
       //Remove moveables
       newDetails.moveables = [null, null];
 
@@ -108,6 +111,45 @@ function chessMovesReducer(state, action) {
         let movedFrom = getPiece(pieceId, state.boardLayout).position;
         newDetails.lastMoved = [pieceId, movedFrom, moved];
       }
+
+      function updateRepetition() {
+        if (state.currentSide === false) {
+          //Add new board
+          const previousBoard = newDetails.boardLayout.map((piece) => {
+            return {
+              id: piece.id,
+              position: piece.position,
+              type: piece.type,
+              side: piece.side,
+            };
+          });
+          newDetails.previousBoards.push(previousBoard);
+          //Remove oldest board if all 4 repetitions are done
+          if (newDetails.previousBoards.length > 6) {
+            newDetails.previousBoards.splice(0, 1);
+          }
+          //Check for loss by repetition
+          if (newDetails.previousBoards.length >= 5) {
+            const rep = JSON.stringify(newDetails.previousBoards[0]);
+            let repCount = 1;
+            //Check rep 1
+            for (let i = 2; i < 6; i += 2) {
+              console.log("in");
+              if (JSON.stringify(newDetails.previousBoards[i]) === rep) {
+                repCount++;
+              }
+            }
+            //Check rep 2
+            if (repCount === 3) {
+              newDetails.repetition = true;
+            }
+            console.log({ rep });
+          }
+          const previousBoards = newDetails.previousBoards.length;
+          const repetition = newDetails.repetition;
+          console.log({ previousBoards, repetition });
+        }
+      }
     }
 
     //move = [id of pawn, type of piece to promote]
@@ -144,9 +186,11 @@ function chessMovesReducer(state, action) {
         currentSide: true,
         lastMoved: [null, null, null],
         eatenPieces: [],
+        previousBoards: [],
         checked: 0,
         stalemated: 0,
         checkmated: 0,
+        repetition: false,
         promotion: null,
       };
       return newDetails;
@@ -257,9 +301,11 @@ function useChessMove(boardLayout, saved) {
       currentSide: true,
       lastMoved: [null, null, null],
       eatenPieces: [],
+      previousBoards: [],
       checked: 0,
       stalemated: 0,
       checkmated: 0,
+      repetition: false,
       promotion: null,
     };
   }

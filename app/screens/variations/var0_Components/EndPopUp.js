@@ -109,6 +109,13 @@ function EndPopUp(props) {
       }
     }
 
+    //Check repetition
+    if (gameDetails.repetition) {
+      ending[0] = true;
+      ending[1] = 4;
+      ending[2] = 0;
+    }
+
     return ending;
   }
 
@@ -133,35 +140,44 @@ function EndPopUp(props) {
 
     let statement1 = "";
     let statement2 = "";
-    if (ending[1] === 1) {
+    switch (ending[1]) {
       //Get checkmate statement
-      statement1 = loserName + " checkmated";
-      if (loserName === "You") {
-        statement1 = "You are checkmated";
+      case 1: {
+        statement1 = loserName + " checkmated";
+        if (loserName === "You") {
+          statement1 = "You are checkmated";
+        }
+        statement2 = winnerName + " wins";
+        if (winnerName === "You") {
+          statement2 = "You win";
+        }
       }
-      statement2 = winnerName + " wins";
-      if (winnerName === "You") {
-        statement2 = "You win";
-      }
-    } else if (ending[1] === 2) {
       //Get stalemate statement
-      statement1 = loserName + " stalemated";
-      if (loserName === "You") {
-        statement1 = "You are stalemated";
+      case 2: {
+        statement1 = loserName + " stalemated";
+        if (loserName === "You") {
+          statement1 = "You are stalemated";
+        }
+        statement2 = "Draw";
       }
-      statement2 = "Draw";
-    } else if (ending[1] === 3) {
+
       //Get timeout statment
-      statement1 = loserName + " loses by timeout";
-      if (loserName === "You") {
-        statement1 = "You lose by timeout";
+      case 3: {
+        statement1 = loserName + " loses by timeout";
+        if (loserName === "You") {
+          statement1 = "You lose by timeout";
+        }
+        statement2 = winnerName + " wins";
+        if (winnerName === "You") {
+          statement2 = "You win";
+        }
       }
-      statement2 = winnerName + " wins";
-      if (winnerName === "You") {
-        statement2 = "You win";
+      //Get repetition statement
+      case 4: {
+        statement1 = "Threefold repetition";
+        statement2 = "Draw";
       }
     }
-
     return [statement1, statement2];
   }
 }

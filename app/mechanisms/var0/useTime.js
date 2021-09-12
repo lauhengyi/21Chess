@@ -106,8 +106,8 @@ function useTime(gameDetails, options, saved) {
   }
 
   function checkEnd() {
-    const { stalemated, checkmated } = gameDetails;
-    if (stalemated || checkmated) {
+    const { stalemated, checkmated, repetition } = gameDetails;
+    if (stalemated || checkmated || repetition) {
       return true;
     }
     return false;

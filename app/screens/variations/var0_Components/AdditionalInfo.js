@@ -12,6 +12,7 @@ function AdditionalInfo(props) {
     checked,
     checkmated,
     stalemated,
+    repetition,
     boardLayout,
     promotion,
     currentSide,
@@ -71,6 +72,7 @@ function AdditionalInfo(props) {
     const pcm = opponentsName + " checkmated";
     const ps = opponentsName + " stalemated";
     const pt = opponentsName + " timeout";
+    const r = "Threefold repetition";
 
     //Check opponent for check and checkmate
     if (checkStatus(opponent[1], checked)) {
@@ -106,6 +108,11 @@ function AdditionalInfo(props) {
     //Check self for timeout
     if (checkStatus(player[1], timeLeft.timeout)) {
       statement = st;
+    }
+
+    //Check for repetition of board
+    if (repetition) {
+      statement = r;
     }
 
     //Remove statement if statement is from the top and autoTurn is not turned off
