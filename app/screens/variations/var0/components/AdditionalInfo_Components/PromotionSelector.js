@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import Clickable from "../../../components/Clickable";
-import colorPalatte from "../../../../config/colorPalatte";
-import checkDarkTheme from "../../../functions/checkDarkTheme";
+import Clickable from "../../../../components/Clickable";
+import colorPalatte from "../../../../../config/colorPalatte";
+import checkDarkTheme from "../../../../functions/checkDarkTheme";
 
 function PromotionSelector(props) {
   const styles = getStyles(props.settings, colorPalatte);

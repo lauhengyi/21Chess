@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Text, View, StyleSheet } from "react-native";
-import Clickable from "../../components/Clickable";
-import colorPalatte from "../../../config/colorPalatte";
-import RulesPopUp from "../../RulesPopUp";
+import Clickable from "../../../components/Clickable";
+import colorPalatte from "../../../../config/colorPalatte";
+import RulesPopUp from "../../../RulesPopUp";
 
 function Menu(props) {
   const exitText = "M";

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, View, Text, StyleSheet } from "react-native";
-import Clickable from "../../components/Clickable";
-import colorPalatte from "../../../config/colorPalatte";
-import checkStatus from "../../functions/checkStatus";
+import Clickable from "../../../components/Clickable";
+import colorPalatte from "../../../../config/colorPalatte";
+import checkStatus from "../../../functions/checkStatus";
 
 function EndPopUp(props) {
   const ending = checkEnd(props.gameDetails, props.options, props.timeLeft);

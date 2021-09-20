@@ -1,15 +1,11 @@
 import React from "react";
-import Board from "./var0_Components/Board";
-import { useChessMove } from "../../mechanisms/var0/useChessMove";
-import useComputer from "../../mechanisms/var0/useComputer";
-import useTime from "../../mechanisms/var0/useTime";
-import layout from "./boardLayouts/var0Layout";
-import bugTest from "./boardLayouts/bugTest";
-import GameUI from "./var0_Components/GameUI";
-import evaluateBoardV2 from "../../mechanisms/var0/evalutateBoardV2";
-import getOccupiedMatrix from "../../mechanisms/primaryFunctions/getOccupiedMatrix";
+import Board from "./components/Board";
+import { useChessMove } from "../../../mechanisms/var0/useChessMove";
+import useComputer from "../../../mechanisms/var0/useComputer";
+import useTime from "../../../mechanisms/var0/useTime";
+import layout from "../boardLayouts/var0Layout";
+import GameUI from "./components/GameUI";
 import "react-native-console-time-polyfill";
-import useEnemyComputer from "../../mechanisms/var0/useEnemyComputer";
 
 function Var0({ route, navigation }) {
   //Bring up the constants

@@ -4,10 +4,10 @@ import StatsBar from "./StatsBar";
 import AdditionalInfo from "./AdditionalInfo";
 import Menu from "./Menu";
 import EndPopUp from "./EndPopUp";
-import handleGameExit from "../../functions/handleGameExit";
-import SavedContext from "../../functions/SavedContext";
-import overrideBackPress from "../../functions/overrideBackPress";
-import colorPalatte from "../../../config/colorPalatte";
+import handleGameExit from "../../../functions/handleGameExit";
+import SavedContext from "../../../functions/SavedContext";
+import overrideBackPress from "../../../functions/overrideBackPress";
+import colorPalatte from "../../../../config/colorPalatte";
 
 function GameUI(props) {
   const {
@@ -127,7 +127,7 @@ function getStyles(settings, colorPalatte) {
     },
 
     statsBarTop: {
-      marginTop: 50,
+      marginTop: 45,
     },
   });
 }

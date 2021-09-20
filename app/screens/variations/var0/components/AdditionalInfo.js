@@ -1,11 +1,11 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import PromotionSelector from "./AdditionalInfo_Components/PromotionSelector";
-import getPiece from "../../../mechanisms/primaryFunctions/getPiece";
-import getPlayers from "../../functions/getPlayers";
+import getPiece from "../../../../mechanisms/primaryFunctions/getPiece";
+import getPlayers from "../../../functions/getPlayers";
 import ToggleMenuButton from "./AdditionalInfo_Components/ToggleMenuButton";
-import checkStatus from "../../functions/checkStatus";
-import colorPalatte from "../../../config/colorPalatte";
+import checkStatus from "../../../functions/checkStatus";
+import colorPalatte from "../../../../config/colorPalatte";
 
 function AdditionalInfo(props) {
   const {

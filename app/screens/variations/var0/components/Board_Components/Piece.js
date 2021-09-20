@@ -1,9 +1,9 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
-import Clickable from "../../../components/Clickable";
-import getPiece from "../../../../mechanisms/primaryFunctions/getPiece";
-import colorPalatte from "../../../../config/colorPalatte";
-import getPieceText from "../../../functions/getPieceText";
+import Clickable from "../../../../components/Clickable";
+import getPiece from "../../../../../mechanisms/primaryFunctions/getPiece";
+import colorPalatte from "../../../../../config/colorPalatte";
+import getPieceText from "../../../../functions/getPieceText";
 
 function Piece(props) {
   // Passing down constants

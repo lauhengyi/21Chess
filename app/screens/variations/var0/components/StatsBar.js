@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import TimeText from "../../components/TimeText";
-import getTimeControlText from "../../functions/getTimeControlText";
-import getPlayers from "../../functions/getPlayers";
-import colorPalatte from "../../../config/colorPalatte";
-import getPieceText from "../../functions/getPieceText";
+import TimeText from "../../../components/TimeText";
+import getTimeControlText from "../../../functions/getTimeControlText";
+import getPlayers from "../../../functions/getPlayers";
+import colorPalatte from "../../../../config/colorPalatte";
+import getPieceText from "../../../functions/getPieceText";
 
 function StatsBar(props) {
   const styles = getStyles(props.settings, colorPalatte);

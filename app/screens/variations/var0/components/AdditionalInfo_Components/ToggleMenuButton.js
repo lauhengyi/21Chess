@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Clickable from "../../../components/Clickable";
-import colorPalatte from "../../../../config/colorPalatte";
+import Clickable from "../../../../components/Clickable";
+import colorPalatte from "../../../../../config/colorPalatte";
 
 function ToggleMenuButton(props) {
   const buttonText = "b";

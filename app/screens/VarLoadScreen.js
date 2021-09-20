@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { View } from "react-native";
 import OptionsScreen from "./OptionsScreen";
-import Var0 from "./variations/Var0";
-import Var1 from "./variations/Var1";
-import Var2 from "./variations/Var2";
+import Var0 from "./variations/var0/Var0";
+import Var1 from "./variations/var1/Var1";
+import Var2 from "./variations/var2/Var2";
 import { createStackNavigator } from "@react-navigation/stack";
 import SettingsContext from "./functions/SettingsContext";
 import colorPalatte from "../config/colorPalatte";

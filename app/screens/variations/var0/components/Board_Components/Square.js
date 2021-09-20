@@ -1,9 +1,9 @@
 import React from "react";
-import colorPalatte from "../../../../config/colorPalatte";
+import colorPalatte from "../../../../../config/colorPalatte";
 import { View } from "react-native";
-import Clickable from "../../../components/Clickable";
+import Clickable from "../../../../components/Clickable";
 import Piece from "./Piece";
-import checkDarkTheme from "../../../functions/checkDarkTheme";
+import checkDarkTheme from "../../../../functions/checkDarkTheme";
 
 function Square(props) {
   const settings = props.settings;
