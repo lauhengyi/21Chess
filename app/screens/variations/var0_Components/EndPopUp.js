@@ -151,6 +151,7 @@ function EndPopUp(props) {
         if (winnerName === "You") {
           statement2 = "You win";
         }
+        break;
       }
       //Get stalemate statement
       case 2: {
@@ -159,6 +160,7 @@ function EndPopUp(props) {
           statement1 = "You are stalemated";
         }
         statement2 = "Draw";
+        break;
       }
 
       //Get timeout statment
@@ -171,12 +173,15 @@ function EndPopUp(props) {
         if (winnerName === "You") {
           statement2 = "You win";
         }
+        break;
       }
       //Get repetition statement
-      case 4: {
-        statement1 = "Threefold repetition";
-        statement2 = "Draw";
-      }
+      case 4:
+        {
+          statement1 = "Threefold repetition";
+          statement2 = "Draw";
+        }
+        break;
     }
     return [statement1, statement2];
   }

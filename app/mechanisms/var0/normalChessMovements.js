@@ -706,7 +706,7 @@ function accountCollidedPiece(position, piece, moves, occupiedMatrix, AorD) {
     }
   } else {
     if (collided) {
-      moves.push([piece.id, position]);
+      moves.push([piece.id, position, eatenId]);
       return [moves, true];
     } else {
       moves.push([piece.id, position]);

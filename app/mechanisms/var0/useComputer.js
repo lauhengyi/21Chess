@@ -4,13 +4,8 @@ import "react-native-console-time-polyfill";
 
 function useComputer(gameDetails, chessActions, options) {
   useEffect(() => {
-    if (
-      gameDetails.currentSide === !options.startingSide &&
-      !gameDetails.checkmated
-    ) {
-      console.time("bestMove");
-      const bestMove = getBestMove(gameDetails, 2);
-      console.timeEnd("bestMove");
+    if (gameDetails.currentSide === !options.startingSide && !checkEnd()) {
+      const bestMove = getBestMove(gameDetails, options.diff);
       chessActions({
         type: "makeTurn",
         move: bestMove[0],
@@ -25,6 +20,12 @@ function useComputer(gameDetails, chessActions, options) {
       }
     }
   }, [gameDetails.currentSide]);
+
+  function checkEnd() {
+    return (
+      gameDetails.checkmated || gameDetails.stalemated || gameDetails.repetition
+    );
+  }
 }
 
 export default useComputer;

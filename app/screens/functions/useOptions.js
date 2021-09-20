@@ -16,7 +16,7 @@ function useOptions(varNum) {
   };
 
   //Computer ai difficulty
-  const comDiff = ["easy", "medium", "hard", "vs Heng Yi"];
+  const comDiff = ["easy", "medium", "hard"];
   const [diff, setDiff] = useState(0);
   const diffDetails = {
     values: comDiff,

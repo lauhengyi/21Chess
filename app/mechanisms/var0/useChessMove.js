@@ -113,41 +113,34 @@ function chessMovesReducer(state, action) {
       }
 
       function updateRepetition() {
-        if (state.currentSide === false) {
-          //Add new board
-          const previousBoard = newDetails.boardLayout.map((piece) => {
-            return {
-              id: piece.id,
-              position: piece.position,
-              type: piece.type,
-              side: piece.side,
-            };
-          });
-          newDetails.previousBoards.push(previousBoard);
-          //Remove oldest board if all 4 repetitions are done
-          if (newDetails.previousBoards.length > 6) {
-            newDetails.previousBoards.splice(0, 1);
-          }
-          //Check for loss by repetition
-          if (newDetails.previousBoards.length >= 5) {
-            const rep = JSON.stringify(newDetails.previousBoards[0]);
-            let repCount = 1;
-            //Check rep 1
-            for (let i = 2; i < 6; i += 2) {
-              console.log("in");
-              if (JSON.stringify(newDetails.previousBoards[i]) === rep) {
-                repCount++;
-              }
+        //Add new board
+        const previousBoard = newDetails.boardLayout.map((piece) => {
+          return {
+            id: piece.id,
+            position: piece.position,
+            type: piece.type,
+            side: piece.side,
+          };
+        });
+        newDetails.previousBoards.push(previousBoard);
+        //Remove oldest board if all 4 repetitions are done
+        if (newDetails.previousBoards.length > 9) {
+          newDetails.previousBoards.splice(0, 1);
+        }
+        //Check for loss by repetition
+        if (newDetails.previousBoards.length > 8) {
+          const rep = JSON.stringify(newDetails.previousBoards[8]);
+          let repCount = 1;
+          //Check rep 1
+          for (let i = 4; i > -1; i -= 4) {
+            if (JSON.stringify(newDetails.previousBoards[i]) === rep) {
+              repCount++;
             }
-            //Check rep 2
-            if (repCount === 3) {
-              newDetails.repetition = true;
-            }
-            console.log({ rep });
           }
-          const previousBoards = newDetails.previousBoards.length;
-          const repetition = newDetails.repetition;
-          console.log({ previousBoards, repetition });
+          //Check rep 2
+          if (repCount === 3) {
+            newDetails.repetition = true;
+          }
         }
       }
     }

@@ -6,7 +6,8 @@ import useTime from "../../mechanisms/var0/useTime";
 import layout from "./boardLayouts/var0Layout";
 import bugTest from "./boardLayouts/bugTest";
 import GameUI from "./var0_Components/GameUI";
-import evaluateBoard from "../../mechanisms/var0/evalutateBoard";
+import evaluateBoardV2 from "../../mechanisms/var0/evalutateBoardV2";
+import getOccupiedMatrix from "../../mechanisms/primaryFunctions/getOccupiedMatrix";
 import "react-native-console-time-polyfill";
 import useEnemyComputer from "../../mechanisms/var0/useEnemyComputer";
 
@@ -23,7 +24,6 @@ function Var0({ route, navigation }) {
   //Activate computer
   if (options.mode === 0) {
     useComputer(gameDetails, chessActions, options);
-    useEnemyComputer(gameDetails, chessActions, options);
   }
 
   /*   console.log(

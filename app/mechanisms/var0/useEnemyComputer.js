@@ -5,10 +5,7 @@ import "react-native-console-time-polyfill";
 
 function useEnemyComputer(gameDetails, chessActions, options) {
   useEffect(() => {
-    if (
-      gameDetails.currentSide === options.startingSide &&
-      !gameDetails.checkmated
-    ) {
+    if (gameDetails.currentSide === options.startingSide && !checkEnd()) {
       const bestMove = getEnemyBestMove(gameDetails, 2);
       setTimeout(() => {
         chessActions({
@@ -23,9 +20,14 @@ function useEnemyComputer(gameDetails, chessActions, options) {
             move: [bestMove[0][0], "q"],
           });
         }
-      }, 1000);
+      }, 500);
     }
   }, [gameDetails.currentSide]);
+  function checkEnd() {
+    return (
+      gameDetails.checkmated || gameDetails.stalemated || gameDetails.repetition
+    );
+  }
 }
 
 export default useEnemyComputer;

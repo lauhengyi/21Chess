@@ -43,15 +43,16 @@ function validAttacks(piece, occupiedMatrix, lastMoved) {
   // Get moveable moves
   let pieceData = createPieceDataCalculator(piece, occupiedMatrix);
   // Check whether attack is pinned
-  /*   let result = [];
-  for (let attack of pieceData.attacks) {
-    if (checkPin(attack, board) === false) {
-      result.push(attack);
+  /*   for (let attack of pieceData.attacks) {
+    if (attack.length === 3) {
+      if (checkPin(attack, board) === false) {
+        result.push(attack);
+      }
     }
-  }
+  } */
   // Check for en Passant
   // Check for piece to be pawn, last move to be pawn)
-  let enPassantMove;
+  /*   let enPassantMove;
   if (
     lastMoved[0] &&
     piece.type === "p" &&
@@ -72,11 +73,13 @@ function validAttacks(piece, occupiedMatrix, lastMoved) {
 function validDefended(piece, occupiedMatrix) {
   // Get moveable moves
   let pieceData = createPieceDataCalculator(piece, occupiedMatrix);
-  /* // Check whether attack is pinned
-  let result = [];
+  // Check whether attack is pinned
+  /*   let result = [];
   for (let defend of pieceData.defended) {
-    if (checkPin(defend, board) === false) {
-      result.push(defend);
+    if (defend.length === 3) {
+      if (checkPin(defend, board) === false) {
+        result.push(defend);
+      }
     }
   } */
   return pieceData.defended;

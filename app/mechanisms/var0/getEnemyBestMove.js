@@ -1,9 +1,9 @@
 import { validMoves } from "./getChessMoves.js";
-import evaluateBoardV1 from "./evalutateBoardV1.js";
 import var0Layout from "../../screens/variations/boardLayouts/var0Layout.js";
 import { chessMovesReducer } from "./useChessMove.js";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
+import evaluateBoardV2 from "./evalutateBoardV2.js";
 
 function getEnemyBestMove(gameDetails, depth) {
   const currentDetails = gameDetails;
@@ -95,13 +95,14 @@ function getEnemyBestMove(gameDetails, depth) {
 }
 
 function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
+  let ended = true;
   const currentDetails = gameDetails;
   const board = currentDetails.boardLayout;
   const occupiedMatrix = getOccupiedMatrix(board);
 
   //Add end point
   if (depth === 0) {
-    return evaluateBoardV1(currentDetails, oldDetails, move);
+    return evaluateBoardV2(currentDetails, oldDetails, move);
   }
   let bestEvaluation = currentDetails.currentSide ? -Infinity : Infinity;
 
@@ -115,6 +116,7 @@ function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
       );
       if (moves[0]) {
         //Normal moves
+        ended = false;
         for (let move of moves[0]) {
           let newDetails = chessMovesReducer(currentDetails, {
             type: "makeTurn",
@@ -157,6 +159,7 @@ function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
         }
       }
       if (moves[1]) {
+        ended = false;
         //castling moves
         for (let move of moves[1]) {
           let newDetails = chessMovesReducer(currentDetails, {
@@ -194,6 +197,9 @@ function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
       }
     }
   }
+  if (ended) {
+    return evaluateBoardV2(currentDetails, oldDetails, move);
+  }
 
   return bestEvaluation;
 }
@@ -201,12 +207,12 @@ function getBestEvaluation(gameDetails, currentBest, oldDetails, move, depth) {
 function isBestEvaluation(side, evaluation, bestEvaluation) {
   if (side === true) {
     //Maximise evaluation
-    if (evaluation > bestEvaluation) {
+    if (evaluation >= bestEvaluation) {
       return true;
     }
   } else {
     //Minimise evaluation
-    if (evaluation < bestEvaluation) {
+    if (evaluation <= bestEvaluation) {
       return true;
     }
   }

@@ -3,7 +3,7 @@ import layout from "../../screens/variations/boardLayouts/var0Layout.js";
 import getPiece from "../primaryFunctions/getPiece.js";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
-function evaluateBoard(gameDetails, oldDetails, move) {
+function evaluateBoardV2(gameDetails) {
   // Declare evaluation constants
   const coveredSquareValue = 20;
   const pawnValue = 60;
@@ -12,7 +12,7 @@ function evaluateBoard(gameDetails, oldDetails, move) {
   const bishopValue = 200;
   const queenValue = 700;
   const kingValue = 100;
-  const checkmateValue = 100000;
+  const checkmateValue = Infinity;
   const stalemateValue = 0;
 
   //Initialise occupied matrix
@@ -20,8 +20,8 @@ function evaluateBoard(gameDetails, oldDetails, move) {
 
   //Multipllier on coveredSquareValue based on how many pieces attacked that square
   const coveredSquareMatrix = [0, 1, 0.9, 0.85, 0.8, 0.75, 0.7, 0.6];
-  //Multiplier on piece base value based on how many pieces defends it
-  const defendedMatrix = [1, 1.1, 1.15, 1.18, 1.2, 1.21, 1.23, 1.25];
+  //Additional points on piece base value based on how many pieces defends it
+  const defendedMatrix = [0, 40, 60, 70, 75, 77.5, 80, 82, 81];
   //Multiplier on piece base value based on how many pieces attacks it
   const attackedMatrix = [1, 0.909, 0.87, 0.847, 0.833, 0.826, 0.813, 0.8];
 
@@ -34,41 +34,22 @@ function evaluateBoard(gameDetails, oldDetails, move) {
     const [attacked, pawnAttacked] = compileAttackedSquares(!side);
 
     const defended = compileDefendedSquares(side);
-    if (move && side === oldDetails.currentSide) {
-      //Captures with pieces of lower value to pieces of higher value are likely to be good moves
-      const movedPiece = getPiece(move[0], oldDetails.boardLayout);
-      if (move.length === 3) {
-        const capturingValue = getBaseValue(movedPiece);
-        const capturedValue = getBaseValue(
-          getPiece(move[2], oldDetails.boardLayout)
-        );
-        if (capturingValue < capturedValue) {
-          evaluation += 10 * (capturedValue - capturedValue);
-        }
-      }
-      //It is likely a bad move if a non pawn piece moves to a position where it can be attacked and not defended
-      if (movedPiece.type != "p") {
-        //Check whether moved piece is being attacked and not defended
-        if (attacked[move[1]] && !defended[move[1]]) {
-          evaluation -= getBaseValue(movedPiece);
-        }
 
-        //Check if piece can be attacked by an enemy pawn
-        if (pawnAttacked[move[1]]) {
-          evaluation -= getBaseValue(movedPiece);
-        }
-      }
-    }
     const [covered] = compileAttackedSquares(side);
 
     for (let piece of board) {
       if (piece.side === side) {
-        evaluation += evaluatePieceValue(piece, attacked, defended);
+        evaluation += evaluatePieceValue(
+          piece,
+          attacked,
+          pawnAttacked,
+          defended
+        );
       }
     }
 
     evaluation += evaluateCoveredSquares(covered);
-    evaluation += evaluateStatus(side);
+    evaluation = evaluateStatus(side, evaluation);
 
     return evaluation;
   }
@@ -129,20 +110,32 @@ function evaluateBoard(gameDetails, oldDetails, move) {
     return result;
   }
 
-  function evaluatePieceValue(piece, attacked, defended) {
+  function evaluatePieceValue(piece, attacked, pawnAttacked, defended) {
+    //Piece will most likely be eaten if it is attacked by a pawn
+    if (pawnAttacked[piece.position] && piece.type !== "p") {
+      return 0;
+    }
+
+    // Determine how many times attacked by enemy
+    let attackedIndex = attacked[piece.position];
+
+    // Determine how many times piece is defended;
+    let defendedIndex = defended[piece.position];
+
+    //Piece will most likely be eaten if attacked and unprotected
+    if (attackedIndex && !defendedIndex) {
+      return 0;
+    }
+
     // Determine base value
     const baseValue = getBaseValue(piece);
 
     let pieceValue = baseValue;
-    // Determine how many times attacked by enemy
-    let attackedIndex = attacked[piece.position];
     // Pass base value by attacked matrix
     pieceValue *= attackedMatrix[attackedIndex];
 
-    // Determine how many times piece is defended;
-    let defendedIndex = defended[piece.position];
     // Pass base balue by defended matrix
-    pieceValue *= defendedMatrix[defendedIndex];
+    pieceValue += defendedMatrix[defendedIndex];
 
     return pieceValue;
   }
@@ -159,8 +152,8 @@ function evaluateBoard(gameDetails, oldDetails, move) {
     return result;
   }
 
-  function evaluateStatus(side) {
-    let result = 0;
+  function evaluateStatus(side, evaluation) {
+    let result = evaluation;
     if (gameDetails.checkmated) {
       if (
         (gameDetails.checkmated === 2 && side === true) ||
@@ -198,4 +191,4 @@ function evaluateBoard(gameDetails, oldDetails, move) {
   }
 }
 
-export default evaluateBoard;
+export default evaluateBoardV2;
