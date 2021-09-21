@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, StyleSheet } from "react-native";
-import SquaresRow from "./Board_Components/SquaresRow";
+import V1SquaresRow from "./Board_Components/V1SquaresRow";
 
-function Board(props) {
+function V1Board(props) {
   const options = props.options;
   //Mapping rows
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -23,7 +23,7 @@ function Board(props) {
       <View style={boardOrientation ? styles.orientWhite : styles.orientBlack}>
         <View style={styles.board}>
           {rows.map((index) => (
-            <SquaresRow
+            <V1SquaresRow
               key={index}
               index={index}
               gameDetails={props.gameDetails}
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Board;
+export default V1Board;

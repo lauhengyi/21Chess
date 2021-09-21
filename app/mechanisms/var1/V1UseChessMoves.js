@@ -1,12 +1,17 @@
 import { useReducer } from "react";
-import chessMovesReducer from "./functions/chessMoveReducer";
+import V1ChessMovesReducer from "./V1ChessMoveReducer";
+import getPieceMap from "./getPieceMap";
 
-function useChessMove(boardLayout, saved) {
+function V1UseChessMove(boardLayout, saved) {
   let initialDetails;
+
   if (saved) {
     initialDetails = saved.gameDetails;
   } else {
+    //Initialise pieceMap
+    const pieceMap = getPieceMap();
     initialDetails = {
+      pieceMap: pieceMap,
       boardLayout: boardLayout,
       moveables: [null, null],
       clickedSquare: null,
@@ -21,7 +26,7 @@ function useChessMove(boardLayout, saved) {
       promotion: null,
     };
   }
-  return useReducer(chessMovesReducer, initialDetails);
+  return useReducer(V1ChessMovesReducer, initialDetails);
 }
 
-export default useChessMove;
+export default V1UseChessMove;

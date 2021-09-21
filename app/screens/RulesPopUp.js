@@ -4,6 +4,17 @@ import Clickable from "./components/Clickable";
 import colorPalatte from "../config/colorPalatte";
 import varData from "./VarLoadScreen_Components/varData";
 import Var0Rules from "./Rules_Components/Var0Rules";
+import Var1Rules from "./Rules_Components/Var1Rules";
+import Var2Rules from "./Rules_Components/Var2Rules";
+import Var3Rules from "./Rules_Components/Var3Rules";
+import Var4Rules from "./Rules_Components/Var4Rules";
+import Var5Rules from "./Rules_Components/Var5Rules";
+import Var6Rules from "./Rules_Components/Var6Rules";
+import Var7Rules from "./Rules_Components/Var7Rules";
+import Var8Rules from "./Rules_Components/Var8Rules";
+import Var9Rules from "./Rules_Components/Var9Rules";
+import Var10Rules from "./Rules_Components/Var10Rules";
+import Var11Rules from "./Rules_Components/Var11Rules";
 
 function RulesPopUp(props) {
   const varNum = props.varNum;
@@ -43,7 +54,20 @@ function RulesPopUp(props) {
 function Rules(props) {
   const varNum = props.varNum;
   const settings = props.settings;
-  const rulesList = [<Var0Rules settings={settings} />];
+  const rulesList = [
+    <Var0Rules settings={settings} />,
+    <Var1Rules settings={settings} />,
+    <Var2Rules settings={settings} />,
+    <Var3Rules settings={settings} />,
+    <Var4Rules settings={settings} />,
+    <Var5Rules settings={settings} />,
+    <Var6Rules settings={settings} />,
+    <Var7Rules settings={settings} />,
+    <Var8Rules settings={settings} />,
+    <Var9Rules settings={settings} />,
+    <Var10Rules settings={settings} />,
+    <Var11Rules settings={settings} />,
+  ];
   return rulesList[varNum];
 }
 

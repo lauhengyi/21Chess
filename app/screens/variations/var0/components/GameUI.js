@@ -127,7 +127,7 @@ function getStyles(settings, colorPalatte) {
     },
 
     statsBarTop: {
-      marginTop: 45,
+      marginTop: 50,
     },
   });
 }

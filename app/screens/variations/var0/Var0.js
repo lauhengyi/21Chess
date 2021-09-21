@@ -1,6 +1,6 @@
 import React from "react";
 import Board from "./components/Board";
-import { useChessMove } from "../../../mechanisms/var0/useChessMove";
+import useChessMove from "../../../mechanisms/var0/useChessMove";
 import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
@@ -22,14 +22,6 @@ function Var0({ route, navigation }) {
     useComputer(gameDetails, chessActions, options);
   }
 
-  /*   console.log(
-    countMoves(
-      gameDetails.boardLayout,
-      gameDetails.currentSide,
-      gameDetails.lastMoved,
-      3
-    )
-  ); */
   return (
     <GameUI
       varNum={0}

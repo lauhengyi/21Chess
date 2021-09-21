@@ -1,6 +1,6 @@
 import React from "react";
-import Board from "../var0/components/Board";
-import { useChessMove } from "../../../mechanisms/var0/useChessMove";
+import V1Board from "./components/V1Board";
+import V1UseChessMove from "../../../mechanisms/var1/V1UseChessMoves";
 import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
@@ -12,7 +12,7 @@ function Var1({ route, navigation }) {
   const { options, settings, saved } = route.params;
 
   //Initialise game
-  const [gameDetails, chessActions] = useChessMove(layout, saved);
+  const [gameDetails, chessActions] = V1UseChessMove(layout, saved);
 
   //Initialise time left
   const [timeLeft, restartTimer] = useTime(gameDetails, options, saved);
@@ -42,7 +42,7 @@ function Var1({ route, navigation }) {
       options={options}
       settings={settings}
     >
-      <Board
+      <V1Board
         gameDetails={gameDetails}
         options={options}
         onAction={chessActions}

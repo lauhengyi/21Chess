@@ -1,5 +1,5 @@
 import { validMoves } from "./getChessMoves.js";
-import { chessMovesReducer } from "./useChessMove.js";
+import chessMovesReducer from "./functions/chessMoveReducer.js";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 import evaluateBoardV2 from "./evalutateBoardV2.js";

@@ -1,9 +1,9 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
-import Clickable from "../../../components/Clickable";
-import getPiece from "../../../../mechanisms/primaryFunctions/getPiece";
-import colorPalatte from "../../../../config/colorPalatte";
-import getPieceText from "../../../functions/getPieceText";
+import Clickable from "../../../../components/Clickable";
+import getPiece from "../../../../../mechanisms/primaryFunctions/getPiece";
+import colorPalatte from "../../../../../config/colorPalatte";
+import V1GetPieceText from "../../functions/V1GetPieceText";
 
 function V1Piece(props) {
   // Passing down constants
@@ -11,13 +11,14 @@ function V1Piece(props) {
   const settings = props.settings;
   const boardLayout = props.gameDetails.boardLayout;
   const piece = getPiece(props.pieceId, boardLayout);
+  const pieceMap = props.gameDetails.pieceMap;
   const currentSide = props.gameDetails.currentSide;
   const currentOrientation = props.boardOrientation;
 
   //Get styles
   const pieceStyle = getStyle();
 
-  const pieceText = getPieceText(piece, settings.theme);
+  const pieceText = V1GetPieceText(piece, pieceMap, settings.theme);
 
   if (currentSide === piece.side) {
     return (

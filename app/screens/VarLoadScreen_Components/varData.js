@@ -15,21 +15,22 @@ export default [
 
   {
     title: "Var. 2",
-    header: "Unordered Chess",
-    caption: "Wait, who's turn is it?",
-  },
-
-  {
-    title: "Var. 3",
     header: "Scrambled Chess",
     caption: "Mix it up!",
   },
 
   {
-    title: "Var. 4",
+    title: "Var. 3",
     header: "Sacrifice Chess",
     caption: "For the greater good.",
   },
+
+  {
+    title: "Var. 4",
+    header: "Archer Chess",
+    caption: "Nock, Draw, LOOSE!",
+  },
+
   {
     title: "Var. 5",
     header: "Broken Tiles Chess",
@@ -38,14 +39,14 @@ export default [
 
   {
     title: "Var. 6",
-    header: "Archer Chess",
-    caption: "Nock, Draw, LOOSE!",
+    header: "Mirror Chess",
+    caption: "From different worlds but all the same.",
   },
 
   {
     title: "Var. 7",
-    header: "Mirror Chess",
-    caption: "From different worlds but all the same.",
+    header: "Unordered Chess",
+    caption: "Wait, who's turn is it?",
   },
 
   {
