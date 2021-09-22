@@ -1,15 +1,8 @@
-import React from "react";
-import V1Board from "./components/V1Board";
-import V1UseChessMove from "../../../mechanisms/var1/V1UseChessMoves";
-import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
-import "react-native-console-time-polyfill";
-import getChessMoves from "../../../mechanisms/var0/getChessMoves";
-import chessMovesReducer from "../../../mechanisms/var0/functions/chessMovesReducer";
 
-function Var1({ route, navigation }) {
+function V2GameScreen({ route, navigation }) {
   //Bring up the constants
   const { options, settings, saved } = route.params;
 
@@ -21,18 +14,12 @@ function Var1({ route, navigation }) {
 
   //Activate computer
   if (options.mode === 0) {
-    useComputer(
-      gameDetails,
-      chessActions,
-      getChessMoves,
-      chessMovesReducer,
-      options
-    );
+    useComputer(gameDetails, chessActions, options);
   }
 
   return (
     <GameUI
-      varNum={1}
+      varNum={2}
       boardLayout={layout}
       navigation={navigation}
       chessActions={chessActions}
@@ -52,4 +39,4 @@ function Var1({ route, navigation }) {
   );
 }
 
-export default Var1;
+export default V2GameScreen;

@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import chessMovesReducer from "./functions/chessMoveReducer";
+import chessMovesReducer from "./functions/chessMovesReducer";
 
 function useChessMove(boardLayout, saved) {
   let initialDetails;

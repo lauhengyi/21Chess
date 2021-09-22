@@ -7,6 +7,16 @@ import createPieceDataCalculator from "./normalChessMovements.js";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
+function getChessMoves(piece, board, occupiedMatrix, lastMoved, type) {
+  switch (type) {
+    case "moves":
+      return validMoves(piece, board, occupiedMatrix, lastMoved);
+    case "attacks":
+      return validAttacks(piece, occupiedMatrix);
+    case "defended":
+      return validDefended(piece, occupiedMatrix);
+  }
+}
 //returns list of valid moves a piece can make with consideration of pinning
 // Last moved [id, movedFrom, moved] specialMoves: normalMoves = null, doublePawn move = 'dp', castling = 'c', enPassant = 'p'
 function validMoves(piece, board, occupiedMatrix, lastMoved) {
@@ -39,34 +49,9 @@ function validMoves(piece, board, occupiedMatrix, lastMoved) {
 }
 
 //Return attacks from pieces
-function validAttacks(piece, occupiedMatrix, lastMoved) {
+function validAttacks(piece, occupiedMatrix) {
   // Get moveable moves
   let pieceData = createPieceDataCalculator(piece, occupiedMatrix);
-  // Check whether attack is pinned
-  /*   for (let attack of pieceData.attacks) {
-    if (attack.length === 3) {
-      if (checkPin(attack, board) === false) {
-        result.push(attack);
-      }
-    }
-  } */
-  // Check for en Passant
-  // Check for piece to be pawn, last move to be pawn)
-  /*   let enPassantMove;
-  if (
-    lastMoved[0] &&
-    piece.type === "p" &&
-    getPiece(lastMoved[0], board).type === "p"
-  ) {
-    // Make sure the pawn double moved
-    //Add enPassant
-    if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
-      enPassantMove = checkEnPassant(piece, board, lastMoved);
-      if (enPassantMove) {
-        result.push(enPassantMove);
-      }
-    }
-  } */
   return pieceData.attacks;
 }
 
@@ -219,4 +204,4 @@ function checkCastling(piece, board, occupiedMatrix, validMoves) {
   return castleMoves;
 }
 
-export { validMoves, validAttacks, validDefended };
+export default getChessMoves;

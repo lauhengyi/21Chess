@@ -1,46 +1,33 @@
 import React from "react";
-import Board from "../var0/components/Board";
-import V1UseChessMove from "../../../mechanisms/var1/V1UseChessMoves";
-import useComputer from "../../../mechanisms/var0/useComputer";
-import useTime from "../../../mechanisms/var0/useTime";
-import layout from "../boardLayouts/var0Layout";
-import GameUI from "../var0/components/GameUI";
-import "react-native-console-time-polyfill";
+import { createStackNavigator } from "@react-navigation/stack";
+import V2GameScreen from "./V2GameScreen";
+import V2ChoosingScreen from "./V2ChoosingScreen";
 
+const Stack = createStackNavigator();
 function Var2({ route, navigation }) {
-  //Bring up the constants
   const { options, settings, saved } = route.params;
-
-  //Initialise game
-  const [gameDetails, chessActions] = V1UseChessMove(layout, saved);
-
-  //Initialise time left
-  const [timeLeft, restartTimer] = useTime(gameDetails, options, saved);
-
-  //Activate computer
-  if (options.mode === 0) {
-    useComputer(gameDetails, chessActions, options);
-  }
-
+  const backgroundColor = colorPalatte[settings.theme].white;
   return (
-    <GameUI
-      varNum={2}
-      boardLayout={layout}
-      navigation={navigation}
-      chessActions={chessActions}
-      gameDetails={gameDetails}
-      timeLeft={timeLeft}
-      restartTimer={restartTimer}
-      options={options}
-      settings={settings}
-    >
-      <V1Board
-        gameDetails={gameDetails}
-        options={options}
-        onAction={chessActions}
-        settings={settings}
-      />
-    </GameUI>
+    <View style={{ backgroundColor: backgroundColor, flex: 1 }}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        {!saved || !saved.gameDetails.chosen ? (
+          <Stack.Screen
+            name={"Choosing"}
+            component={V2ChoosingScreen}
+            initialParams={{
+              options: options,
+              saved: saved,
+              settings: settings,
+            }}
+          />
+        ) : null}
+        <Stack.Screen name={"Game"} component={V2GameScreen} />
+      </Stack.Navigator>
+    </View>
   );
 }
 

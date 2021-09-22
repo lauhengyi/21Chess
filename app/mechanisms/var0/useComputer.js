@@ -2,10 +2,21 @@ import getBestMove from "./getBestMove";
 import { useEffect } from "react";
 import "react-native-console-time-polyfill";
 
-function useComputer(gameDetails, chessActions, options) {
+function useComputer(
+  gameDetails,
+  chessActions,
+  getChessMoves,
+  chessMovesReducer,
+  options
+) {
   useEffect(() => {
     if (gameDetails.currentSide === !options.startingSide && !checkEnd()) {
-      const bestMove = getBestMove(gameDetails, options.diff);
+      const bestMove = getBestMove(
+        gameDetails,
+        getChessMoves,
+        chessMovesReducer,
+        options.diff
+      );
       chessActions({
         type: "makeTurn",
         move: bestMove[0],

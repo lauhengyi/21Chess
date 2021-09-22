@@ -1,9 +1,6 @@
-import { validAttacks, validDefended } from "./getChessMoves.js";
-import layout from "../../screens/variations/boardLayouts/var0Layout.js";
-import getPiece from "../primaryFunctions/getPiece.js";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
-function evaluateBoardV1(gameDetails, oldDetails, move) {
+function evaluateBoardV1(gameDetails, getChessMoves) {
   // Declare evaluation constants
   const coveredSquareValue = 20;
   const pawnValue = 60;
@@ -63,10 +60,12 @@ function evaluateBoardV1(gameDetails, oldDetails, move) {
       // check side of piece
       if (piece.side === side) {
         // get attacked squares of piece
-        let attacks = validAttacks(
+        let attacks = getChessMoves(
           piece,
+          board,
           occupiedMatrix,
-          gameDetails.lastMoved
+          gameDetails.lastMoved,
+          "attacks"
         );
         // Add attacks to result
         for (let attack of attacks) {
@@ -95,7 +94,13 @@ function evaluateBoardV1(gameDetails, oldDetails, move) {
       // check side of piece
       if (piece.side === side) {
         // get attacked squares of piece
-        let defended = validDefended(piece, occupiedMatrix);
+        let defended = getChessMoves(
+          piece,
+          board,
+          occupiedMatrix,
+          gameDetails.lastMoved,
+          "defended"
+        );
         // Add attacks to result
         for (let defend of defended) {
           result[defend[1]] += 1;

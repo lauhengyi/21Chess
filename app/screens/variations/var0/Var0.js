@@ -6,6 +6,8 @@ import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "./components/GameUI";
 import "react-native-console-time-polyfill";
+import getChessMoves from "../../../mechanisms/var0/getChessMoves";
+import chessMovesReducer from "../../../mechanisms/var0/functions/chessMovesReducer";
 
 function Var0({ route, navigation }) {
   //Bring up the constants
@@ -19,7 +21,13 @@ function Var0({ route, navigation }) {
 
   //Activate computer
   if (options.mode === 0) {
-    useComputer(gameDetails, chessActions, options);
+    useComputer(
+      gameDetails,
+      chessActions,
+      getChessMoves,
+      chessMovesReducer,
+      options
+    );
   }
 
   return (

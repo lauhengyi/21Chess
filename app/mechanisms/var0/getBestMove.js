@@ -1,11 +1,14 @@
-import { validMoves } from "./getChessMoves.js";
-import chessMovesReducer from "./functions/chessMoveReducer.js";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 import evaluateBoardV2 from "./evalutateBoardV2.js";
 import evaluateBoardV1 from "./evalutateBoardV1.js";
 
-function getBestMove(gameDetails, difficulty) {
+function getBestMove(
+  gameDetails,
+  getChessMoves,
+  chessMovesReducer,
+  difficulty
+) {
   //Difficulty:
   // 0 == easy, 1 == medium, 2 == hard
   const currentDetails = gameDetails;
@@ -21,11 +24,12 @@ function getBestMove(gameDetails, difficulty) {
   let promotion = false;
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
-      let moves = validMoves(
+      let moves = getChessMoves(
         piece,
         board,
         occupiedMatrix,
-        currentDetails.lastMoved
+        currentDetails.lastMoved,
+        "moves"
       );
       if (moves[0]) {
         //Normal moves
@@ -48,6 +52,8 @@ function getBestMove(gameDetails, difficulty) {
             newDetails,
             bestEvaluation,
             evaluationFunction,
+            getChessMoves,
+            chessMovesReducer,
             depth - 1
           );
           if (
@@ -76,6 +82,8 @@ function getBestMove(gameDetails, difficulty) {
             newDetails,
             bestEvaluation,
             evaluationFunction,
+            getChessMoves,
+            chessMovesReducer,
             depth - 1
           );
           if (
@@ -101,6 +109,8 @@ function getBestEvaluation(
   gameDetails,
   currentBest,
   evaluationFunction,
+  getChessMoves,
+  chessMovesReducer,
   depth
 ) {
   let ended = true;
@@ -110,17 +120,18 @@ function getBestEvaluation(
 
   //Add end point
   if (depth === 0) {
-    return evaluationFunction(currentDetails);
+    return evaluationFunction(currentDetails, getChessMoves);
   }
   let bestEvaluation = currentDetails.currentSide ? -Infinity : Infinity;
 
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
-      let moves = validMoves(
+      let moves = getChessMoves(
         piece,
         board,
         occupiedMatrix,
-        currentDetails.lastMoved
+        currentDetails.lastMoved,
+        "moves"
       );
       if (moves[0]) {
         //Normal moves
@@ -142,6 +153,8 @@ function getBestEvaluation(
             newDetails,
             bestEvaluation,
             evaluationFunction,
+            getChessMoves,
+            chessMovesReducer,
             depth - 1
           );
           if (
@@ -178,6 +191,8 @@ function getBestEvaluation(
             newDetails,
             bestEvaluation,
             evaluationFunction,
+            getChessMoves,
+            chessMovesReducer,
             depth - 1
           );
           if (
@@ -204,7 +219,7 @@ function getBestEvaluation(
     }
   }
   if (ended) {
-    return evaluateBoardV3(currentDetails, oldDetails, move);
+    return evaluationFunction(currentDetails, getChessMoves);
   }
 
   return bestEvaluation;

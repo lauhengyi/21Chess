@@ -1,7 +1,7 @@
 import executeMove from "./executeMove.js";
 import checkCheck from "./checkCheck.js";
 import getPiece from "../../primaryFunctions/getPiece.js";
-import { validMoves } from "../getChessMoves.js";
+import getChessMoves from "../getChessMoves.js";
 import clone from "just-clone";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
@@ -27,11 +27,12 @@ function chessMovesReducer(state, action) {
       const clickedSquare = piece.position;
 
       //Get moveableSquares
-      const moves = validMoves(
+      const moves = getChessMoves(
         piece,
         state.boardLayout,
         occupiedMatrix,
-        state.lastMoved
+        state.lastMoved,
+        "moves"
       );
 
       if (clickedSquare === state.clickedSquare) {
@@ -224,11 +225,12 @@ function chessMovesReducer(state, action) {
             //Check for piece to be on white's side
             if (piece.side === true) {
               if (
-                validMoves(
+                getChessMoves(
                   piece,
                   newDetails.boardLayout,
                   occupiedMatrix,
-                  newDetails.lastMoved
+                  newDetails.lastMoved,
+                  "moves"
                 )[0].length
               ) {
                 whiteStalemated = false;
@@ -250,11 +252,12 @@ function chessMovesReducer(state, action) {
             //Check for piece to be on white's side
             if (piece.side === false) {
               if (
-                validMoves(
+                getChessMoves(
                   piece,
                   newDetails.boardLayout,
                   occupiedMatrix,
-                  newDetails.lastMoved
+                  newDetails.lastMoved,
+                  "moves"
                 )[0].length
               ) {
                 blackStalemated = false;
