@@ -4,6 +4,7 @@ import pieceChooserReducer from "./functions/pieceChooserReducer";
 function usePieceChooser() {
   const initialState = {
     side: true,
+    highlighted: [],
     boardLayout: [],
     whiteLeft: {
       p: 8,

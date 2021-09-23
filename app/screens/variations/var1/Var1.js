@@ -7,7 +7,7 @@ import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
 import "react-native-console-time-polyfill";
 import getChessMoves from "../../../mechanisms/var0/getChessMoves";
-import chessMovesReducer from "../../../mechanisms/var0/functions/chessMovesReducer";
+import V1ChessMovesReducer from "../../../mechanisms/var1/V1ChessMoveReducer";
 
 function Var1({ route, navigation }) {
   //Bring up the constants
@@ -25,7 +25,7 @@ function Var1({ route, navigation }) {
       gameDetails,
       chessActions,
       getChessMoves,
-      chessMovesReducer,
+      V1ChessMovesReducer,
       options
     );
   }

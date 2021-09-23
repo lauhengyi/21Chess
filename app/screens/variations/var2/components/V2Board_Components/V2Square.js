@@ -2,77 +2,68 @@ import React from "react";
 import colorPalatte from "../../../../../config/colorPalatte";
 import { View } from "react-native";
 import Clickable from "../../../../components/Clickable";
-import Piece from "./Piece";
+import V2Piece from "./V2Piece";
 import checkDarkTheme from "../../../../functions/checkDarkTheme";
 
-function Square(props) {
+function V2Square(props) {
   const settings = props.settings;
-  function onAction(action) {
-    props.onAction(action);
+
+  function onAction() {
+    if (props.type === "x") {
+      return () =>
+        props.choosingActions({
+          type: "delete",
+          position: props.position,
+        });
+    } else {
+      return () =>
+        props.choosingActions({
+          type: "click",
+          position: props.position,
+          pieceType: props.type,
+        });
+    }
   }
 
-  const [
-    isClicked,
-    isLastMoveOnSquare,
-    isPieceOnSquare,
-    pieceId,
-    isMoveableOnSquare,
-    moveableMove,
-    castling,
-  ] = checkSquare(props.gameDetails, props.position);
-
-  const color = getColor(
-    settings,
-    colorPalatte,
-    props.colorId,
-    isLastMoveOnSquare
+  const [isPieceOnSquare, pieceId, isHighlighted, isBlocked] = checkSquare(
+    props.choosingDetails,
+    props.position
   );
 
-  const styles = getStyle(color, isMoveableOnSquare, isClicked);
+  const color = getColor(settings, colorPalatte, props.colorId, isBlocked);
+
+  const styles = getStyle(color, isHighlighted);
 
   function PieceWithProps() {
     return (
-      <Piece
-        gameDetails={props.gameDetails}
-        options={props.options}
+      <V2Piece
         pieceId={pieceId}
-        onAction={(moves) => props.onAction(moves)}
-        boardOrientation={props.boardOrientation}
+        choosingDetails={props.choosingDetails}
+        choosingActions={props.choosingActions}
         settings={settings}
       />
     );
   }
   // Render moveables and render pieces
-  if (isMoveableOnSquare) {
+  if (isBlocked) {
     return (
-      <Clickable
-        onPress={() => {
-          onAction({
-            type: "makeTurn",
-            move: moveableMove,
-            castling: castling,
-          });
-        }}
-      >
+      <View style={styles}>{isPieceOnSquare ? <PieceWithProps /> : null}</View>
+    );
+  } else {
+    return (
+      <Clickable onPress={() => onAction()}>
         <View style={styles}>
           {isPieceOnSquare ? <PieceWithProps /> : null}
         </View>
       </Clickable>
     );
-  } else {
-    return (
-      <View style={styles}>{isPieceOnSquare ? <PieceWithProps /> : null}</View>
-    );
   }
 }
 
-function getStyle(color, isMoveableOnSquare, isClicked) {
-  //Determines the border length of a square
-  const clickedIndicator = isClicked ? 2 : 0;
-
+function getStyle(color, isHighlighted) {
   const squareLength = 46;
   //Get square color (Switch square color around if theme is dark)
-  const squareColor = isMoveableOnSquare ? color[1] : color[0];
+  const squareColor = isHighlighted ? color[1] : color[0];
 
   const style = {
     height: squareLength,
@@ -80,13 +71,11 @@ function getStyle(color, isMoveableOnSquare, isClicked) {
     backgroundColor: squareColor,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: clickedIndicator,
-    borderColor: color[1],
   };
   return style;
 }
 
-function getColor(settings, colorPalatte, colorId, isLastMoveOnSquare) {
+function getColor(settings, colorPalatte, colorId, isBlocked) {
   const colors = colorPalatte[settings.theme];
   const isDark = checkDarkTheme(settings.theme);
   const colorType = (function () {
@@ -96,30 +85,24 @@ function getColor(settings, colorPalatte, colorId, isLastMoveOnSquare) {
       return colorId === 1 ? "black" : "white";
     }
   })();
-  let color;
-  if (isLastMoveOnSquare) {
+  let color =
+    colorType === "black"
+      ? [colors.grey1, colors.moveableSquareBlack]
+      : [colors.secondary, colors.moveableSquareWhite];
+  if (isBlocked) {
     color =
       colorType === "black"
-        ? [colors.lastMovedSquareBlack, colors.moveableSquareBlack]
-        : [colors.lastMovedSquareWhite, colors.moveableSquareWhite];
-  } else {
-    color =
-      colorType === "black"
-        ? [colors.grey1, colors.moveableSquareBlack]
-        : [colors.secondary, colors.moveableSquareWhite];
+        ? [colors.grey3, colors.moveableSquareBlack]
+        : [colors.grey2, colors.moveableSquareWhite];
   }
+
   return color;
 }
 
 //returns [isClicked, whether piece on square, piece ID, whether moveable on square, moveableMove, whether moveable is a castle move]
-function checkSquare(gameDetails, position) {
+function checkSquare(choosingDetails, position) {
   // Passing down constants
-  const boardLayout = gameDetails.boardLayout;
-  const moveables = gameDetails.moveables;
-  const lastMoved = gameDetails.lastMoved;
-
-  // Find isClicked
-  const isClicked = gameDetails.clickedSquare === position ? true : false;
+  const boardLayout = choosingDetails.boardLayout;
 
   // Find whether there is a piece on the square
   const [isPieceOnSquare, , pieceId] = (function () {
@@ -131,50 +114,13 @@ function checkSquare(gameDetails, position) {
     return [false, null, null];
   })();
 
-  // Find whether these is a moveable on the square
-  let isMoveableOnSquare = false;
-  let castling = false;
-  // The id of the piece which formed the moveable
-  let moveableMove;
-  // Check for normal moves
-  if (moveables[0]) {
-    for (let moveable of moveables[0]) {
-      if (position === moveable[1]) {
-        moveableMove = moveable;
-        isMoveableOnSquare = true;
-      }
-    }
-  }
-  if (moveables[1]) {
-    //Check castling moves
-    for (let moveable of moveables[1]) {
-      if (position === moveable[0][1]) {
-        moveableMove = moveable;
-        isMoveableOnSquare = true;
-        castling = true;
-      }
-    }
-  }
+  //Check highlighted
+  const isHighlighted = choosingDetails.highlighted.includes(position);
 
-  //Check for last moved
-  let isLastMoveOnSquare = false;
+  //Check blocked
+  const isBlocked = choosingDetails.side ? position > 31 : position < 32;
 
-  //Check
-  if (lastMoved[0] !== null) {
-    if (lastMoved[1] === position || lastMoved[2] === position) {
-      isLastMoveOnSquare = true;
-    }
-  }
-
-  return [
-    isClicked,
-    isLastMoveOnSquare,
-    isPieceOnSquare,
-    pieceId,
-    isMoveableOnSquare,
-    moveableMove,
-    castling,
-  ];
+  return [isPieceOnSquare, pieceId, isHighlighted, isBlocked];
 }
 
-export default Square;
+export default V2Square;

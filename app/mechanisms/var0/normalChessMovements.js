@@ -621,67 +621,35 @@ function kingMoves(piece, occupiedMatrix, AorD) {
 }
 
 function checkTopEdge(position) {
-  if (position > 55) {
-    return true;
-  } else {
-    return false;
-  }
+  return position > 55;
 }
 
 function checkTopEdge2(position) {
-  if (position > 47) {
-    return true;
-  } else {
-    return false;
-  }
+  return position > 47;
 }
 
 function checkBottomEdge(position) {
-  if (position < 8) {
-    return true;
-  } else {
-    return false;
-  }
+  return position < 8;
 }
 
 function checkBottomEdge2(position) {
-  if (position < 16) {
-    return true;
-  } else {
-    return false;
-  }
+  return position < 16;
 }
 
 function checkLeftEdge(position) {
-  if ((position + 8) % 8 === 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return (position + 8) % 8 === 0;
 }
 
 function checkLeftEdge2(position) {
-  if ((position + 7) % 8 === 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return (position + 7) % 8 === 0;
 }
 
 function checkRightEdge(position) {
-  if ((position + 9) % 8 === 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return (position + 9) % 8 === 0;
 }
 
 function checkRightEdge2(position) {
-  if ((position + 10) % 8 === 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return (position + 10) % 8 === 0;
 }
 
 //function that when given position of move, side of piece, and list of previously compiled moves,

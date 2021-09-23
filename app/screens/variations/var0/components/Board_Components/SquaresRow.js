@@ -15,7 +15,6 @@ function SquaresRow(props) {
           gameDetails={props.gameDetails}
           options={props.options}
           onAction={(action) => props.onAction(action)}
-          boardOrientation={props.boardOrientation}
           settings={props.settings}
         />
       ))}

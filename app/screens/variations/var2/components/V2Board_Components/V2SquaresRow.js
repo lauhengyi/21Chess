@@ -1,20 +1,20 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import Square from "./Square";
-import SquareLayout from "./SquareLayout";
+import V2Square from "./V2Square";
+import SquareLayout from "../../../var0/components/Board_Components/SquareLayout";
 
-function SquaresRow(props) {
+function V2SquaresRow(props) {
   // Passing down constants
   return (
     <View style={styles.row}>
       {SquareLayout[props.index].map((squares) => (
-        <Square
+        <V2Square
           key={squares.position}
           position={squares.position}
           colorId={squares.color}
-          gameDetails={props.gameDetails}
-          options={props.options}
-          onAction={(action) => props.onAction(action)}
+          type={props.type}
+          choosingDetails={props.choosingDetails}
+          choosingActions={props.choosingActions}
           boardOrientation={props.boardOrientation}
           settings={props.settings}
         />
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SquaresRow;
+export default V2SquaresRow;
