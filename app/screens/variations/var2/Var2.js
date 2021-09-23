@@ -1,5 +1,7 @@
 import React from "react";
+import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import colorPalatte from "../../../config/colorPalatte";
 import V2GameScreen from "./V2GameScreen";
 import V2ChoosingScreen from "./V2ChoosingScreen";
 

@@ -1,3 +1,5 @@
+import chessMovesReducer from "../../../mechanisms/var0/functions/chessMovesReducer";
+import getChessMoves from "../../../mechanisms/var0/getChessMoves";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
@@ -14,7 +16,13 @@ function V2GameScreen({ route, navigation }) {
 
   //Activate computer
   if (options.mode === 0) {
-    useComputer(gameDetails, chessActions, options);
+    useComputer(
+      gameDetails,
+      chessActions,
+      getChessMoves,
+      chessMovesReducer,
+      options
+    );
   }
 
   return (
