@@ -19,7 +19,7 @@ function V2Board(props) {
               key={index}
               index={index}
               choosingDetails={choosingDetails}
-              choosingActions={props.choosingActions}
+              choosingActions={(action) => props.choosingActions(action)}
               type={props.type}
               settings={props.settings}
             />

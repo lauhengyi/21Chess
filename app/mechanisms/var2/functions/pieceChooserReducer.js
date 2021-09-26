@@ -1,19 +1,30 @@
 import clone from "just-clone";
-import callError from "./callError";
 
 function pieceChooserReducer(state, action) {
   const details = clone(state);
   switch (action.type) {
     case "click": {
+      //Check if something is selected
+      if (action.type === null) {
+        details.error = "Select something before clicking a square";
+        return details;
+      }
+
+      //Check if piece is placed on the forth row
+      else if (action.position > 23 && action.position < 40) {
+        details.error = "Pieces can only be placed up to the third row";
+        return details;
+      }
+
       //Check if piece is not already all used
-      if (action.side === true) {
+      else if (state.side === true) {
         if (state.whiteLeft[action.pieceType] === 0) {
-          callError("That piece is all already on the board", details);
+          details.error = "That piece is all already on the board";
           return details;
         }
       } else {
         if (state.blackLeft[action.pieceType] === 0) {
-          callError("That piece is all already on the board", details);
+          details.error = "That piece is all already on the board";
           return details;
         }
       }
@@ -21,21 +32,21 @@ function pieceChooserReducer(state, action) {
       //Check if a piece already occupies that spot on the board
       for (let piece of details.boardLayout) {
         if (piece.position === action.position) {
-          callError("A piece already occupies that position", details);
+          details.error = "A piece already occupies that position";
           return details;
         }
       }
 
       //Check if its a king placed on the 3rd row of the board
-      if (action.type === "k") {
-        if (action.side) {
-          if (action.position > 15 && action.position < 24) {
-            callError("The King cannot be on the furthest row", details);
+      if (action.pieceType === "k") {
+        if (state.side) {
+          if (action.position > 15) {
+            details.error = "The King cannot be on the furthest row";
             return details;
           }
         } else {
-          if (action.position > 39 && action.position < 48) {
-            callError("The King cannot be on the furthest row", details);
+          if (action.position < 48) {
+            details.error = "The King cannot be on the furthest row";
             return details;
           }
         }
@@ -45,8 +56,8 @@ function pieceChooserReducer(state, action) {
       details.boardLayout.push({
         id: makeRandomId(),
         position: action.position,
-        type: action.type,
-        side: action.side,
+        type: action.pieceType,
+        side: state.side,
         moved: false,
       });
       function makeRandomId() {
@@ -54,18 +65,18 @@ function pieceChooserReducer(state, action) {
       }
 
       //Update left
-      if (action.side === true) {
-        details.whiteLeft[action.type] -= 1;
+      if (state.side === true) {
+        details.whiteLeft[action.pieceType] -= 1;
       } else {
-        details.blackLeft[action.type] -= 1;
+        details.blackLeft[action.pieceType] -= 1;
       }
 
       //Update highlights if king is placed
-      if (action.type === "k") {
+      if (action.pieceType === "k") {
         let front;
         let leftD;
         let rightD;
-        if (action.side) {
+        if (state.side) {
           front = action.position + 8;
           leftD = action.position + 7;
           rightD = action.position + 9;
@@ -91,49 +102,95 @@ function pieceChooserReducer(state, action) {
       return details;
     }
 
-    case "delete":
-      {
-        //Check whether square is empty
-        let occupied = false;
-        for (let piece of state.boardLayout) {
-          if (piece.position === action.position) {
-            occupied = true;
-          }
+    case "delete": {
+      //Check whether square is empty
+      let occupied = false;
+      for (let piece of state.boardLayout) {
+        if (piece.position === action.position) {
+          occupied = true;
         }
-        if (occupied === false) {
-          callError("Square is already empty", details);
-          return details;
-        }
-
-        //Delete piece
-        //Get index
-        let index;
-        let type;
-        for (let i; i < state.boardLayout.length; i++) {
-          if (state.boardLayout[i].position === action.position) {
-            index = i;
-            type = state.boardLayout[i].type;
-            break;
-          }
-        }
-        details.boardLayout.splice(index, 1);
+      }
+      if (occupied === false) {
+        details.error = "Square is already empty";
+        return details;
       }
 
+      //Delete piece
+      //Get index
+      let index;
+      let pieceType;
+      for (let i = 0; i < details.boardLayout.length; i++) {
+        if (details.boardLayout[i].position === action.position) {
+          index = i;
+          pieceType = state.boardLayout[i].type;
+          break;
+        }
+      }
+      details.boardLayout.splice(index, 1);
+
       //Remove highlighted if king removed
-      if (type === "k") {
+      if (pieceType === "k") {
         details.highlighted = [];
       }
 
       //Add back to count
-      if (details.side) {
-        details.whiteLeft[type] += 1;
+      if (state.side) {
+        details.whiteLeft[pieceType] += 1;
       } else {
-        details.blackLeft[type] += 1;
+        details.blackLeft[pieceType] += 1;
       }
 
       return details;
+    }
 
     case "submit": {
+      //Check for all pieces being used up
+      const typeList = ["p", "r", "n", "b", "q", "k"];
+      let piecesLeft;
+      if (state.side) {
+        piecesLeft = state.whiteLeft;
+      } else {
+        piecesLeft = state.blackLeft;
+      }
+      for (let type of typeList) {
+        if (piecesLeft[type] !== 0) {
+          details.error = "Not all the pieces are on the board";
+          return details;
+        }
+      }
+
+      //Check whetber the all the highlighted spots on the king is occupied
+      let highlightedOccupied = 0;
+      for (const highlight of state.highlighted) {
+        for (const piece of state.boardLayout) {
+          if (piece.position === highlight) {
+            highlightedOccupied += 1;
+          }
+        }
+      }
+      if (highlightedOccupied !== state.highlighted.length) {
+        details.error =
+          "All the highlighted pieces on the board must be occupied";
+        return details;
+      }
+
+      //Submit
+      //Change side
+      if (state.side) {
+        //If white finished selecting, change side and remove highlighted
+        details.side = false;
+        details.highlighted = [];
+      } else {
+        //If black is finished, turn completed to true.
+        details.completed = true;
+      }
+
+      return details;
+    }
+
+    case "clearError": {
+      details.error = "";
+      return details;
     }
   }
 }

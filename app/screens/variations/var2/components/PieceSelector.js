@@ -5,7 +5,7 @@ import DeleteButton from "./DeleteButton";
 import PieceButton from "./PieceButton";
 
 function PieceSelector(props) {
-  const pieces = ["p", "r", "b", "q", "k"];
+  const pieces = ["p", "r", "n", "b", "q", "k"];
   const headerText = getHeaderText(props.clicked);
   const styles = getStyles(props.settings, colorPalatte);
   return (
@@ -78,7 +78,7 @@ function getStyles(settings, colorPalatte) {
     pieceContainer: {
       flexDirection: "row",
       justifyContent: "space-between",
-      width: "70%",
+      width: "80%",
     },
   });
 }

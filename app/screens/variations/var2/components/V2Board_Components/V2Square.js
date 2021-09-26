@@ -8,22 +8,10 @@ import checkDarkTheme from "../../../../functions/checkDarkTheme";
 function V2Square(props) {
   const settings = props.settings;
 
-  function onAction() {
-    if (props.type === "x") {
-      return () =>
-        props.choosingActions({
-          type: "delete",
-          position: props.position,
-        });
-    } else {
-      return () =>
-        props.choosingActions({
-          type: "click",
-          position: props.position,
-          pieceType: props.type,
-        });
-    }
-  }
+  const action =
+    props.type === "x"
+      ? { type: "delete", position: props.position }
+      : { type: "click", position: props.position, pieceType: props.type };
 
   const [isPieceOnSquare, pieceId, isHighlighted, isBlocked] = checkSquare(
     props.choosingDetails,
@@ -46,12 +34,14 @@ function V2Square(props) {
   }
   // Render moveables and render pieces
   if (isBlocked) {
-    return (
-      <View style={styles}>{isPieceOnSquare ? <PieceWithProps /> : null}</View>
-    );
+    return <View style={styles} />;
   } else {
     return (
-      <Clickable onPress={() => onAction()}>
+      <Clickable
+        onPress={() => {
+          props.choosingActions(action);
+        }}
+      >
         <View style={styles}>
           {isPieceOnSquare ? <PieceWithProps /> : null}
         </View>

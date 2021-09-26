@@ -1,15 +1,18 @@
+import React from "react";
+import Board from "../var0/components/Board";
 import chessMovesReducer from "../../../mechanisms/var0/functions/chessMovesReducer";
+import useComputer from "../../../mechanisms/var0/useComputer";
 import getChessMoves from "../../../mechanisms/var0/getChessMoves";
+import useChessMove from "../../../mechanisms/var0/useChessMove";
 import useTime from "../../../mechanisms/var0/useTime";
-import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
 
 function V2GameScreen({ route, navigation }) {
   //Bring up the constants
-  const { options, settings, saved } = route.params;
+  const { options, settings, saved, boardLayout } = route.params;
 
   //Initialise game
-  const [gameDetails, chessActions] = V1UseChessMove(layout, saved);
+  const [gameDetails, chessActions] = useChessMove(boardLayout, saved);
 
   //Initialise time left
   const [timeLeft, restartTimer] = useTime(gameDetails, options, saved);
@@ -28,7 +31,7 @@ function V2GameScreen({ route, navigation }) {
   return (
     <GameUI
       varNum={2}
-      boardLayout={layout}
+      boardLayout={boardLayout}
       navigation={navigation}
       chessActions={chessActions}
       gameDetails={gameDetails}
@@ -37,7 +40,7 @@ function V2GameScreen({ route, navigation }) {
       options={options}
       settings={settings}
     >
-      <V1Board
+      <Board
         gameDetails={gameDetails}
         options={options}
         onAction={chessActions}

@@ -16,7 +16,7 @@ function Var2({ route, navigation }) {
           headerShown: false,
         }}
       >
-        {!saved || !saved.gameDetails.chosen ? (
+        {!saved && (
           <Stack.Screen
             name={"Choosing"}
             component={V2ChoosingScreen}
@@ -26,7 +26,7 @@ function Var2({ route, navigation }) {
               settings: settings,
             }}
           />
-        ) : null}
+        )}
         <Stack.Screen name={"Game"} component={V2GameScreen} />
       </Stack.Navigator>
     </View>

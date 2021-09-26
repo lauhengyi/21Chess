@@ -14,7 +14,7 @@ function V2SquaresRow(props) {
           colorId={squares.color}
           type={props.type}
           choosingDetails={props.choosingDetails}
-          choosingActions={props.choosingActions}
+          choosingActions={(action) => props.choosingActions(action)}
           boardOrientation={props.boardOrientation}
           settings={props.settings}
         />

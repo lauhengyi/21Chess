@@ -22,6 +22,7 @@ function usePieceChooser() {
       q: 1,
       k: 1,
     },
+    completed: false,
     error: "",
   };
   return useReducer(pieceChooserReducer, initialState);
