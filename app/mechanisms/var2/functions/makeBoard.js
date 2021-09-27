@@ -55,7 +55,6 @@ function makeBoard(choosingDetails, choosingActions) {
   while (randomizedPieceList.length != 0) {
     let randomPos = Math.floor(Math.random() * 24);
     randomPos = choosingDetails.side ? randomPos : randomPos + 32;
-    console.log({ randomPos });
     //Make sure not already occupied;
     if (!occupiedMatrix[randomPos]) {
       occupiedMatrix[randomPos] = true;

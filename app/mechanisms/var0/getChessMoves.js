@@ -3,7 +3,7 @@ import checkCheck from "./functions/checkCheck.js";
 import getPiece from "../primaryFunctions/getPiece.js";
 import movePiece from "./functions/movePiece.js";
 import checkCollision from "./functions/checkCollision.js";
-import createPieceDataCalculator from "./normalChessMovements.js";
+import createPieceDataCalculator from "./createPieceDataCalculator.js";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
@@ -58,15 +58,6 @@ function validAttacks(piece, occupiedMatrix) {
 function validDefended(piece, occupiedMatrix) {
   // Get moveable moves
   let pieceData = createPieceDataCalculator(piece, occupiedMatrix);
-  // Check whether attack is pinned
-  /*   let result = [];
-  for (let defend of pieceData.defended) {
-    if (defend.length === 3) {
-      if (checkPin(defend, board) === false) {
-        result.push(defend);
-      }
-    }
-  } */
   return pieceData.defended;
 }
 

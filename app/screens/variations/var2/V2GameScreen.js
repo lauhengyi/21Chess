@@ -12,7 +12,11 @@ function V2GameScreen({ route, navigation }) {
   const { options, settings, saved, boardLayout } = route.params;
 
   //Initialise game
-  const [gameDetails, chessActions] = useChessMove(boardLayout, saved);
+  const [gameDetails, chessActions] = useChessMove(
+    boardLayout,
+    chessMovesReducer,
+    saved
+  );
 
   //Initialise time left
   const [timeLeft, restartTimer] = useTime(gameDetails, options, saved);

@@ -8,7 +8,6 @@ function movePiece(move, board) {
   // Copy new board
   let newBoard = clone(board);
   let id = move[0];
-  let piece = getPiece(id, board);
   for (let i = 0; i < newBoard.length; i++) {
     if (newBoard[i].id === id) {
       newBoard[i].position = move[1];

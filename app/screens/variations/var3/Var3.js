@@ -1,20 +1,24 @@
 import React from "react";
 import Board from "../var0/components/Board";
-import V1UseChessMove from "../../../mechanisms/var1/V1UseChessMoves";
 import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
 import "react-native-console-time-polyfill";
-import getChessMoves from "../../../mechanisms/var0/getChessMoves";
-import V1ChessMovesReducer from "../../../mechanisms/var1/V1ChessMoveReducer";
+import useChessMove from "../../../mechanisms/var0/useChessMove";
+import V3ChessMovesReducer from "../../../mechanisms/var3/V3ChessMovesReducer";
+import V3GetChessMoves from "../../../mechanisms/var3/V3GetChessMoves";
 
 function Var3({ route, navigation }) {
   //Bring up the constants
   const { options, settings, saved } = route.params;
 
   //Initialise game
-  const [gameDetails, chessActions] = V1UseChessMove(layout, saved);
+  const [gameDetails, chessActions] = useChessMove(
+    layout,
+    V3ChessMovesReducer,
+    saved
+  );
 
   //Initialise time left
   const [timeLeft, restartTimer] = useTime(gameDetails, options, saved);
@@ -24,8 +28,8 @@ function Var3({ route, navigation }) {
     useComputer(
       gameDetails,
       chessActions,
-      getChessMoves,
-      V1ChessMovesReducer,
+      V3GetChessMoves,
+      V3ChessMovesReducer,
       options
     );
   }
