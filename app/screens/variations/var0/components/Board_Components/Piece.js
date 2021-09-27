@@ -19,7 +19,7 @@ function Piece(props) {
 
   const pieceText = getPieceText(piece, settings.theme);
 
-  if (currentSide === piece.side) {
+  if (currentSide === piece.side && !props.isMoveableOnSquare) {
     return (
       <Clickable
         onPress={() => {

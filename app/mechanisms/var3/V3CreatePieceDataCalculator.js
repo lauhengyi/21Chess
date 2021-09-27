@@ -1,4 +1,4 @@
-import checkCollision from "./functions/checkCollision.js";
+import checkCollision from "../var0/functions/checkCollision";
 
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value
@@ -656,19 +656,11 @@ function checkRightEdge2(position) {
 //Last parameter, AorD, refers to whether accounting attacked squares, or checking defended squares, true for attack, false for defend
 //will return [updated moves, whether the position is collided]
 function accountCollidedPiece(position, piece, moves, occupiedMatrix, AorD) {
-  const [collided, collidedSide, eatenId] = checkCollision(
-    position,
-    occupiedMatrix
-  );
+  const [collided, , eatenId] = checkCollision(position, occupiedMatrix);
   if (AorD === true) {
     if (collided) {
-      if (piece.side === collidedSide) {
-        moves.push([piece.id, position, eatenId]);
-        return [moves, true];
-      } else {
-        moves.push([piece.id, position, eatenId]);
-        return [moves, true];
-      }
+      moves.push([piece.id, position, eatenId]);
+      return [moves, true];
     } else {
       moves.push([piece.id, position]);
       return [moves, false];

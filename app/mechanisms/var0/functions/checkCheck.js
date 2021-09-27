@@ -3,11 +3,14 @@ import createPieceDataCalculator from "../createPieceDataCalculator.js";
 // Check whether a board is checked
 function checkCheck(board, occupiedMatrix, side) {
   //Get king's position
-  let kingPos = 0;
+  let kingPos = null;
   for (let piece of board) {
     if (piece.type == "k" && piece.side == side) {
       kingPos = piece.position;
     }
+  }
+  if (kingPos === null) {
+    return true;
   }
   // Compile list of positions where enemies attacks
   for (let piece of board) {

@@ -38,6 +38,7 @@ function Square(props) {
         pieceId={pieceId}
         onAction={(moves) => props.onAction(moves)}
         boardOrientation={props.boardOrientation}
+        isMoveableOnSquare={isMoveableOnSquare}
         settings={settings}
       />
     );

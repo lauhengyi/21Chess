@@ -61,8 +61,8 @@ function V3ChessMovesReducer(state, action) {
 
       //Add eaten pieces
       if (action.move.length > 2) {
-        let side = getPiece(action.move[0], state.boardLayout).side;
         let piece = getPiece(action.move[2], state.boardLayout);
+        let side = !piece.side;
         newDetails.eatenPieces.push([side, piece]);
       }
 
