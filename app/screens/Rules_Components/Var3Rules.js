@@ -6,7 +6,12 @@ function Var3Rules(props) {
   return (
     <>
       <RulesText settings={settings}>
-        Its just normal chess... I don't know what else to say.
+        It is just regular chess, except each piece have the ability to eat
+        their own allied pieces.
+      </RulesText>
+      <RulesText settings={settings}>
+        In other words, every piece can capture every other piece. Yeah that's
+        it.
       </RulesText>
     </>
   );

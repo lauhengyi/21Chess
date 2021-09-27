@@ -3,12 +3,9 @@ import makeBoard from "./functions/makeBoard";
 
 function useBoardMaker(options, choosingDetails, choosingActions) {
   useEffect(() => {
-    async function createBoard() {
-      if (choosingDetails.side !== options.startingSide) {
-        await makeBoard(choosingDetails, choosingActions);
-      }
+    if (choosingDetails.side !== options.startingSide) {
+      makeBoard(choosingDetails, choosingActions);
     }
-    createBoard();
   }, [choosingDetails.side]);
 }
 

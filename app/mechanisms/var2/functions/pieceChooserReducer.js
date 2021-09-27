@@ -1,4 +1,5 @@
 import clone from "just-clone";
+import getHighlighted from "./getHighlighted";
 
 function pieceChooserReducer(state, action) {
   const details = clone(state);
@@ -73,30 +74,7 @@ function pieceChooserReducer(state, action) {
 
       //Update highlights if king is placed
       if (action.pieceType === "k") {
-        let front;
-        let leftD;
-        let rightD;
-        if (state.side) {
-          front = action.position + 8;
-          leftD = action.position + 7;
-          rightD = action.position + 9;
-        } else {
-          front = action.position - 8;
-          leftD = action.position - 9;
-          rightD = action.position - 7;
-        }
-        //Add highlights
-        details.highlighted.push(front);
-
-        //Add left highlights
-        if (!((action.position + 8) % 8 === 0)) {
-          details.highlighted.push(leftD);
-        }
-
-        //Add right highlights
-        if (!((action.position + 9) % 8 === 0)) {
-          details.highlighted.push(rightD);
-        }
+        details.highlighted = getHighlighted(action.position, state.side);
       }
 
       return details;

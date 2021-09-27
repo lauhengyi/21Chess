@@ -6,7 +6,7 @@ import V2GameScreen from "./V2GameScreen";
 import V2ChoosingScreen from "./V2ChoosingScreen";
 
 const Stack = createStackNavigator();
-function Var2({ route, navigation }) {
+function Var2({ route }) {
   const { options, settings, saved } = route.params;
   const backgroundColor = colorPalatte[settings.theme].white;
   return (
@@ -27,7 +27,15 @@ function Var2({ route, navigation }) {
             }}
           />
         )}
-        <Stack.Screen name={"Game"} component={V2GameScreen} />
+        <Stack.Screen
+          name={"Game"}
+          component={V2GameScreen}
+          initialParams={{
+            options: options,
+            saved: saved,
+            settings: settings,
+          }}
+        />
       </Stack.Navigator>
     </View>
   );

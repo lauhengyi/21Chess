@@ -1,5 +1,7 @@
+import getHighlighted from "./getHighlighted";
+
 //Create a random board that fits within the rules of making a board
-async function makeBoard(choosingDetails, choosingActions) {
+function makeBoard(choosingDetails, choosingActions) {
   //Make an array of 64 of whether a position is occupied or not
   let occupiedMatrix = [];
   for (let i = 0; i < 64; i++) {
@@ -10,14 +12,12 @@ async function makeBoard(choosingDetails, choosingActions) {
   //Choosing position of king
   let kingPosition = Math.floor(Math.random() * 16);
   kingPosition = choosingDetails.side ? kingPosition : kingPosition + 32;
-  await choosingActions({
+  choosingActions({
     type: "click",
     position: kingPosition,
     pieceType: "k",
   });
   occupiedMatrix[kingPosition] = true;
-
-  console.log({ choosingDetails });
 
   //Randomize highlighted pieces
   const pieceList = [
@@ -39,35 +39,37 @@ async function makeBoard(choosingDetails, choosingActions) {
   ];
 
   const randomizedPieceList = shuffle(pieceList);
-  for (let i = 0; i < choosingDetails.highlighted.length; i++) {
-    const position = choosingDetails.highlighted[i];
+  const highlighted = getHighlighted(kingPosition, choosingDetails.side);
+  for (let i = 0; i < highlighted.length; i++) {
+    const position = highlighted[i];
     const pieceType = randomizedPieceList.pop();
-    console.log({ position, pieceType });
-    await choosingActions({
+    occupiedMatrix[highlighted[i]] = true;
+    choosingActions({
       type: "click",
       position: position,
       pieceType: pieceType,
     });
-    occupiedMatrix[choosingDetails.highlighted[i]] = true;
   }
 
   //Add rest of pieces
   while (randomizedPieceList.length != 0) {
     let randomPos = Math.floor(Math.random() * 24);
     randomPos = choosingDetails.side ? randomPos : randomPos + 32;
+    console.log({ randomPos });
     //Make sure not already occupied;
     if (!occupiedMatrix[randomPos]) {
       occupiedMatrix[randomPos] = true;
-      await choosingActions({
+      const pieceType = randomizedPieceList.pop();
+      choosingActions({
         type: "click",
         position: randomPos,
-        pieceType: randomizedPieceList.pop(),
+        pieceType: pieceType,
       });
     }
   }
 
   //Submit
-  await choosingActions({
+  choosingActions({
     type: "submit",
   });
 }
