@@ -6,6 +6,7 @@ import Var1 from "./variations/var1/Var1";
 import Var2 from "./variations/var2/Var2";
 import Var3 from "./variations/var3/Var3";
 import Var4 from "./variations/var4/Var4";
+import Var5 from "./variations/var5/Var5";
 import { createStackNavigator } from "@react-navigation/stack";
 import SettingsContext from "./functions/SettingsContext";
 import colorPalatte from "../config/colorPalatte";
@@ -15,7 +16,7 @@ const Stack = createStackNavigator();
 function VarLoadScreen({ route, navigation }) {
   const varNum = route.params.varNum;
   const { settings } = useContext(SettingsContext);
-  const variations = [Var0, Var1, Var2, Var3, Var4];
+  const variations = [Var0, Var1, Var2, Var3, Var4, Var5];
   const backgroundColor = colorPalatte[settings.theme].white;
   return (
     <View style={{ backgroundColor: backgroundColor, flex: 1 }}>

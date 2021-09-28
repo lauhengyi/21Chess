@@ -173,6 +173,8 @@ function evaluateBoardV1(gameDetails, getChessMoves) {
         return queenValue;
       case "k":
         return kingValue;
+      case null:
+        return 0;
       default:
         throw new Error("Unknown type");
     }
