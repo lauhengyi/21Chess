@@ -40,7 +40,7 @@ export default [
   {
     title: "Var. 6",
     header: "Mirror Chess",
-    caption: "From different worlds but all the same.",
+    caption: "Do parallel worlds exist?",
   },
 
   {

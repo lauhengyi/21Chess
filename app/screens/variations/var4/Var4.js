@@ -4,7 +4,6 @@ import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
-import "react-native-console-time-polyfill";
 import useChessMove from "../../../mechanisms/var0/useChessMove";
 import V4ChessMovesReducer from "../../../mechanisms/var4/V4ChessMovesReducer";
 import V4GetChessMoves from "../../../mechanisms/var4/V4GetChessMoves";
