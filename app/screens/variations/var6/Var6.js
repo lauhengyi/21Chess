@@ -4,7 +4,7 @@ import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import var6Layout1 from "./components/boardLayouts/var6Layout1";
 import var6Layout2 from "./components/boardLayouts/var6Layout2";
-import GameUI from "../var0/components/GameUI";
+import V6GameUI from "./components/V6GameUI";
 import V6UseChessMove from "../../../mechanisms/var6/V6UseChessMove";
 import V6ChessMovesReducer from "../../../mechanisms/var6/V6ChessMovesReducer";
 import chessMovesReducer from "../../../mechanisms/var0/functions/chessMovesReducer";
@@ -37,7 +37,7 @@ function Var6({ route, navigation }) {
   }
 
   return (
-    <GameUI
+    <V6GameUI
       varNum={6}
       boardLayout1={var6Layout1}
       boardLayout2={var6Layout2}
@@ -55,7 +55,7 @@ function Var6({ route, navigation }) {
         onAction={chessActions}
         settings={settings}
       />
-    </GameUI>
+    </V6GameUI>
   );
 }
 

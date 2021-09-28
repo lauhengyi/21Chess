@@ -9,16 +9,30 @@ function V6Board(props) {
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 
   //Integrate pausing for autoturn
-  const currentSide = props.gameDetails.currentSide;
-  const timer = useRef();
+  const actualGame = props.gameDetails.currentGame;
+  const currentSide = props.gameDetails[actualGame].currentSide;
+  const sideTimer = useRef();
+  const gameTimer = useRef();
+  const [currentGame, setCurrentGame] = useState(actualGame);
   const [boardOrientation, setBoardOrientation] = useState(getOrientation());
+
+  //Rotate board for orientation
   useEffect(() => {
-    let orientation = getOrientation();
-    timer.current = setTimeout(() => setBoardOrientation(orientation), 400);
-    return () => clearTimeout(timer.current);
+    sideTimer.current = setTimeout(
+      () => setBoardOrientation(getOrientation()),
+      400
+    );
+    return () => clearTimeout(sideTimer.current);
   }, [currentSide]);
 
-  const currentGame = props.gameDetails.currentGame;
+  useEffect(() => {
+    gameTimer.current = setTimeout(() => {
+      setCurrentGame(props.gameDetails.currentGame);
+      setBoardOrientation(getOrientation());
+    }, 400);
+    return () => clearTimeout(gameTimer.current);
+  }, [actualGame]);
+
   const styles = getStyle(props.settings, currentGame, colorPalatte);
 
   return (
@@ -45,7 +59,13 @@ function V6Board(props) {
   function getOrientation() {
     let boardOrientation = options.startingSide ? true : false;
     if (options.isAutoturn) {
-      boardOrientation = props.gameDetails.currentSide ? true : false;
+      boardOrientation = props.gameDetails[props.gameDetails.currentGame]
+        .currentSide
+        ? true
+        : false;
+    }
+    if (!options.isAutoturn && actualGame === false) {
+      boardOrientation = !boardOrientation;
     }
     return boardOrientation;
   }
