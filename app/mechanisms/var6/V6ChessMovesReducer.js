@@ -167,15 +167,16 @@ function V6ChessMovesReducer(state, action) {
     case "promotion": {
       //Find piece id
       let pieceIndex;
-      //Get index of piece on board
+      //Get index of piece on board1
       for (let i = 0; i < newDetails[currentGame].boardLayout.length; i++) {
         if (state[currentGame].boardLayout[i].id === action.move[0]) {
           pieceIndex = i;
           break;
         }
       }
-      //update new piece
+      //update new pieces
       newDetails[currentGame].boardLayout[pieceIndex].type = action.move[1];
+      newDetails[!currentGame].boardLayout[pieceIndex].type = action.move[1];
       //remove promotion selection after selection is done
       newDetails[currentGame].promotion = null;
 

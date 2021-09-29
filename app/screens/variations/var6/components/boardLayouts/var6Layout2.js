@@ -29,7 +29,7 @@ export default [
   },
 
   {
-    id: 29,
+    id: 28,
     position: 3,
     type: "q",
     side: true,
@@ -37,7 +37,7 @@ export default [
   },
 
   {
-    id: 28,
+    id: 29,
     position: 4,
     type: "k",
     side: true,
@@ -221,7 +221,7 @@ export default [
   },
 
   {
-    id: 13,
+    id: 12,
     position: 59,
     type: "q",
     side: false,
@@ -229,7 +229,7 @@ export default [
   },
 
   {
-    id: 12,
+    id: 13,
     position: 60,
     type: "k",
     side: false,

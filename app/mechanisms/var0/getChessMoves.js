@@ -32,9 +32,7 @@ function validMoves(piece, board, occupiedMatrix, lastMoved) {
   // Check for piece to be pawn, last move to be pawn)
   let enPassantMove;
   if (lastMoved[0]) {
-    let pieceType;
-    pieceType = getPiece(lastMoved[0], board).type;
-
+    const pieceType = getPiece(lastMoved[0], board)?.type;
     if (piece.type === "p" && pieceType === "p") {
       // Make sure the pawn double moved
       if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {

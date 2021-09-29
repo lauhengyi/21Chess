@@ -43,7 +43,7 @@ function Var6({ route, navigation }) {
       boardLayout2={var6Layout2}
       navigation={navigation}
       chessActions={chessActions}
-      gameDetails={gameDetails[gameDetails.currentGame]}
+      gameDetails={gameDetails}
       timeLeft={timeLeft}
       restartTimer={restartTimer}
       options={options}

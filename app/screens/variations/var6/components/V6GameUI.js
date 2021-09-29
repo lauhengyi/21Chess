@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { View, StyleSheet } from "react-native";
-import StatsBar from "../../var0/components/StatsBar";
-import AdditionalInfo from "../../var0/components/AdditionalInfo";
+import V6StatsBar from "./V6StatsBar";
+import V6AdditionalInfo from "./V6AdditionalInfo";
 import Menu from "../../var0/components/Menu";
-import EndPopUp from "../../var0/components/EndPopUp";
+import V6EndPopUp from "./V6EndPopUp";
 import handleGameExit from "../../../functions/handleGameExit";
 import SavedContext from "../../../functions/SavedContext";
 import overrideBackPress from "../../../functions/overrideBackPress";
@@ -24,6 +24,7 @@ function V6GameUI(props) {
   } = props;
   const [isMenu, setMenu] = useState(false);
   const { setSaved } = useContext(SavedContext);
+  const perGameDetails = gameDetails[gameDetails.currentGame];
 
   //Override back press
   overrideBackPress(setMenu);
@@ -32,7 +33,7 @@ function V6GameUI(props) {
 
   return (
     <View style={styles.background}>
-      <EndPopUp
+      <V6EndPopUp
         gameDetails={gameDetails}
         options={options}
         timeLeft={timeLeft}
@@ -50,7 +51,7 @@ function V6GameUI(props) {
         settings={settings}
       />
       <View style={styles.statsBarTop}>
-        <StatsBar
+        <V6StatsBar
           gameDetails={gameDetails}
           timeLeft={timeLeft}
           position={"top"}
@@ -59,7 +60,7 @@ function V6GameUI(props) {
         />
       </View>
       <View style={styles.boardContainer}>
-        <AdditionalInfo
+        <V6AdditionalInfo
           gameDetails={gameDetails}
           position={"top"}
           options={options}
@@ -69,7 +70,7 @@ function V6GameUI(props) {
           settings={settings}
         />
         {props.children}
-        <AdditionalInfo
+        <V6AdditionalInfo
           gameDetails={gameDetails}
           position={"bottom"}
           options={options}
@@ -79,7 +80,7 @@ function V6GameUI(props) {
         />
       </View>
       <View style={styles.statsBarBottom}>
-        <StatsBar
+        <V6StatsBar
           timeLeft={timeLeft}
           gameDetails={gameDetails}
           position={"bottom"}
