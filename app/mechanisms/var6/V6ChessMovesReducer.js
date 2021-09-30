@@ -5,11 +5,10 @@ import getChessMoves from "../var0/getChessMoves.js";
 import clone from "just-clone";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
-
 function V6ChessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = clone(state);
-  let currentGame = newDetails.currentGame;
+  let currentGame = state.currentGame;
 
   switch (action.type) {
     case "pieceClick": {
@@ -85,8 +84,15 @@ function V6ChessMovesReducer(state, action) {
       const occupiedMatrix = getOccupiedMatrix(
         newDetails[currentGame].boardLayout
       );
-      updateGameStatus(occupiedMatrix);
+      updateGameStatus(occupiedMatrix, currentGame);
 
+      //Update status of other board if move is a capture move
+      if (action.move.length > 2) {
+        const occupiedMatrix2 = getOccupiedMatrix(
+          newDetails[!currentGame].boardLayout
+        );
+        updateGameStatus(occupiedMatrix2, !currentGame);
+      }
       //Check promotion
       //Promotion = [pieceId, piecePosition]
       if (getPiece(pieceId, newDetails[currentGame].boardLayout).type === "p") {
@@ -99,7 +105,13 @@ function V6ChessMovesReducer(state, action) {
       if (!newDetails[currentGame].promotion) {
         newDetails[currentGame].currentSide = !state[currentGame].currentSide;
         //Change game if move is by black
-        if (state[currentGame].currentSide === false) {
+        const { checkmated, stalemated, repetition } = newDetails[currentGame];
+        if (
+          state[currentGame].currentSide === false &&
+          !checkmated &&
+          !stalemated &&
+          !repetition
+        ) {
           newDetails.currentGame = !state.currentGame;
         }
       }
@@ -165,7 +177,7 @@ function V6ChessMovesReducer(state, action) {
 
     //move = [id of pawn, type of piece to promote]
     case "promotion": {
-      //Find piece id
+      //Find piece id for board1
       let pieceIndex;
       //Get index of piece on board1
       for (let i = 0; i < newDetails[currentGame].boardLayout.length; i++) {
@@ -176,7 +188,20 @@ function V6ChessMovesReducer(state, action) {
       }
       //update new pieces
       newDetails[currentGame].boardLayout[pieceIndex].type = action.move[1];
-      newDetails[!currentGame].boardLayout[pieceIndex].type = action.move[1];
+
+      //Find piece id for board2
+      let pieceIndex2;
+      //Get index of piece on board2
+      for (let i = 0; i < newDetails[!currentGame].boardLayout.length; i++) {
+        if (state[!currentGame].boardLayout[i].id === action.move[0]) {
+          pieceIndex2 = i;
+          break;
+        }
+      }
+
+      //update new pieces
+      newDetails[!currentGame].boardLayout[pieceIndex2].type = action.move[1];
+
       //remove promotion selection after selection is done
       newDetails[currentGame].promotion = null;
 
@@ -184,14 +209,28 @@ function V6ChessMovesReducer(state, action) {
       const occupiedMatrix = getOccupiedMatrix(
         newDetails[currentGame].boardLayout
       );
-      updateGameStatus(occupiedMatrix);
+
+      updateGameStatus(occupiedMatrix, currentGame);
+
+      //update status for second board
+      const occupiedMatrix2 = getOccupiedMatrix(
+        newDetails[!currentGame].boardLayout
+      );
+
+      updateGameStatus(occupiedMatrix2, !currentGame);
 
       //change side
       newDetails[currentGame].currentSide =
         !newDetails[currentGame].currentSide;
 
       //Change game if move is by black
-      if (state[currentGame].side === false) {
+      const { checkmated, stalemated, repetition } = newDetails[currentGame];
+      if (
+        state[currentGame].currentSide === false &&
+        !checkmated &&
+        !stalemated &&
+        !repetition
+      ) {
         newDetails.currentGame = !state.currentGame;
       }
 
@@ -239,97 +278,82 @@ function V6ChessMovesReducer(state, action) {
         throw new Error("type not specified");
       }
 
-      function updateGameStatus(occupiedMatrix) {
-        updateChecks(occupiedMatrix);
-        updateStalemates(occupiedMatrix);
-        updateCheckmates();
+      function updateGameStatus(occupiedMatrix, currentGame) {
+        updateChecks(occupiedMatrix, currentGame);
+        updateStalemates(occupiedMatrix, currentGame);
+        updateCheckmates(currentGame);
       }
 
-      function updateChecks(occupiedMatrix) {
-        if (state[currentGame].currentSide) {
-          if (
-            checkCheck(
-              newDetails[currentGame].boardLayout,
-              occupiedMatrix,
-              false
-            )
-          ) {
-            newDetails[currentGame].checked = 2;
-          } else {
-            newDetails[currentGame].checked = 0;
-          }
+      function updateChecks(occupiedMatrix, currentGame) {
+        if (
+          checkCheck(newDetails[currentGame].boardLayout, occupiedMatrix, false)
+        ) {
+          newDetails[currentGame].checked = 2;
         } else {
-          if (
-            checkCheck(
-              newDetails[currentGame].boardLayout,
-              occupiedMatrix,
-              true
-            )
-          ) {
-            newDetails[currentGame].checked = 1;
-          } else {
-            newDetails[currentGame].checked = 0;
-          }
+          newDetails[currentGame].checked = 0;
+        }
+        if (
+          checkCheck(newDetails[currentGame].boardLayout, occupiedMatrix, true)
+        ) {
+          newDetails[currentGame].checked = 1;
+        } else {
+          newDetails[currentGame].checked = 0;
         }
       }
 
-      function updateStalemates(occupiedMatrix) {
+      function updateStalemates(occupiedMatrix, currentGame) {
         //Check stalemate for white
         //Check for valid moves of all pieces
-        if (newDetails[currentGame].currentSide === false) {
-          let whiteStalemated = true;
-          for (const piece of newDetails[currentGame].boardLayout) {
-            //Check for piece to be on white's side
-            if (piece.side === true) {
-              if (
-                getChessMoves(
-                  piece,
-                  newDetails[currentGame].boardLayout,
-                  occupiedMatrix,
-                  newDetails[currentGame].lastMoved,
-                  "moves"
-                )[0].length
-              ) {
-                whiteStalemated = false;
-                break;
-              }
+        let whiteStalemated = true;
+        for (const piece of newDetails[currentGame].boardLayout) {
+          //Check for piece to be on white's side
+          if (piece.side === true) {
+            if (
+              getChessMoves(
+                piece,
+                newDetails[currentGame].boardLayout,
+                occupiedMatrix,
+                newDetails[currentGame].lastMoved,
+                "moves"
+              )[0].length
+            ) {
+              whiteStalemated = false;
+              break;
             }
           }
-          newDetails[currentGame].stalemated = 0;
-          if (whiteStalemated) {
-            newDetails[currentGame].stalemated = 1;
-          }
+        }
+        newDetails[currentGame].stalemated = 0;
+        if (whiteStalemated) {
+          newDetails[currentGame].stalemated = 1;
         }
 
         //Check stalemate for black
         //Check for valid moves of all pieces
-        else {
-          let blackStalemated = true;
-          for (const piece of newDetails[currentGame].boardLayout) {
-            //Check for piece to be on white's side
-            if (piece.side === false) {
-              if (
-                getChessMoves(
-                  piece,
-                  newDetails[currentGame].boardLayout,
-                  occupiedMatrix,
-                  newDetails[currentGame].lastMoved,
-                  "moves"
-                )[0].length
-              ) {
-                blackStalemated = false;
-                break;
-              }
+        let blackStalemated = true;
+        for (const piece of newDetails[currentGame].boardLayout) {
+          //Check for piece to be on white's side
+          if (piece.side === false) {
+            if (
+              getChessMoves(
+                piece,
+                newDetails[currentGame].boardLayout,
+                occupiedMatrix,
+                newDetails[currentGame].lastMoved,
+                "moves"
+              )[0].length
+            ) {
+              blackStalemated = false;
+              break;
             }
           }
-          newDetails[currentGame].stalemated = 0;
-          if (blackStalemated) {
-            newDetails[currentGame].stalemated = 2;
-          }
+        }
+        newDetails[currentGame].stalemated = 0;
+        if (blackStalemated) {
+          newDetails[currentGame].stalemated = 2;
         }
       }
 
-      function updateCheckmates() {
+      function updateCheckmates(currentGame) {
         if (
           newDetails[currentGame].checked === newDetails[currentGame].stalemated
         ) {

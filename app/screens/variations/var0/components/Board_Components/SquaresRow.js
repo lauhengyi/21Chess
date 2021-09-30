@@ -12,6 +12,7 @@ function SquaresRow(props) {
           key={squares.position}
           position={squares.position}
           colorId={squares.color}
+          boardOrientation={props.boardOrientation}
           gameDetails={props.gameDetails}
           options={props.options}
           onAction={(action) => props.onAction(action)}

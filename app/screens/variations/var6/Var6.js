@@ -1,6 +1,6 @@
 import React from "react";
 import V6Board from "./components/V6Board";
-import useComputer from "../../../mechanisms/var0/useComputer";
+import V6UseComputer from "../../../mechanisms/var6/V6UseComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import var6Layout1 from "./components/boardLayouts/var6Layout1";
 import var6Layout2 from "./components/boardLayouts/var6Layout2";
@@ -23,11 +23,22 @@ function Var6({ route, navigation }) {
   );
 
   //Initialise time left
-  const [timeLeft, restartTimer] = useTime(gameDetails, options, saved);
+  const { checkmated, stalemated, repetition } =
+    gameDetails[gameDetails.currentGame];
+  const playingSide = gameDetails.currentGame
+    ? gameDetails[gameDetails.currentGame].currentSide
+    : !gameDetails[gameDetails.currentGame].currentSide;
+  const specialDetails = {
+    checkmated: checkmated,
+    stalemated: stalemated,
+    repetition: repetition,
+    currentSide: playingSide,
+  };
+  const [timeLeft, restartTimer] = useTime(specialDetails, options, saved);
 
   //Activate computer
   if (options.mode === 0) {
-    useComputer(
+    V6UseComputer(
       gameDetails,
       chessActions,
       getChessMoves,

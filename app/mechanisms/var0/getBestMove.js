@@ -258,22 +258,4 @@ function isBestEvaluation(side, evaluation, bestEvaluation) {
   return false;
 }
 
-/* console.log'(
-  getBestMove(
-    {
-      boardLayout: var0Layout,
-      moveables: [null, null],
-      clickedSquare: null,
-      currentSide: true,
-      lastMoved: [null, null, null],
-      eatenPieces: [],
-      checked: 0,
-      stalemated: 0,
-      checkmated: 0,
-      promotion: null,
-    },
-    3
-  )
-); */
-
 export default getBestMove;

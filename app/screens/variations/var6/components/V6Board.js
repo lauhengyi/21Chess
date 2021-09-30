@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Modal, StyleSheet } from "react-native";
 import colorPalatte from "../../../../config/colorPalatte";
 import V6SquaresRow from "./Board_Components/V6SquaresRow";
 
@@ -14,6 +14,8 @@ function V6Board(props) {
   const sideTimer = useRef();
   const gameTimer = useRef();
   const [currentGame, setCurrentGame] = useState(actualGame);
+  //Create modal to prevent clicking while pause happens before game switch
+  const [isVisible, setVisible] = useState(false);
   const [boardOrientation, setBoardOrientation] = useState(getOrientation());
 
   //Rotate board for orientation
@@ -29,7 +31,9 @@ function V6Board(props) {
     gameTimer.current = setTimeout(() => {
       setCurrentGame(props.gameDetails.currentGame);
       setBoardOrientation(getOrientation());
+      setVisible(false);
     }, 400);
+    setVisible(true);
     return () => clearTimeout(gameTimer.current);
   }, [actualGame]);
 
@@ -38,6 +42,7 @@ function V6Board(props) {
   return (
     //make board
     <View style={styles.boardContainer}>
+      <Modal transparent={true} visible={isVisible} />
       <View style={boardOrientation ? styles.orientWhite : styles.orientBlack}>
         <View style={styles.board}>
           {rows.map((index) => (
