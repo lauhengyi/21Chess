@@ -6,7 +6,18 @@ function Var7Rules(props) {
   return (
     <>
       <RulesText settings={settings}>
-        Its just normal chess... I don't know what else to say.
+        Its like regular chess but instead of each side taking turns, making one
+        move each, there is a 50% chance that the sides will change after each
+        move is made.
+      </RulesText>
+      <RulesText settings={settings}>
+        This means that it is possible for a player to make 2, 3 or even 4 moves
+        simultaneously.
+      </RulesText>
+      <RulesText settings={settings}>
+        There is a indicator that shows 10 turns in advance how the sides will
+        change. This is so that players can preempt what moves the opponent will
+        make in the future.
       </RulesText>
     </>
   );
