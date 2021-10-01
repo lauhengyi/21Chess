@@ -9,6 +9,7 @@ function useComputer(
   chessMovesReducer,
   options
 ) {
+  const timer = useRef();
   useEffect(() => {
     if (gameDetails.currentSide === !options.startingSide && !checkEnd()) {
       const bestMove = getBestMove(
@@ -17,7 +18,7 @@ function useComputer(
         chessMovesReducer,
         options.diff
       );
-      setTimeout(() => {
+      timer.current = setTimeout(() => {
         chessActions({
           type: "makeTurn",
           move: bestMove[0],
@@ -32,6 +33,7 @@ function useComputer(
         }
       }, 200);
     }
+    return () => clearTimeout(timer.current);
   }, [gameDetails.boardLayout]);
 
   function checkEnd() {

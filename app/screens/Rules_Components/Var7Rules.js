@@ -7,7 +7,7 @@ function Var7Rules(props) {
     <>
       <RulesText settings={settings}>
         Its like regular chess but instead of each side taking turns, making one
-        move each, there is a 50% chance that the sides will change after each
+        move each, there is a only chance that the sides will change after each
         move is made.
       </RulesText>
       <RulesText settings={settings}>

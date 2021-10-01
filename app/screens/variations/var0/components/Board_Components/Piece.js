@@ -13,13 +13,19 @@ function Piece(props) {
   const piece = getPiece(props.pieceId, boardLayout);
   const currentSide = props.gameDetails.currentSide;
   const currentOrientation = props.boardOrientation;
+  const computerTurn =
+    options.mode === 0 && currentSide !== options.startingSide;
 
   //Get styles
   const pieceStyle = getStyle();
 
   const pieceText = getPieceText(piece, settings.theme);
 
-  if (currentSide === piece.side && !props.isMoveableOnSquare) {
+  if (
+    !computerTurn &&
+    currentSide === piece.side &&
+    !props.isMoveableOnSquare
+  ) {
     return (
       <Clickable
         onPress={() => {

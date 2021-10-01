@@ -678,9 +678,9 @@ function accountCollidedPiece(position, piece, moves, occupiedMatrix, AorD) {
   );
   if (AorD === true) {
     if (collided) {
-      if (piece.side === collidedSide) {
+      if (collidedSide === piece.side) {
         return [moves, true];
-      } else if (piece.side === !collidedSide) {
+      } else if (collidedSide === !piece.side) {
         moves.push([piece.id, position, eatenId]);
         return [moves, true];
       } else {

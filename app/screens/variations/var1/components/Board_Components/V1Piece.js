@@ -14,13 +14,15 @@ function V1Piece(props) {
   const pieceMap = props.gameDetails.pieceMap;
   const currentSide = props.gameDetails.currentSide;
   const currentOrientation = props.boardOrientation;
+  const computerTurn =
+    options.mode === 0 && currentSide !== options.startingSide;
 
   //Get styles
   const pieceStyle = getStyle();
 
   const pieceText = V1GetPieceText(piece, pieceMap, settings.theme);
 
-  if (currentSide === piece.side) {
+  if (!computerTurn && currentSide === piece.side) {
     return (
       <Clickable
         onPress={() => {

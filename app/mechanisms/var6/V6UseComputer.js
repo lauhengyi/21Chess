@@ -13,6 +13,7 @@ function V6UseComputer(
   const computerSide = currentGame
     ? !options.startingSide
     : options.startingSide;
+  const timer = useRef();
   useEffect(() => {
     if (gameDetails[currentGame].currentSide === computerSide && !checkEnd()) {
       const bestMove = getBestMove(
@@ -21,7 +22,7 @@ function V6UseComputer(
         chessMovesReducer,
         options.diff
       );
-      setTimeout(() => {
+      timer.current = setTimeout(() => {
         chessActions({
           type: "makeTurn",
           move: bestMove[0],
@@ -36,6 +37,7 @@ function V6UseComputer(
         }
       }, 1500);
     }
+    return () => clearTimeout(timer.current);
   }, [gameDetails[currentGame].currentSide]);
 
   function checkEnd() {
