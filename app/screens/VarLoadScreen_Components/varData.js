@@ -57,7 +57,7 @@ export default [
 
   {
     title: "Var. 9",
-    header: "King-in-Power Chess",
+    header: "Patriarchal Chess",
     caption: "God Save the Queen!",
   },
   {
