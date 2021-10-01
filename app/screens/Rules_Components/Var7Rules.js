@@ -19,6 +19,10 @@ function Var7Rules(props) {
         change. This is so that players can preempt what moves the opponent will
         make in the future.
       </RulesText>
+      <RulesText settings={settings}>
+        Lastly, it is also possible, in this variation, to checkmate the
+        opponent by capturing their king.
+      </RulesText>
     </>
   );
 }

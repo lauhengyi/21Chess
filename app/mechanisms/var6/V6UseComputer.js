@@ -21,18 +21,20 @@ function V6UseComputer(
         chessMovesReducer,
         options.diff
       );
-      chessActions({
-        type: "makeTurn",
-        move: bestMove[0],
-        castling: bestMove[1],
-      });
-      //Promote for promotional moves
-      if (bestMove[2]) {
+      setTimeout(() => {
         chessActions({
-          type: "promotion",
-          move: [bestMove[0][0], "q"],
+          type: "makeTurn",
+          move: bestMove[0],
+          castling: bestMove[1],
         });
-      }
+        //Promote for promotional moves
+        if (bestMove[2]) {
+          chessActions({
+            type: "promotion",
+            move: [bestMove[0][0], "q"],
+          });
+        }
+      }, 1500);
     }
   }, [gameDetails[currentGame].currentSide]);
 

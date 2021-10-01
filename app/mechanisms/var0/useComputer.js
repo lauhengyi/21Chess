@@ -17,20 +17,22 @@ function useComputer(
         chessMovesReducer,
         options.diff
       );
-      chessActions({
-        type: "makeTurn",
-        move: bestMove[0],
-        castling: bestMove[1],
-      });
-      //Promote for promotional moves
-      if (bestMove[2]) {
+      setTimeout(() => {
         chessActions({
-          type: "promotion",
-          move: [bestMove[0][0], "q"],
+          type: "makeTurn",
+          move: bestMove[0],
+          castling: bestMove[1],
         });
-      }
+        //Promote for promotional moves
+        if (bestMove[2]) {
+          chessActions({
+            type: "promotion",
+            move: [bestMove[0][0], "q"],
+          });
+        }
+      }, 200);
     }
-  }, [gameDetails.currentSide]);
+  }, [gameDetails.boardLayout]);
 
   function checkEnd() {
     return (
