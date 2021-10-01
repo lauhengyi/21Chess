@@ -124,8 +124,8 @@ function pawnMoves(piece, occupiedMatrix) {
   //update attacks to only when there is an enemy
   let moves = [];
   for (let move of Amoves) {
-    const [collided, side, eatenId] = checkCollision(move[1], occupiedMatrix);
-    if (collided && side != piece.side) {
+    const [collided, , eatenId] = checkCollision(move[1], occupiedMatrix);
+    if (collided) {
       moves.push([move[0], move[1], eatenId]);
     }
   }

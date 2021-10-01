@@ -22,9 +22,10 @@ function V5MovePiece(move, board) {
     }
   }
 
-  //Remove blank
+  //Remove blank for previous move
+  const nullSide = pieceSide ? "whiteNull" : "blackNull";
   newBoard = newBoard.filter(
-    (piece) => !(piece.type === null && piece.side === pieceSide)
+    (piece) => !(piece.type === null && piece.side === nullSide)
   );
 
   //Add blank square
@@ -32,7 +33,7 @@ function V5MovePiece(move, board) {
     id: 1000,
     position: previousPosition,
     type: null,
-    side: !pieceSide,
+    side: nullSide,
     moved: false,
   });
   // Can eat

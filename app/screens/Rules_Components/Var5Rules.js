@@ -15,7 +15,7 @@ function Var5Rules(props) {
       <RulesText settings={settings}>
         Every time a piece moves, the square in which it moved from will
         disappear and will act like an obstacle. The square will then return
-        back in the next turn.
+        back after 2 turns.
       </RulesText>
       <RulesText settings={settings}>
         When the square is gone, that square can no longer be moved to, nor can

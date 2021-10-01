@@ -141,7 +141,7 @@ function pawnMoves(piece, occupiedMatrix) {
   let moves = [];
   for (let move of Amoves) {
     const [collided, side, eatenId] = checkCollision(move[1], occupiedMatrix);
-    if (collided && side != piece.side) {
+    if (collided && side === !piece.side) {
       moves.push([move[0], move[1], eatenId]);
     }
   }
@@ -680,8 +680,10 @@ function accountCollidedPiece(position, piece, moves, occupiedMatrix, AorD) {
     if (collided) {
       if (piece.side === collidedSide) {
         return [moves, true];
-      } else {
+      } else if (piece.side === !collidedSide) {
         moves.push([piece.id, position, eatenId]);
+        return [moves, true];
+      } else {
         return [moves, true];
       }
     } else {
