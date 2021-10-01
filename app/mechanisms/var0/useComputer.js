@@ -1,5 +1,5 @@
 import getBestMove from "./getBestMove";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "react-native-console-time-polyfill";
 
 function useComputer(
