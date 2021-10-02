@@ -1,10 +1,9 @@
-import checkPin from "./functions/checkPin.js";
-import checkCheck from "./functions/checkCheck.js";
+import V9CheckPin from "./functions/V9CheckPin.js";
+import V9CheckCheck from "./functions/V9CheckCheck.js";
 import getPiece from "../primaryFunctions/getPiece.js";
-import movePiece from "./functions/movePiece.js";
-import checkCollision from "./functions/checkCollision.js";
-import createPieceDataCalculator from "./createPieceDataCalculator.js";
-import "react-native-console-time-polyfill";
+import movePiece from "../var0/functions/movePiece.js";
+import checkCollision from "../var0/functions/checkCollision.js";
+import V9CreatePieceDataCalculator from "./functions/V9CreatePieceDataCalculator.js";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
 function getChessMoves(piece, board, occupiedMatrix, lastMoved, type) {
@@ -12,9 +11,9 @@ function getChessMoves(piece, board, occupiedMatrix, lastMoved, type) {
     case "moves":
       return validMoves(piece, board, occupiedMatrix, lastMoved);
     case "attacks":
-      return validAttacks(piece, occupiedMatrix);
+      return validAttacks(piece, board, occupiedMatrix);
     case "defended":
-      return validDefended(piece, occupiedMatrix);
+      return validDefended(piece, board, occupiedMatrix);
   }
 }
 //returns list of valid moves a piece can make with consideration of pinning
@@ -47,27 +46,27 @@ function validMoves(piece, board, occupiedMatrix, lastMoved) {
 }
 
 //Return attacks from pieces
-function validAttacks(piece, occupiedMatrix) {
+function validAttacks(piece, board, occupiedMatrix) {
   // Get moveable moves
-  let pieceData = createPieceDataCalculator(piece, occupiedMatrix);
+  let pieceData = V9CreatePieceDataCalculator(piece, occupiedMatrix, board);
   return pieceData.attacks;
 }
 
-function validDefended(piece, occupiedMatrix) {
+function validDefended(piece, board, occupiedMatrix) {
   // Get moveable moves
-  let pieceData = createPieceDataCalculator(piece, occupiedMatrix);
+  let pieceData = V9CreatePieceDataCalculator(piece, occupiedMatrix, board);
   return pieceData.defended;
 }
 
 // Returns a list of normal moves checked for pins
 function normalMoves(piece, board, occupiedMatrix) {
-  let pieceData = createPieceDataCalculator(piece, occupiedMatrix);
+  let pieceData = V9CreatePieceDataCalculator(piece, occupiedMatrix, board);
   // Check whether move is pinned
   let movesUnchecked = pieceData.moves;
   // Removing move if pinned
   let moves = [];
   for (let move of movesUnchecked) {
-    if (checkPin(move, board) === false) {
+    if (V9CheckPin(move, board) === false) {
       moves.push(move);
     }
   }
@@ -86,7 +85,7 @@ function checkEnPassant(piece, board, lastMoved) {
   for (let move of moves) {
     if (move[1] === ghostPosition) {
       //checkPin
-      if (checkPin(move, board) === false) {
+      if (V9CheckPin(move, board) === false) {
         return move;
       }
     }
@@ -135,7 +134,7 @@ function checkCastling(piece, board, occupiedMatrix, validMoves) {
   }
 
   //check whether in check
-  if (checkCheck(board, occupiedMatrix, piece.side)) {
+  if (V9CheckCheck(board, occupiedMatrix, piece.side)) {
     return castleMoves;
   }
   //check whether valid moves include pieces moving left or right

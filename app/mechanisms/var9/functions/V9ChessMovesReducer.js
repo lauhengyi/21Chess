@@ -1,12 +1,12 @@
-import executeMove from "./executeMove.js";
-import checkCheck from "./checkCheck.js";
+import executeMove from "../../var0/functions/executeMove.js";
+import V9CheckCheck from "./V9CheckCheck.js";
 import getPiece from "../../primaryFunctions/getPiece.js";
-import getChessMoves from "../getChessMoves.js";
+import V9GetChessMoves from "../V9GetChessMoves.js";
 import clone from "just-clone";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
 
-function chessMovesReducer(state, action) {
+function V9ChessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = clone(state);
 
@@ -27,7 +27,7 @@ function chessMovesReducer(state, action) {
       const clickedSquare = piece.position;
 
       //Get moveableSquares
-      const moves = getChessMoves(
+      const moves = V9GetChessMoves(
         piece,
         state.boardLayout,
         occupiedMatrix,
@@ -202,13 +202,13 @@ function chessMovesReducer(state, action) {
 
       function updateChecks(occupiedMatrix) {
         if (state.currentSide) {
-          if (checkCheck(newDetails.boardLayout, occupiedMatrix, false)) {
+          if (V9CheckCheck(newDetails.boardLayout, occupiedMatrix, false)) {
             newDetails.checked = 2;
           } else {
             newDetails.checked = 0;
           }
         } else {
-          if (checkCheck(newDetails.boardLayout, occupiedMatrix, true)) {
+          if (V9CheckCheck(newDetails.boardLayout, occupiedMatrix, true)) {
             newDetails.checked = 1;
           } else {
             newDetails.checked = 0;
@@ -225,7 +225,7 @@ function chessMovesReducer(state, action) {
             //Check for piece to be on white's side
             if (piece.side === true) {
               if (
-                getChessMoves(
+                V9GetChessMoves(
                   piece,
                   newDetails.boardLayout,
                   occupiedMatrix,
@@ -252,7 +252,7 @@ function chessMovesReducer(state, action) {
             //Check for piece to be on white's side
             if (piece.side === false) {
               if (
-                getChessMoves(
+                V9GetChessMoves(
                   piece,
                   newDetails.boardLayout,
                   occupiedMatrix,
@@ -284,4 +284,4 @@ function chessMovesReducer(state, action) {
   }
 }
 
-export default chessMovesReducer;
+export default V9ChessMovesReducer;
