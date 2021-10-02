@@ -6,7 +6,12 @@ function Var10Rules(props) {
   return (
     <>
       <RulesText settings={settings}>
-        Its just normal chess... I don't know what else to say.
+        It's like regular chess, except when a piece captures an enemy piece,
+        the capturing piece will become the piece it captured permanently.
+      </RulesText>
+      <RulesText settings={settings}>
+        For example, if a white knight captures a black rook, the white knight
+        will become a white rook instead. Pretty simple right?
       </RulesText>
     </>
   );

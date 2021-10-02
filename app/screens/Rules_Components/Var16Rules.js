@@ -1,7 +1,7 @@
 import React from "react";
 import RulesText from "./RulesText";
 
-function Var11Rules(props) {
+function Var16Rules(props) {
   const settings = props.settings;
   return (
     <>
@@ -10,4 +10,4 @@ function Var11Rules(props) {
   );
 }
 
-export default Var11Rules;
+export default Var16Rules;
