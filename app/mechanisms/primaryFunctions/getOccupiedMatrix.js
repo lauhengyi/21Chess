@@ -7,7 +7,12 @@ function getOccupiedMatrix(board) {
   }
   //Turns true if occupied
   for (let piece of board) {
-    matrix[piece.position] = [true, piece.side, piece.id];
+    //For Var 11
+    if (piece.age !== undefined) {
+      matrix[piece.position] = [true, piece.side, piece.id, piece.age];
+    } else {
+      matrix[piece.position] = [true, piece.side, piece.id];
+    }
   }
   return matrix;
 }
