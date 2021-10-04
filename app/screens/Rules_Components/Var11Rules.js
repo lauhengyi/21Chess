@@ -17,7 +17,7 @@ function Var11Rules(props) {
         younger piece will no longer be able to capture the older piece, while
         the older piece can still capture the younger piece.
       </RulesText>
-      <RulesText>
+      <RulesText settings={settings}>
         After a pawn promotes, the age of the new piece after promotion will not
         be reset and will continue from the age the pawn was before it was
         promoted.

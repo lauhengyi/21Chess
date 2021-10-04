@@ -15,6 +15,16 @@ import Var8Rules from "./Rules_Components/Var8Rules";
 import Var9Rules from "./Rules_Components/Var9Rules";
 import Var10Rules from "./Rules_Components/Var10Rules";
 import Var11Rules from "./Rules_Components/Var11Rules";
+import Var12Rules from "./Rules_Components/Var12Rules";
+import Var13Rules from "./Rules_Components/Var13Rules";
+import Var14Rules from "./Rules_Components/Var14Rules";
+import Var15Rules from "./Rules_Components/Var15Rules";
+import Var16Rules from "./Rules_Components/Var16Rules";
+import Var17Rules from "./Rules_Components/Var17Rules";
+import Var18Rules from "./Rules_Components/Var18Rules";
+import Var19Rules from "./Rules_Components/Var19Rules";
+import Var20Rules from "./Rules_Components/Var20Rules";
+import Var21Rules from "./Rules_Components/Var21Rules";
 
 function RulesPopUp(props) {
   const varNum = props.varNum;
@@ -67,6 +77,16 @@ function Rules(props) {
     <Var9Rules settings={settings} />,
     <Var10Rules settings={settings} />,
     <Var11Rules settings={settings} />,
+    <Var12Rules settings={settings} />,
+    <Var13Rules settings={settings} />,
+    <Var14Rules settings={settings} />,
+    <Var15Rules settings={settings} />,
+    <Var16Rules settings={settings} />,
+    <Var17Rules settings={settings} />,
+    <Var18Rules settings={settings} />,
+    <Var19Rules settings={settings} />,
+    <Var20Rules settings={settings} />,
+    <Var21Rules settings={settings} />,
   ];
   return rulesList[varNum];
 }

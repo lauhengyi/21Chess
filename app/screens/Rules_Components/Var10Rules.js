@@ -14,7 +14,7 @@ function Var10Rules(props) {
         For example, if a white knight captures a black rook, the white knight
         will become a white rook instead. Pretty simple right?
       </RulesText>
-      <RulesText>
+      <RulesText settings={settings}>
         On the other hand, if a black king eats a white bishop, the black king
         will still stay a black king. (obviously)
       </RulesText>

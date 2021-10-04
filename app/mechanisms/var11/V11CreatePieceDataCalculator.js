@@ -538,6 +538,7 @@ function queenMoves(piece, occupiedMatrix, AorD) {
       type: "r",
       moved: piece.moved,
       side: piece.side,
+      age: piece.age,
     },
     occupiedMatrix,
     AorD
@@ -550,6 +551,7 @@ function queenMoves(piece, occupiedMatrix, AorD) {
       type: "b",
       moved: piece.moved,
       side: piece.side,
+      age: piece.age,
     },
     occupiedMatrix,
     AorD
@@ -666,7 +668,7 @@ function accountCollidedPiece(position, piece, moves, occupiedMatrix, AorD) {
       if (piece.side === collidedSide) {
         return [moves, true];
       } else {
-        if (piece.age >= eatenAge - 5) {
+        if (piece.age > eatenAge - 5 || piece.type === "k") {
           moves.push([piece.id, position, eatenId]);
         }
         return [moves, true];
@@ -677,7 +679,7 @@ function accountCollidedPiece(position, piece, moves, occupiedMatrix, AorD) {
     }
   } else {
     if (collided) {
-      if (piece.age >= eatenAge - 5) {
+      if (piece.age > eatenAge - 5 || piece.type === "k") {
         moves.push([piece.id, position, eatenId]);
       }
       return [moves, true];

@@ -11,7 +11,7 @@ function V11MovePiece(move, board) {
     if (newBoard[i].id === id) {
       newBoard[i].position = move[1];
       newBoard[i].moved = true;
-      if (newBoard[i] !== "k") {
+      if (newBoard[i].type !== "k") {
         newBoard[i].age += 1;
       }
       break;
