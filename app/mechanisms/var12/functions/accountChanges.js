@@ -29,9 +29,6 @@ function checkChanges(position, board, occupiedMatrix) {
           break;
         }
       }
-      if (index === undefined) {
-        console.log({ surroundingDetails, surroundingPos, index });
-      }
       board[index].side = !board[index].side;
       occupiedMatrix[board[index].position][1] = board[index].side;
       checkChanges(surroundingPos, board, occupiedMatrix);
@@ -49,7 +46,7 @@ function checkSurroundings(occupiedMatrix, position, side) {
   let antiCount = 0;
   for (const surrounding of surroundingDetails) {
     const [, surroundingSide] = surrounding;
-    if (surroundingSide === side) {
+    if (surroundingSide === !side) {
       count += 1;
     } else {
       antiCount += 1;

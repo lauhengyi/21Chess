@@ -33,6 +33,10 @@ function Var12Rules(props) {
         piece is surrounded by more enemy pieces than allied pieces will a piece
         change.
       </RulesText>
+      <RulesText settings={settings}>
+        Lastly, the oppoonent can also be checkamted if the oppoonent's king
+        changes side.
+      </RulesText>
     </>
   );
 }
