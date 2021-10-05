@@ -4,7 +4,7 @@ import checkCollision from "../../var0/functions/checkCollision.js";
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value
 function V9CreatePieceDataCalculator(piece, occupiedMatrix, board) {
-  let type = piece.type;
+  let type = clone(piece).type;
 
   if (piece.type === "k") {
     for (const otherPiece of board) {
@@ -45,6 +45,7 @@ class pieceDataCalculator {
     this.occupiedMatrix = occupiedMatrix;
   }
 }
+
 class pawnCalculator extends pieceDataCalculator {
   get moves() {
     return pawnMoves(this.piece, this.occupiedMatrix);
