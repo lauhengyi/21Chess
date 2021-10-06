@@ -10,13 +10,13 @@ function getOccupiedMatrix(board) {
     if (piece.age !== undefined) {
       //For Var 11
       matrix[piece.position] = [true, piece.side, piece.id, piece.age];
-    } else if (piece.merged !== undefined) {
+    } else if (piece.stacked !== undefined) {
       //For Var 14
       matrix[piece.position] = [
         true,
         piece.side,
         piece.id,
-        piece.merged,
+        piece.stacked,
         piece.type,
       ];
     } else {

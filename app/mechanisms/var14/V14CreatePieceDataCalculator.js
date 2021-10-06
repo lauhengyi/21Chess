@@ -835,7 +835,7 @@ function accountCollidedPiece(position, piece, moves, occupiedMatrix, AorD) {
   if (AorD === true) {
     if (collided) {
       if (
-        (piece.side === collidedSide && piece.stacked && collidedStacked) ||
+        (piece.side === collidedSide && (piece.stacked || collidedStacked)) ||
         piece.type === collidedType
       ) {
         return [moves, true];

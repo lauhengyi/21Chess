@@ -32,7 +32,7 @@ function V14Piece(props) {
           props.onAction({ type: "pieceClick", pieceId: props.pieceId });
         }}
       >
-        {piece.stacked ? (
+        {piece.stacked && piece.stacked !== "x" ? (
           <StackedPiece piece={piece} settings={settings} />
         ) : (
           <Text style={styles.piece}>{pieceText}</Text>
@@ -42,7 +42,7 @@ function V14Piece(props) {
   } else {
     return (
       <>
-        {piece.stacked ? (
+        {piece.stacked && piece.stacked !== "x" ? (
           <StackedPiece piece={piece} settings={settings} />
         ) : (
           <Text style={styles.piece}>{pieceText}</Text>

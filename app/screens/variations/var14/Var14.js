@@ -2,7 +2,7 @@ import React from "react";
 import V14Board from "./components/V14Board";
 import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
-import layout from "../boardLayouts/var0Layout";
+import var14Layout from "./components/var14Layout";
 import GameUI from "../var0/components/GameUI";
 import useChessMove from "../../../mechanisms/var0/useChessMove";
 import V14ChessMovesReducer from "../../../mechanisms/var14/V14ChessMovesReducer";
@@ -14,7 +14,7 @@ function Var14({ route, navigation }) {
 
   //Initialise game
   const [gameDetails, chessActions] = useChessMove(
-    layout,
+    var14Layout,
     V14ChessMovesReducer,
     saved
   );
@@ -36,7 +36,7 @@ function Var14({ route, navigation }) {
   return (
     <GameUI
       varNum={14}
-      boardLayout={layout}
+      boardLayout={var14Layout}
       navigation={navigation}
       chessActions={chessActions}
       gameDetails={gameDetails}
