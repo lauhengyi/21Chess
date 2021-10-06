@@ -30,70 +30,115 @@ class pieceDataCalculator {
 }
 class pawnCalculator extends pieceDataCalculator {
   get moves() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return pawnMoves(this.piece, this.occupiedMatrix);
   }
 
   get attacks() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return pawnAttacks(this.piece, this.occupiedMatrix, true);
   }
 
   get defended() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return pawnAttacks(this.piece, this.occupiedMatrix, false);
   }
 }
 
 class rookCalculator extends pieceDataCalculator {
   get moves() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return rookMoves(this.piece, this.occupiedMatrix, true);
   }
 
   get attacks() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return rookMoves(this.piece, this.occupiedMatrix, true);
   }
 
   get defended() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return rookMoves(this.piece, this.occupiedMatrix, false);
   }
 }
 
 class knightCalculator extends pieceDataCalculator {
   get moves() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return knightMoves(this.piece, this.occupiedMatrix, true);
   }
 
   get attacks() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return knightMoves(this.piece, this.occupiedMatrix, true);
   }
 
   get defended() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return knightMoves(this.piece, this.occupiedMatrix, false);
   }
 }
 
 class bishopCalculator extends pieceDataCalculator {
   get moves() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return bishopMoves(this.piece, this.occupiedMatrix, true);
   }
 
   get attacks() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return bishopMoves(this.piece, this.occupiedMatrix, true);
   }
 
   get defended() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return bishopMoves(this.piece, this.occupiedMatrix, false);
   }
 }
 
 class queenCalculator extends pieceDataCalculator {
   get moves() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return queenMoves(this.piece, this.occupiedMatrix, true);
   }
 
   get attacks() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return queenMoves(this.piece, this.occupiedMatrix, true);
   }
 
   get defended() {
+    if (this.piece.stunned) {
+      return [];
+    }
     return queenMoves(this.piece, this.occupiedMatrix, false);
   }
 }

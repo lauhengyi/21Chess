@@ -100,7 +100,7 @@ function useOptions(varNum) {
     mode: 1,
     diff: 1,
     isAutoturn: true,
-    isFlipped: false,
+    isFlipped: true,
     startingSide: 1,
     isChessClock: true,
     isAdditional: false,
