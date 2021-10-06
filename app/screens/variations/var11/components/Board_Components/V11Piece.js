@@ -13,6 +13,8 @@ function V11Piece(props) {
   const piece = getPiece(props.pieceId, boardLayout);
   const currentSide = props.gameDetails.currentSide;
   const currentOrientation = props.boardOrientation;
+  const computerTurn =
+    options.mode === 0 && currentSide !== options.startingSide;
 
   //Get styles
   const styles = getStyle();
@@ -20,7 +22,11 @@ function V11Piece(props) {
   const pieceText = getPieceText(piece, settings.theme);
   const subText = piece.type === "k" ? null : piece.age;
 
-  if (currentSide === piece.side && !props.isMoveableOnSquare) {
+  if (
+    !computerTurn &&
+    currentSide === piece.side &&
+    !props.isMoveableOnSquare
+  ) {
     return (
       <View style={styles.container}>
         <Clickable

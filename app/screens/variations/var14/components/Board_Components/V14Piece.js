@@ -4,8 +4,9 @@ import Clickable from "../../../../components/Clickable";
 import getPiece from "../../../../../mechanisms/primaryFunctions/getPiece";
 import colorPalatte from "../../../../../config/colorPalatte";
 import getPieceText from "../../../../functions/getPieceText";
+import StackedPiece from "../StackedPiece";
 
-function V13Piece(props) {
+function V14Piece(props) {
   // Passing down constants
   const options = props.options;
   const settings = props.settings;
@@ -18,9 +19,7 @@ function V13Piece(props) {
 
   //Get styles
   const styles = getStyle();
-
   const pieceText = getPieceText(piece, settings.theme);
-  const subText = piece.stunned ? "!!" : null;
 
   if (
     !computerTurn &&
@@ -28,27 +27,27 @@ function V13Piece(props) {
     !props.isMoveableOnSquare
   ) {
     return (
-      <View style={styles.container}>
-        <Clickable
-          onPress={() => {
-            props.onAction({ type: "pieceClick", pieceId: props.pieceId });
-          }}
-        >
+      <Clickable
+        onPress={() => {
+          props.onAction({ type: "pieceClick", pieceId: props.pieceId });
+        }}
+      >
+        {piece.stacked ? (
+          <StackedPiece piece={piece} settings={settings} />
+        ) : (
           <Text style={styles.piece}>{pieceText}</Text>
-        </Clickable>
-        <View style={styles.idContainer}>
-          <Text style={styles.subText}>{subText}</Text>
-        </View>
-      </View>
+        )}
+      </Clickable>
     );
   } else {
     return (
-      <View style={styles.container}>
-        <Text style={styles.piece}>{pieceText}</Text>
-        <View style={styles.idContainer}>
-          <Text style={styles.subText}>{subText}</Text>
-        </View>
-      </View>
+      <>
+        {piece.stacked ? (
+          <StackedPiece piece={piece} settings={settings} />
+        ) : (
+          <Text style={styles.piece}>{pieceText}</Text>
+        )}
+      </>
     );
   }
 
@@ -101,4 +100,4 @@ function createStyles(rotateAmount, settings, colorPalatte) {
   return styles;
 }
 
-export default V13Piece;
+export default V14Piece;
