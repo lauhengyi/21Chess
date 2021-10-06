@@ -66,6 +66,7 @@ function GameUI(props) {
           onAction={chessActions}
           onButtonPress={setMenu}
           settings={settings}
+          varNum={varNum}
         />
         {props.children}
         <AdditionalInfo
@@ -75,6 +76,7 @@ function GameUI(props) {
           timeLeft={timeLeft}
           onAction={chessActions}
           settings={settings}
+          varNum={varNum}
         />
       </View>
       <View style={styles.statsBarBottom}>

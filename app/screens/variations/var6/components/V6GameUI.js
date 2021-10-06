@@ -24,7 +24,6 @@ function V6GameUI(props) {
   } = props;
   const [isMenu, setMenu] = useState(false);
   const { setSaved } = useContext(SavedContext);
-  const perGameDetails = gameDetails[gameDetails.currentGame];
 
   //Override back press
   overrideBackPress(setMenu);
@@ -68,6 +67,7 @@ function V6GameUI(props) {
           onAction={chessActions}
           onButtonPress={setMenu}
           settings={settings}
+          varNum={varNum}
         />
         {props.children}
         <V6AdditionalInfo
@@ -77,6 +77,7 @@ function V6GameUI(props) {
           timeLeft={timeLeft}
           onAction={chessActions}
           settings={settings}
+          varNum={varNum}
         />
       </View>
       <View style={styles.statsBarBottom}>

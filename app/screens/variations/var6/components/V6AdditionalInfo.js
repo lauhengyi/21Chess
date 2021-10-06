@@ -60,6 +60,7 @@ function V6AdditionalInfo(props) {
           <ToggleMenuButton
             onButtonPress={() => props.onButtonPress()}
             settings={props.settings}
+            varNum={props.varNum}
           />
         </View>
       )}
