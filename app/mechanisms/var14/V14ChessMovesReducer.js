@@ -47,6 +47,8 @@ function V14ChessMovesReducer(state, action) {
     case "makeTurn": {
       //Get pieceId and final position of piece
       const [pieceId, moved] = getPieceIdandMoved();
+      //Moved Piece
+      const movedPiece = getPiece(pieceId, newDetails.boardLayout);
       //Get side of moved piece
       const side = state.currentSide;
 
@@ -63,7 +65,15 @@ function V14ChessMovesReducer(state, action) {
       if (action.move.length > 2) {
         let piece = getPiece(action.move[2], state.boardLayout);
         let side = !piece.side;
-        newDetails.eatenPieces.push([side, piece]);
+        //Add both pieces when merged piece is eaten and don't add piece when stacked
+        if (movedPiece.side !== piece.side) {
+          if (piece.stacked && piece.stacked !== "x") {
+            const id = Math.floor(Math.random() * 10000);
+            const mergedPiece = { ...piece, type: piece.stacked, id: id };
+            newDetails.eatenPieces.push([side, mergedPiece]);
+          }
+          newDetails.eatenPieces.push([side, piece]);
+        }
       }
 
       //Add to previous board to identify loss by repetition(store a max of 6 and only for boards when its white's turn)
@@ -82,7 +92,7 @@ function V14ChessMovesReducer(state, action) {
 
       //Check promotion
       //Promotion = [pieceId, piecePosition]
-      if (getPiece(pieceId, newDetails.boardLayout).type === "p") {
+      if (movedPiece.type === "p" && movedPiece.stacked === null) {
         if ((side === true && moved > 55) || (side === false && moved < 8)) {
           newDetails.promotion = pieceId;
         }

@@ -39,7 +39,10 @@ class pawnCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.moves.concat(pawnMoves(this.piece, this.occupiedMatrix));
+      const moves = pieceData.moves.concat(
+        pawnMoves(this.piece, this.occupiedMatrix)
+      );
+      return [...new Set(moves)];
     }
     return pawnMoves(this.piece, this.occupiedMatrix);
   }
@@ -54,9 +57,10 @@ class pawnCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.attacks.concat(
+      const moves = pieceData.attacks.concat(
         pawnAttacks(this.piece, this.occupiedMatrix, true)
       );
+      return [...new Set(moves)];
     }
     return pawnAttacks(this.piece, this.occupiedMatrix, true);
   }
@@ -71,9 +75,10 @@ class pawnCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.defended.concat(
+      const moves = pieceData.defended.concat(
         pawnAttacks(this.piece, this.occupiedMatrix, false)
       );
+      return [...new Set(moves)];
     }
     return pawnAttacks(this.piece, this.occupiedMatrix, false);
   }
@@ -90,9 +95,10 @@ class rookCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.moves.concat(
+      const moves = pieceData.moves.concat(
         rookMoves(this.piece, this.occupiedMatrix, true)
       );
+      return [...new Set(moves)];
     }
     return rookMoves(this.piece, this.occupiedMatrix, true);
   }
@@ -107,9 +113,10 @@ class rookCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.attacks.concat(
+      const moves = pieceData.attacks.concat(
         rookMoves(this.piece, this.occupiedMatrix, true)
       );
+      return [...new Set(moves)];
     }
     return rookMoves(this.piece, this.occupiedMatrix, true);
   }
@@ -124,9 +131,10 @@ class rookCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.defended.concat(
+      const moves = pieceData.defended.concat(
         rookMoves(this.piece, this.occupiedMatrix, false)
       );
+      return [...new Set(moves)];
     }
     return rookMoves(this.piece, this.occupiedMatrix, false);
   }
@@ -143,9 +151,10 @@ class knightCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.moves.concat(
+      const moves = pieceData.moves.concat(
         knightMoves(this.piece, this.occupiedMatrix, true)
       );
+      return [...new Set(moves)];
     }
     return knightMoves(this.piece, this.occupiedMatrix, true);
   }
@@ -160,9 +169,10 @@ class knightCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.attacks.concat(
+      const moves = pieceData.attacks.concat(
         knightMoves(this.piece, this.occupiedMatrix, true)
       );
+      return [...new Set(moves)];
     }
     return knightMoves(this.piece, this.occupiedMatrix, true);
   }
@@ -177,9 +187,10 @@ class knightCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.defended.concat(
+      const moves = pieceData.defended.concat(
         knightMoves(this.piece, this.occupiedMatrix, false)
       );
+      return [...new Set(moves)];
     }
     return knightMoves(this.piece, this.occupiedMatrix, false);
   }
@@ -196,9 +207,10 @@ class bishopCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.moves.concat(
+      const moves = pieceData.moves.concat(
         bishopMoves(this.piece, this.occupiedMatrix, true)
       );
+      return [...new Set(moves)];
     }
     return bishopMoves(this.piece, this.occupiedMatrix, true);
   }
@@ -213,9 +225,10 @@ class bishopCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.attacks.concat(
+      const moves = pieceData.attacks.concat(
         bishopMoves(this.piece, this.occupiedMatrix, true)
       );
+      return [...new Set(moves)];
     }
     return bishopMoves(this.piece, this.occupiedMatrix, true);
   }
@@ -230,9 +243,10 @@ class bishopCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.defended.concat(
+      const moves = pieceData.defended.concat(
         bishopMoves(this.piece, this.occupiedMatrix, false)
       );
+      return [...new Set(moves)];
     }
     return bishopMoves(this.piece, this.occupiedMatrix, false);
   }
@@ -249,9 +263,10 @@ class queenCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.moves.concat(
+      const moves = pieceData.moves.concat(
         queenMoves(this.piece, this.occupiedMatrix, true)
       );
+      return [...new Set(moves)];
     }
     return queenMoves(this.piece, this.occupiedMatrix, true);
   }
@@ -266,9 +281,10 @@ class queenCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.attacks.concat(
+      const moves = pieceData.attacks.concat(
         queenMoves(this.piece, this.occupiedMatrix, true)
       );
+      return [...new Set(moves)];
     }
     return queenMoves(this.piece, this.occupiedMatrix, true);
   }
@@ -283,9 +299,10 @@ class queenCalculator extends pieceDataCalculator {
         },
         this.occupiedMatrix
       );
-      return pieceData.defended.concat(
+      const moves = pieceData.defended.concat(
         queenMoves(this.piece, this.occupiedMatrix, false)
       );
+      return [...new Set(moves)];
     }
     return queenMoves(this.piece, this.occupiedMatrix, false);
   }
@@ -311,15 +328,12 @@ function pawnMoves(piece, occupiedMatrix) {
   //update attacks to only when there is an enemy
   let moves = [];
   for (let move of Amoves) {
-    const [collided, , eatenId, collidedStacked, collidedType] = checkCollision(
-      move[1],
-      occupiedMatrix
-    );
+    const [collided, collidedSide, eatenId, collidedStacked, collidedType] =
+      checkCollision(move[1], occupiedMatrix);
     if (
       collided &&
-      !piece.stacked &&
-      !collidedStacked &&
-      piece.type !== collidedType
+      (piece.side !== collidedSide ||
+        (piece.type !== collidedType && !piece.stacked && !collidedStacked))
     ) {
       moves.push([move[0], move[1], eatenId]);
     }
@@ -354,14 +368,18 @@ function pawnMoves(piece, occupiedMatrix) {
   } else {
     //differentiate between white and black
     if (piece.side) {
-      //piece is white
-      if (!checkCollision(piece.position + 8, occupiedMatrix)[0]) {
-        moves.push([piece.id, piece.position + 8]);
+      if (!checkTopEdge(piece.position + 8)) {
+        //piece is white
+        if (!checkCollision(piece.position + 8, occupiedMatrix)[0]) {
+          moves.push([piece.id, piece.position + 8]);
+        }
       }
     } else {
-      //piece is black
-      if (!checkCollision(piece.position - 8, occupiedMatrix)[0]) {
-        moves.push([piece.id, piece.position - 8]);
+      if (!checkBottomEdge(piece.position + 8)) {
+        //piece is black
+        if (!checkCollision(piece.position - 8, occupiedMatrix)[0]) {
+          moves.push([piece.id, piece.position - 8]);
+        }
       }
     }
   }
@@ -835,8 +853,8 @@ function accountCollidedPiece(position, piece, moves, occupiedMatrix, AorD) {
   if (AorD === true) {
     if (collided) {
       if (
-        (piece.side === collidedSide && (piece.stacked || collidedStacked)) ||
-        piece.type === collidedType
+        piece.side === collidedSide &&
+        (piece.stacked || collidedStacked || piece.type === collidedType)
       ) {
         return [moves, true];
       } else {
