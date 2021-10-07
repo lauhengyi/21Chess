@@ -12,10 +12,12 @@ export default function StackedPiece(props) {
   );
   const styles = getStyles(props.settings, colorPalatte);
   return (
-    <View style={styles.container}>
-      <Text style={styles.primaryPiece}>{primaryText}</Text>
-      <View style={styles.divider} />
-      <Text style={styles.secondaryPiece}>{secondaryText}</Text>
+    <View style={styles.background}>
+      <View style={styles.container}>
+        <Text style={styles.primaryPiece}>{primaryText}</Text>
+        <View style={styles.divider} />
+        <Text style={styles.secondaryPiece}>{secondaryText}</Text>
+      </View>
     </View>
   );
 }
@@ -27,23 +29,22 @@ function getStyles(settings, colorPalatte) {
       alignContent: "center",
       alignItems: "center",
       flex: 1,
+      zIndex: 1,
     },
     primaryPiece: {
       fontFamily: "Meri",
       fontSize: 20,
       color: colors.piece,
-      position: "absolute",
-      left: 0,
-      bottom: 2,
+      marginRight: 20,
+      marginTop: 2,
     },
 
     secondaryPiece: {
       fontFamily: "Meri",
       fontSize: 20,
       color: colors.piece,
-      position: "absolute",
-      right: 0,
-      top: 2,
+      marginLeft: 20,
+      marginTop: -6,
     },
 
     divider: {
@@ -51,9 +52,9 @@ function getStyles(settings, colorPalatte) {
       width: 1,
       height: 35,
       position: "absolute",
-      left: 0,
+      left: 20,
       right: 0,
-      top: 5,
+      top: 7,
       bottom: 0,
       transform: [{ rotate: "45deg" }],
     },

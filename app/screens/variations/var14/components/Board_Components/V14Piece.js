@@ -27,17 +27,19 @@ function V14Piece(props) {
     !props.isMoveableOnSquare
   ) {
     return (
-      <Clickable
-        onPress={() => {
-          props.onAction({ type: "pieceClick", pieceId: props.pieceId });
-        }}
-      >
-        {piece.stacked && piece.stacked !== "x" ? (
-          <StackedPiece piece={piece} settings={settings} />
-        ) : (
-          <Text style={styles.piece}>{pieceText}</Text>
-        )}
-      </Clickable>
+      <>
+        <Clickable
+          onPress={() => {
+            props.onAction({ type: "pieceClick", pieceId: props.pieceId });
+          }}
+        >
+          {piece.stacked && piece.stacked !== "x" ? (
+            <StackedPiece piece={piece} settings={settings} />
+          ) : (
+            <Text style={styles.piece}>{pieceText}</Text>
+          )}
+        </Clickable>
+      </>
     );
   } else {
     return (
