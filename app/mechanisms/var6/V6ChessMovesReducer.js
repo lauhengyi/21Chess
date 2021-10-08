@@ -285,19 +285,30 @@ function V6ChessMovesReducer(state, action) {
       }
 
       function updateChecks(occupiedMatrix, currentGame) {
-        if (
-          checkCheck(newDetails[currentGame].boardLayout, occupiedMatrix, false)
-        ) {
-          newDetails[currentGame].checked = 2;
+        if (newDetails[currentGame].currentSide) {
+          if (
+            checkCheck(
+              newDetails[currentGame].boardLayout,
+              occupiedMatrix,
+              false
+            )
+          ) {
+            newDetails[currentGame].checked = 2;
+          } else {
+            newDetails[currentGame].checked = 0;
+          }
         } else {
-          newDetails[currentGame].checked = 0;
-        }
-        if (
-          checkCheck(newDetails[currentGame].boardLayout, occupiedMatrix, true)
-        ) {
-          newDetails[currentGame].checked = 1;
-        } else {
-          newDetails[currentGame].checked = 0;
+          if (
+            checkCheck(
+              newDetails[currentGame].boardLayout,
+              occupiedMatrix,
+              true
+            )
+          ) {
+            newDetails[currentGame].checked = 1;
+          } else {
+            newDetails[currentGame].checked = 0;
+          }
         }
       }
 
