@@ -2,10 +2,10 @@ import React from "react";
 import Board from "../var0/components/Board";
 import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
-import layout from "../boardLayouts/var0Layout";
-import GameUI from "../var0/components/GameUI";
-import useChessMove from "../../../mechanisms/var0/useChessMove";
-import V4ChessMovesReducer from "../../../mechanisms/var4/V4ChessMovesReducer";
+import var15Layout from "./components/var15Layout";
+import V15GameUI from "./components/V15GameUI";
+import V15UseChessMove from "../../../mechanisms/var15/V15UseChessMove";
+import V15ChessMovesReducer from "../../../mechanisms/var15/functions/V15ChessMovesReducer";
 import getChessMoves from "../../../mechanisms/var0/getChessMoves";
 
 function Var15({ route, navigation }) {
@@ -13,9 +13,9 @@ function Var15({ route, navigation }) {
   const { options, settings, saved } = route.params;
 
   //Initialise game
-  const [gameDetails, chessActions] = useChessMove(
-    layout,
-    V4ChessMovesReducer,
+  const [gameDetails, chessActions] = V15UseChessMove(
+    var15Layout,
+    V15ChessMovesReducer,
     saved
   );
 
@@ -28,15 +28,15 @@ function Var15({ route, navigation }) {
       gameDetails,
       chessActions,
       getChessMoves,
-      V4ChessMovesReducer,
+      V15ChessMovesReducer,
       options
     );
   }
 
   return (
-    <GameUI
-      varNum={4}
-      boardLayout={layout}
+    <V15GameUI
+      varNum={15}
+      boardLayout={var15Layout}
       navigation={navigation}
       chessActions={chessActions}
       gameDetails={gameDetails}
@@ -51,7 +51,7 @@ function Var15({ route, navigation }) {
         onAction={chessActions}
         settings={settings}
       />
-    </GameUI>
+    </V15GameUI>
   );
 }
 

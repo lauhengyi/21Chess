@@ -11,7 +11,6 @@ function V15UseChessMove(boardLayout, chessMovesReducer, saved) {
       clickedSquare: null,
       currentSide: true,
       lastMoved: [null, null, null],
-      eatenPieces: [],
       previousBoards: [],
       checked: 0,
       stalemated: 0,

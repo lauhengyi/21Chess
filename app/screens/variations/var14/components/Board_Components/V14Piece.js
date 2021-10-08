@@ -27,7 +27,7 @@ function V14Piece(props) {
     !props.isMoveableOnSquare
   ) {
     return (
-      <>
+      <View style={styles.container}>
         <Clickable
           onPress={() => {
             props.onAction({ type: "pieceClick", pieceId: props.pieceId });
@@ -39,17 +39,17 @@ function V14Piece(props) {
             <Text style={styles.piece}>{pieceText}</Text>
           )}
         </Clickable>
-      </>
+      </View>
     );
   } else {
     return (
-      <>
+      <View style={styles.container}>
         {piece.stacked && piece.stacked !== "x" ? (
           <StackedPiece piece={piece} settings={settings} />
         ) : (
           <Text style={styles.piece}>{pieceText}</Text>
         )}
-      </>
+      </View>
     );
   }
 
@@ -82,20 +82,6 @@ function createStyles(rotateAmount, settings, colorPalatte) {
     piece: {
       fontFamily: "Meri",
       fontSize: 38,
-      color: colors.piece,
-    },
-
-    idContainer: {
-      height: 0,
-      position: "absolute",
-      left: 0,
-      top: 0,
-      margin: -1,
-    },
-
-    subText: {
-      fontFamily: "ELM",
-      fontSize: 10,
       color: colors.piece,
     },
   });

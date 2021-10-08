@@ -1,15 +1,14 @@
-import executeMove from "./executeMove.js";
-import checkCheck from "./checkCheck.js";
+import executeMove from "../../var0/functions/executeMove.js";
+import checkCheck from "../../var0/functions/checkCheck.js";
 import getPiece from "../../primaryFunctions/getPiece.js";
-import getChessMoves from "../getChessMoves.js";
+import getChessMoves from "../../var0/getChessMoves.js";
 import clone from "just-clone";
-import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
 import getPositions from "./getPositions.js";
-import { getPrice } from "./getPrice.js";
-import { getRevenue } from "./getRevenue.js";
+import getPrice from "./getPrice.js";
+import getRevenue from "./getRevenue.js";
 
-function chessMovesReducer(state, action) {
+function V15ChessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = clone(state);
 
@@ -67,13 +66,6 @@ function chessMovesReducer(state, action) {
         state.boardLayout,
         action.castling
       );
-
-      //Add eaten pieces
-      if (action.move.length > 2) {
-        let side = getPiece(action.move[0], state.boardLayout).side;
-        let piece = getPiece(action.move[2], state.boardLayout);
-        newDetails.eatenPieces.push([side, piece]);
-      }
 
       //Add to previous board to identify loss by repetition(store a max of 6 and only for boards when its white's turn)
       updateRepetition();
@@ -360,4 +352,4 @@ function chessMovesReducer(state, action) {
   }
 }
 
-export default chessMovesReducer;
+export default V15ChessMovesReducer;

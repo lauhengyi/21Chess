@@ -1,4 +1,4 @@
-export function getPrice(type) {
+export default function getPrice(type) {
   switch (type) {
     case "p":
       return 20;
