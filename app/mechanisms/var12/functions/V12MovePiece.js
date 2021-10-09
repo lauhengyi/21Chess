@@ -8,6 +8,11 @@ function V12MovePiece(move, board) {
   // Create version of board with theoretically moved piece
   // Copy new board
   let newBoard = clone(board);
+  // Can eat
+  if (move.length > 2) {
+    newBoard = newBoard.filter((piece) => piece.id != move[2]);
+  }
+
   let id = move[0];
   let pieceIndex;
   for (let i = 0; i < newBoard.length; i++) {
@@ -17,10 +22,6 @@ function V12MovePiece(move, board) {
       pieceIndex = i;
       break;
     }
-  }
-  // Can eat
-  if (move.length > 2) {
-    newBoard = newBoard.filter((piece) => piece.id != move[2]);
   }
 
   //Scan for changes in side
