@@ -4,9 +4,9 @@ import getPiece from "../../primaryFunctions/getPiece.js";
 import getChessMoves from "../../var0/getChessMoves.js";
 import clone from "just-clone";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
-import getPositions from "./getPositions.js";
 import getPrice from "./getPrice.js";
 import getRevenue from "./getRevenue.js";
+import getOrders from "./getOrders.js";
 
 function V15ChessMovesReducer(state, action) {
   //Making deep copy
@@ -205,18 +205,7 @@ function V15ChessMovesReducer(state, action) {
         newDetails.orders = [];
         return newDetails;
       }
-      //Look for possible positions
-      const kingPos = (function () {
-        for (const piece of state.boardLayout) {
-          if (piece.type === "k" && piece.side === state.currentSide) {
-            return piece.position;
-          }
-        }
-      })();
-      const occupiedMatrix = getOccupiedMatrix(state.boardLayout);
-      const positions = getPositions(kingPos, occupiedMatrix);
-      const orders = positions.map((position) => [position, action.pieceType]);
-      newDetails.orders = orders;
+      newDetails.orders = getOrders(state, action.pieceType);
 
       //Add clicked
       newDetails.clickedOrder = action.pieceType;

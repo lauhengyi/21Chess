@@ -104,8 +104,8 @@ export default [
 
   {
     title: "Var. 17",
-    header: "Gladiator Chess",
-    caption: "May the last man standing win!",
+    header: "Minewweeper Chess",
+    caption: "You gotta watch you step.",
   },
 
   {

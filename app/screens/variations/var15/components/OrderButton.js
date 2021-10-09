@@ -60,12 +60,12 @@ function getStyles(settings, colorPalatte) {
 
     clicked: {
       alignItems: "center",
-      backgroundColor: colors.grey1,
+      backgroundColor: colors.grey2,
     },
 
     unClicked: {
       alignItems: "center",
-      backgroundColor: colors.tertiary,
+      backgroundColor: colors.grey1,
     },
 
     unAffordable: {

@@ -1,5 +1,5 @@
 import React from "react";
-import Board from "../var0/components/Board";
+import V15Board from "./components/V15Board";
 import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import var15Layout from "./components/var15Layout";
@@ -45,7 +45,7 @@ function Var15({ route, navigation }) {
       options={options}
       settings={settings}
     >
-      <Board
+      <V15Board
         gameDetails={gameDetails}
         options={options}
         onAction={chessActions}

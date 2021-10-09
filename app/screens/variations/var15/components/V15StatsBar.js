@@ -4,8 +4,8 @@ import TimeText from "../../../components/TimeText";
 import getTimeControlText from "../../../functions/getTimeControlText";
 import getPlayers from "../../../functions/getPlayers";
 import colorPalatte from "../../../../config/colorPalatte";
-import getPieceText from "../../../functions/getPieceText";
 import Store from "./Store";
+import MoneyStats from "./MoneyStats";
 
 function V15StatsBar(props) {
   const styles = getStyles(props.settings, colorPalatte);
@@ -85,7 +85,12 @@ function V15StatsBar(props) {
       return (
         <View style={styles.container}>
           <View style={styles.topStatsSection}>
-            <Text style={styles.subHeader}>Enemy's money</Text>
+            <Text style={styles.subHeader}>Enemy's money:</Text>
+            <MoneyStats
+              gameDetails={props.gameDetails}
+              side={player[1]}
+              settings={props.settings}
+            />
             {isChessClock && (
               <View style={styles.timeSection}>
                 <View

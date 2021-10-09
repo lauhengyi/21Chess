@@ -40,7 +40,7 @@ function getStyles(settings, colorPalatte) {
 
     unClicked: {
       alignItems: "center",
-      backgroundColor: colors.tertiary,
+      backgroundColor: colors.grey1,
     },
 
     pieceText: {
