@@ -29,17 +29,17 @@ export default [
   },
 
   {
-    id: 28,
+    id: 29,
     position: 3,
-    type: "q",
+    type: "k",
     side: true,
     moved: false,
   },
 
   {
-    id: 29,
+    id: 28,
     position: 4,
-    type: "k",
+    type: "q",
     side: true,
     moved: false,
   },
@@ -221,17 +221,17 @@ export default [
   },
 
   {
-    id: 12,
+    id: 13,
     position: 59,
-    type: "q",
+    type: "k",
     side: false,
     moved: false,
   },
 
   {
-    id: 13,
+    id: 12,
     position: 60,
-    type: "k",
+    type: "q",
     side: false,
     moved: false,
   },
