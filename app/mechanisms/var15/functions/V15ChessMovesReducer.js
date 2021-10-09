@@ -199,6 +199,12 @@ function V15ChessMovesReducer(state, action) {
 
     case "order": {
       //Make a list of moves of purchases
+      //Remove order if clicked again
+      if (state.clickedOrder === action.pieceType) {
+        newDetails.clickedOrder = null;
+        newDetails.orders = [];
+        return newDetails;
+      }
       //Look for possible positions
       const kingPos = (function () {
         for (const piece of state.boardLayout) {

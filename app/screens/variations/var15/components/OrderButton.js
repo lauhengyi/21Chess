@@ -6,16 +6,18 @@ import Clickable from "../../../components/Clickable";
 
 function OrderButton(props) {
   const { type, side, cost } = props;
-  const { whiteMoney, blackMoney, clickedOrder } = props.gameDetails;
-  const clicked = type === clickedOrder;
+  const { whiteMoney, blackMoney, currentSide, clickedOrder } =
+    props.gameDetails;
+  const clicked = type === clickedOrder && side === currentSide;
   const styles = getStyles(props.settings, colorPalatte);
   const pieceText = getPieceText(
     { type: type, side: side },
     props.settings.theme
   );
   const isAffordable = side ? whiteMoney >= cost : blackMoney >= cost;
+  const isClickable = isAffordable && side === currentSide;
   const buttonStyle = getButtonStyle(styles, clicked, isAffordable);
-  if (isAffordable) {
+  if (isClickable) {
     return (
       <Clickable
         onPress={() => props.onPress({ type: "order", pieceType: type })}

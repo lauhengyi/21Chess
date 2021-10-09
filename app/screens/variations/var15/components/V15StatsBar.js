@@ -9,7 +9,7 @@ import Store from "./Store";
 
 function V15StatsBar(props) {
   const styles = getStyles(props.settings, colorPalatte);
-  const { currentSide } = props.gameDetails;
+  const { currentSide, clickedOrder } = props.gameDetails;
   const { p1TimeLeft, p2TimeLeft, isRunning } = props.timeLeft;
   const options = props.options;
   //Get players
@@ -108,14 +108,39 @@ function V15StatsBar(props) {
 
   function getHeaderText() {
     let headerText;
-    //Form header statements
-    const opponentsName = options.mode ? "Player " + opponent[0] : "Computer";
-    headerText =
-      player[1] === currentSide ? "Your Turn" : opponentsName + "' s Turn";
+    if (clickedOrder && player[1] === currentSide) {
+      switch (clickedOrder) {
+        case "p": {
+          headerText = "Purchasing Pawn";
+          break;
+        }
+        case "n": {
+          headerText = "Purchasing Knight";
+          break;
+        }
+        case "b": {
+          headerText = "Purchasing Bishop";
+          break;
+        }
+        case "r": {
+          headerText = "Purchasing Rook";
+          break;
+        }
+        case "q": {
+          headerText = "Purchasing Queen";
+          break;
+        }
+      }
+    } else {
+      //Form header statements
+      const opponentsName = options.mode ? "Player " + opponent[0] : "Computer";
+      headerText =
+        player[1] === currentSide ? "Your Turn" : opponentsName + "' s Turn";
 
-    //Consider autoturn, where it does not show Your Turn
-    if (options.isAutoturn) {
-      headerText = "Player " + player[0] + "' s Turn";
+      //Consider autoturn, where it does not show Your Turn
+      if (options.isAutoturn) {
+        headerText = "Player " + player[0] + "' s Turn";
+      }
     }
 
     return headerText;
