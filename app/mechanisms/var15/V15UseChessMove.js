@@ -18,8 +18,8 @@ function V15UseChessMove(boardLayout, chessMovesReducer, saved) {
       repetition: false,
       promotion: null,
       orders: [],
-      whiteMoney: 50,
-      blackMoney: 50,
+      whiteMoney: 30,
+      blackMoney: 30,
       clickedOrder: null,
     };
   }

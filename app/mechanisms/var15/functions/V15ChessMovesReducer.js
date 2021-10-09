@@ -91,6 +91,18 @@ function V15ChessMovesReducer(state, action) {
 
       //Change Side (only if no promotion)
       if (!newDetails.promotion) {
+        //Add money (to opposite side after making a move)
+        if (state.currentSide) {
+          newDetails.blackMoney += getRevenue(
+            newDetails.boardLayout,
+            !state.currentSide
+          );
+        } else {
+          newDetails.whiteMoney += getRevenue(
+            newDetails.boardLayout,
+            !state.currentSide
+          );
+        }
         newDetails.currentSide = !state.currentSide;
       }
 
@@ -168,12 +180,12 @@ function V15ChessMovesReducer(state, action) {
 
       //Add money (to opposite side after making a move)
       if (state.currentSide) {
-        state.blackMoney += getRevenue(
+        newDetails.blackMoney += getRevenue(
           newDetails.boardLayout,
           !state.currentSide
         );
       } else {
-        state.whiteMoney += getRevenue(
+        newDetails.whiteMoney += getRevenue(
           newDetails.boardLayout,
           !state.currentSide
         );
@@ -189,10 +201,9 @@ function V15ChessMovesReducer(state, action) {
       //Make a list of moves of purchases
       //Look for possible positions
       const kingPos = (function () {
-        for (let i; i < state.boardLayout.length; i++) {
-          const piece = state.boardLayout[i];
+        for (const piece of state.boardLayout) {
           if (piece.type === "k" && piece.side === state.currentSide) {
-            return i;
+            return piece.position;
           }
         }
       })();
@@ -250,8 +261,8 @@ function V15ChessMovesReducer(state, action) {
         repetition: false,
         promotion: null,
         orders: [],
-        whiteMoney: 50,
-        blackMoney: 50,
+        whiteMoney: 30,
+        blackMoney: 30,
         clickedOrder: null,
       };
       return newDetails;

@@ -51,6 +51,7 @@ function V15GameUI(props) {
       <View style={styles.statsBarTop}>
         <V15StatsBar
           gameDetails={gameDetails}
+          chessActions={chessActions}
           timeLeft={timeLeft}
           position={"top"}
           options={options}
@@ -83,6 +84,7 @@ function V15GameUI(props) {
         <V15StatsBar
           timeLeft={timeLeft}
           gameDetails={gameDetails}
+          chessActions={chessActions}
           position={"bottom"}
           options={options}
           settings={settings}

@@ -1,7 +1,9 @@
 export default function getRevenue(boardLayout, side) {
   let revenue = 0;
   for (const piece of boardLayout) {
-    revenue += getMoney(piece);
+    if (piece.side === side) {
+      revenue += getMoney(piece);
+    }
   }
   return revenue;
 }

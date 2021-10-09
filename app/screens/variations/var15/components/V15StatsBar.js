@@ -5,10 +5,11 @@ import getTimeControlText from "../../../functions/getTimeControlText";
 import getPlayers from "../../../functions/getPlayers";
 import colorPalatte from "../../../../config/colorPalatte";
 import getPieceText from "../../../functions/getPieceText";
+import Store from "./Store";
 
 function V15StatsBar(props) {
   const styles = getStyles(props.settings, colorPalatte);
-  const { currentSide, eatenPieces } = props.gameDetails;
+  const { currentSide } = props.gameDetails;
   const { p1TimeLeft, p2TimeLeft, isRunning } = props.timeLeft;
   const options = props.options;
   //Get players
@@ -71,7 +72,12 @@ function V15StatsBar(props) {
                 </View>
               )}
             </View>
-            <View style={styles.storeButtonsContainer}></View>
+            <Store
+              gameDetails={props.gameDetails}
+              chessActions={props.chessActions}
+              side={player[1]}
+              settings={props.settings}
+            />
           </View>
         </View>
       );
@@ -120,7 +126,7 @@ function getStyles(settings, colorPalatte) {
   const colors = colorPalatte[settings.theme];
   return StyleSheet.create({
     container: {
-      height: 120,
+      height: 150,
       width: "100%",
       backgroundColor: colors.secondary,
       padding: 10,
@@ -142,7 +148,7 @@ function getStyles(settings, colorPalatte) {
 
     header: {
       fontFamily: "FogtwoNo5",
-      fontSize: 40,
+      fontSize: 30,
       color: colors.black,
     },
 
