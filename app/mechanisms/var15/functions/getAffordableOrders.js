@@ -10,7 +10,7 @@ export default function getAffordableOrders(gameDetails) {
   for (const type of typesMap) {
     //If affordable
     if (money >= getPrice(type)) {
-      orders.concat(getOrders(gameDetails, type));
+      orders = orders.concat(getOrders(gameDetails, type));
     }
   }
   return orders;
