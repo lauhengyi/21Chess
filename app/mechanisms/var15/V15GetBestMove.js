@@ -1,8 +1,9 @@
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 import evaluateBoardV1 from "../var0/evalutateBoardV1.js";
 import evaluateBoardV2 from "../var0/evalutateBoardV2.js";
+import getAffordableOrders from "./functions/getAffordableOrders.js";
 
-function getBestMove(
+function V15GetBestMove(
   gameDetails,
   getChessMoves,
   chessMovesReducer,
@@ -21,6 +22,33 @@ function getBestMove(
   let bestMove = [-1, -1];
   let castling = false;
   let promotion = false;
+  let order = false;
+  //Check for order moves
+  let possibleOrders = getAffordableOrders(currentDetails);
+  for (let possibleOrder of possibleOrders) {
+    let newDetails = chessMovesReducer(currentDetails, {
+      type: "purchase",
+      order: possibleOrder,
+    });
+    const evaluation = getBestEvaluation(
+      newDetails,
+      bestEvaluation,
+      evaluationFunction,
+      getChessMoves,
+      chessMovesReducer,
+      depth - 1
+    );
+
+    if (
+      isBestEvaluation(currentDetails.currentSide, evaluation, bestEvaluation)
+    ) {
+      bestEvaluation = evaluation;
+      bestMove = possibleOrder;
+      castling = false;
+      promotion = false;
+      order = true;
+    }
+  }
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
       let moves = getChessMoves(
@@ -66,6 +94,7 @@ function getBestMove(
             bestMove = move;
             castling = false;
             promotion = promoted;
+            order = false;
           }
         }
       }
@@ -95,13 +124,14 @@ function getBestMove(
             bestEvaluation = evaluation;
             bestMove = move;
             castling = true;
+            order = false;
           }
         }
       }
     }
   }
 
-  return [bestMove, castling, promotion];
+  return [bestMove, castling, promotion, order];
 }
 
 function getBestEvaluation(
@@ -122,6 +152,39 @@ function getBestEvaluation(
     return evaluationFunction(currentDetails, getChessMoves);
   }
   let bestEvaluation = currentDetails.currentSide ? -Infinity : Infinity;
+
+  //Check for order moves
+  let possibleOrders = getAffordableOrders(currentDetails);
+  for (let possibleOrder of possibleOrders) {
+    let newDetails = chessMovesReducer(currentDetails, {
+      type: "purchase",
+      order: possibleOrder,
+    });
+    const evaluation = getBestEvaluation(
+      newDetails,
+      bestEvaluation,
+      evaluationFunction,
+      getChessMoves,
+      chessMovesReducer,
+      depth - 1
+    );
+
+    if (
+      isBestEvaluation(currentDetails.currentSide, evaluation, bestEvaluation)
+    ) {
+      bestEvaluation = evaluation;
+      //AlphaBetaPruning
+      if (
+        isBestEvaluation(
+          currentDetails.currentSide,
+          bestEvaluation,
+          currentBest
+        )
+      ) {
+        return bestEvaluation;
+      }
+    }
+  }
 
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
@@ -257,4 +320,4 @@ function isBestEvaluation(side, evaluation, bestEvaluation) {
   return false;
 }
 
-export default getBestMove;
+export default V15GetBestMove;

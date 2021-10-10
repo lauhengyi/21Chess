@@ -207,6 +207,10 @@ function V15ChessMovesReducer(state, action) {
       }
       newDetails.orders = getOrders(state, action.pieceType);
 
+      //Remove moveables and clickedSquare
+      newDetails.moveables = [];
+      newDetails.clickedSquare = null;
+
       //Add clicked
       newDetails.clickedOrder = action.pieceType;
 
