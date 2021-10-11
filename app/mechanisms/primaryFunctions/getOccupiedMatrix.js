@@ -19,6 +19,8 @@ function getOccupiedMatrix(board) {
         piece.stacked,
         piece.type,
       ];
+    } else if (piece.perk !== undefined) {
+      matrix[piece.position] = [true, piece.side, piece.id, piece.level];
     } else {
       matrix[piece.position] = [true, piece.side, piece.id];
     }
