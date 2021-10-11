@@ -5,29 +5,27 @@ import clone from "just-clone";
 function V16MovePiece(move, board) {
   // Create version of board with theoretically moved piece
   // Copy new board
-  let newBoard = clone(board);
   let id = move[0];
-  for (let i = 0; i < newBoard.length; i++) {
-    if (newBoard[i].id === id) {
-      if (newBoard[i].perk === null) {
-        defaultMove(move, i, newBoard);
+  for (let i = 0; i < board.length; i++) {
+    if (board[i].id === id) {
+      if (board[i].perk === null) {
+        return defaultMove(move, i, board);
       }
-      break;
     }
   }
-
-  return newBoard;
 }
 
 function defaultMove(move, index, board) {
-  board[index].position = move[1];
-  board[index].moved = true;
+  let newBoard = clone(board);
+  newBoard[index].position = move[1];
+  newBoard[index].moved = true;
 
   // Can eat
   if (move.length > 2) {
-    board.filter((piece) => piece.id != move[2]);
-    board[index].level += 1;
+    newBoard[index].level += 1;
+    newBoard = newBoard.filter((piece) => piece.id != move[2]);
   }
+  return newBoard;
 }
 
 export default V16MovePiece;

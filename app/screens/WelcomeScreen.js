@@ -16,16 +16,18 @@ function WelcomeScreen({ navigation, route }) {
   return (
     <>
       <View style={styles.background}>
-        <MakeItRain
-          numItems={20}
-          itemDimensions={{ width: 100, height: 100 }}
-          itemComponent={<PieceConfetti settings={settings} />}
-          itemTintStrength={0.0}
-          fallSpeed={30}
-          flipSpeed={1}
-          horizSpeed={5}
-          flavor={"arrive"}
-        />
+        {
+          <MakeItRain
+            numItems={15}
+            itemDimensions={{ width: 100, height: 100 }}
+            itemComponent={<PieceConfetti settings={settings} />}
+            itemTintStrength={0.0}
+            fallSpeed={30}
+            flipSpeed={1}
+            horizSpeed={1}
+            flavor={"rain"}
+          />
+        }
         <View style={styles.titleContainer}>
           <Text style={styles.title}>CHESS</Text>
           <Text style={styles.caption}>Var. 21</Text>

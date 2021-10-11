@@ -63,7 +63,6 @@ function normalMoves(piece, board, occupiedMatrix) {
   let pieceData = V16CreatePieceDataCalculator(piece, occupiedMatrix);
   // Check whether move is pinned
   let movesUnchecked = pieceData.moves;
-  console.log({ movesUnchecked });
   // Removing move if pinned
   let moves = [];
   for (let move of movesUnchecked) {
