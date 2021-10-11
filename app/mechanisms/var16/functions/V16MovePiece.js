@@ -22,11 +22,11 @@ function V16MovePiece(move, board) {
 function defaultMove(move, index, board) {
   board[index].position = move[1];
   board[index].moved = true;
-  board[index].level += 1;
 
   // Can eat
   if (move.length > 2) {
     board.filter((piece) => piece.id != move[2]);
+    board[index].level += 1;
   }
 }
 

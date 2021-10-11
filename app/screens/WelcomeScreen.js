@@ -5,6 +5,8 @@ import SettingsContext from "./functions/SettingsContext";
 import Clickable from "./components/Clickable";
 import SavedContext from "./functions/SavedContext";
 import loadSaved from "./functions/loadSaved";
+import MakeItRain from "react-native-make-it-rain";
+import PieceConfetti from "./components/WelcomeScreen_Components/PieceConfetti";
 
 function WelcomeScreen({ navigation, route }) {
   const { settings } = useContext(SettingsContext);
@@ -14,6 +16,16 @@ function WelcomeScreen({ navigation, route }) {
   return (
     <>
       <View style={styles.background}>
+        <MakeItRain
+          numItems={20}
+          itemDimensions={{ width: 100, height: 100 }}
+          itemComponent={<PieceConfetti settings={settings} />}
+          itemTintStrength={0.0}
+          fallSpeed={30}
+          flipSpeed={1}
+          horizSpeed={5}
+          flavor={"arrive"}
+        />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>CHESS</Text>
           <Text style={styles.caption}>Var. 21</Text>

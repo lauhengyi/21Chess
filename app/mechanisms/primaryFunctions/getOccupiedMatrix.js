@@ -20,6 +20,7 @@ function getOccupiedMatrix(board) {
         piece.type,
       ];
     } else if (piece.perk !== undefined) {
+      //For Var 16
       matrix[piece.position] = [true, piece.side, piece.id, piece.level];
     } else {
       matrix[piece.position] = [true, piece.side, piece.id];
