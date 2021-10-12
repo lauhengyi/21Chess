@@ -100,7 +100,7 @@ function getPerkText(perk) {
     case "a": {
       return [
         "Assassin",
-        "Permanently be able to move twice each turn, provided the second move is a capture.",
+        "Permanently be able to move twice each turn, provided the second move is a capture and the first move isn't",
       ];
     }
     case "p": {

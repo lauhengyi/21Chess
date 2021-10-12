@@ -1,5 +1,6 @@
 import checkCollision from "../var0/functions/checkCollision";
-import getSpeedAndAssas from "./functions/getSpeedAndAssas";
+import getSpeedster from "./functions/getSpeedster";
+import getAssassin from "./functions/getAssassin";
 import updateDetails from "./functions/updateDetails";
 
 // attacks and moves and defends are without consideration of pinning
@@ -32,8 +33,14 @@ class pieceDataCalculator {
 }
 class pawnCalculator extends pieceDataCalculator {
   get moves() {
-    if (this.piece.perk === "s" || this.piece.perk === "a") {
-      return getSpeedAndAssas(
+    if (this.piece.perk === "s") {
+      return getSpeedster(
+        this.piece,
+        this.occupiedMatrix,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === "a") {
+      return getAssassin(
         this.piece,
         this.occupiedMatrix,
         true,
@@ -50,7 +57,7 @@ class pawnCalculator extends pieceDataCalculator {
       const firstMoves = V16CreatePieceDataCalculator(
         { ...this.piece, perk: null },
         this.occupiedMatrix
-      ).moves;
+      ).moves.filter((move) => move.length === 2);
       const firstAttacks = V16CreatePieceDataCalculator(
         { ...this.piece, perk: null },
         this.occupiedMatrix
@@ -82,7 +89,7 @@ class pawnCalculator extends pieceDataCalculator {
       const firstMoves = V16CreatePieceDataCalculator(
         { ...this.piece, perk: null },
         this.occupiedMatrix
-      ).moves;
+      ).moves.filter((move) => move.length === 2);
       const firstDefended = V16CreatePieceDataCalculator(
         { ...this.piece, perk: null },
         this.occupiedMatrix
@@ -111,71 +118,236 @@ class pawnCalculator extends pieceDataCalculator {
 
 class rookCalculator extends pieceDataCalculator {
   get moves() {
-    return rookMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "s") {
+      return getSpeedster(
+        this.piece,
+        this.occupiedMatrix,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null) {
+      return rookMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get attacks() {
-    return rookMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return rookMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get defended() {
-    return rookMoves(this.piece, this.occupiedMatrix, false);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        false,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return rookMoves(this.piece, this.occupiedMatrix, false);
+    }
   }
 }
 
 class knightCalculator extends pieceDataCalculator {
   get moves() {
-    return knightMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "s") {
+      return getSpeedster(
+        this.piece,
+        this.occupiedMatrix,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null) {
+      return knightMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get attacks() {
-    return knightMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return knightMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get defended() {
-    return knightMoves(this.piece, this.occupiedMatrix, false);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        false,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return knightMoves(this.piece, this.occupiedMatrix, false);
+    }
   }
 }
 
 class bishopCalculator extends pieceDataCalculator {
   get moves() {
-    return bishopMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "s") {
+      return getSpeedster(
+        this.piece,
+        this.occupiedMatrix,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null) {
+      return bishopMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get attacks() {
-    return bishopMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return bishopMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get defended() {
-    return bishopMoves(this.piece, this.occupiedMatrix, false);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        false,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return bishopMoves(this.piece, this.occupiedMatrix, false);
+    }
   }
 }
 
 class queenCalculator extends pieceDataCalculator {
   get moves() {
-    return queenMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "s") {
+      return getSpeedster(
+        this.piece,
+        this.occupiedMatrix,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null) {
+      return queenMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get attacks() {
-    return queenMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return queenMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get defended() {
-    return queenMoves(this.piece, this.occupiedMatrix, false);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        false,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return queenMoves(this.piece, this.occupiedMatrix, false);
+    }
   }
 }
 
 class kingCalculator extends pieceDataCalculator {
   get moves() {
-    return kingMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "s") {
+      return getSpeedster(
+        this.piece,
+        this.occupiedMatrix,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null) {
+      return kingMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get attacks() {
-    return kingMoves(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return kingMoves(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get defended() {
-    return kingMoves(this.piece, this.occupiedMatrix, false);
+    if (this.piece.perk === "a") {
+      return getAssassin(
+        this.piece,
+        this.occupiedMatrix,
+        false,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return kingMoves(this.piece, this.occupiedMatrix, false);
+    }
   }
 }
 
@@ -613,11 +785,8 @@ function queenMoves(piece, occupiedMatrix, AorD) {
   //Get rook moves
   let rm = rookMoves(
     {
-      id: piece.id,
-      position: piece.position,
+      ...piece,
       type: "r",
-      moved: piece.moved,
-      side: piece.side,
     },
     occupiedMatrix,
     AorD
@@ -625,11 +794,8 @@ function queenMoves(piece, occupiedMatrix, AorD) {
   //Get bishop moves
   let bm = bishopMoves(
     {
-      id: piece.id,
-      position: piece.position,
+      ...piece,
       type: "b",
-      moved: piece.moved,
-      side: piece.side,
     },
     occupiedMatrix,
     AorD

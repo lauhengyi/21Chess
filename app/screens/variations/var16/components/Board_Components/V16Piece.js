@@ -21,7 +21,7 @@ function V16Piece(props) {
   const [styles, colors] = getStyle();
 
   const pieceText = getPieceText(piece, settings.theme);
-  const levelText = piece.level;
+  const levelText = piece.level > 2 ? "M" : piece.level;
 
   if (
     !computerTurn &&
