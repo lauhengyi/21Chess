@@ -18,9 +18,8 @@ function Var16Rules(props) {
       </RulesText>
       <RulesText settings={settings}>These perks are:</RulesText>
       <RulesText settings={settings}>
-        Speedster - Permanently be able to move twice each turn, but cannot eat
-        on the second move, only can eat on the first move. (Available to every
-        piece)
+        Speedster - Permanently be able to move twice each turn, provided the
+        second move is not a capture. (Available to every piece)
       </RulesText>
       <RulesText settings={settings}>
         Assassin - Permanently be able to move twice each turn, provided the

@@ -18,14 +18,14 @@ function WelcomeScreen({ navigation, route }) {
       <View style={styles.background}>
         {
           <MakeItRain
-            numItems={15}
-            itemDimensions={{ width: 100, height: 100 }}
+            numItems={20}
+            itemDimensions={{ width: 90, height: 90 }}
             itemComponent={<PieceConfetti settings={settings} />}
             itemTintStrength={0.0}
             fallSpeed={30}
             flipSpeed={1}
-            horizSpeed={1}
-            flavor={"rain"}
+            horizSpeed={5}
+            flavor={"arrive"}
           />
         }
         <View style={styles.titleContainer}>

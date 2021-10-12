@@ -11,7 +11,7 @@ export default function PerkButton(props) {
   return (
     <Clickable onPress={() => props.onPress(type)}>
       <View style={isClicked ? styles.clicked : styles.unClicked}>
-        <PerkIcon color={colors.black} type={type} size={24} />
+        <PerkIcon color={colors.black} type={type} size={80} />
       </View>
     </Clickable>
   );
@@ -21,10 +21,14 @@ function getStyles(settings, colorPalatte) {
   const colors = colorPalatte[settings.theme];
   const styles = StyleSheet.create({
     clicked: {
-      backgroundColor: colors.grey1,
+      height: 85,
+      width: 85,
+      backgroundColor: colors.grey2,
     },
     unClicked: {
-      backgroundColor: colors.grey2,
+      height: 85,
+      width: 85,
+      backgroundColor: colors.grey1,
     },
   });
   return [styles, colors];

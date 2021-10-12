@@ -90,7 +90,16 @@ function V16ChessMovesReducer(state, action) {
 
       //Change Side (only if no promotion)
       if (!newDetails.promotion) {
-        newDetails.currentSide = !state.currentSide;
+        if (action.move.length > 2) {
+          //Check for upgradable (only change side if no upgrade)
+          let capturingPiece = getPiece(pieceId, newDetails.boardLayout);
+          if (capturingPiece.level === 3) {
+            newDetails.upgradable = pieceId;
+          }
+        }
+        if (newDetails.upgradable === null) {
+          newDetails.currentSide = !state.currentSide;
+        }
       }
 
       return newDetails;
@@ -149,10 +158,12 @@ function V16ChessMovesReducer(state, action) {
     case "promotion": {
       //Find piece id
       let pieceIndex;
+      let promotedPiece;
       //Get index of piece on board
       for (let i = 0; i < newDetails.boardLayout.length; i++) {
         if (state.boardLayout[i].id === action.move[0]) {
           pieceIndex = i;
+          promotedPiece = state.boardLayout[i];
           break;
         }
       }
@@ -165,11 +176,34 @@ function V16ChessMovesReducer(state, action) {
       const occupiedMatrix = getOccupiedMatrix(newDetails.boardLayout);
       updateGameStatus(occupiedMatrix);
 
-      //change side
-      newDetails.currentSide = !newDetails.currentSide;
+      //Check for upgradable
+      if (promotedPiece.level === 3) {
+        newDetails.upgradable = promotedPiece.id;
+      } else {
+        //change side
+        newDetails.currentSide = !newDetails.currentSide;
+      }
 
       return newDetails;
     }
+
+    case "upgrade":
+      {
+        for (let i = 0; i < state.boardLayout.length; i++) {
+          const piece = state.boardLayout[i];
+          if (piece.id === state.upgradable) {
+            newDetails.boardLayout[i].perk = action.perk;
+            break;
+          }
+        }
+
+        //Clear upgrades
+        newDetails.upgradable = null;
+
+        newDetails.currentSide = !state.currentSide;
+      }
+
+      return newDetails;
 
     case "restart": {
       newDetails = {

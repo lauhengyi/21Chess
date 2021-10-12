@@ -4,6 +4,7 @@ import Clickable from "../../../../components/Clickable";
 import getPiece from "../../../../../mechanisms/primaryFunctions/getPiece";
 import colorPalatte from "../../../../../config/colorPalatte";
 import getPieceText from "../../../../functions/getPieceText";
+import PerkIcon from "../PerkIcon";
 
 function V16Piece(props) {
   // Passing down constants
@@ -17,7 +18,7 @@ function V16Piece(props) {
     options.mode === 0 && currentSide !== options.startingSide;
 
   //Get styles
-  const styles = getStyle();
+  const [styles, colors] = getStyle();
 
   const pieceText = getPieceText(piece, settings.theme);
   const levelText = piece.level;
@@ -39,6 +40,9 @@ function V16Piece(props) {
         <View style={styles.idContainer}>
           <Text style={styles.subText}>{levelText}</Text>
         </View>
+        <View style={styles.perk}>
+          <PerkIcon type={piece.perk} color={colors.black} size={12} />
+        </View>
       </View>
     );
   } else {
@@ -47,6 +51,9 @@ function V16Piece(props) {
         <Text style={styles.piece}>{pieceText}</Text>
         <View style={styles.idContainer}>
           <Text style={styles.subText}>{levelText}</Text>
+        </View>
+        <View style={styles.perk}>
+          <PerkIcon type={piece.perk} color={colors.black} size={12} />
         </View>
       </View>
     );
@@ -97,8 +104,14 @@ function createStyles(rotateAmount, settings, colorPalatte) {
       fontSize: 10,
       color: colors.piece,
     },
+
+    perk: {
+      position: "absolute",
+      right: -2,
+      height: 0,
+    },
   });
-  return styles;
+  return [styles, colors];
 }
 
 export default V16Piece;
