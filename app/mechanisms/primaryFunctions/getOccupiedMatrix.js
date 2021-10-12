@@ -5,6 +5,7 @@ function getOccupiedMatrix(board) {
   for (let i = 0; i < 64; i++) {
     matrix.push([false, null, null]);
   }
+
   //Turns true if occupied
   for (let piece of board) {
     if (piece.age !== undefined) {
@@ -19,9 +20,6 @@ function getOccupiedMatrix(board) {
         piece.stacked,
         piece.type,
       ];
-    } else if (piece.perk !== undefined) {
-      //For Var 16
-      matrix[piece.position] = [true, piece.side, piece.id, piece.level];
     } else {
       matrix[piece.position] = [true, piece.side, piece.id];
     }

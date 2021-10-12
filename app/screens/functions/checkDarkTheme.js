@@ -1,5 +1,5 @@
 function checkDarkTheme(theme) {
-  const darkThemes = [1];
+  const darkThemes = [1, 4];
   return darkThemes.includes(theme);
 }
 

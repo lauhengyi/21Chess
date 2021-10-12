@@ -93,7 +93,7 @@ function V16ChessMovesReducer(state, action) {
         if (action.move.length > 2) {
           //Check for upgradable (only change side if no upgrade)
           let capturingPiece = getPiece(pieceId, newDetails.boardLayout);
-          if (capturingPiece.level === 3) {
+          if (capturingPiece.level === 3 && capturingPiece.perk === null) {
             newDetails.upgradable = pieceId;
           }
         }
@@ -177,7 +177,7 @@ function V16ChessMovesReducer(state, action) {
       updateGameStatus(occupiedMatrix);
 
       //Check for upgradable
-      if (promotedPiece.level === 3) {
+      if (promotedPiece.level === 3 && promotedPiece.perk === null) {
         newDetails.upgradable = promotedPiece.id;
       } else {
         //change side
@@ -199,6 +199,9 @@ function V16ChessMovesReducer(state, action) {
 
         //Clear upgrades
         newDetails.upgradable = null;
+
+        const occupiedMatrix = getOccupiedMatrix(newDetails.boardLayout);
+        updateGameStatus(occupiedMatrix);
 
         newDetails.currentSide = !state.currentSide;
       }

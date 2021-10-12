@@ -31,11 +31,11 @@ function SettingsScreen({ navigation, route }) {
     },
     {
       id: 4,
-      name: "Material",
+      name: "Camo",
     },
     {
       id: 5,
-      name: "Neon",
+      name: "Material",
     },
   ];
   const [isCredits, setCredits] = useState(false);

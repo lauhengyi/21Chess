@@ -1,4 +1,6 @@
 import checkCollision from "../var0/functions/checkCollision";
+import getSpeedAndAssas from "./functions/getSpeedAndAssas";
+import updateDetails from "./functions/updateDetails";
 
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value
@@ -30,15 +32,80 @@ class pieceDataCalculator {
 }
 class pawnCalculator extends pieceDataCalculator {
   get moves() {
-    return pawnMoves(this.piece, this.occupiedMatrix);
+    if (this.piece.perk === "s" || this.piece.perk === "a") {
+      return getSpeedAndAssas(
+        this.piece,
+        this.occupiedMatrix,
+        true,
+        V16CreatePieceDataCalculator
+      );
+    } else if (this.piece.perk === null) {
+      return pawnMoves(this.piece, this.occupiedMatrix);
+    }
   }
 
   get attacks() {
-    return pawnAttacks(this.piece, this.occupiedMatrix, true);
+    if (this.piece.perk === "a") {
+      //Find current moves
+      const firstMoves = V16CreatePieceDataCalculator(
+        { ...this.piece, perk: null },
+        this.occupiedMatrix
+      ).moves;
+      const firstAttacks = V16CreatePieceDataCalculator(
+        { ...this.piece, perk: null },
+        this.occupiedMatrix
+      ).attacks;
+      let secondAttacks = [];
+      for (let move of firstMoves) {
+        //Modify move to occupied matrix
+        const [newPiece, newOccupiedMatrix] = updateDetails(
+          this.piece,
+          move,
+          this.occupiedMatrix
+        );
+        secondAttacks = secondAttacks.concat(
+          V16CreatePieceDataCalculator(newPiece, newOccupiedMatrix).attacks
+        );
+      }
+      //Remove duplicates
+      secondAttacks = [...new Set(secondAttacks)];
+
+      return firstAttacks.concat(secondAttacks);
+    } else if (this.piece.perk === null || this.piece.perk === "s") {
+      return pawnAttacks(this.piece, this.occupiedMatrix, true);
+    }
   }
 
   get defended() {
-    return pawnAttacks(this.piece, this.occupiedMatrix, false);
+    if (this.piece.perk === "a") {
+      //Find current moves
+      const firstMoves = V16CreatePieceDataCalculator(
+        { ...this.piece, perk: null },
+        this.occupiedMatrix
+      ).moves;
+      const firstDefended = V16CreatePieceDataCalculator(
+        { ...this.piece, perk: null },
+        this.occupiedMatrix
+      ).defended;
+      let secondDefended = [];
+      for (let move of firstMoves) {
+        //Modify move to occupied matrix
+        const [newPiece, newOccupiedMatrix] = updateDetails(
+          this.piece,
+          move,
+          this.occupiedMatrix
+        );
+        secondDefended = secondDefended.concat(
+          V16CreatePieceDataCalculator(newPiece, newOccupiedMatrix).defended
+        );
+      }
+      //Remove duplicates
+      secondDefended = [...new Set(secondDefended)];
+
+      return firstDefended.concat(secondDefended);
+    } else if (this.piece.perks === null || this.piece.perks === "s") {
+      return pawnAttacks(this.piece, this.occupiedMatrix, false);
+    }
   }
 }
 
@@ -119,6 +186,13 @@ function pawnMoves(piece, occupiedMatrix) {
     throw new Error("input piece not pawn");
   }
 
+  if (
+    (piece.side && checkTopEdge(piece.position)) ||
+    (!piece.side && checkBottomEdge(piece.position))
+  ) {
+    return [];
+  }
+
   //get attack moves
   let Amoves = pawnAttacks(piece, occupiedMatrix, true);
   //update attacks to only when there is an enemy
@@ -178,6 +252,12 @@ function pawnAttacks(piece, occupiedMatrix, AorD) {
   //check for pawn
   if (piece.type != "p") {
     throw new Error("input piece not pawn");
+  }
+  if (
+    (piece.side && checkTopEdge(piece.position)) ||
+    (!piece.side && checkBottomEdge(piece.position))
+  ) {
+    return [];
   }
   // Need to differentiate from white and black due to assymetrical movement of pawns
   let attacks = [];

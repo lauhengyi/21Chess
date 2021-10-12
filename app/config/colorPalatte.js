@@ -76,17 +76,17 @@ export default [
     lastMovedSquareWhite: "#d3a2eb",
   },
   {
-    //Material
-    white: "#f8f9fa",
-    black: "#212529",
-    primary: "#e9ecef",
-    secondary: "#dee2e6",
-    tertiary: "#ced4da",
-    grey1: "#adb5bd",
-    grey2: "#6c757d",
-    grey3: "#495057",
+    //Camo
+    white: "#181f1c",
+    black: "#fefae0",
+    primary: "#264027",
+    secondary: "#3c5233",
+    tertiary: "#6f732f",
+    grey1: "#b39c4d",
+    grey2: "#34623f",
+    grey3: "#dda15e",
 
-    piece: "#000000",
+    piece: "#eaf0ce",
 
     moveableSquareBlack: "#d19b9b",
     moveableSquareWhite: "#e3b6b6",
