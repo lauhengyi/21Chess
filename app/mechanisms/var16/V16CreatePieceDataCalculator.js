@@ -2,6 +2,7 @@ import checkCollision from "../var0/functions/checkCollision";
 import getSpeedster from "./functions/getSpeedster";
 import getAssassin from "./functions/getAssassin";
 import updateDetails from "./functions/updateDetails";
+import getPhaser from "./functions/getPhaser";
 
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value
@@ -131,6 +132,8 @@ class rookCalculator extends pieceDataCalculator {
         true,
         V16CreatePieceDataCalculator
       );
+    } else if (this.piece.perk === "p") {
+      return getPhaser(this.piece, this.occupiedMatrix).moves;
     } else if (this.piece.perk === null) {
       return rookMoves(this.piece, this.occupiedMatrix, true);
     }
@@ -144,6 +147,8 @@ class rookCalculator extends pieceDataCalculator {
         true,
         V16CreatePieceDataCalculator
       );
+    } else if (this.piece.perk === "p") {
+      return getPhaser(this.piece, this.occupiedMatrix).attacks;
     } else if (this.piece.perk === null || this.piece.perk === "s") {
       return rookMoves(this.piece, this.occupiedMatrix, true);
     }
@@ -157,6 +162,8 @@ class rookCalculator extends pieceDataCalculator {
         false,
         V16CreatePieceDataCalculator
       );
+    } else if (this.piece.perk === "p") {
+      return getPhaser(this.piece, this.occupiedMatrix).defended;
     } else if (this.piece.perk === null || this.piece.perk === "s") {
       return rookMoves(this.piece, this.occupiedMatrix, false);
     }
@@ -218,6 +225,8 @@ class bishopCalculator extends pieceDataCalculator {
         this.occupiedMatrix,
         V16CreatePieceDataCalculator
       );
+    } else if (this.piece.perk === "p") {
+      return getPhaser(this.piece, this.occupiedMatrix).moves;
     } else if (this.piece.perk === "a") {
       return getAssassin(
         this.piece,
@@ -238,6 +247,8 @@ class bishopCalculator extends pieceDataCalculator {
         true,
         V16CreatePieceDataCalculator
       );
+    } else if (this.piece.perk === "p") {
+      return getPhaser(this.piece, this.occupiedMatrix).attacks;
     } else if (this.piece.perk === null || this.piece.perk === "s") {
       return bishopMoves(this.piece, this.occupiedMatrix, true);
     }
@@ -251,6 +262,8 @@ class bishopCalculator extends pieceDataCalculator {
         false,
         V16CreatePieceDataCalculator
       );
+    } else if (this.piece.perk === "p") {
+      return getPhaser(this.piece, this.occupiedMatrix).defended;
     } else if (this.piece.perk === null || this.piece.perk === "s") {
       return bishopMoves(this.piece, this.occupiedMatrix, false);
     }
@@ -272,6 +285,8 @@ class queenCalculator extends pieceDataCalculator {
         true,
         V16CreatePieceDataCalculator
       );
+    } else if (this.piece.perk === "p") {
+      return getPhaser(this.piece, this.occupiedMatrix).moves;
     } else if (this.piece.perk === null) {
       return queenMoves(this.piece, this.occupiedMatrix, true);
     }
@@ -285,6 +300,8 @@ class queenCalculator extends pieceDataCalculator {
         true,
         V16CreatePieceDataCalculator
       );
+    } else if (this.piece.perk === "p") {
+      return getPhaser(this.piece, this.occupiedMatrix).attacks;
     } else if (this.piece.perk === null || this.piece.perk === "s") {
       return queenMoves(this.piece, this.occupiedMatrix, true);
     }
@@ -298,6 +315,8 @@ class queenCalculator extends pieceDataCalculator {
         false,
         V16CreatePieceDataCalculator
       );
+    } else if (this.piece.perk === "p") {
+      return getPhaser(this.piece, this.occupiedMatrix).defended;
     } else if (this.piece.perk === null || this.piece.perk === "s") {
       return queenMoves(this.piece, this.occupiedMatrix, false);
     }
