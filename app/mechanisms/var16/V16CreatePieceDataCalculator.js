@@ -48,7 +48,7 @@ class pawnCalculator extends pieceDataCalculator {
         true,
         V16CreatePieceDataCalculator
       );
-    } else if (this.piece.perk === null) {
+    } else if (this.piece.perk === null || this.piece.perk === "c") {
       return pawnMoves(this.piece, this.occupiedMatrix);
     }
   }
@@ -80,7 +80,11 @@ class pawnCalculator extends pieceDataCalculator {
       secondAttacks = [...new Set(secondAttacks)];
 
       return firstAttacks.concat(secondAttacks);
-    } else if (this.piece.perk === null || this.piece.perk === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return pawnAttacks(this.piece, this.occupiedMatrix, true);
     }
   }
@@ -112,7 +116,11 @@ class pawnCalculator extends pieceDataCalculator {
       secondDefended = [...new Set(secondDefended)];
 
       return firstDefended.concat(secondDefended);
-    } else if (this.piece.perks === null || this.piece.perks === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return pawnAttacks(this.piece, this.occupiedMatrix, false);
     }
   }
@@ -137,7 +145,7 @@ class rookCalculator extends pieceDataCalculator {
       return getPhaser(this.piece, this.occupiedMatrix).moves;
     } else if (this.piece.perk === "d") {
       return getDecapitator(this.piece, this.occupiedMatrix).moves;
-    } else if (this.piece.perk === null) {
+    } else if (this.piece.perk === null || this.piece.perk === "c") {
       return rookMoves(this.piece, this.occupiedMatrix, true);
     }
   }
@@ -154,7 +162,11 @@ class rookCalculator extends pieceDataCalculator {
       return getPhaser(this.piece, this.occupiedMatrix).attacks;
     } else if (this.piece.perk === "d") {
       return getDecapitator(this.piece, this.occupiedMatrix).attacks;
-    } else if (this.piece.perk === null || this.piece.perk === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return rookMoves(this.piece, this.occupiedMatrix, true);
     }
   }
@@ -171,7 +183,11 @@ class rookCalculator extends pieceDataCalculator {
       return getPhaser(this.piece, this.occupiedMatrix).defended;
     } else if (this.piece.perk === "d") {
       return getDecapitator(this.piece, this.occupiedMatrix).defended;
-    } else if (this.piece.perk === null || this.piece.perk === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return rookMoves(this.piece, this.occupiedMatrix, false);
     }
   }
@@ -205,7 +221,11 @@ class knightCalculator extends pieceDataCalculator {
         true,
         V16CreatePieceDataCalculator
       );
-    } else if (this.piece.perk === null || this.piece.perk === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return knightMoves(this.piece, this.occupiedMatrix, true);
     }
   }
@@ -218,7 +238,11 @@ class knightCalculator extends pieceDataCalculator {
         false,
         V16CreatePieceDataCalculator
       );
-    } else if (this.piece.perk === null || this.piece.perk === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return knightMoves(this.piece, this.occupiedMatrix, false);
     }
   }
@@ -243,7 +267,7 @@ class bishopCalculator extends pieceDataCalculator {
       return getPhaser(this.piece, this.occupiedMatrix).moves;
     } else if (this.piece.perk === "d") {
       return getDecapitator(this.piece, this.occupiedMatrix).moves;
-    } else if (this.piece.perk === null) {
+    } else if (this.piece.perk === null || this.piece.perk === "c") {
       return bishopMoves(this.piece, this.occupiedMatrix, true);
     }
   }
@@ -260,7 +284,11 @@ class bishopCalculator extends pieceDataCalculator {
       return getPhaser(this.piece, this.occupiedMatrix).attacks;
     } else if (this.piece.perk === "d") {
       return getDecapitator(this.piece, this.occupiedMatrix).attacks;
-    } else if (this.piece.perk === null || this.piece.perk === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return bishopMoves(this.piece, this.occupiedMatrix, true);
     }
   }
@@ -277,7 +305,11 @@ class bishopCalculator extends pieceDataCalculator {
       return getPhaser(this.piece, this.occupiedMatrix).defended;
     } else if (this.piece.perk === "d") {
       return getDecapitator(this.piece, this.occupiedMatrix).defended;
-    } else if (this.piece.perk === null || this.piece.perk === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return bishopMoves(this.piece, this.occupiedMatrix, false);
     }
   }
@@ -302,7 +334,7 @@ class queenCalculator extends pieceDataCalculator {
       return getPhaser(this.piece, this.occupiedMatrix).moves;
     } else if (this.piece.perk === "d") {
       return getDecapitator(this.piece, this.occupiedMatrix).moves;
-    } else if (this.piece.perk === null) {
+    } else if (this.piece.perk === null || this.piece.perk === "c") {
       return queenMoves(this.piece, this.occupiedMatrix, true);
     }
   }
@@ -319,7 +351,11 @@ class queenCalculator extends pieceDataCalculator {
       return getPhaser(this.piece, this.occupiedMatrix).attacks;
     } else if (this.piece.perk === "d") {
       return getDecapitator(this.piece, this.occupiedMatrix).attacks;
-    } else if (this.piece.perk === null || this.piece.perk === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return queenMoves(this.piece, this.occupiedMatrix, true);
     }
   }
@@ -336,7 +372,11 @@ class queenCalculator extends pieceDataCalculator {
       return getPhaser(this.piece, this.occupiedMatrix).defended;
     } else if (this.piece.perk === "d") {
       return getDecapitator(this.piece, this.occupiedMatrix).attacks;
-    } else if (this.piece.perk === null || this.piece.perk === "s") {
+    } else if (
+      this.piece.perk === null ||
+      this.piece.perk === "s" ||
+      this.piece.perk === "c"
+    ) {
       return queenMoves(this.piece, this.occupiedMatrix, false);
     }
   }
