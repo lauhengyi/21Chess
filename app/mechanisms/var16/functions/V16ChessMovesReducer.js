@@ -58,12 +58,14 @@ function V16ChessMovesReducer(state, action) {
         state.boardLayout,
         action.castling
       );
+      const movedPiece = getPiece(pieceId, newDetails.boardLayout);
 
       //Add eaten pieces
       if (action.move.length > 2) {
-        let side = getPiece(action.move[0], state.boardLayout).side;
-        let piece = getPiece(action.move[2], state.boardLayout);
-        newDetails.eatenPieces.push([side, piece]);
+        for (let i = 2; i < action.move.length; i++) {
+          const piece = getPiece(action.move[i], state.boardLayout);
+          newDetails.eatenPieces.push([side, piece]);
+        }
       }
 
       //Add to previous board to identify loss by repetition(store a max of 6 and only for boards when its white's turn)
@@ -82,7 +84,7 @@ function V16ChessMovesReducer(state, action) {
 
       //Check promotion
       //Promotion = [pieceId, piecePosition]
-      if (getPiece(pieceId, newDetails.boardLayout).type === "p") {
+      if (movedPiece.type === "p") {
         if ((side === true && moved > 55) || (side === false && moved < 8)) {
           newDetails.promotion = pieceId;
         }
@@ -92,8 +94,7 @@ function V16ChessMovesReducer(state, action) {
       if (!newDetails.promotion) {
         if (action.move.length > 2) {
           //Check for upgradable (only change side if no upgrade)
-          let capturingPiece = getPiece(pieceId, newDetails.boardLayout);
-          if (capturingPiece.level === 3 && capturingPiece.perk === null) {
+          if (movedPiece.level === 3 && movedPiece.perk === null) {
             newDetails.upgradable = pieceId;
           }
         }
