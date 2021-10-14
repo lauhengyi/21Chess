@@ -104,7 +104,7 @@ export default [
 
   {
     title: "Var. 17",
-    header: "Minewweeper Chess",
+    header: "Minesweeper Chess",
     caption: "You gotta watch you step.",
   },
 

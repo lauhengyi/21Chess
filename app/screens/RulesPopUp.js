@@ -54,7 +54,9 @@ function RulesPopUp(props) {
             <View style={styles.rules}>
               <Rules varNum={varNum} settings={props.settings} />
             </View>
-            <Text style={styles.endText}>~END~</Text>
+            <Clickable onPress={() => setVisible(false)}>
+              <Text style={styles.endText}>~END~</Text>
+            </Clickable>
           </ScrollView>
         </View>
       </View>
@@ -153,7 +155,7 @@ function getStyles(settings, colorPalatte) {
 
     endText: {
       fontFamily: "ELMB",
-      fontSize: 15,
+      fontSize: 25,
       color: colors.black,
     },
   });

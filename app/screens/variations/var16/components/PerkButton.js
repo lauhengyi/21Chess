@@ -23,11 +23,15 @@ function getStyles(settings, colorPalatte) {
     clicked: {
       height: 85,
       width: 85,
+      justifyContent: "center",
+      alignItems: "center",
       backgroundColor: colors.grey2,
     },
     unClicked: {
       height: 85,
       width: 85,
+      justifyContent: "center",
+      alignItems: "center",
       backgroundColor: colors.grey1,
     },
   });

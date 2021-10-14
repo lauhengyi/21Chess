@@ -10,6 +10,8 @@ function V16MovePiece(move, board) {
     if (board[i].id === id) {
       if (board[i].perk !== "c" && board[i].perk !== "d") {
         return defaultMove(move, i, board);
+      } else if (board[i].perk === "d") {
+        return decapitatorMove(move, i, board);
       }
     }
   }
@@ -24,6 +26,25 @@ function defaultMove(move, index, board) {
   if (move.length > 2) {
     newBoard[index].level += 1;
     newBoard = newBoard.filter((piece) => piece.id != move[2]);
+  }
+  return newBoard;
+}
+
+function decapitatorMove(move, index, board) {
+  let newBoard = clone(board);
+  let newMove = clone(move);
+  newBoard[index].position = move[1];
+  newBoard[index].moved = true;
+
+  // Can eat
+  if (move.length > 2) {
+    //Reset centre
+    newBoard[index].perk = null;
+    newBoard[index].level = 0;
+
+    //Remove pieces
+    const eatenList = newMove.splice(2, move.length - 2);
+    newBoard = newBoard.filter((piece) => !eatenList.includes(piece.id));
   }
   return newBoard;
 }

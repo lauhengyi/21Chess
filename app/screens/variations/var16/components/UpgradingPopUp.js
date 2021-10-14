@@ -112,13 +112,13 @@ function getPerkText(perk) {
     case "d": {
       return [
         "Decapitator(One-time)",
-        "On it's next move, it will be able to move through, and capture any of the opponent’s pieces in its line of motion.",
+        "On it's next capture move, it will be able to move through, and capture any of the opponent’s pieces in its line of motion. This perk will be removed after a capture move is made. ",
       ];
     }
     case "c": {
       return [
         "Cloner(One-Time)",
-        "On it's next move, it will cause a copy of the piece to be where the original piece would have been, thus having two of the same pieces. ",
+        "On it's next move, it will cause a copy of the piece to be where the original piece would have been, thus having two of the same pieces. This perk will be removed afterwards.",
       ];
     }
     default: {

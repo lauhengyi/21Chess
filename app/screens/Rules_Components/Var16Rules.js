@@ -23,7 +23,9 @@ function Var16Rules(props) {
       </RulesText>
       <RulesText settings={settings}>
         Assassin - Permanently be able to move twice each turn, provided the
-        second move is a capture. (Available to every piece)
+        second move is a capture and the first move isn't. Each turn by the
+        assassin can only capture a maximum of one piece. (Available to every
+        piece)
       </RulesText>
       <RulesText settings={settings}>
         Phaser - Permanently be able to move through pieces, like a knight.
@@ -32,12 +34,14 @@ function Var16Rules(props) {
       <RulesText settings={settings}>
         Decapitator(One-time) - On it's next move, it will be able to move
         through, and capture any of the opponent’s pieces in its line of motion.
-        (Available to Rooks, Bishops and Queens)
+        This perk will be removed after a capture move is made. (Available to
+        Rooks, Bishops and Queens)
       </RulesText>
       <RulesText settings={settings}>
         Cloner(One-time) - On it's next move, it will cause a copy of the piece
         to be where the original piece would have been, thus having two of the
-        same pieces. (Available to Pawns, Rooks, Bishops, Knights and Queens);
+        same pieces. This perk will be removed afterwards. (Available to Pawns,
+        Rooks, Bishops, Knights and Queens);
       </RulesText>
       <RulesText settings={settings}>
         For permanent perks, the pieces will reach level max, and will not be
