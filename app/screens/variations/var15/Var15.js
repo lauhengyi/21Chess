@@ -1,6 +1,6 @@
 import React from "react";
 import V15Board from "./components/V15Board";
-import V15UseComputer from "../../../mechanisms/var15/V15UseComputer";
+import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import var15Layout from "./components/var15Layout";
 import V15GameUI from "./components/V15GameUI";
@@ -24,7 +24,7 @@ function Var15({ route, navigation }) {
 
   //Activate computer
   if (options.mode === 0) {
-    V15UseComputer(
+    useComputer(
       gameDetails,
       chessActions,
       getChessMoves,

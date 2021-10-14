@@ -1,7 +1,8 @@
-import V15GetBestMove from "./V15GetBestMove";
+import getBestMove from "./getBestMove";
 import { useEffect, useRef } from "react";
+import "react-native-console-time-polyfill";
 
-function V15UseComputer(
+function useComputer(
   gameDetails,
   chessActions,
   getChessMoves,
@@ -11,19 +12,13 @@ function V15UseComputer(
   const timer = useRef();
   useEffect(() => {
     if (gameDetails.currentSide === !options.startingSide && !checkEnd()) {
-      const bestMove = V15GetBestMove(
+      const bestMove = getBestMove(
         gameDetails,
         getChessMoves,
         chessMovesReducer,
         options.diff
       );
       timer.current = setTimeout(() => {
-        if (bestMove[3]) {
-          chessActions({
-            type: "purchase",
-            order: bestMove[0],
-          });
-        }
         chessActions({
           type: "makeTurn",
           move: bestMove[0],
@@ -48,4 +43,4 @@ function V15UseComputer(
   }
 }
 
-export default V15UseComputer;
+export default useComputer;
