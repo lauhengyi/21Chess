@@ -11,7 +11,7 @@ function V16UseComputer(
   const timer = useRef();
   useEffect(() => {
     if (gameDetails.currentSide === !options.startingSide && !checkEnd()) {
-      const bestMove = getBestMove(
+      const bestMove = V16GetBestMove(
         gameDetails,
         getChessMoves,
         chessMovesReducer,
@@ -28,6 +28,13 @@ function V16UseComputer(
           chessActions({
             type: "promotion",
             move: [bestMove[0][0], "q"],
+          });
+        }
+
+        if (bestMove[3]) {
+          chessActions({
+            type: "upgrade",
+            perk: bestMove[4],
           });
         }
       }, 200);

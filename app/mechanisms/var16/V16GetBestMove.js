@@ -1,4 +1,3 @@
-import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 import evaluateBoardV2 from "../var0/evalutateBoardV2.js";
 import evaluateBoardV1 from "../var0/evalutateBoardV1.js";
@@ -22,6 +21,9 @@ function V16GetBestMove(
   let bestMove = [-1, -1];
   let castling = false;
   let promotion = false;
+  let upgradable = false;
+  const perkList = ["s", "a", "p", "d", "c"];
+  const perk = perkList[Math.floor(Math.random() * 5)];
   for (let piece of board) {
     if (piece.side === currentDetails.currentSide) {
       let moves = getChessMoves(
@@ -48,6 +50,16 @@ function V16GetBestMove(
             });
             promoted = true;
           }
+          //Check upgrading
+          let upgraded = false;
+          if (newDetails.upgradable) {
+            //Randomize perk getting
+            newDetails = chessMovesReducer(newDetails, {
+              type: "order",
+              perk: perk,
+            });
+            upgraded = true;
+          }
           const evaluation = getBestEvaluation(
             newDetails,
             bestEvaluation,
@@ -67,6 +79,7 @@ function V16GetBestMove(
             bestMove = move;
             castling = false;
             promotion = promoted;
+            upgradable = upgraded;
           }
         }
       }
@@ -102,7 +115,7 @@ function V16GetBestMove(
     }
   }
 
-  return [bestMove, castling, promotion];
+  return [bestMove, castling, promotion, upgradable, perk];
 }
 
 function getBestEvaluation(
@@ -147,6 +160,16 @@ function getBestEvaluation(
             newDetails = chessMovesReducer(newDetails, {
               type: "promotion",
               move: [newDetails.promotion, "q"],
+            });
+          }
+          //Check upgrading
+          if (newDetails.upgradable) {
+            //Randomize perk getting
+            const perkList = ["s", "a", "p", "d", "c"];
+            const perk = perkList[Math.floor(Math.random() * 5)];
+            newDetails = chessMovesReducer(newDetails, {
+              type: "order",
+              perk: perk,
             });
           }
           const evaluation = getBestEvaluation(
