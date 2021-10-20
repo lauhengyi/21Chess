@@ -1,9 +1,10 @@
 import React from "react";
 import colorPalatte from "../../../../../config/colorPalatte";
-import { View } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Clickable from "../../../../components/Clickable";
 import V17Piece from "./V17Piece";
 import checkDarkTheme from "../../../../functions/checkDarkTheme";
+import getSquareNumber from "../../../../../mechanisms/var17/functions/getSquareNumber";
 
 function V17Square(props) {
   const settings = props.settings;
@@ -21,14 +22,21 @@ function V17Square(props) {
     castling,
   ] = checkSquare(props.gameDetails, props.position);
 
-  const color = getColor(
+  const isCleared = props.gameDetails.mineMatrix[props.position][1];
+  const squareNum = getSquareNumber(
+    props.position,
+    props.gameDetails.mineMatrix
+  );
+
+  const colors = getColors(
     settings,
     colorPalatte,
     props.colorId,
+    isCleared,
     isLastMoveOnSquare
   );
 
-  const styles = getStyle(color, isMoveableOnSquare, isClicked);
+  const styles = getStyles(colors, isMoveableOnSquare, isClicked);
 
   function PieceWithProps() {
     return (
@@ -39,6 +47,7 @@ function V17Square(props) {
         onAction={(moves) => props.onAction(moves)}
         boardOrientation={props.boardOrientation}
         isMoveableOnSquare={isMoveableOnSquare}
+        squareNum={squareNum}
         settings={settings}
       />
     );
@@ -55,39 +64,65 @@ function V17Square(props) {
           });
         }}
       >
-        <View style={styles}>
-          {isPieceOnSquare ? <PieceWithProps /> : null}
+        <View style={styles.square}>
+          {isPieceOnSquare ? (
+            <PieceWithProps />
+          ) : (
+            <Text style={styles.squareNum}>{squareNum}</Text>
+          )}
         </View>
       </Clickable>
     );
   } else {
     return (
-      <View style={styles}>{isPieceOnSquare ? <PieceWithProps /> : null}</View>
+      <View style={styles.square}>
+        {isPieceOnSquare ? (
+          <PieceWithProps />
+        ) : (
+          <Text style={styles.squareNum}>{squareNum}</Text>
+        )}
+      </View>
     );
   }
 }
 
-function getStyle(color, isMoveableOnSquare, isClicked) {
+function getStyles(colors, isMoveableOnSquare, isClicked) {
   //Determines the border length of a square
   const clickedIndicator = isClicked ? 2 : 0;
 
   const squareLength = 46;
   //Get square color (Switch square color around if theme is dark)
-  const squareColor = isMoveableOnSquare ? color[1] : color[0];
+  const squareColor = isMoveableOnSquare
+    ? colors.squareColor[1]
+    : colors.squareColor[0];
 
-  const style = {
-    height: squareLength,
-    width: squareLength,
-    backgroundColor: squareColor,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: clickedIndicator,
-    borderColor: color[1],
-  };
+  const style = StyleSheet.create({
+    square: {
+      height: squareLength,
+      width: squareLength,
+      backgroundColor: squareColor,
+      alignItems: "center",
+      justifyContent: "center",
+      borderWidth: clickedIndicator,
+      borderColor: colors.squareColor[1],
+    },
+
+    squareNum: {
+      fontFamily: "ELM",
+      fontSize: 30,
+      color: colors.colors.black,
+    },
+  });
   return style;
 }
 
-function getColor(settings, colorPalatte, colorId, isLastMoveOnSquare) {
+function getColors(
+  settings,
+  colorPalatte,
+  colorId,
+  isCleared,
+  isLastMoveOnSquare
+) {
   const colors = colorPalatte[settings.theme];
   const isDark = checkDarkTheme(settings.theme);
   const colorType = (function () {
@@ -104,12 +139,22 @@ function getColor(settings, colorPalatte, colorId, isLastMoveOnSquare) {
         ? [colors.lastMovedSquareBlack, colors.moveableSquareBlack]
         : [colors.lastMovedSquareWhite, colors.moveableSquareWhite];
   } else {
-    color =
-      colorType === "black"
-        ? [colors.grey1, colors.moveableSquareBlack]
-        : [colors.secondary, colors.moveableSquareWhite];
+    if (isCleared) {
+      color =
+        colorType === "black"
+          ? [colors.grey1, colors.moveableSquareBlack]
+          : [colors.secondary, colors.moveableSquareWhite];
+    } else {
+      color =
+        colorType === "black"
+          ? [colors.grey3, colors.moveableSquareBlack]
+          : [colors.grey2, colors.moveableSquareWhite];
+    }
   }
-  return color;
+  return {
+    squareColor: color,
+    colors: colors,
+  };
 }
 
 //returns [isClicked, whether piece on square, piece ID, whether moveable on square, moveableMove, whether moveable is a castle move]

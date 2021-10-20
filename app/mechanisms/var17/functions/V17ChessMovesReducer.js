@@ -5,6 +5,7 @@ import getChessMoves from "../../var0/getChessMoves.js";
 import clone from "just-clone";
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
+import makeMineMatrix from "./makeMineMatrix.js";
 import updateMineMatrix from "./updateMineMatrix.js";
 
 function V17ChessMovesReducer(state, action) {

@@ -1,4 +1,4 @@
-export default function getEmptyAdjacentPos(position, mineMatrix) {
+export default function getOccupiedAdjacentPos(position, mineMatrix) {
   //list possible positions
   let u = position + 8;
   let d = position - 8;
@@ -40,9 +40,7 @@ export default function getEmptyAdjacentPos(position, mineMatrix) {
     positions.push(r);
   }
 
-  return positions.filter(
-    (position) => !mineMatrix[position][0] && !mineMatrix[position][1]
-  );
+  return positions.filter((position) => mineMatrix[position][0]);
 }
 
 function checkTopEdge(position) {

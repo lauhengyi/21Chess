@@ -1,4 +1,4 @@
-import getEmptyAdjacentPos from "./getEmptyAdjacentPos";
+import getOccupiedAdjacentPos from "./getOccupiedAdjacentPos";
 
 //Return null if not suppose to have number or if its a mine
 export default function getSquareNumber(position, mineMatrix) {
@@ -7,6 +7,6 @@ export default function getSquareNumber(position, mineMatrix) {
     return null;
   }
 
-  const positions = getEmptyAdjacentPos(position, mineMatrix);
-  return 8 - positions.length;
+  const positions = getOccupiedAdjacentPos(position, mineMatrix);
+  return positions.length;
 }

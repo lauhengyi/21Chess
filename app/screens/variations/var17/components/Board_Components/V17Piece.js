@@ -20,7 +20,7 @@ function V17Piece(props) {
   const styles = getStyle();
 
   const pieceText = getPieceText(piece, settings.theme);
-  const subText = null;
+  const subText = props.squareNum;
 
   if (
     !computerTurn &&
