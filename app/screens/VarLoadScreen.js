@@ -18,6 +18,7 @@ import Var13 from "./variations/var13/Var13";
 import Var14 from "./variations/var14/Var14";
 import Var15 from "./variations/var15/Var15";
 import Var16 from "./variations/var16/Var16";
+import Var17 from "./variations/var17/Var17";
 import { createStackNavigator } from "@react-navigation/stack";
 import SettingsContext from "./functions/SettingsContext";
 import colorPalatte from "../config/colorPalatte";
@@ -45,6 +46,7 @@ function VarLoadScreen({ route }) {
     Var14,
     Var15,
     Var16,
+    Var17,
   ];
   const backgroundColor = colorPalatte[settings.theme].white;
   return (
