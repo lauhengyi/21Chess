@@ -1,12 +1,12 @@
 import React from "react";
 import V17Board from "./components/V17Board";
-import useComputer from "../../../mechanisms/var0/useComputer";
+import V17UseComputer from "../../../mechanisms/var17/V17UseComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import var0Layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
 import V17UseChessMove from "../../../mechanisms/var17/V17UseChessMove";
 import V17ChessMovesReducer from "../../../mechanisms/var17/functions/V17ChessMovesReducer";
-import V11GetChessMoves from "../../../mechanisms/var11/V11GetChessMoves";
+import getChessMoves from "../../../mechanisms/var0/getChessMoves";
 
 function Var17({ route, navigation }) {
   //Bring up the constants
@@ -24,10 +24,10 @@ function Var17({ route, navigation }) {
 
   //Activate computer
   if (options.mode === 0) {
-    useComputer(
+    V17UseComputer(
       gameDetails,
       chessActions,
-      V11GetChessMoves,
+      getChessMoves,
       V17ChessMovesReducer,
       options
     );

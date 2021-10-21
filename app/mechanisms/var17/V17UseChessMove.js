@@ -1,5 +1,4 @@
 import { useReducer } from "react";
-import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix";
 import makeMineMatrix from "./functions/makeMineMatrix";
 
 function V17UseChessMove(boardLayout, chessMovesReducer, saved) {

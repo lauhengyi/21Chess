@@ -9,9 +9,9 @@ function Var17Rules(props) {
         Its like playing minesweeper, except... in chess.
       </RulesText>
       <RulesText settings={settings}>
-        When you start a game, the board is a minefield with 5 mines, and only
-        the squares where the pieces are on at that moment are cleared and have
-        no mines.
+        When you start a game, the board is a minefield with 7-10 mines, and
+        only the squares where the pieces are on at that moment are cleared and
+        have no mines.
       </RulesText>
       <RulesText settings={settings}>
         The squares adajacent to the cleared squares will have a number
@@ -24,7 +24,7 @@ function Var17Rules(props) {
         piece will be forfeited, but the square will now no longer have a mine.
       </RulesText>
       <RulesText settings={settings}>
-        After every ten moves, the minefield on the board will reset with 5
+        After every ten moves, the minefield on the board will reset with 7-10
         mines at random positions on the board, leaving only the squares where
         the pieces are on at the moment cleared, just like at the start of the
         game.

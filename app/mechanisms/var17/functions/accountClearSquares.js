@@ -3,10 +3,13 @@ import getOccupiedAdjacentPos from "./getOccupiedAdjacentPos";
 
 export default function accountClearSquares(mineMatrix, position) {
   const positions = getEmptyAdjacentPos(position, mineMatrix);
+  const isBlank = getOccupiedAdjacentPos(position, mineMatrix).length === 0;
   //Account changes for every one of those positions
   for (const adjacentPos of positions) {
     //Clear all adajcent positions
-    mineMatrix[adjacentPos][1] = true;
+    if (isBlank) {
+      mineMatrix[adjacentPos][1] = true;
+    }
     const emptyPositions = getEmptyAdjacentPos(adjacentPos, mineMatrix);
     //If position have no surrounding mines
     if (getOccupiedAdjacentPos(adjacentPos, mineMatrix).length === 0) {
