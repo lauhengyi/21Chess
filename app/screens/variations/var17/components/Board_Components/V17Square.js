@@ -23,10 +23,9 @@ function V17Square(props) {
   ] = checkSquare(props.gameDetails, props.position);
 
   const isCleared = props.gameDetails.mineMatrix[props.position][1];
-  const squareNum = getSquareNumber(
-    props.position,
-    props.gameDetails.mineMatrix
-  );
+  let squareNum = getSquareNumber(props.position, props.gameDetails.mineMatrix);
+  //Make squareNum not show when its 0
+  squareNum = squareNum === 0 ? null : squareNum;
 
   const colors = getColors(
     settings,

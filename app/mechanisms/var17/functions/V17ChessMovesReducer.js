@@ -95,6 +95,14 @@ function V17ChessMovesReducer(state, action) {
         }
       } catch (e) {}
 
+      //Add count
+      newDetails.count += 1;
+      //Refresh board if count is 10
+      if (newDetails.count === 10) {
+        newDetails.mineMatrix = makeMineMatrix(newDetails.boardLayout);
+        newDetails.count = 0;
+      }
+
       //Change Side (only if no promotion)
       if (!newDetails.promotion) {
         newDetails.currentSide = !state.currentSide;
@@ -193,6 +201,7 @@ function V17ChessMovesReducer(state, action) {
         repetition: false,
         promotion: null,
         mineMatrix: makeMineMatrix(action.boardLayout),
+        count: 0,
       };
       return newDetails;
     }

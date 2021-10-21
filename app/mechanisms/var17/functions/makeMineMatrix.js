@@ -4,7 +4,7 @@ import accountClearSquares from "./accountClearSquares";
 //Makes an array of 64 with a tuple of [whether bomb on board, whether cleared]
 export default function makeMineMatrix(boardLayout) {
   const occupiedMatrix = getOccupiedMatrix(boardLayout);
-  const numMines = 8;
+  const numMines = 7;
   //Initialise minePositions and matrix
   let minePositions = [];
   let matrix = [];

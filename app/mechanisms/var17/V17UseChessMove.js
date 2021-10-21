@@ -21,6 +21,7 @@ function V17UseChessMove(boardLayout, chessMovesReducer, saved) {
       repetition: false,
       promotion: null,
       mineMatrix: makeMineMatrix(boardLayout),
+      count: 0,
     };
   }
   return useReducer(chessMovesReducer, initialDetails);
