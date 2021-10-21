@@ -20,7 +20,7 @@ function V17UseChessMove(boardLayout, chessMovesReducer, saved) {
       checkmated: 0,
       repetition: false,
       promotion: null,
-      mineMatrix: makeMineMatrix(getOccupiedMatrix(boardLayout)),
+      mineMatrix: makeMineMatrix(boardLayout),
     };
   }
   return useReducer(chessMovesReducer, initialDetails);

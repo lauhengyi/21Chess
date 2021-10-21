@@ -1,22 +1,19 @@
 import getEmptyAdjacentPos from "./getEmptyAdjacentPos";
 import getOccupiedAdjacentPos from "./getOccupiedAdjacentPos";
 
-export default function accountClearSquares(newDetails, position) {
-  const positions = getEmptyAdjacentPos(position, newDetails.mineMatrix);
+export default function accountClearSquares(mineMatrix, position) {
+  const positions = getEmptyAdjacentPos(position, mineMatrix);
   //Account changes for every one of those positions
   for (const adjacentPos of positions) {
-    const emptyPositions = getEmptyAdjacentPos(
-      adjacentPos,
-      newDetails.mineMatrix
-    );
+    //Clear all adajcent positions
+    mineMatrix[adjacentPos][1] = true;
+    const emptyPositions = getEmptyAdjacentPos(adjacentPos, mineMatrix);
     //If position have no surrounding mines
-    if (
-      getOccupiedAdjacentPos(adjacentPos, newDetails.mineMatrix).length === 0
-    ) {
+    if (getOccupiedAdjacentPos(adjacentPos, mineMatrix).length === 0) {
       //Clear position
-      newDetails.mineMatrix[adjacentPos][1] = true;
+      mineMatrix[adjacentPos][1] = true;
       for (const emptyPosition of emptyPositions) {
-        accountClearSquares(newDetails, emptyPosition);
+        accountClearSquares(mineMatrix, emptyPosition);
       }
     }
   }

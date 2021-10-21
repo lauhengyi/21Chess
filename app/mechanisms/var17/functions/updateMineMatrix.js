@@ -6,7 +6,7 @@ export default function updateMineMatrix(newDetails, move) {
   newDetails.mineMatrix[move[1]][1] = true;
 
   //If surrounding squares are clear, then clear them as well
-  accountClearSquares(newDetails, move[1]);
+  accountClearSquares(newDetails.mineMatrix, move[1]);
 
   accountExplosion(newDetails, move);
 }

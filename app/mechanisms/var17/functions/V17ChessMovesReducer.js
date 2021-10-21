@@ -87,11 +87,13 @@ function V17ChessMovesReducer(state, action) {
 
       //Check promotion
       //Promotion = [pieceId, piecePosition]
-      if (getPiece(pieceId, newDetails.boardLayout).type === "p") {
-        if ((side === true && moved > 55) || (side === false && moved < 8)) {
-          newDetails.promotion = pieceId;
+      try {
+        if (getPiece(pieceId, newDetails.boardLayout).type === "p") {
+          if ((side === true && moved > 55) || (side === false && moved < 8)) {
+            newDetails.promotion = pieceId;
+          }
         }
-      }
+      } catch (e) {}
 
       //Change Side (only if no promotion)
       if (!newDetails.promotion) {
@@ -190,7 +192,7 @@ function V17ChessMovesReducer(state, action) {
         checkmated: 0,
         repetition: false,
         promotion: null,
-        mineMatrix: makeMineMatrix(getOccupiedMatrix(boardLayout)),
+        mineMatrix: makeMineMatrix(action.boardLayout),
       };
       return newDetails;
     }
