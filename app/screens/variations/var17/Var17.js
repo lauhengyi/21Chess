@@ -7,6 +7,7 @@ import GameUI from "../var0/components/GameUI";
 import V17UseChessMove from "../../../mechanisms/var17/V17UseChessMove";
 import V17ChessMovesReducer from "../../../mechanisms/var17/functions/V17ChessMovesReducer";
 import getChessMoves from "../../../mechanisms/var0/getChessMoves";
+import getSafeMatrix from "../../../mechanisms/var17/functions/getSafeMatrix";
 
 function Var17({ route, navigation }) {
   //Bring up the constants

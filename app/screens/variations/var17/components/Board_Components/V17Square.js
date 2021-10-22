@@ -35,7 +35,14 @@ function V17Square(props) {
     isLastMoveOnSquare
   );
 
-  const styles = getStyles(colors, isMoveableOnSquare, isClicked);
+  const styles = getStyles(
+    colors,
+    isMoveableOnSquare,
+    isClicked,
+    props.options,
+    props.boardOrientation,
+    props.gameDetails.currentSide
+  );
 
   function PieceWithProps() {
     return (
@@ -85,7 +92,14 @@ function V17Square(props) {
   }
 }
 
-function getStyles(colors, isMoveableOnSquare, isClicked) {
+function getStyles(
+  colors,
+  isMoveableOnSquare,
+  isClicked,
+  options,
+  currentOrientation,
+  currentSide
+) {
   //Determines the border length of a square
   const clickedIndicator = isClicked ? 2 : 0;
 
@@ -95,6 +109,20 @@ function getStyles(colors, isMoveableOnSquare, isClicked) {
     ? colors.squareColor[1]
     : colors.squareColor[0];
 
+  //Check squareNum orientation
+  let rotateAmount = "0deg";
+  if (currentOrientation && options.isFlipped) {
+    //starting white
+    if (currentSide === false) {
+      rotateAmount = "180deg";
+    }
+  }
+  if (currentOrientation === false) {
+    rotateAmount = "180deg";
+    if (currentSide === true) {
+      rotateAmount = "0deg";
+    }
+  }
   const style = StyleSheet.create({
     square: {
       height: squareLength,
@@ -107,6 +135,7 @@ function getStyles(colors, isMoveableOnSquare, isClicked) {
     },
 
     squareNum: {
+      transform: [{ rotate: rotateAmount }],
       fontFamily: "ELM",
       fontSize: 30,
       color: colors.colors.black,

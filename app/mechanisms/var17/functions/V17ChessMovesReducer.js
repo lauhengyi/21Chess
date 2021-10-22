@@ -62,7 +62,7 @@ function V17ChessMovesReducer(state, action) {
       );
 
       //Account mine
-      updateMineMatrix(newDetails, action.move);
+      updateMineMatrix(newDetails, action.move, action.castling);
 
       //Add eaten pieces
       if (action.move.length > 2) {
