@@ -245,6 +245,9 @@ function getStyles(settings, colorPalatte) {
     toggleOptionsContainer: {
       flexDirection: "row",
       justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 6,
+      marginTop: -6,
     },
 
     beginContainer: {
