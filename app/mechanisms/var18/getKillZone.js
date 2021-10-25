@@ -1,4 +1,6 @@
 import getCountDown from "./functions/getCountDown";
+import getTopCluster from "./functions/getTopCluster";
+import getBottomCluster from "./functions/getBottomCluster";
 
 export default function getKillZone() {
   let matrix = (function () {
@@ -9,17 +11,30 @@ export default function getKillZone() {
     return temp;
   })();
   let positions = [];
-  //Seed pos is the top starting square from the right of the grid
+  //Seed pos is the top left hand corner of a 2x2 starting seed grid
   const seedPos = Math.floor(Math.random() * 64);
-  //Get top cluster
-  positions = positions.concat(getTopCluster(seedPos));
-  //Get bottom cluster
+  console.log({ seedPos });
+  //Get top left cluster
+  positions = positions.concat(getTopCluster(seedPos, -1, checkLeftEdge));
+  //Get top right
+  if (!checkRightEdge(seedPos)) {
+    positions = positions.concat(getTopCluster(seedPos + 1, 1, checkRightEdge));
+  }
+  //Get bottom left cluster
   if (!checkBottomEdge(seedPos)) {
-    positions = positions.concat(getBottomCluster(seedPos - 8));
+    positions = positions.concat(
+      getBottomCluster(seedPos - 8, -1, checkLeftEdge)
+    );
+  }
+  //Get bottom right
+  if (!checkBottomEdge(seedPos) && !checkRightEdge(seedPos)) {
+    positions = positions.concat(
+      getBottomCluster(seedPos - 7, 1, checkRightEdge)
+    );
   }
 
   for (const position of positions) {
-    matrix[position] = false;
+    matrix[position] = true;
   }
   return {
     countDown: getCountDown(),
@@ -29,4 +44,12 @@ export default function getKillZone() {
 
 function checkBottomEdge(position) {
   return position < 8;
+}
+
+function checkLeftEdge(position) {
+  return (position + 8) % 8 === 0;
+}
+
+function checkRightEdge(position) {
+  return (position + 9) % 8 === 0;
 }

@@ -1,25 +1,24 @@
 import getClusterSize from "./getClusterSize";
+import getYAxis from "./getYAxis";
 
-export default function getTopCluster(seedPos) {
+export default function getTopCluster(seedPos, increment, edgeDetection) {
   const clusterSize = getClusterSize();
   let currentPos = seedPos;
   let positions = [];
+  if (clusterSize === 0) {
+    return positions;
+  }
   for (let i = 0; i < clusterSize; i++) {
-    if (checkLeftEdge(currentPos)) {
+    positions = positions.concat(getYAxis(currentPos, 8, checkTopEdge));
+    if (edgeDetection(currentPos)) {
       return positions;
     } else {
-      positions = positions.concat(getYAxis(currentPos, 8, checkTopEdge));
-      currentPos += 1;
+      currentPos += increment;
     }
   }
-
   return positions;
 }
 
 function checkTopEdge(position) {
   return position > 55;
-}
-
-function checkLeftEdge(position) {
-  return (position + 8) % 8 === 0;
 }

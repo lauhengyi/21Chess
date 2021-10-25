@@ -5,10 +5,10 @@ export default function getYAxis(seedPos, increment, edgeDetection) {
   let currentPos = seedPos;
   let positions = [];
   for (let i = 0; i < length; i++) {
+    positions.push(currentPos);
     if (edgeDetection(currentPos)) {
       return positions;
     } else {
-      positions.push(currentPos);
       currentPos += increment;
     }
   }

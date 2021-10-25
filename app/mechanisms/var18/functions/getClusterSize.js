@@ -1,4 +1,6 @@
 export default function getClusterSize() {
   const range = 4;
-  return Math.floor(Math.random() * range);
+  const size = Math.floor(Math.random() * range);
+  console.log({ size });
+  return size;
 }

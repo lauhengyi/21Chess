@@ -6,7 +6,7 @@ import clone from "just-clone";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
 import getKillZone from "../getKillZone.js";
 
-function chessMovesReducer(state, action) {
+function V18ChessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = clone(state);
 
@@ -285,4 +285,4 @@ function chessMovesReducer(state, action) {
   }
 }
 
-export default chessMovesReducer;
+export default V18ChessMovesReducer;

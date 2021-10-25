@@ -1,15 +1,19 @@
 import getClusterSize from "./getClusterSize";
+import getYAxis from "./getYAxis";
 
-export default function getBottomCluster(seedPos) {
+export default function getBottomCluster(seedPos, increment, edgeDetection) {
   const clusterSize = getClusterSize();
   let currentPos = seedPos;
   let positions = [];
+  if (clusterSize === 0) {
+    return positions;
+  }
   for (let i = 0; i < clusterSize; i++) {
-    if (checkLeftEdge(currentPos)) {
+    positions = positions.concat(getYAxis(currentPos, -8, checkBottomEdge));
+    if (edgeDetection(currentPos)) {
       return positions;
     } else {
-      positions = positions.concat(getYAxis(currentPos, -8, checkBottomEdge));
-      currentPos += 1;
+      currentPos += increment;
     }
   }
 
