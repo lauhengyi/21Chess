@@ -1,13 +1,13 @@
 import React from "react";
 import colorPalatte from "../../../../../config/colorPalatte";
-import { View, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import Clickable from "../../../../components/Clickable";
 import Piece from "../../../var0/components/Board_Components/Piece";
 import checkDarkTheme from "../../../../functions/checkDarkTheme";
 import updateZoneBorder from "../../functions/updateZoneBorder";
 
 function V18Square(props) {
-  const settings = props.settings;
+  const { settings, boardOrientation, gameDetails, options } = props;
   function onAction(action) {
     props.onAction(action);
   }
@@ -29,11 +29,37 @@ function V18Square(props) {
     isLastMoveOnSquare
   );
 
-  let styles = getStyles(squareColors, isMoveableOnSquare, isClicked);
+  let rotateAmount = "0deg";
+  if (boardOrientation && options.isFlipped) {
+    //starting white
+    if (gameDetails.currentSide === false) {
+      rotateAmount = "180deg";
+    }
+  }
+  if (boardOrientation === false) {
+    rotateAmount = "180deg";
+    if (gameDetails.currentSide === true) {
+      rotateAmount = "0deg";
+    }
+  }
+
+  let styles = getStyles(
+    squareColors,
+    colors,
+    rotateAmount,
+    isMoveableOnSquare,
+    isClicked
+  );
 
   const killZone = props.gameDetails.killZone;
-  if (killZone.matrix[props.position]) {
-    updateZoneBorder(styles.square, "red", props.position, killZone.matrix);
+  const isKillZone = killZone.matrix[props.position];
+  if (isKillZone) {
+    updateZoneBorder(
+      styles.square,
+      colors.accent,
+      props.position,
+      killZone.matrix
+    );
   }
 
   function PieceWithProps() {
@@ -63,6 +89,9 @@ function V18Square(props) {
       >
         <View style={styles.square}>
           {isPieceOnSquare ? <PieceWithProps /> : null}
+          {!isPieceOnSquare && isKillZone && (
+            <Text style={styles.countDown}>{killZone.countDown}</Text>
+          )}
         </View>
       </Clickable>
     );
@@ -70,12 +99,21 @@ function V18Square(props) {
     return (
       <View style={styles.square}>
         {isPieceOnSquare ? <PieceWithProps /> : null}
+        {!isPieceOnSquare && isKillZone && (
+          <Text style={styles.countDown}>{killZone.countDown}</Text>
+        )}
       </View>
     );
   }
 }
 
-function getStyles(squareColors, isMoveableOnSquare, isClicked) {
+function getStyles(
+  squareColors,
+  colors,
+  rotateAmount,
+  isMoveableOnSquare,
+  isClicked
+) {
   //Determines the border length of a square
   const clickedIndicator = isClicked ? 2 : 0;
 
@@ -91,7 +129,17 @@ function getStyles(squareColors, isMoveableOnSquare, isClicked) {
       alignItems: "center",
       justifyContent: "center",
       borderWidth: clickedIndicator,
-      borderColor: squareColors[1],
+      borderLeftColor: squareColors[1],
+      borderRightColor: squareColors[1],
+      borderTopColor: squareColors[1],
+      borderBottomColor: squareColors[1],
+    },
+
+    countDown: {
+      transform: [{ rotate: rotateAmount }],
+      fontFamily: "ELM",
+      fontSize: 30,
+      color: colors.accent,
     },
   };
   return styles;

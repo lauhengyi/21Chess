@@ -13,7 +13,6 @@ export default function getKillZone() {
   let positions = [];
   //Seed pos is the top left hand corner of a 2x2 starting seed grid
   const seedPos = Math.floor(Math.random() * 64);
-  console.log({ seedPos });
   //Get top left cluster
   positions = positions.concat(getTopCluster(seedPos, -1, checkLeftEdge));
   //Get top right

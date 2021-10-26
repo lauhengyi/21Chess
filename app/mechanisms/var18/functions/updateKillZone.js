@@ -2,7 +2,7 @@ import getKillZone from "../getKillZone";
 
 export default function updateKillZone(newDetails) {
   newDetails.killZone.countDown -= 1;
-  if (killZone.countDown === 0) {
+  if (newDetails.killZone.countDown === 0) {
     //Remove every piece in the killzone
     let killedPieces = [];
     for (const piece of newDetails.boardLayout) {

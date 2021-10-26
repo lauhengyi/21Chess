@@ -5,6 +5,7 @@ import getChessMoves from "../../var0/getChessMoves.js";
 import clone from "just-clone";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
 import getKillZone from "../getKillZone.js";
+import updateKillZone from "./updateKillZone.js";
 
 function V18ChessMovesReducer(state, action) {
   //Making deep copy
@@ -74,6 +75,8 @@ function V18ChessMovesReducer(state, action) {
 
       //Removed clickedSquare
       newDetails.clickedSquare = null;
+
+      updateKillZone(newDetails);
 
       //update status
       //Initialised occupiedMatrix
@@ -202,74 +205,67 @@ function V18ChessMovesReducer(state, action) {
       }
 
       function updateChecks(occupiedMatrix) {
-        if (state.currentSide) {
-          if (checkCheck(newDetails.boardLayout, occupiedMatrix, false)) {
-            newDetails.checked = 2;
-          } else {
-            newDetails.checked = 0;
-          }
+        if (checkCheck(newDetails.boardLayout, occupiedMatrix, false)) {
+          newDetails.checked = 2;
         } else {
-          if (checkCheck(newDetails.boardLayout, occupiedMatrix, true)) {
-            newDetails.checked = 1;
-          } else {
-            newDetails.checked = 0;
-          }
+          newDetails.checked = 0;
+        }
+        if (checkCheck(newDetails.boardLayout, occupiedMatrix, true)) {
+          newDetails.checked = 1;
+        } else {
+          newDetails.checked = 0;
         }
       }
 
       function updateStalemates(occupiedMatrix) {
         //Check stalemate for white
         //Check for valid moves of all pieces
-        if (newDetails.currentSide === false) {
-          let whiteStalemated = true;
-          for (const piece of newDetails.boardLayout) {
-            //Check for piece to be on white's side
-            if (piece.side === true) {
-              if (
-                getChessMoves(
-                  piece,
-                  newDetails.boardLayout,
-                  occupiedMatrix,
-                  newDetails.lastMoved,
-                  "moves"
-                )[0].length
-              ) {
-                whiteStalemated = false;
-                break;
-              }
+        let whiteStalemated = true;
+        for (const piece of newDetails.boardLayout) {
+          //Check for piece to be on white's side
+          if (piece.side === true) {
+            if (
+              getChessMoves(
+                piece,
+                newDetails.boardLayout,
+                occupiedMatrix,
+                newDetails.lastMoved,
+                "moves"
+              )[0].length
+            ) {
+              whiteStalemated = false;
+              break;
             }
           }
-          newDetails.stalemated = 0;
-          if (whiteStalemated) {
-            newDetails.stalemated = 1;
-          }
+        }
+        newDetails.stalemated = 0;
+        if (whiteStalemated) {
+          newDetails.stalemated = 1;
         }
 
         //Check stalemate for black
         //Check for valid moves of all pieces
-        else {
-          let blackStalemated = true;
-          for (const piece of newDetails.boardLayout) {
-            //Check for piece to be on white's side
-            if (piece.side === false) {
-              if (
-                getChessMoves(
-                  piece,
-                  newDetails.boardLayout,
-                  occupiedMatrix,
-                  newDetails.lastMoved,
-                  "moves"
-                )[0].length
-              ) {
-                blackStalemated = false;
-                break;
-              }
+        let blackStalemated = true;
+        for (const piece of newDetails.boardLayout) {
+          //Check for piece to be on white's side
+          if (piece.side === false) {
+            if (
+              getChessMoves(
+                piece,
+                newDetails.boardLayout,
+                occupiedMatrix,
+                newDetails.lastMoved,
+                "moves"
+              )[0].length
+            ) {
+              blackStalemated = false;
+              break;
             }
           }
           newDetails.stalemated = 0;
-          if (blackStalemated) {
-            newDetails.stalemated = 2;
-          }
+        }
+        if (blackStalemated) {
+          newDetails.stalemated = 2;
         }
       }
 

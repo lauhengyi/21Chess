@@ -17,6 +17,8 @@ export default [
 
     lastMovedSquareBlack: "#c7c587",
     lastMovedSquareWhite: "#e6e2b3",
+
+    accent: "#ff0000",
   },
   {
     //Dark
