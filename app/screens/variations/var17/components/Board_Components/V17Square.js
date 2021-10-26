@@ -119,7 +119,7 @@ function getStyles(
   }
   if (currentOrientation === false) {
     rotateAmount = "180deg";
-    if (currentSide === true) {
+    if (currentSide === true && options.isFlipped) {
       rotateAmount = "0deg";
     }
   }

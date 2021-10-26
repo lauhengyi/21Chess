@@ -207,10 +207,7 @@ function V18ChessMovesReducer(state, action) {
       function updateChecks(occupiedMatrix) {
         if (checkCheck(newDetails.boardLayout, occupiedMatrix, false)) {
           newDetails.checked = 2;
-        } else {
-          newDetails.checked = 0;
-        }
-        if (checkCheck(newDetails.boardLayout, occupiedMatrix, true)) {
+        } else if (checkCheck(newDetails.boardLayout, occupiedMatrix, true)) {
           newDetails.checked = 1;
         } else {
           newDetails.checked = 0;
@@ -238,7 +235,6 @@ function V18ChessMovesReducer(state, action) {
             }
           }
         }
-        newDetails.stalemated = 0;
         if (whiteStalemated) {
           newDetails.stalemated = 1;
         }
@@ -262,10 +258,12 @@ function V18ChessMovesReducer(state, action) {
               break;
             }
           }
-          newDetails.stalemated = 0;
         }
         if (blackStalemated) {
           newDetails.stalemated = 2;
+        }
+        if (!whiteStalemated && !blackStalemated) {
+          newDetails.stalemated = 0;
         }
       }
 

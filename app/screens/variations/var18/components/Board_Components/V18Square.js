@@ -38,7 +38,7 @@ function V18Square(props) {
   }
   if (boardOrientation === false) {
     rotateAmount = "180deg";
-    if (gameDetails.currentSide === true) {
+    if (gameDetails.currentSide === true && options.isFlipped) {
       rotateAmount = "0deg";
     }
   }
