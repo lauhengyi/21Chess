@@ -116,8 +116,8 @@ export default [
 
   {
     title: "Var. 19",
-    header: "Portal Chess",
-    caption: "Close the gap between space and time.",
+    header: "Blood Chess",
+    caption: "Push on!",
   },
 
   {
@@ -128,7 +128,7 @@ export default [
 
   {
     title: "Var. 21",
-    header: "Chess Drums",
-    caption: "Ba Dum Tss!",
+    header: "Portal Chess",
+    caption: "Close the gap between space and time.",
   },
 ];
