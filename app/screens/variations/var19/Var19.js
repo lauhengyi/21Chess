@@ -1,12 +1,12 @@
 import React from "react";
-import Board from "../var0/components/Board";
+import V19Board from "./components/V19Board";
 import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
 import useChessMove from "../../../mechanisms/var0/useChessMove";
-import V4ChessMovesReducer from "../../../mechanisms/var4/V4ChessMovesReducer";
-import V4GetChessMoves from "../../../mechanisms/var4/V4GetChessMoves";
+import V19ChessMovesReducer from "../../../mechanisms/var19/function/V19ChessMovesReducer";
+import V19GetChessMoves from "../../../mechanisms/var19/V19GetChessMoves";
 
 function Var19({ route, navigation }) {
   //Bring up the constants
@@ -15,7 +15,7 @@ function Var19({ route, navigation }) {
   //Initialise game
   const [gameDetails, chessActions] = useChessMove(
     layout,
-    V4ChessMovesReducer,
+    V19ChessMovesReducer,
     saved
   );
 
@@ -27,8 +27,8 @@ function Var19({ route, navigation }) {
     useComputer(
       gameDetails,
       chessActions,
-      V4GetChessMoves,
-      V4ChessMovesReducer,
+      V19GetChessMoves,
+      V19ChessMovesReducer,
       options
     );
   }
@@ -45,7 +45,7 @@ function Var19({ route, navigation }) {
       options={options}
       settings={settings}
     >
-      <Board
+      <V19Board
         gameDetails={gameDetails}
         options={options}
         onAction={chessActions}

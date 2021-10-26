@@ -1,12 +1,11 @@
-import executeMove from "./executeMove.js";
-import checkCheck from "./checkCheck.js";
+import executeMove from "../../var0/functions/executeMove.js";
+import checkCheck from "../../var0/functions/checkCheck.js";
 import getPiece from "../../primaryFunctions/getPiece.js";
-import getChessMoves from "../getChessMoves.js";
+import getChessMoves from "../V19GetChessMoves.js";
 import clone from "just-clone";
-import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
 
-function chessMovesReducer(state, action) {
+function V19ChessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = clone(state);
 
@@ -284,4 +283,4 @@ function chessMovesReducer(state, action) {
   }
 }
 
-export default chessMovesReducer;
+export default V19ChessMovesReducer;

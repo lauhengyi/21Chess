@@ -24,11 +24,14 @@ function getStyles(settings, colorPalatte, health) {
   const colors = colorPalatte[settings.theme];
   return StyleSheet.create({
     container: {
-      width: 20,
+      width: 40,
       height: 5,
       borderColor: colors.black,
       borderWidth: 1,
       position: "absolute",
+      bottom: 1,
+      left: 1,
+      right: 0,
     },
 
     health: {

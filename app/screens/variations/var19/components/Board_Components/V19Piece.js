@@ -78,6 +78,7 @@ function createStyles(rotateAmount, settings, colorPalatte) {
       fontFamily: "Meri",
       fontSize: 38,
       color: colors.piece,
+      marginBottom: 3,
     },
   });
   return styles;

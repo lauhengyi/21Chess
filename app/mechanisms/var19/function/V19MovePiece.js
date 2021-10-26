@@ -2,7 +2,7 @@ import clone from "just-clone";
 
 // returns a board with the move made:
 // move = [eaterId, position, eatenId]
-function movePiece(move, board) {
+function V19MovePiece(move, board) {
   // Create version of board with theoretically moved piece
   // Copy new board
   let newBoard = clone(board);
@@ -22,4 +22,4 @@ function movePiece(move, board) {
   return newBoard;
 }
 
-export default movePiece;
+export default V19MovePiece;
