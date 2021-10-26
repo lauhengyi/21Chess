@@ -117,6 +117,14 @@ function V18EvaluateBoardV1(gameDetails, getChessMoves) {
     let pieceValue = baseValue;
     // Determine how many times attacked by enemy
     let attackedIndex = attacked[piece.position];
+
+    //Increase attack index if in attacked zone
+    const { countDown, matrix } = gameDetails.killZone;
+    if (matrix[piece.position]) {
+      let panicIndex = 4 - Math.floor(countDown / 2);
+      panicIndex = panicIndex > 0 ? panicIndex : 0;
+      attackedIndex += panicIndex;
+    }
     // Pass base value by attacked matrix
     pieceValue *= attackedMatrix[attackedIndex];
 

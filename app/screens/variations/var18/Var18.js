@@ -1,6 +1,6 @@
 import React from "react";
 import V18Board from "./components/V18Board";
-import useComputer from "../../../mechanisms/var0/useComputer";
+import V18UseComputer from "../../../mechanisms/var18/V18UseComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
@@ -24,7 +24,7 @@ function Var18({ route, navigation }) {
 
   //Activate computer
   if (options.mode === 0) {
-    useComputer(
+    V18UseComputer(
       gameDetails,
       chessActions,
       getChessMoves,

@@ -1,6 +1,5 @@
 import V18GetBestMove from "./V18GetBestMove";
 import { useEffect, useRef } from "react";
-import "react-native-console-time-polyfill";
 
 function V18UseComputer(
   gameDetails,

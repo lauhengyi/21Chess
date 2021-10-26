@@ -7,7 +7,6 @@ import GameUI from "../var0/components/GameUI";
 import useChessMove from "../../../mechanisms/var0/useChessMove";
 import V14ChessMovesReducer from "../../../mechanisms/var14/V14ChessMovesReducer";
 import V14GetChessMoves from "../../../mechanisms/var14/V14GetChessMoves";
-import V14EvaluateBoardV2 from "../../../mechanisms/var14/V14EvaluateBoardV2";
 
 function Var14({ route, navigation }) {
   //Bring up the constants

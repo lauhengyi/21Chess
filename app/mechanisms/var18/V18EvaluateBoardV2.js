@@ -20,7 +20,9 @@ function V18EvaluateBoardV2(gameDetails, getChessMoves) {
   //Additional points on piece base value based on how many pieces defends it
   const defendedMatrix = [0, 40, 60, 70, 75, 77.5, 80, 82, 81];
   //Multiplier on piece base value based on how many pieces attacks it
-  const attackedMatrix = [1, 0.909, 0.87, 0.847, 0.833, 0.826, 0.813, 0.8];
+  const attackedMatrix = [
+    1, 0.909, 0.87, 0.847, 0.833, 0.826, 0.813, 0.8, 0.7, 0.6, 0.5, 0.4,
+  ];
 
   const board = gameDetails.boardLayout;
 
@@ -130,6 +132,14 @@ function V18EvaluateBoardV2(gameDetails, getChessMoves) {
     //Piece will most likely be eaten if attacked and unprotected
     if (attackedIndex && !defendedIndex) {
       return 0;
+    }
+
+    //Increase attack index if in attacked zone
+    const { countDown, matrix } = gameDetails.killZone;
+    if (matrix[piece.position]) {
+      let panicIndex = 4 - Math.floor(countDown / 2);
+      panicIndex = panicIndex > 0 ? panicIndex : 0;
+      attackedIndex += panicIndex;
     }
 
     // Determine base value
