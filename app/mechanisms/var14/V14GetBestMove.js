@@ -1,6 +1,6 @@
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
-import V14EvaluateBoardV2 from "./V14EvalutateBoardV2.js";
-import V14EvaluateBoardV1 from "./V14EvalutateBoardV1.js";
+import V14EvaluateBoardV2 from "./V14EvaluateBoardV2.js";
+import V14EvaluateBoardV1 from "./V14EvaluateBoardV1.js";
 
 function V14GetBestMove(
   gameDetails,

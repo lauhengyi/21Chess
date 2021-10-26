@@ -1,6 +1,6 @@
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
-import evaluateBoardV1 from "../var0/evalutateBoardV1.js";
-import evaluateBoardV2 from "../var0/evalutateBoardV2.js";
+import evaluateBoardV1 from "../var0/evaluatateBoardV1.js";
+import evaluateBoardV2 from "../var0/evaluatateBoardV2.js";
 import getAffordableOrders from "./functions/getAffordableOrders.js";
 
 function V15GetBestMove(

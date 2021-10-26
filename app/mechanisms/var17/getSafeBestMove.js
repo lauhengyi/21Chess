@@ -1,7 +1,7 @@
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
-import evaluateBoardV1 from "../var0/evalutateBoardV1.js";
-import evaluateBoardV2 from "../var0/evalutateBoardV2.js";
+import evaluateBoardV1 from "../var0/evaluatateBoardV1.js";
+import evaluateBoardV2 from "../var0/evaluatateBoardV2.js";
 import getSafeMatrix from "./functions/getSafeMatrix.js";
 
 function getSafeBestMove(

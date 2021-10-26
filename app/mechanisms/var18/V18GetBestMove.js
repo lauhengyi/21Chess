@@ -1,10 +1,10 @@
 import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
-import evaluateBoardV2 from "./evaluatateBoardV2.js";
-import evaluateBoardV1 from "./evaluatateBoardV1.js";
+import V18EvaluateBoardV2 from "./V18EvaluateBoardV2.js";
+import V18EvaluateBoardV1 from "./V18EvaluateBoardV1.js";
 import clone from "just-clone";
 
-function getBestMove(
+function V18GetBestMove(
   gameDetails,
   getChessMoves,
   chessMovesReducer,
@@ -233,13 +233,13 @@ function getBestEvaluation(
 function getParameters(difficulty) {
   switch (difficulty) {
     case 0:
-      return [1, evaluateBoardV2];
+      return [1, V18EvaluateBoardV2];
 
     case 1:
-      return [2, evaluateBoardV1];
+      return [2, V18EvaluateBoardV1];
 
     case 2:
-      return [2, evaluateBoardV2];
+      return [2, V18EvaluateBoardV2];
   }
 }
 
@@ -259,4 +259,4 @@ function isBestEvaluation(side, evaluation, bestEvaluation) {
   return false;
 }
 
-export default getBestMove;
+export default V18GetBestMove;
