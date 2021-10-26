@@ -80,7 +80,12 @@ function checkEnPassant(piece, board, lastMoved) {
   // Add temporary pawn in board to see pawn can declare enPassant
   let newBoard = movePiece([lastMoved[0], ghostPosition], board);
   const newOccupiedMatrix = getOccupiedMatrix(newBoard);
-  const newPiece = getPiece(piece.id, newBoard);
+  let newPiece;
+  try {
+    newPiece = getPiece(piece.id, newBoard);
+  } catch (e) {
+    return [];
+  }
   let moves = normalMoves(newPiece, newBoard, newOccupiedMatrix);
   // Check whether pawn can attacked the double moved piece
   for (let move of moves) {

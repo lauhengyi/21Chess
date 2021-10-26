@@ -2,6 +2,7 @@ import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 import evaluateBoardV2 from "./evalutateBoardV2.js";
 import evaluateBoardV1 from "./evalutateBoardV1.js";
+import clone from "just-clone";
 
 function getBestMove(
   gameDetails,
@@ -11,7 +12,7 @@ function getBestMove(
 ) {
   //Difficulty:
   // 0 == easy, 1 == medium, 2 == hard
-  const currentDetails = gameDetails;
+  const currentDetails = clone(gameDetails);
   const board = currentDetails.boardLayout;
   const occupiedMatrix = getOccupiedMatrix(board);
 
@@ -114,7 +115,7 @@ function getBestEvaluation(
   depth
 ) {
   let ended = true;
-  const currentDetails = gameDetails;
+  const currentDetails = clone(gameDetails);
   const board = currentDetails.boardLayout;
   const occupiedMatrix = getOccupiedMatrix(board);
 
