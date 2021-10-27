@@ -3,6 +3,7 @@ import checkCheck from "../../var0/functions/checkCheck.js";
 import getPiece from "../../primaryFunctions/getPiece.js";
 import V19GetChessMoves from "../V19GetChessMoves.js";
 import clone from "just-clone";
+import healPieces from "./healPieces.js";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
 
 function V19ChessMovesReducer(state, action) {
@@ -75,6 +76,8 @@ function V19ChessMovesReducer(state, action) {
 
       //Removed clickedSquare
       newDetails.clickedSquare = null;
+
+      healPieces(newDetails);
 
       //update status
       //Initialised occupiedMatrix
