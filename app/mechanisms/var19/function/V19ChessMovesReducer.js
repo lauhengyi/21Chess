@@ -1,7 +1,7 @@
-import executeMove from "../../var0/functions/executeMove.js";
+import V19ExecuteMove from "./V19ExecuteMove.js";
 import checkCheck from "../../var0/functions/checkCheck.js";
 import getPiece from "../../primaryFunctions/getPiece.js";
-import getChessMoves from "../V19GetChessMoves.js";
+import V19GetChessMoves from "../V19GetChessMoves.js";
 import clone from "just-clone";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
 
@@ -26,7 +26,7 @@ function V19ChessMovesReducer(state, action) {
       const clickedSquare = piece.position;
 
       //Get moveableSquares
-      const moves = getChessMoves(
+      const moves = V19GetChessMoves(
         piece,
         state.boardLayout,
         occupiedMatrix,
@@ -52,7 +52,7 @@ function V19ChessMovesReducer(state, action) {
       updateLastMoved();
 
       //Make move
-      newDetails.boardLayout = executeMove(
+      newDetails.boardLayout = V19ExecuteMove(
         action.move,
         state.boardLayout,
         action.castling
@@ -62,7 +62,9 @@ function V19ChessMovesReducer(state, action) {
       if (action.move.length > 2) {
         let side = getPiece(action.move[0], state.boardLayout).side;
         let piece = getPiece(action.move[2], state.boardLayout);
-        newDetails.eatenPieces.push([side, piece]);
+        if (newDetails.boardLayout.length < state.boardLayout.length) {
+          newDetails.eatenPieces.push([side, piece]);
+        }
       }
 
       //Add to previous board to identify loss by repetition(store a max of 6 and only for boards when its white's turn)
@@ -224,7 +226,7 @@ function V19ChessMovesReducer(state, action) {
             //Check for piece to be on white's side
             if (piece.side === true) {
               if (
-                getChessMoves(
+                V19GetChessMoves(
                   piece,
                   newDetails.boardLayout,
                   occupiedMatrix,
@@ -251,7 +253,7 @@ function V19ChessMovesReducer(state, action) {
             //Check for piece to be on white's side
             if (piece.side === false) {
               if (
-                getChessMoves(
+                V19GetChessMoves(
                   piece,
                   newDetails.boardLayout,
                   occupiedMatrix,

@@ -36,14 +36,18 @@ function V19Piece(props) {
         >
           <Text style={styles.piece}>{pieceText}</Text>
         </Clickable>
-        <HealthBar health={piece.health} settings={settings} />
+        {piece.type !== "k" && (
+          <HealthBar health={piece.health} settings={settings} />
+        )}
       </View>
     );
   } else {
     return (
       <View style={styles.container}>
         <Text style={styles.piece}>{pieceText}</Text>
-        <HealthBar health={piece.health} settings={settings} />
+        {piece.type !== "k" && (
+          <HealthBar health={piece.health} settings={settings} />
+        )}
       </View>
     );
   }
