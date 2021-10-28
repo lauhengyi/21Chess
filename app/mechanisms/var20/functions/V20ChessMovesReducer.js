@@ -76,8 +76,12 @@ function V20ChessMovesReducer(state, action) {
 
       //Check promotion
       //Promotion = [pieceId, piecePosition]
-      if (getPiece(pieceId, newDetails.boardLayout).type === "p") {
-        if ((side === true && moved > 55) || (side === false && moved < 8)) {
+      const movedPiece = getPiece(pieceId, newDetails.boardLayout);
+      if (movedPiece.type === "p") {
+        if (
+          (movedPiece.side === true && moved > 55) ||
+          (movedPiece.side === false && moved < 8)
+        ) {
           newDetails.promotion = pieceId;
         }
       }

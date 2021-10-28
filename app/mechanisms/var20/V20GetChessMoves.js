@@ -166,7 +166,11 @@ function checkCastling(piece, gameDetails, occupiedMatrix, validMoves) {
         const newBoard = movePiece(validMove, boardLayout);
         const newPiece = getPiece(piece.id, newBoard);
         const newOccupiedMatrix = getOccupiedMatrix(newBoard);
-        const moves = normalMoves(newPiece, newBoard, newOccupiedMatrix);
+        const moves = normalMoves(
+          newPiece,
+          { boardLayout: newBoard, currentSide: currentSide },
+          newOccupiedMatrix
+        );
         // Check whether that move is in moves
         for (let move of moves) {
           if (move[1] === piece.position - 2) {
@@ -190,7 +194,11 @@ function checkCastling(piece, gameDetails, occupiedMatrix, validMoves) {
         const newBoard = movePiece(validMove, boardLayout);
         const newPiece = getPiece(piece.id, newBoard);
         const newOccupiedMatrix = getOccupiedMatrix(newBoard);
-        const moves = normalMoves(newPiece, newBoard, newOccupiedMatrix);
+        const moves = normalMoves(
+          newPiece,
+          { boardLayout: newBoard, currentSide: currentSide },
+          newOccupiedMatrix
+        );
         // Check whether that move is in moves
         for (let move of moves) {
           if (move[1] === piece.position + 2) {

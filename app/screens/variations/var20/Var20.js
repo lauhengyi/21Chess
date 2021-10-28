@@ -1,6 +1,6 @@
 import React from "react";
 import V20Board from "./components/V20Board";
-import useComputer from "../../../mechanisms/var0/useComputer";
+import V20UseComputer from "../../../mechanisms/var20/V20UseComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
@@ -24,7 +24,7 @@ function Var20({ route, navigation }) {
 
   //Activate computer
   if (options.mode === 0) {
-    useComputer(
+    V20UseComputer(
       gameDetails,
       chessActions,
       V20GetChessMoves,
