@@ -51,17 +51,6 @@ function V21Square(props) {
     isClicked
   );
 
-  const killZone = props.gameDetails.killZone;
-  const isKillZone = killZone.matrix[props.position];
-  if (isKillZone) {
-    updateZoneBorder(
-      styles.square,
-      colors.accent,
-      props.position,
-      killZone.matrix
-    );
-  }
-
   function PieceWithProps() {
     return (
       <Piece
@@ -89,9 +78,6 @@ function V21Square(props) {
       >
         <View style={styles.square}>
           {isPieceOnSquare ? <PieceWithProps /> : null}
-          {!isPieceOnSquare && isKillZone && (
-            <Text style={styles.countDown}>{killZone.countDown}</Text>
-          )}
         </View>
       </Clickable>
     );
@@ -99,9 +85,6 @@ function V21Square(props) {
     return (
       <View style={styles.square}>
         {isPieceOnSquare ? <PieceWithProps /> : null}
-        {!isPieceOnSquare && isKillZone && (
-          <Text style={styles.countDown}>{killZone.countDown}</Text>
-        )}
       </View>
     );
   }

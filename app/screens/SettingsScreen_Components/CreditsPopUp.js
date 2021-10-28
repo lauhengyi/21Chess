@@ -45,6 +45,7 @@ function CreditsPopUp(props) {
             <CreditsMain header={"Creator"}>Lau Heng Yi</CreditsMain>
             <CreditsMain header={"Game Designer"}>Lau Heng Yi</CreditsMain>
             <CreditsMain header={"Developer"}>Lau Heng Yi</CreditsMain>
+            <CreditsMain header={"Human Resources"}>Lau Heng Yi</CreditsMain>
           </View>
           <Text style={styles.subHeader}>Special thanks to:</Text>
           <View style={styles.creditsSpecialContainer}>
@@ -63,6 +64,9 @@ function CreditsPopUp(props) {
             </CreditsSpecial>
             <CreditsSpecial header={"for providing me his phone for googling"}>
               Akshay Changaroth
+            </CreditsSpecial>
+            <CreditsSpecial header={"for contributing his bandwidth"}>
+              Eng Kai
             </CreditsSpecial>
           </View>
         </View>
