@@ -25,6 +25,11 @@ function Var15Rules(props) {
         they have enough money to do so.
       </RulesText>
       <RulesText settings={settings}>
+        There is, however, an exception to pawns: They cannot be placed on the
+        last row on the board to be immediately promoted. They have to be placed
+        at least one row before the last row of the board.
+      </RulesText>
+      <RulesText settings={settings}>
         Other than that, the standard rules of chess still applies.
       </RulesText>
     </>

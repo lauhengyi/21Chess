@@ -139,9 +139,11 @@ function pawnMoves(piece, occupiedMatrix) {
       [collided] = checkCollision(piece.position + 8, occupiedMatrix);
       if (!collided) {
         moves.push([piece.id, piece.position + 8]);
-        [collided] = checkCollision(piece.position + 16, occupiedMatrix);
-        if (!collided) {
-          moves.push([piece.id, piece.position + 16]);
+        if (!checkTopEdge2(piece.position)) {
+          [collided] = checkCollision(piece.position + 16, occupiedMatrix);
+          if (!collided) {
+            moves.push([piece.id, piece.position + 16]);
+          }
         }
       }
     } else {
@@ -150,9 +152,11 @@ function pawnMoves(piece, occupiedMatrix) {
       [collided] = checkCollision(piece.position - 8, occupiedMatrix);
       if (!collided) {
         moves.push([piece.id, piece.position - 8]);
-        [collided] = checkCollision(piece.position - 16, occupiedMatrix);
-        if (!collided) {
-          moves.push([piece.id, piece.position - 16]);
+        if (!checkBottomEdge2(piece.position)) {
+          [collided] = checkCollision(piece.position - 16, occupiedMatrix);
+          if (!collided) {
+            moves.push([piece.id, piece.position - 16]);
+          }
         }
       }
     }

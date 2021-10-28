@@ -3,7 +3,6 @@ import checkCheck from "../var0/functions/checkCheck.js";
 import getPiece from "../primaryFunctions/getPiece.js";
 import V4GetChessMoves from "./V4GetChessMoves.js";
 import clone from "just-clone";
-import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
 function V4ChessMovesReducer(state, action) {

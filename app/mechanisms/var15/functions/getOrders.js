@@ -11,7 +11,14 @@ export default function getOrders(gameDetails, type) {
     }
   })();
   const occupiedMatrix = getOccupiedMatrix(gameDetails.boardLayout);
-  const positions = getPositions(kingPos, occupiedMatrix);
+  let positions = getPositions(kingPos, occupiedMatrix);
+  if (type === "p") {
+    if (gameDetails.currentSide) {
+      positions = positions.filter((position) => position < 56);
+    } else {
+      positions = positions.filter((position) => position > 7);
+    }
+  }
   const orders = positions.map((position) => [position, type]);
   return orders;
 }
