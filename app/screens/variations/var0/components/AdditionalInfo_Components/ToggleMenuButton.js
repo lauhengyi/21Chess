@@ -28,8 +28,8 @@ function getStyles(settings, colorPalatte) {
       alignItems: "center",
       borderWidth: 3,
       borderRadius: 4,
-      height: 35,
-      width: 35,
+      height: 40,
+      width: 40,
       paddingTop: 2,
 
       borderColor: colors.black,
