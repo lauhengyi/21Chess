@@ -5,8 +5,8 @@ import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
 import useChessMove from "../../../mechanisms/var0/useChessMove";
-import V4ChessMovesReducer from "../../../mechanisms/var4/V4ChessMovesReducer";
-import V4GetChessMoves from "../../../mechanisms/var4/V4GetChessMoves";
+import V20ChessMovesReducer from "../../../mechanisms/var20/functions/V20ChessMovesReducer";
+import V20GetChessMoves from "../../../mechanisms/var20/V20GetChessMoves";
 
 function Var20({ route, navigation }) {
   //Bring up the constants
@@ -15,7 +15,7 @@ function Var20({ route, navigation }) {
   //Initialise game
   const [gameDetails, chessActions] = useChessMove(
     layout,
-    V4ChessMovesReducer,
+    V20ChessMovesReducer,
     saved
   );
 
@@ -27,8 +27,8 @@ function Var20({ route, navigation }) {
     useComputer(
       gameDetails,
       chessActions,
-      V4GetChessMoves,
-      V4ChessMovesReducer,
+      V20GetChessMoves,
+      V20ChessMovesReducer,
       options
     );
   }

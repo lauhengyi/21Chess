@@ -48,14 +48,21 @@ function CreditsPopUp(props) {
           </View>
           <Text style={styles.subHeader}>Special thanks to:</Text>
           <View style={styles.creditsSpecialContainer}>
+            <CreditsSpecial
+              header={"for giving me his phone to bug test my app"}
+            >
+              Teo Jun Hao
+            </CreditsSpecial>
             <CreditsSpecial header={"for informing me of chess rules"}>
               Ho Xu Wen
             </CreditsSpecial>
-            <CreditsSpecial header={"for providing me his phone"}>
-              Akshay Changaroth
-            </CreditsSpecial>
-            <CreditsSpecial header={"for thinking he can fly"}>
+            <CreditsSpecial
+              header={"for providing me with snacks while coding"}
+            >
               Jowen Ng
+            </CreditsSpecial>
+            <CreditsSpecial header={"for providing me his phone for googling"}>
+              Akshay Changaroth
             </CreditsSpecial>
           </View>
         </View>
@@ -135,7 +142,7 @@ function getStyles(settings, colorPalatte) {
     creditsSpecialContainer: {},
 
     specialContainer: {
-      flexDirection: "row",
+      marginVertical: 5,
     },
 
     specialName: {

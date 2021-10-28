@@ -1,12 +1,11 @@
-import executeMove from "./executeMove.js";
-import checkCheck from "./checkCheck.js";
+import executeMove from "../../var0/functions/executeMove.js";
+import checkCheck from "../../var0/functions/checkCheck";
 import getPiece from "../../primaryFunctions/getPiece.js";
-import getChessMoves from "../getChessMoves.js";
+import V20GetChessMoves from "../V20GetChessMoves.js";
 import clone from "just-clone";
-import "react-native-console-time-polyfill";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
 
-function chessMovesReducer(state, action) {
+function V20ChessMovesReducer(state, action) {
   //Making deep copy
   let newDetails = clone(state);
 
@@ -27,13 +26,7 @@ function chessMovesReducer(state, action) {
       const clickedSquare = piece.position;
 
       //Get moveableSquares
-      const moves = getChessMoves(
-        piece,
-        state.boardLayout,
-        occupiedMatrix,
-        state.lastMoved,
-        "moves"
-      );
+      const moves = V20GetChessMoves(piece, state, occupiedMatrix, "moves");
 
       if (clickedSquare === state.clickedSquare) {
         newDetails.clickedSquare = null;
@@ -77,7 +70,8 @@ function chessMovesReducer(state, action) {
 
       //update status
       //Initialised occupiedMatrix
-      const occupiedMatrix = getOccupiedMatrix(newDetails.boardLayout);
+      let occupiedMatrix;
+      occupiedMatrix = getOccupiedMatrix(newDetails.boardLayout);
       updateGameStatus(occupiedMatrix);
 
       //Check promotion
@@ -223,19 +217,12 @@ function chessMovesReducer(state, action) {
           let whiteStalemated = true;
           for (const piece of newDetails.boardLayout) {
             //Check for piece to be on white's side
-            if (piece.side === true) {
-              if (
-                getChessMoves(
-                  piece,
-                  newDetails.boardLayout,
-                  occupiedMatrix,
-                  newDetails.lastMoved,
-                  "moves"
-                )[0].length
-              ) {
-                whiteStalemated = false;
-                break;
-              }
+            if (
+              V20GetChessMoves(piece, newDetails, occupiedMatrix, "moves")[0]
+                .length
+            ) {
+              whiteStalemated = false;
+              break;
             }
           }
           newDetails.stalemated = 0;
@@ -250,19 +237,12 @@ function chessMovesReducer(state, action) {
           let blackStalemated = true;
           for (const piece of newDetails.boardLayout) {
             //Check for piece to be on white's side
-            if (piece.side === false) {
-              if (
-                getChessMoves(
-                  piece,
-                  newDetails.boardLayout,
-                  occupiedMatrix,
-                  newDetails.lastMoved,
-                  "moves"
-                )[0].length
-              ) {
-                blackStalemated = false;
-                break;
-              }
+            if (
+              V20GetChessMoves(piece, newDetails, occupiedMatrix, "moves")[0]
+                .length
+            ) {
+              blackStalemated = false;
+              break;
             }
           }
           newDetails.stalemated = 0;
@@ -284,4 +264,4 @@ function chessMovesReducer(state, action) {
   }
 }
 
-export default chessMovesReducer;
+export default V20ChessMovesReducer;

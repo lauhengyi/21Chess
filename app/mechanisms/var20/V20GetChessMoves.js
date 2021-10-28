@@ -1,15 +1,15 @@
-import checkPin from "./functions/checkPin.js";
-import checkCheck from "./functions/checkCheck.js";
+import V20CheckPin from "./functions/V20CheckPin.js";
+import checkCheck from "../var0/functions/checkCheck";
 import getPiece from "../primaryFunctions/getPiece.js";
-import movePiece from "./functions/movePiece.js";
-import checkCollision from "./functions/checkCollision.js";
-import createPieceDataCalculator from "./createPieceDataCalculator.js";
+import movePiece from "../var0/functions/movePiece.js";
+import checkCollision from "../var0/functions/checkCollision.js";
+import createPieceDataCalculator from "../var0/createPieceDataCalculator.js";
 import getOccupiedMatrix from "../primaryFunctions/getOccupiedMatrix.js";
 
-function getChessMoves(piece, board, occupiedMatrix, lastMoved, type) {
+function V20GetChessMoves(piece, gameDetails, occupiedMatrix, type) {
   switch (type) {
     case "moves":
-      return validMoves(piece, board, occupiedMatrix, lastMoved);
+      return validMoves(piece, gameDetails, occupiedMatrix);
     case "attacks":
       return validAttacks(piece, occupiedMatrix);
     case "defended":
@@ -18,24 +18,25 @@ function getChessMoves(piece, board, occupiedMatrix, lastMoved, type) {
 }
 //returns list of valid moves a piece can make with consideration of pinning
 // Last moved [id, movedFrom, moved] specialMoves: normalMoves = null, doublePawn move = 'dp', castling = 'c', enPassant = 'p'
-function validMoves(piece, board, occupiedMatrix, lastMoved) {
+function validMoves(piece, gameDetails, occupiedMatrix) {
+  const { boardLayout, lastMoved } = gameDetails;
   // Get normal moves
-  let moves = normalMoves(piece, board, occupiedMatrix);
+  let moves = normalMoves(piece, gameDetails, occupiedMatrix);
   // Check for castling
   let castlingMoves = [];
   if (piece.type === "k") {
-    castlingMoves = checkCastling(piece, board, occupiedMatrix, moves);
+    castlingMoves = checkCastling(piece, gameDetails, occupiedMatrix, moves);
   }
 
   // Check for en Passant
   // Check for piece to be pawn, last move to be pawn)
   let enPassantMove;
   if (lastMoved[0]) {
-    const pieceType = getPiece(lastMoved[0], board)?.type;
+    const pieceType = getPiece(lastMoved[0], boardLayout)?.type;
     if (piece.type === "p" && pieceType === "p") {
       // Make sure the pawn double moved
       if (Math.abs(lastMoved[1] - lastMoved[2]) === 16) {
-        enPassantMove = checkEnPassant(piece, board, lastMoved);
+        enPassantMove = checkEnPassant(piece, gameDetails);
       }
     }
   }
@@ -59,14 +60,15 @@ function validDefended(piece, occupiedMatrix) {
 }
 
 // Returns a list of normal moves checked for pins
-function normalMoves(piece, board, occupiedMatrix) {
+function normalMoves(piece, gameDetails, occupiedMatrix) {
+  const { boardLayout, currentSide } = gameDetails;
   let pieceData = createPieceDataCalculator(piece, occupiedMatrix);
   // Check whether move is pinned
   let movesUnchecked = pieceData.moves;
   // Removing move if pinned
   let moves = [];
   for (let move of movesUnchecked) {
-    if (checkPin(move, board) === false) {
+    if (V20CheckPin(move, boardLayout, currentSide) === false) {
       moves.push(move);
     }
   }
@@ -74,10 +76,11 @@ function normalMoves(piece, board, occupiedMatrix) {
 }
 
 // Check enPassant in the moves list
-function checkEnPassant(piece, board, lastMoved) {
+function checkEnPassant(piece, gameDetails) {
+  const { boardLayout, lastMoved, currentSide } = gameDetails;
   let ghostPosition = (lastMoved[1] + lastMoved[2]) / 2;
   // Add temporary pawn in board to see pawn can declare enPassant
-  let newBoard = movePiece([lastMoved[0], ghostPosition], board);
+  let newBoard = movePiece([lastMoved[0], ghostPosition], boardLayout);
   const newOccupiedMatrix = getOccupiedMatrix(newBoard);
   let newPiece;
   try {
@@ -85,12 +88,16 @@ function checkEnPassant(piece, board, lastMoved) {
   } catch (e) {
     return [];
   }
-  let moves = normalMoves(newPiece, newBoard, newOccupiedMatrix);
+  let moves = normalMoves(
+    newPiece,
+    { boardLayout: newBoard, currentSide: currentSide },
+    newOccupiedMatrix
+  );
   // Check whether pawn can attacked the double moved piece
   for (let move of moves) {
     if (move[1] === ghostPosition) {
       //checkPin
-      if (checkPin(move, board) === false) {
+      if (V20CheckPin(move, boardLayout, currentSide) === false) {
         return move;
       }
     }
@@ -98,7 +105,8 @@ function checkEnPassant(piece, board, lastMoved) {
   return null;
 }
 // Check castling in the moves list
-function checkCastling(piece, board, occupiedMatrix, validMoves) {
+function checkCastling(piece, gameDetails, occupiedMatrix, validMoves) {
+  const { boardLayout, currentSide } = gameDetails;
   let castleMoves = [];
   // make sure king and rook has not been moved
   if (piece.moved) {
@@ -107,7 +115,7 @@ function checkCastling(piece, board, occupiedMatrix, validMoves) {
 
   let castlingRookRight = [false, 0];
   let castlingRookLeft = [false, 0];
-  for (let otherPiece of board) {
+  for (let otherPiece of boardLayout) {
     if (
       otherPiece.type === "r" &&
       otherPiece.side === piece.side &&
@@ -139,7 +147,7 @@ function checkCastling(piece, board, occupiedMatrix, validMoves) {
   }
 
   //check whether in check
-  if (checkCheck(board, occupiedMatrix, piece.side)) {
+  if (checkCheck(boardLayout, occupiedMatrix, currentSide)) {
     return castleMoves;
   }
   //check whether valid moves include pieces moving left or right
@@ -155,7 +163,7 @@ function checkCastling(piece, board, occupiedMatrix, validMoves) {
         )
       ) {
         // Check whether king can move one more step to the right
-        const newBoard = movePiece(validMove, board);
+        const newBoard = movePiece(validMove, boardLayout);
         const newPiece = getPiece(piece.id, newBoard);
         const newOccupiedMatrix = getOccupiedMatrix(newBoard);
         const moves = normalMoves(newPiece, newBoard, newOccupiedMatrix);
@@ -179,7 +187,7 @@ function checkCastling(piece, board, occupiedMatrix, validMoves) {
         )
       ) {
         // Check whether king can move one more step to the right
-        const newBoard = movePiece(validMove, board);
+        const newBoard = movePiece(validMove, boardLayout);
         const newPiece = getPiece(piece.id, newBoard);
         const newOccupiedMatrix = getOccupiedMatrix(newBoard);
         const moves = normalMoves(newPiece, newBoard, newOccupiedMatrix);
@@ -197,4 +205,4 @@ function checkCastling(piece, board, occupiedMatrix, validMoves) {
   return castleMoves;
 }
 
-export default getChessMoves;
+export default V20GetChessMoves;
