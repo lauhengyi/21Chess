@@ -4,6 +4,9 @@ import getPiece from "../../primaryFunctions/getPiece.js";
 import V21GetChessMoves from "../V21GetChessMoves.js";
 import clone from "just-clone";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
+import getPortalCountDown from "./getPortalCountDown.js";
+import getPortals from "./getPortals.js";
+import emptyPortals from "./emptyPortals.js";
 
 function V21ChessMovesReducer(state, action) {
   //Making deep copy
@@ -184,6 +187,11 @@ function V21ChessMovesReducer(state, action) {
         checkmated: 0,
         repetition: false,
         promotion: null,
+        portalDetails: {
+          currentPortals: emptyPortals,
+          countDown: getPortalCountDown(),
+          nextPortals: getPortals(emptyPortals),
+        },
       };
       return newDetails;
     }

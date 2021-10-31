@@ -32,7 +32,6 @@ function Var21({ route, navigation }) {
       options
     );
   }
-  console.log(gameDetails.portalDetails);
 
   return (
     <GameUI

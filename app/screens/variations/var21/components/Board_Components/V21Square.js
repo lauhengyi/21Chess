@@ -4,9 +4,10 @@ import { View } from "react-native";
 import Clickable from "../../../../components/Clickable";
 import Piece from "../../../var0/components/Board_Components/Piece";
 import checkDarkTheme from "../../../../functions/checkDarkTheme";
+import updateAllPortalStyles from "../../functions/updateAllPortalsStyles";
 
 function V21Square(props) {
-  const { settings, boardOrientation, gameDetails, options } = props;
+  const { settings, boardOrientation, gameDetails, options, position } = props;
   function onAction(action) {
     props.onAction(action);
   }
@@ -19,7 +20,7 @@ function V21Square(props) {
     isMoveableOnSquare,
     moveableMove,
     castling,
-  ] = checkSquare(props.gameDetails, props.position);
+  ] = checkSquare(gameDetails, position);
 
   const [squareColors, colors] = getColors(
     settings,
@@ -48,6 +49,13 @@ function V21Square(props) {
     rotateAmount,
     isMoveableOnSquare,
     isClicked
+  );
+
+  updateAllPortalStyles(
+    styles.square,
+    colors,
+    position,
+    gameDetails.portalDetails
   );
 
   function PieceWithProps() {
