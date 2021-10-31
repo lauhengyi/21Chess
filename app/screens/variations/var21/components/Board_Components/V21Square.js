@@ -1,10 +1,9 @@
 import React from "react";
 import colorPalatte from "../../../../../config/colorPalatte";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import Clickable from "../../../../components/Clickable";
 import Piece from "../../../var0/components/Board_Components/Piece";
 import checkDarkTheme from "../../../../functions/checkDarkTheme";
-import updateZoneBorder from "../../functions/updatePortalStyles";
 
 function V21Square(props) {
   const { settings, boardOrientation, gameDetails, options } = props;

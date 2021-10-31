@@ -68,6 +68,9 @@ function CreditsPopUp(props) {
             <CreditsSpecial header={"for contributing his bandwidth"}>
               Eng Kai
             </CreditsSpecial>
+            <CreditsSpecial header={"for figuring out the portal mechanics"}>
+              Tan Ek Hohn
+            </CreditsSpecial>
           </View>
         </View>
       </View>

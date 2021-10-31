@@ -39,14 +39,14 @@ function getPositions(length, type, direction) {
   if (type === "y") {
     const range = length * 8;
     const seedPos = Math.floor(Math.random() * range);
-    for (let i; i < length; i++) {
+    for (let i = 0; i < length; i++) {
       positions.push(seedPos + 8 * i);
     }
   } else {
     const x = Math.floor(Math.random() * (8 - length));
     const y = Math.floor(Math.random() * 8);
     const seedPos = y * 8 + x;
-    for (let i; i < length; i++) {
+    for (let i = 0; i < length; i++) {
       positions.push(seedPos + i);
     }
   }
