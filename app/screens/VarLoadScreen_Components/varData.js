@@ -129,6 +129,6 @@ export default [
   {
     title: "Var. 21",
     header: "Portal Chess",
-    caption: "Close the gap between space and time.",
+    caption: "Close the gap between space.",
   },
 ];

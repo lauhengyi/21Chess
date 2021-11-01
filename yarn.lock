@@ -4661,7 +4661,7 @@ css-select-base-adapter@^0.1.1:
   resolved "https://registry.yarnpkg.com/css-select-base-adapter/-/css-select-base-adapter-0.1.1.tgz#3b2ff4972cc362ab88561507a95408a1432135d7"
   integrity sha512-jQVeeRG70QI08vSTwf1jHxp74JoZsr2XSgETae8/xC8ovSnL2WF87GTLO86Sbwdt2lK4Umg4HnnwMO4YF3Ce7w==
 
-css-select@^2.0.0:
+css-select@^2.0.0, css-select@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/css-select/-/css-select-2.1.0.tgz#6a34653356635934a81baca68d0255432105dbef"
   integrity sha512-Dqk7LQKpwLoH3VovzZnkzegqNSuAziQyNZUcrdDM401iY+R5NkGBXGmtO05/yaXQziALuPogeG0b7UAgjnTJTQ==
@@ -4690,7 +4690,7 @@ css-tree@1.0.0-alpha.37:
     mdn-data "2.0.4"
     source-map "^0.6.1"
 
-css-tree@^1.1.2:
+css-tree@^1.0.0-alpha.39, css-tree@^1.1.2:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/css-tree/-/css-tree-1.1.3.tgz#eb4870fb6fd7707327ec95c2ff2ab09b5e8db91d"
   integrity sha512-tRpdppF7TRazZrjJ6v3stzv93qxRcSsFmW6cX0Zm2NVKpxE1WV1HblnghVv9TreireHkqI/VDEsfolRF1p6y7Q==
@@ -7838,6 +7838,11 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+just-clone@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/just-clone/-/just-clone-3.2.1.tgz#7396be5790d33f0fa7e8a145d7983b986a8cee39"
+  integrity sha512-PFotEVrrzAnwuWTUOFquDShWrHnUnhxNrVs1VFqkNfnoH3Sn5XUlDOePYn2Vv5cN8xV2y69jf8qEoQHm7eoLnw==
+
 keychain@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/keychain/-/keychain-1.3.0.tgz#ccb8ddc64a62f34d541ac25e612186442a432410"
@@ -10619,6 +10624,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-console-time-polyfill@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-console-time-polyfill/-/react-native-console-time-polyfill-1.2.3.tgz#1039dab1bb9e2d8040f5e19de68e0da781dc9b60"
+  integrity sha512-C7CUb1c6GsCssqvjtRuqVqnGwlfEHXxXDvCUuGNbq/gpZZt+9YbZD3ODmXBDxis3tDQA0k1lbT1VMTqWQw9rDg==
+
 react-native-elements@^3.4.2:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-3.4.2.tgz#66602be9c5e0e0a2a831913adec80ff6518d1ee2"
@@ -10649,6 +10659,13 @@ react-native-iphone-x-helper@^1.3.0:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
 
+react-native-make-it-rain@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-make-it-rain/-/react-native-make-it-rain-1.1.1.tgz#f521f4c93728430b524b31598d9a944dcc1d7eed"
+  integrity sha512-h0AEwAYvqk/nsMDl4+kYS/DurXHFNmKpug7K06WC7R9Ujm8IH6SCAg7/Y5/m9SBmALLBOXgQvS4JPVMbSMEI5A==
+  dependencies:
+    react-native-reanimated "^1.8.0"
+
 react-native-pager-view@5.0.12:
   version "5.0.12"
   resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.0.12.tgz#5106735d944e7f876b006377ab6a18859bf7730c"
@@ -10660,6 +10677,13 @@ react-native-ratings@8.0.4:
   integrity sha512-Xczu5lskIIRD6BEdz9A0jDRpEck/SFxRqiglkXi0u67yAtI1/pcJC76P4MukCbT8K4BPVl+42w83YqXBoBRl7A==
   dependencies:
     lodash "^4.17.15"
+
+react-native-reanimated@^1.8.0:
+  version "1.13.3"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.13.3.tgz#fb0e1d582c8866015140f2159e147ffe6e798a3a"
+  integrity sha512-i714H24dv6ncpFO7/SZ0PfAMbvjgVbF8Ow2NPtowoZAz8osS54DmTMrkgJ9Za+uEku/s0AEaxqiXG2Xgntvv2g==
+  dependencies:
+    fbjs "^1.0.0"
 
 react-native-reanimated@~2.2.0:
   version "2.2.0"
@@ -10692,6 +10716,19 @@ react-native-size-matters@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
   integrity sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw==
+
+react-native-sound@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.11.1.tgz#e28427b3543fbf9fc6d7c96b27e79b27cd134e95"
+  integrity sha512-6cVmCSOvSjCBmIoc+9FFINpT1nW53KlvF/hIyD1uj+HI4NUOma08zI+8pGIpY9cExPmsOh+OoFX3EOODpY78yw==
+
+react-native-svg@12.1.1:
+  version "12.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"
+  integrity sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q==
+  dependencies:
+    css-select "^2.1.0"
+    css-tree "^1.0.0-alpha.39"
 
 react-native-tab-view@^3.1.1:
   version "3.1.1"

@@ -8,29 +8,29 @@ export default function updateAllPortalStyles(
     style,
     position,
     portalDetails.currentPortals[0],
-    "red",
-    "orange"
+    colors.currentPortal1,
+    colors.currentPortal2
   );
   updatePortalStyles(
     style,
     position,
     portalDetails.currentPortals[1],
-    "red",
-    "orange"
+    colors.currentPortal1,
+    colors.currentPortal2
   );
   updatePortalStyles(
     style,
     position,
     portalDetails.nextPortals[0],
-    "blue",
-    "green"
+    colors.nextPortal1,
+    colors.nextPortal2
   );
   updatePortalStyles(
     style,
     position,
     portalDetails.nextPortals[1],
-    "blue",
-    "green"
+    colors.nextPortal1,
+    colors.nextPortal2
   );
 }
 

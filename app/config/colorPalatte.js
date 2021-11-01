@@ -19,6 +19,12 @@ export default [
     lastMovedSquareWhite: "#e6e2b3",
 
     accent: "#ff0000",
+
+    currentPortal1: "#2e89ff",
+    currentPortal2: "#ffa42e",
+
+    nextPortal1: "#82b8ff",
+    nextPortal2: "#ffd094",
   },
   {
     //Dark

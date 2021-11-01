@@ -5,6 +5,7 @@ import Clickable from "../components/Clickable";
 import { useNavigation } from "@react-navigation/native";
 import varData from "./varData";
 import RulesPopUp from "../RulesPopUp";
+import imageSources from "./imageSources";
 
 function VarContainer(props) {
   const navigation = useNavigation();
@@ -27,7 +28,7 @@ function VarContainer(props) {
           <Text style={styles.varTitle}>{title}</Text>
           <Image
             style={styles.varPreview}
-            source={require("../../assets/images/previews/placeHolder.jpg")}
+            source={imageSources[settings.theme][varNum]}
           />
           <Text style={styles.varHeader}>{header}</Text>
           <Text style={styles.varCaption}>{caption}</Text>
@@ -62,10 +63,11 @@ function getStyles(settings, colorPalatte) {
     variationOuterContainer: {
       backgroundColor: colors.secondary,
       width: "90%",
-      height: 330,
+      height: 340,
       alignItems: "center",
+      borderRadius: 10,
       marginBottom: 30,
-      marginTop: 20,
+      marginTop: 30,
     },
 
     variationInnerContainer: {},
@@ -75,13 +77,15 @@ function getStyles(settings, colorPalatte) {
       fontSize: 30,
       alignSelf: "flex-start",
       color: colors.black,
-      marginTop: 5,
+      marginTop: 10,
+      marginBottom: 5,
     },
 
     varPreview: {
       height: 150,
       width: 300,
-      resizeMode: "cover",
+      borderWidth: 1,
+      borderColor: colors.grey2,
     },
 
     varHeader: {
@@ -109,6 +113,7 @@ function getStyles(settings, colorPalatte) {
 
     varButton: {
       backgroundColor: colors.tertiary,
+      borderRadius: 10,
       width: 100,
     },
 
