@@ -27,6 +27,7 @@ function VarContainer(props) {
         <View style={styles.variationInnerContainer}>
           <Text style={styles.varTitle}>{title}</Text>
           <Image
+            resizeMode={"cover"}
             style={styles.varPreview}
             source={imageSources[settings.theme][varNum]}
           />

@@ -1,10 +1,11 @@
 import React from "react";
 import colorPalatte from "../../../../../config/colorPalatte";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import Clickable from "../../../../components/Clickable";
 import Piece from "../../../var0/components/Board_Components/Piece";
 import checkDarkTheme from "../../../../functions/checkDarkTheme";
 import updateAllPortalStyles from "../../functions/updateAllPortalsStyles";
+import checkPortalNum from "../../functions/checkPortalNum";
 
 function V21Square(props) {
   const { settings, boardOrientation, gameDetails, options, position } = props;
@@ -51,12 +52,8 @@ function V21Square(props) {
     isClicked
   );
 
-  updateAllPortalStyles(
-    styles.square,
-    colors,
-    position,
-    gameDetails.portalDetails
-  );
+  const portalDetails = gameDetails.portalDetails;
+  updateAllPortalStyles(styles.square, colors, position, portalDetails);
 
   function PieceWithProps() {
     return (
@@ -85,6 +82,9 @@ function V21Square(props) {
       >
         <View style={styles.square}>
           {isPieceOnSquare ? <PieceWithProps /> : null}
+          {checkPortalNum(position, portalDetails) && (
+            <Text style={styles.countDown}>{portalDetails.countDown} </Text>
+          )}
         </View>
       </Clickable>
     );
@@ -92,6 +92,9 @@ function V21Square(props) {
     return (
       <View style={styles.square}>
         {isPieceOnSquare ? <PieceWithProps /> : null}
+        {checkPortalNum(position, portalDetails) && (
+          <Text style={styles.countDown}>{portalDetails.countDown} </Text>
+        )}
       </View>
     );
   }
@@ -128,8 +131,11 @@ function getStyles(
     countDown: {
       transform: [{ rotate: rotateAmount }],
       fontFamily: "ELM",
-      fontSize: 30,
-      color: colors.accent,
+      fontSize: 10,
+      color: colors.black,
+      position: "absolute",
+      right: 0,
+      top: 0,
     },
   };
   return styles;
