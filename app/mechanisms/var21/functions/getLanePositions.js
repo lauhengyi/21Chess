@@ -1,5 +1,8 @@
+import accountCollidedPiece from "./accountCollidedPiece";
+
 export default function getLanePositions(
   startingPos,
+  piece,
   occupiedMatrix,
   AorD,
   increment,
@@ -18,9 +21,9 @@ export default function getLanePositions(
     //Check for blocking pieces
     let collided;
     [positions, collided] = accountCollidedPiece(
-      i,
+      position,
       piece,
-      left,
+      positions,
       occupiedMatrix,
       AorD
     );

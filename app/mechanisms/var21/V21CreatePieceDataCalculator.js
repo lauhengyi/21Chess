@@ -230,6 +230,7 @@ function rookMoves(piece, occupiedMatrix, AorD) {
   }
   const up = getLanePositions(
     piece.position,
+    piece,
     occupiedMatrix,
     AorD,
     8,
@@ -237,6 +238,7 @@ function rookMoves(piece, occupiedMatrix, AorD) {
   );
   const bottom = getLanePositions(
     piece.position,
+    piece,
     occupiedMatrix,
     AorD,
     -8,
@@ -244,6 +246,7 @@ function rookMoves(piece, occupiedMatrix, AorD) {
   );
   const left = getLanePositions(
     piece.position,
+    piece,
     occupiedMatrix,
     AorD,
     -1,
@@ -251,6 +254,7 @@ function rookMoves(piece, occupiedMatrix, AorD) {
   );
   const right = getLanePositions(
     piece.position,
+    piece,
     occupiedMatrix,
     AorD,
     1,
@@ -346,6 +350,7 @@ function bishopMoves(piece, occupiedMatrix, AorD) {
 
   const northE = getLanePositions(
     piece.position,
+    piece,
     occupiedMatrix,
     AorD,
     9,
@@ -353,6 +358,7 @@ function bishopMoves(piece, occupiedMatrix, AorD) {
   );
   const southW = getLanePositions(
     piece.position,
+    piece,
     occupiedMatrix,
     AorD,
     -9,
@@ -360,6 +366,7 @@ function bishopMoves(piece, occupiedMatrix, AorD) {
   );
   const northW = getLanePositions(
     piece.position,
+    piece,
     occupiedMatrix,
     AorD,
     7,
@@ -367,6 +374,7 @@ function bishopMoves(piece, occupiedMatrix, AorD) {
   );
   const southE = getLanePositions(
     piece.position,
+    piece,
     occupiedMatrix,
     AorD,
     -7,
