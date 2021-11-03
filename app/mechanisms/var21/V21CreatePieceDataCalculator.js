@@ -1,4 +1,6 @@
 import checkCollision from "../var0/functions/checkCollision";
+import accountCollidedPiece from "./functions/accountCollidedPiece";
+import getLanePositions from "./functions/getLanePositions";
 
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value
@@ -226,103 +228,37 @@ function rookMoves(piece, occupiedMatrix, AorD) {
   if (piece.type != "r") {
     throw new Error("input piece not rook");
   }
-  let up = [];
-  let down = [];
-  let left = [];
-  let right = [];
-
-  //Find up
-  let i = piece.position;
-  while (true) {
-    // break if edge
-    if (checkTopEdge(i)) {
-      break;
-    }
-
-    i += 8;
-
-    //Check for blocking pieces
-    let collided;
-    [up, collided] = accountCollidedPiece(i, piece, up, occupiedMatrix, AorD);
-    if (collided) {
-      break;
-    }
-  }
-
-  //Find down
-  i = piece.position;
-  while (true) {
-    // Remove if edge
-    if (checkBottomEdge(i)) {
-      break;
-    }
-
-    i -= 8;
-
-    //Check for blocking pieces
-    let collided;
-    [down, collided] = accountCollidedPiece(
-      i,
-      piece,
-      down,
-      occupiedMatrix,
-      AorD
-    );
-    if (collided) {
-      break;
-    }
-  }
-
-  //find left
-  i = piece.position;
-  while (true) {
-    //Check for extreme left
-    if (checkLeftEdge(i)) {
-      break;
-    }
-
-    i--;
-
-    //Check for blocking pieces
-    let collided;
-    [left, collided] = accountCollidedPiece(
-      i,
-      piece,
-      left,
-      occupiedMatrix,
-      AorD
-    );
-    if (collided) {
-      break;
-    }
-  }
-
-  //find right
-  i = piece.position;
-  while (true) {
-    //Check for extreme right
-    if (checkRightEdge(i)) {
-      break;
-    }
-
-    i++;
-
-    //Check for blocking pieces
-    let collided;
-    [right, collided] = accountCollidedPiece(
-      i,
-      piece,
-      right,
-      occupiedMatrix,
-      AorD
-    );
-    if (collided) {
-      break;
-    }
-  }
+  const up = getLanePositions(
+    piece.position,
+    occupiedMatrix,
+    AorD,
+    8,
+    checkTopEdge
+  );
+  const bottom = getLanePositions(
+    piece.position,
+    occupiedMatrix,
+    AorD,
+    -8,
+    checkBottomEdge
+  );
+  const left = getLanePositions(
+    piece.position,
+    occupiedMatrix,
+    AorD,
+    -1,
+    checkLeftEdge
+  );
+  const right = getLanePositions(
+    piece.position,
+    occupiedMatrix,
+    AorD,
+    1,
+    checkRightEdge
+  );
 
   //add directions together
-  return up.concat(down, left, right);
+  return up.concat(bottom, left, right);
 }
 
 //returns a list of positions that the knight can attack, without considering pinning
@@ -407,122 +343,35 @@ function bishopMoves(piece, occupiedMatrix, AorD) {
   if (piece.type != "b") {
     throw new Error("input piece not bishop");
   }
-  let northE = [];
-  let southW = [];
-  let northW = [];
-  let southE = [];
 
-  //find northE
-  let i = piece.position;
-  while (true) {
-    //Check for extreme right
-    if (checkRightEdge(i)) {
-      break;
-    }
-    //Check for extreme top
-    if (checkTopEdge(i)) {
-      break;
-    }
-
-    i += 9;
-
-    //Check for blocking pieces
-    let collided;
-    [northE, collided] = accountCollidedPiece(
-      i,
-      piece,
-      northE,
-      occupiedMatrix,
-      AorD
-    );
-    if (collided) {
-      break;
-    }
-  }
-
-  //find southW
-  i = piece.position;
-  while (true) {
-    //Check for extreme left
-    if (checkLeftEdge(i)) {
-      break;
-    }
-    //Check for extreme bottom
-    if (checkBottomEdge(i)) {
-      break;
-    }
-
-    i -= 9;
-
-    //Check for blocking pieces
-    let collided;
-    [southW, collided] = accountCollidedPiece(
-      i,
-      piece,
-      southW,
-      occupiedMatrix,
-      AorD
-    );
-    if (collided) {
-      break;
-    }
-  }
-
-  //find northW
-  i = piece.position;
-  while (true) {
-    //Check for extreme left
-    if (checkLeftEdge(i)) {
-      break;
-    }
-    //Check for extreme top
-    if (checkTopEdge(i)) {
-      break;
-    }
-
-    i += 7;
-
-    //Check for blocking pieces
-    let collided;
-    [northW, collided] = accountCollidedPiece(
-      i,
-      piece,
-      northW,
-      occupiedMatrix,
-      AorD
-    );
-    if (collided) {
-      break;
-    }
-  }
-
-  //find southE
-  i = piece.position;
-  while (true) {
-    //Check for extreme right
-    if (checkRightEdge(i)) {
-      break;
-    }
-    //Check for extreme bottom
-    if (checkBottomEdge(i)) {
-      break;
-    }
-
-    i -= 7;
-
-    //Check for blocking pieces
-    let collided;
-    [southE, collided] = accountCollidedPiece(
-      i,
-      piece,
-      southE,
-      occupiedMatrix,
-      AorD
-    );
-    if (collided) {
-      break;
-    }
-  }
+  const northE = getLanePositions(
+    piece.position,
+    occupiedMatrix,
+    AorD,
+    9,
+    (p) => checkRightEdge(p) || checkTopEdge(p)
+  );
+  const southW = getLanePositions(
+    piece.position,
+    occupiedMatrix,
+    AorD,
+    -9,
+    (p) => checkLeftEdge(p) || checkBottomEdge(p)
+  );
+  const northW = getLanePositions(
+    piece.position,
+    occupiedMatrix,
+    AorD,
+    7,
+    (p) => checkLeftEdge(p) || checkTopEdge(p)
+  );
+  const southE = getLanePositions(
+    piece.position,
+    occupiedMatrix,
+    AorD,
+    -7,
+    (p) => checkRightEdge(p) || checkBottomEdge(p)
+  );
 
   //add all four directions together
   return northE.concat(southW, northW, southE);
@@ -654,37 +503,6 @@ function checkRightEdge(position) {
 
 function checkRightEdge2(position) {
   return (position + 10) % 8 === 0;
-}
-
-//function that when given position of move, side of piece, and list of previously compiled moves,
-//Last parameter, AorD, refers to whether accounting attacked squares, or checking defended squares, true for attack, false for defend
-//will return [updated moves, whether the position is collided]
-function accountCollidedPiece(position, piece, moves, occupiedMatrix, AorD) {
-  const [collided, collidedSide, eatenId] = checkCollision(
-    position,
-    occupiedMatrix
-  );
-  if (AorD === true) {
-    if (collided) {
-      if (piece.side === collidedSide) {
-        return [moves, true];
-      } else {
-        moves.push([piece.id, position, eatenId]);
-        return [moves, true];
-      }
-    } else {
-      moves.push([piece.id, position]);
-      return [moves, false];
-    }
-  } else {
-    if (collided) {
-      moves.push([piece.id, position, eatenId]);
-      return [moves, true];
-    } else {
-      moves.push([piece.id, position]);
-      return [moves, false];
-    }
-  }
 }
 
 export default V21CreatePieceDataCalculator;
