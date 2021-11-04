@@ -4,9 +4,9 @@ import getPiece from "../../primaryFunctions/getPiece.js";
 import V21GetChessMoves from "../V21GetChessMoves.js";
 import clone from "just-clone";
 import getOccupiedMatrix from "../../primaryFunctions/getOccupiedMatrix.js";
-import getPortalCountDown from "./getPortalCountDown.js";
-import getPortals from "./getPortals.js";
-import emptyPortals from "./emptyPortals.js";
+import getPortalCountDown from "./portalFunctions/getPortalCountDown.js";
+import getPortals from "./portalFunctions/getPortals.js";
+import emptyPortals from "./portalFunctions/emptyPortals.js";
 import updatePortalDetails from "./updatePortalDetails.js";
 
 function V21ChessMovesReducer(state, action) {
@@ -30,13 +30,7 @@ function V21ChessMovesReducer(state, action) {
       const clickedSquare = piece.position;
 
       //Get moveableSquares
-      const moves = V21GetChessMoves(
-        piece,
-        state.boardLayout,
-        occupiedMatrix,
-        state.lastMoved,
-        "moves"
-      );
+      const moves = V21GetChessMoves(piece, state, occupiedMatrix, "moves");
 
       if (clickedSquare === state.clickedSquare) {
         newDetails.clickedSquare = null;
@@ -211,11 +205,9 @@ function V21ChessMovesReducer(state, action) {
       }
 
       function updateChecks(occupiedMatrix) {
-        if (V21CheckCheck(newDetails.boardLayout, occupiedMatrix, false)) {
+        if (V21CheckCheck(newDetails, occupiedMatrix, false)) {
           newDetails.checked = 2;
-        } else if (
-          V21CheckCheck(newDetails.boardLayout, occupiedMatrix, true)
-        ) {
+        } else if (V21CheckCheck(newDetails, occupiedMatrix, true)) {
           newDetails.checked = 1;
         } else {
           newDetails.checked = 0;
@@ -230,13 +222,8 @@ function V21ChessMovesReducer(state, action) {
           //Check for piece to be on white's side
           if (piece.side === true) {
             if (
-              V21GetChessMoves(
-                piece,
-                newDetails.boardLayout,
-                occupiedMatrix,
-                newDetails.lastMoved,
-                "moves"
-              )[0].length
+              V21GetChessMoves(piece, newDetails, occupiedMatrix, "moves")[0]
+                .length
             ) {
               whiteStalemated = false;
               break;
@@ -254,13 +241,8 @@ function V21ChessMovesReducer(state, action) {
           //Check for piece to be on white's side
           if (piece.side === false) {
             if (
-              V21GetChessMoves(
-                piece,
-                newDetails.boardLayout,
-                occupiedMatrix,
-                newDetails.lastMoved,
-                "moves"
-              )[0].length
+              V21GetChessMoves(piece, newDetails, occupiedMatrix, "moves")[0]
+                .length
             ) {
               blackStalemated = false;
               break;

@@ -1,5 +1,5 @@
-import getPortalCountDown from "./getPortalCountDown";
-import getPortals from "./getPortals";
+import getPortalCountDown from "./portalFunctions/getPortalCountDown";
+import getPortals from "./portalFunctions/getPortals";
 
 export default function updatePortalDetails(portalDetails) {
   portalDetails.countDown--;

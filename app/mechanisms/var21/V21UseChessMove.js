@@ -1,7 +1,7 @@
 import { useReducer } from "react";
-import getPortals from "./functions/getPortals";
-import emptyPortals from "./functions/emptyPortals";
-import getPortalCountDown from "./functions/getPortalCountDown";
+import getPortals from "./functions/portalFunctions/getPortals";
+import emptyPortals from "./functions/portalFunctions/emptyPortals";
+import getPortalCountDown from "./functions/portalFunctions/getPortalCountDown";
 
 function V21UseChessMove(boardLayout, chessMovesReducer, saved) {
   let initialDetails;

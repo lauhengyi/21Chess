@@ -1,10 +1,10 @@
 import V21CreatePieceDataCalculator from "../V21CreatePieceDataCalculator.js";
 
 // Check whether a board is checked
-function V21CheckCheck(board, occupiedMatrix, side) {
+function V21CheckCheck(gameDetails, occupiedMatrix, side) {
   //Get king's position
   let kingPos = null;
-  for (let piece of board) {
+  for (let piece of gameDetails.boardLayout) {
     if (piece.type == "k" && piece.side == side) {
       kingPos = piece.position;
     }
@@ -13,13 +13,13 @@ function V21CheckCheck(board, occupiedMatrix, side) {
     return true;
   }
   // Compile list of positions where enemies attacks
-  for (let piece of board) {
+  for (let piece of gameDetails.boardLayout) {
     // Isolate enemy pieces
     if (piece.side != side) {
       let pieceData = V21CreatePieceDataCalculator(
         piece,
         occupiedMatrix,
-        board
+        gameDetails.portals
       );
       for (let attacks of pieceData.attacks) {
         //If attack positions === king's position, return true

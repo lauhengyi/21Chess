@@ -7,6 +7,7 @@ import SavedContext from "./functions/SavedContext";
 import loadSaved from "./functions/loadSaved";
 import MakeItRain from "react-native-make-it-rain";
 import PieceConfetti from "./components/WelcomeScreen_Components/PieceConfetti";
+import onRandomPress from "./functions/onRandomPress";
 
 function WelcomeScreen({ navigation, route }) {
   const { settings } = useContext(SettingsContext);
@@ -44,7 +45,7 @@ function WelcomeScreen({ navigation, route }) {
           ) : (
             <Text style={styles.disabledButton}>Continue</Text>
           )}
-          <Clickable>
+          <Clickable onPress={() => onRandomPress(navigation, settings)}>
             <Text style={styles.button}>Random</Text>
           </Clickable>
           <Clickable onPress={() => navigation.navigate("Settings")}>

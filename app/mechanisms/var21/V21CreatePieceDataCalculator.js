@@ -4,20 +4,20 @@ import getLanePositions from "./functions/getLanePositions";
 
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value
-function V21CreatePieceDataCalculator(piece, occupiedMatrix) {
+function V21CreatePieceDataCalculator(piece, occupiedMatrix, portals) {
   switch (piece.type) {
     case "p":
-      return new pawnCalculator(piece, occupiedMatrix);
+      return new pawnCalculator(piece, occupiedMatrix, portals);
     case "r":
-      return new rookCalculator(piece, occupiedMatrix);
+      return new rookCalculator(piece, occupiedMatrix, portals);
     case "n":
       return new knightCalculator(piece, occupiedMatrix);
     case "b":
-      return new bishopCalculator(piece, occupiedMatrix);
+      return new bishopCalculator(piece, occupiedMatrix, portals);
     case "q":
-      return new queenCalculator(piece, occupiedMatrix);
+      return new queenCalculator(piece, occupiedMatrix, portals);
     case "k":
-      return new kingCalculator(piece, occupiedMatrix);
+      return new kingCalculator(piece, occupiedMatrix, portals);
     default:
       throw new Error("Unknown type: ${piece.type}");
   }
@@ -25,36 +25,37 @@ function V21CreatePieceDataCalculator(piece, occupiedMatrix) {
 
 //Create base class
 class pieceDataCalculator {
-  constructor(piece, occupiedMatrix) {
+  constructor(piece, occupiedMatrix, portals) {
     this.piece = piece;
     this.occupiedMatrix = occupiedMatrix;
+    this.portals = portals;
   }
 }
 class pawnCalculator extends pieceDataCalculator {
   get moves() {
-    return pawnMoves(this.piece, this.occupiedMatrix);
+    return pawnMoves(this.piece, this.occupiedMatrix, this.portals);
   }
 
   get attacks() {
-    return pawnAttacks(this.piece, this.occupiedMatrix, true);
+    return pawnAttacks(this.piece, this.occupiedMatrix, this.portals, true);
   }
 
   get defended() {
-    return pawnAttacks(this.piece, this.occupiedMatrix, false);
+    return pawnAttacks(this.piece, this.occupiedMatrix, this.portals, false);
   }
 }
 
 class rookCalculator extends pieceDataCalculator {
   get moves() {
-    return rookMoves(this.piece, this.occupiedMatrix, true);
+    return rookMoves(this.piece, this.occupiedMatrix, this.portals, true);
   }
 
   get attacks() {
-    return rookMoves(this.piece, this.occupiedMatrix, true);
+    return rookMoves(this.piece, this.occupiedMatrix, this.portals, true);
   }
 
   get defended() {
-    return rookMoves(this.piece, this.occupiedMatrix, false);
+    return rookMoves(this.piece, this.occupiedMatrix, this.portals, false);
   }
 }
 
@@ -74,55 +75,55 @@ class knightCalculator extends pieceDataCalculator {
 
 class bishopCalculator extends pieceDataCalculator {
   get moves() {
-    return bishopMoves(this.piece, this.occupiedMatrix, true);
+    return bishopMoves(this.piece, this.occupiedMatrix, this.portals, true);
   }
 
   get attacks() {
-    return bishopMoves(this.piece, this.occupiedMatrix, true);
+    return bishopMoves(this.piece, this.occupiedMatrix, this.portals, true);
   }
 
   get defended() {
-    return bishopMoves(this.piece, this.occupiedMatrix, false);
+    return bishopMoves(this.piece, this.occupiedMatrix, this.portals, false);
   }
 }
 
 class queenCalculator extends pieceDataCalculator {
   get moves() {
-    return queenMoves(this.piece, this.occupiedMatrix, true);
+    return queenMoves(this.piece, this.occupiedMatrix, this.portals, true);
   }
 
   get attacks() {
-    return queenMoves(this.piece, this.occupiedMatrix, true);
+    return queenMoves(this.piece, this.occupiedMatrix, this.portals, true);
   }
 
   get defended() {
-    return queenMoves(this.piece, this.occupiedMatrix, false);
+    return queenMoves(this.piece, this.occupiedMatrix, this.portals, false);
   }
 }
 
 class kingCalculator extends pieceDataCalculator {
   get moves() {
-    return kingMoves(this.piece, this.occupiedMatrix, true);
+    return kingMoves(this.piece, this.occupiedMatrix, this.portals, true);
   }
 
   get attacks() {
-    return kingMoves(this.piece, this.occupiedMatrix, true);
+    return kingMoves(this.piece, this.occupiedMatrix, this.portals, true);
   }
 
   get defended() {
-    return kingMoves(this.piece, this.occupiedMatrix, false);
+    return kingMoves(this.piece, this.occupiedMatrix, this.portals, false);
   }
 }
 
 //returns a list of positions that the pawn can move and attack
-function pawnMoves(piece, occupiedMatrix) {
+function pawnMoves(piece, occupiedMatrix, portals) {
   //check for pawn
   if (piece.type != "p") {
     throw new Error("input piece not pawn");
   }
 
   //get attack moves
-  let Amoves = pawnAttacks(piece, occupiedMatrix, true);
+  let Amoves = pawnAttacks(piece, occupiedMatrix, portals, true);
   //update attacks to only when there is an enemy
   let moves = [];
   for (let move of Amoves) {
@@ -180,7 +181,7 @@ function pawnMoves(piece, occupiedMatrix) {
 }
 
 //returns a list of positions that the pawn can attack, regardless of enemies and without accounting for pinning
-function pawnAttacks(piece, occupiedMatrix, AorD) {
+function pawnAttacks(piece, occupiedMatrix, portals, AorD) {
   //check for pawn
   if (piece.type != "p") {
     throw new Error("input piece not pawn");
@@ -223,7 +224,7 @@ function pawnAttacks(piece, occupiedMatrix, AorD) {
 }
 
 //returns a list of positions that the rook can attack, without accounting for pinning
-function rookMoves(piece, occupiedMatrix, AorD) {
+function rookMoves(piece, occupiedMatrix, portals, AorD) {
   //check for rook
   if (piece.type != "r") {
     throw new Error("input piece not rook");
@@ -342,7 +343,7 @@ function knightMoves(piece, occupiedMatrix, AorD) {
 }
 
 //returns a list of positions that a bishop can attack without considering pinning
-function bishopMoves(piece, occupiedMatrix, AorD) {
+function bishopMoves(piece, occupiedMatrix, portals, AorD) {
   //check for bishop
   if (piece.type != "b") {
     throw new Error("input piece not bishop");
@@ -386,7 +387,7 @@ function bishopMoves(piece, occupiedMatrix, AorD) {
 }
 
 //Returns a list of positions that the queen can attack, not considering pinning
-function queenMoves(piece, occupiedMatrix, AorD) {
+function queenMoves(piece, occupiedMatrix, portals, AorD) {
   //check for queen
   if (piece.type != "q") {
     throw new Error("input piece not queen");
@@ -420,7 +421,7 @@ function queenMoves(piece, occupiedMatrix, AorD) {
 }
 
 //Returns a list of positioins that the king can attack, not considering pinning
-function kingMoves(piece, occupiedMatrix, AorD) {
+function kingMoves(piece, occupiedMatrix, portals, AorD) {
   //check for king
   if (piece.type != "k") {
     throw new Error("input piece not king");
