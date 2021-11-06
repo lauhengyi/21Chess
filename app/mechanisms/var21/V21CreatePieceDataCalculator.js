@@ -229,13 +229,15 @@ function rookMoves(piece, occupiedMatrix, portals, AorD) {
   if (piece.type != "r") {
     throw new Error("input piece not rook");
   }
+  console.log({ portals });
   const up = getLanePositions(
     piece.position,
     piece,
     occupiedMatrix,
     AorD,
     8,
-    checkTopEdge
+    checkTopEdge,
+    portals
   );
   const bottom = getLanePositions(
     piece.position,
@@ -243,7 +245,8 @@ function rookMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     -8,
-    checkBottomEdge
+    checkBottomEdge,
+    portals
   );
   const left = getLanePositions(
     piece.position,
@@ -251,7 +254,8 @@ function rookMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     -1,
-    checkLeftEdge
+    checkLeftEdge,
+    portals
   );
   const right = getLanePositions(
     piece.position,
@@ -259,7 +263,8 @@ function rookMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     1,
-    checkRightEdge
+    checkRightEdge,
+    portals
   );
 
   //add directions together
@@ -355,7 +360,8 @@ function bishopMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     9,
-    (p) => checkRightEdge(p) || checkTopEdge(p)
+    (p) => checkRightEdge(p) || checkTopEdge(p),
+    portals
   );
   const southW = getLanePositions(
     piece.position,
@@ -363,7 +369,8 @@ function bishopMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     -9,
-    (p) => checkLeftEdge(p) || checkBottomEdge(p)
+    (p) => checkLeftEdge(p) || checkBottomEdge(p),
+    portals
   );
   const northW = getLanePositions(
     piece.position,
@@ -371,7 +378,8 @@ function bishopMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     7,
-    (p) => checkLeftEdge(p) || checkTopEdge(p)
+    (p) => checkLeftEdge(p) || checkTopEdge(p),
+    portals
   );
   const southE = getLanePositions(
     piece.position,
@@ -379,7 +387,8 @@ function bishopMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     -7,
-    (p) => checkRightEdge(p) || checkBottomEdge(p)
+    (p) => checkRightEdge(p) || checkBottomEdge(p),
+    portals
   );
 
   //add all four directions together
@@ -402,6 +411,7 @@ function queenMoves(piece, occupiedMatrix, portals, AorD) {
       side: piece.side,
     },
     occupiedMatrix,
+    portals,
     AorD
   );
   //Get bishop moves
@@ -414,6 +424,7 @@ function queenMoves(piece, occupiedMatrix, portals, AorD) {
       side: piece.side,
     },
     occupiedMatrix,
+    portals,
     AorD
   );
 

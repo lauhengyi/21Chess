@@ -1,4 +1,5 @@
 import accountCollidedPiece from "./accountCollidedPiece";
+import updateLane from "./portalFunctions/updateLane";
 
 export default function getLanePositions(
   startingPos,
@@ -6,7 +7,8 @@ export default function getLanePositions(
   occupiedMatrix,
   AorD,
   increment,
-  edgeCheck
+  edgeCheck,
+  portals
 ) {
   let positions = [];
   let position = startingPos;
@@ -15,6 +17,8 @@ export default function getLanePositions(
     if (edgeCheck(position)) {
       break;
     }
+
+    [position, increment] = updateLane(position, increment, portals);
 
     position += increment;
 

@@ -19,7 +19,7 @@ function V21CheckCheck(gameDetails, occupiedMatrix, side) {
       let pieceData = V21CreatePieceDataCalculator(
         piece,
         occupiedMatrix,
-        gameDetails.portals
+        gameDetails.portalDetails.currentPortals
       );
       for (let attacks of pieceData.attacks) {
         //If attack positions === king's position, return true

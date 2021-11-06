@@ -7,8 +7,10 @@ export default function getLeavingPortalandPos(
   portalSide,
   portals
 ) {
+  console.log("in");
   const [enteringPortalPositions, leavingPortalPositions, leavingPortal] =
     getPortalPositions(portalNum, portalSide, portals);
+  console.log("out");
   const portalIndex = enteringPortalPositions.indexOf(position);
 
   return [leavingPortal, leavingPortalPositions[portalIndex]];
