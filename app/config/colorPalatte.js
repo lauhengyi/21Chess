@@ -44,25 +44,41 @@ export default [
 
     lastMovedSquareBlack: "#807f4d",
     lastMovedSquareWhite: "#595524",
+
+    accent: "#e00000",
+
+    currentPortal1: "#2930ff",
+    currentPortal2: "#ff6a19",
+
+    nextPortal1: "#00023d",
+    nextPortal2: "#4d1b00",
   },
   {
     //Classic
     white: "#ede0d4",
     black: "#352208",
-    primary: "#b08968",
+    primary: "#cfa17a",
     secondary: "#ddb892",
-    tertiary: "#a97952",
+    tertiary: "#a8744a",
     grey1: "#7f5539",
     grey2: "#8b5e34",
     grey3: "#583101",
 
     piece: "#1d0302",
 
-    moveableSquareBlack: "#b05858",
-    moveableSquareWhite: "#dd9292",
+    moveableSquareBlack: "#944343",
+    moveableSquareWhite: "#bf7373",
 
     lastMovedSquareBlack: "#888f3b",
     lastMovedSquareWhite: "#a8b35d",
+
+    accent: "#b80000",
+
+    currentPortal1: "#8e15d4",
+    currentPortal2: "#1589e8",
+
+    nextPortal1: "#b765c7",
+    nextPortal2: "#80bed9",
   },
   {
     //Arctic
@@ -77,11 +93,19 @@ export default [
 
     piece: "#03045E",
 
-    moveableSquareBlack: "#ed8ca3",
-    moveableSquareWhite: "#edb9c6",
+    moveableSquareBlack: "#d47f93",
+    moveableSquareWhite: "#dbabb7",
 
     lastMovedSquareBlack: "#b67be0",
     lastMovedSquareWhite: "#d3a2eb",
+
+    accent: "#d60036",
+
+    currentPortal1: "#bb15d4",
+    currentPortal2: "#d9ae21",
+
+    nextPortal1: "#bf89c9",
+    nextPortal2: "#d9cf8d",
   },
   {
     //Camo
@@ -89,8 +113,8 @@ export default [
     black: "#fefae0",
     primary: "#264027",
     secondary: "#3c5233",
-    tertiary: "#6f732f",
-    grey1: "#b39c4d",
+    tertiary: "#545727",
+    grey1: "#8f792c",
     grey2: "#34623f",
     grey3: "#dda15e",
 
@@ -101,6 +125,14 @@ export default [
 
     lastMovedSquareBlack: "#c7c587",
     lastMovedSquareWhite: "#e6e2b3",
+
+    accent: "#d60036",
+
+    currentPortal1: "#bb15d4",
+    currentPortal2: "#d9ae21",
+
+    nextPortal1: "#bf89c9",
+    nextPortal2: "#d9cf8d",
   },
   {
     //Default

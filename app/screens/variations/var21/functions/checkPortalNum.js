@@ -1,5 +1,3 @@
-import clone from "just-clone";
-
 //Returns whether the position should have a portal number
 export default function checkPortalNum(position, portalDetails) {
   const portal1 = portalDetails.nextPortals[0];

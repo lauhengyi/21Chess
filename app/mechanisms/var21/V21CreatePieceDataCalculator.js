@@ -229,7 +229,6 @@ function rookMoves(piece, occupiedMatrix, portals, AorD) {
   if (piece.type != "r") {
     throw new Error("input piece not rook");
   }
-  console.log({ portals });
   const up = getLanePositions(
     piece.position,
     piece,
