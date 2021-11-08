@@ -8,9 +8,17 @@ export default function getRotation(enteringPortal, leavingPortal) {
     }
   } else {
     if (enteringPortal.direction === leavingPortal.direction) {
-      return 270;
+      if (enteringPortal.type === "y") {
+        return 90;
+      } else {
+        return 270;
+      }
     } else {
-      return 90;
+      if (enteringPortal.type === "y") {
+        return 270;
+      } else {
+        return 90;
+      }
     }
   }
 }

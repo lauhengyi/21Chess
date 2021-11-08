@@ -25,8 +25,13 @@ export default function getPortals(portals) {
     portal2 = getPortal(portalLength);
   }
   //Mirror image the positions of portal2
-  portal2.positions1.reverse();
-  portal2.positions2.reverse();
+  if (
+    (portal1.direction === portal2.direction) ===
+    (portal1.type === portal2.type)
+  ) {
+    portal2.positions1.reverse();
+    portal2.positions2.reverse();
+  }
 
   return [portal1, portal2];
 }

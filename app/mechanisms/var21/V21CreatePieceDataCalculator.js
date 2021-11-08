@@ -235,7 +235,6 @@ function rookMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     8,
-    checkTopEdge,
     portals
   );
   const bottom = getLanePositions(
@@ -244,7 +243,6 @@ function rookMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     -8,
-    checkBottomEdge,
     portals
   );
   const left = getLanePositions(
@@ -253,7 +251,6 @@ function rookMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     -1,
-    checkLeftEdge,
     portals
   );
   const right = getLanePositions(
@@ -262,12 +259,11 @@ function rookMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     1,
-    checkRightEdge,
     portals
   );
 
   //add directions together
-  return up.concat(bottom, left, right);
+  return [...new Set(up.concat(bottom, left, right))];
 }
 
 //returns a list of positions that the knight can attack, without considering pinning
@@ -359,7 +355,6 @@ function bishopMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     9,
-    (p) => checkRightEdge(p) || checkTopEdge(p),
     portals
   );
   const southW = getLanePositions(
@@ -368,7 +363,6 @@ function bishopMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     -9,
-    (p) => checkLeftEdge(p) || checkBottomEdge(p),
     portals
   );
   const northW = getLanePositions(
@@ -377,7 +371,6 @@ function bishopMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     7,
-    (p) => checkLeftEdge(p) || checkTopEdge(p),
     portals
   );
   const southE = getLanePositions(
@@ -386,12 +379,11 @@ function bishopMoves(piece, occupiedMatrix, portals, AorD) {
     occupiedMatrix,
     AorD,
     -7,
-    (p) => checkRightEdge(p) || checkBottomEdge(p),
     portals
   );
 
   //add all four directions together
-  return northE.concat(southW, northW, southE);
+  return [...new Set(northE.concat(southW, northW, southE))];
 }
 
 //Returns a list of positions that the queen can attack, not considering pinning
@@ -427,7 +419,7 @@ function queenMoves(piece, occupiedMatrix, portals, AorD) {
     AorD
   );
 
-  return rm.concat(bm);
+  return [...new Set(rm.concat(bm))];
 }
 
 //Returns a list of positioins that the king can attack, not considering pinning
