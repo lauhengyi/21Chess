@@ -125,6 +125,7 @@ function pawnMoves(piece, occupiedMatrix, portals) {
   }
 
   //get attack moves
+  console.log("in");
   let Amoves = pawnAttacks(piece, occupiedMatrix, portals, true);
   //update attacks to only when there is an enemy
   let moves = [];
@@ -135,47 +136,43 @@ function pawnMoves(piece, occupiedMatrix, portals) {
     }
   }
 
-  //compile forward movement (include double movement if pawn is untouched)
-  if (piece.moved === false) {
-    //differentiate between white and black
-    if (piece.side) {
-      //piece is white
-      let collided;
-      [collided] = checkCollision(piece.position + 8, occupiedMatrix);
-      if (!collided) {
-        moves.push([piece.id, piece.position + 8]);
-        if (!checkTopEdge2(piece.position)) {
-          [collided] = checkCollision(piece.position + 16, occupiedMatrix);
-          if (!collided) {
-            moves.push([piece.id, piece.position + 16]);
-          }
-        }
-      }
-    } else {
-      //piece is black
-      let collided;
-      [collided] = checkCollision(piece.position - 8, occupiedMatrix);
-      if (!collided) {
-        moves.push([piece.id, piece.position - 8]);
-        if (!checkBottomEdge2(piece.position)) {
-          [collided] = checkCollision(piece.position - 16, occupiedMatrix);
-          if (!collided) {
-            moves.push([piece.id, piece.position - 16]);
-          }
-        }
+  //differentiate between white and black
+  if (piece.side) {
+    //piece is white
+    let collided;
+    let position = piece.position;
+    let increment = 8;
+
+    [position, increment] = updateLane(position, increment, portals);
+    [collided] = checkCollision(position + increment, occupiedMatrix);
+
+    if (!checkEdge(position, increment) && !collided) {
+      moves.push([piece.id, position + increment]);
+      //Check for double move
+      position += increment;
+      [position, increment] = updateLane(position, increment, portals);
+      [collided] = checkCollision(position + increment, occupiedMatrix);
+      if (!checkEdge(position, increment) && !collided && !piece.moved) {
+        moves.push([piece.id, position + increment]);
       }
     }
   } else {
-    //differentiate between white and black
-    if (piece.side) {
-      //piece is white
-      if (!checkCollision(piece.position + 8, occupiedMatrix)[0]) {
-        moves.push([piece.id, piece.position + 8]);
-      }
-    } else {
-      //piece is black
-      if (!checkCollision(piece.position - 8, occupiedMatrix)[0]) {
-        moves.push([piece.id, piece.position - 8]);
+    //piece is black
+    let collided;
+    let position = piece.position;
+    let increment = -8;
+
+    [position, increment] = updateLane(position, increment, portals);
+    [collided] = checkCollision(position + increment, occupiedMatrix);
+
+    if (!checkEdge(position, increment) && !collided) {
+      moves.push([piece.id, position + increment]);
+      //Check for double move
+      position += increment;
+      [position, increment] = updateLane(position, increment, portals);
+      [collided] = checkCollision(position + increment, occupiedMatrix);
+      if (!checkEdge(position, increment) && !collided && !piece.moved) {
+        moves.push([piece.id, position + increment]);
       }
     }
   }
@@ -194,28 +191,32 @@ function pawnAttacks(piece, occupiedMatrix, portals, AorD) {
     //pawn is white
     //consider edge cases
     //consider extreme left and extreme right respectively
-    if (!checkLeftEdge(piece.position) && !checkTopEdge(piece.position)) {
-      attacks.push([piece.id, piece.position + 7]);
-    }
-    if (!checkRightEdge(piece.position) && !checkTopEdge(piece.position)) {
-      attacks.push([piece.id, piece.position + 9]);
+    const increments = [7, 9];
+    for (let increment of increments) {
+      let position = piece.position;
+      [position, increment] = updateLane(position, increment, portals);
+      if (!checkEdge(position, increment)) {
+        attacks.push(position + increment);
+      }
     }
   } else {
     //pawn is black
     //consider edge cases
     //consider extreme left and extreme right respectively
-    if (!checkLeftEdge(piece.position) && !checkBottomEdge(piece.position)) {
-      attacks.push([piece.id, piece.position - 9]);
-    }
-    if (!checkRightEdge(piece.position) && !checkBottomEdge(piece.position)) {
-      attacks.push([piece.id, piece.position - 7]);
+    const increments = [-7, -9];
+    for (let increment of increments) {
+      let position = piece.position;
+      [position, increment] = updateLane(position, increment, portals);
+      if (!checkEdge(position, increment)) {
+        attacks.push(position + increment);
+      }
     }
   }
   //return nothing if attack is on an allied piece
   let result = [];
   for (let attack of attacks) {
     [result] = accountCollidedPiece(
-      attack[1],
+      attack,
       piece,
       result,
       occupiedMatrix,
