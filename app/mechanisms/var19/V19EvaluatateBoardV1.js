@@ -9,7 +9,7 @@ function V19EvaluateBoardV1(gameDetails, getChessMoves) {
   const bishopValue = 450;
   const queenValue = 700;
   const kingValue = 300;
-  const checkmateValue = 100000;
+  const checkmateValue = Infinity;
   const stalemateValue = 0;
 
   //Initialise occupied matrix

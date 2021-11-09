@@ -229,12 +229,12 @@ function getParameters(difficulty) {
 function isBestEvaluation(side, evaluation, bestEvaluation) {
   if (side === true) {
     //Maximise evaluation
-    if (evaluation >= bestEvaluation) {
+    if (evaluation > bestEvaluation) {
       return true;
     }
   } else {
     //Minimise evaluation
-    if (evaluation <= bestEvaluation) {
+    if (evaluation < bestEvaluation) {
       return true;
     }
   }
