@@ -28,6 +28,15 @@ function Var21Rules(props) {
         also an indicator that shows the number of turns before the current
         portals dissapear.
       </RulesText>
+      <RulesText settings={settings}>
+        Knights will not be able to interact with portals and pawns will
+        continue to move forward even after entering a portal that changes it's
+        initial direction.
+      </RulesText>
+      <RulesText settings={settings}>
+        Other than those 2 pieces, the other pieces should interact pretty
+        inituitively with the portals.
+      </RulesText>
       <RulesText settings={settings}>Hope you enjoy my game!</RulesText>
     </>
   );

@@ -22,5 +22,6 @@ export default function updateLane(position, increment, portals) {
 
   const rotation = getRotation(portals[enteringNum], leavingPortal);
   const leavingIncrement = rotateIncrement(increment, rotation);
+  console.log({ leavingPos, leavingIncrement });
   return [leavingPos, leavingIncrement];
 }

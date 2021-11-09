@@ -1,6 +1,8 @@
 import checkCollision from "../var0/functions/checkCollision";
 import accountCollidedPiece from "./functions/accountCollidedPiece";
+import checkEdge from "./functions/checkEdge";
 import getLanePositions from "./functions/getLanePositions";
+import updateLane from "./functions/portalFunctions/updateLane";
 
 // attacks and moves and defends are without consideration of pinning
 // function to make a calculator to calculate piece moves, attacks, defends and base value
@@ -429,45 +431,17 @@ function kingMoves(piece, occupiedMatrix, portals, AorD) {
     throw new Error("input piece not king");
   }
 
-  //list possible positions
-  let u = piece.position + 8;
-  let d = piece.position - 8;
-  let l = piece.position - 1;
-  let r = piece.position + 1;
-  let ul = piece.position + 7;
-  let ur = piece.position + 9;
-  let dl = piece.position - 9;
-  let dr = piece.position - 7;
+  //list possible increments
+  const increments = [8, -8, -1, 1, 7, 9, -9, -7];
 
   //compile moves
   let positions = [];
-  //considering up moves
-  if (!checkTopEdge(piece.position)) {
-    positions.push(u);
-    if (!checkLeftEdge(piece.position)) {
-      positions.push(ul);
+  for (let increment of increments) {
+    let position = piece.position;
+    [position, increment] = updateLane(position, increment, portals);
+    if (!checkEdge(position, increment)) {
+      positions.push(position + increment);
     }
-    if (!checkRightEdge(piece.position)) {
-      positions.push(ur);
-    }
-  }
-  //consider down moves
-  if (!checkBottomEdge(piece.position)) {
-    positions.push(d);
-    if (!checkLeftEdge(piece.position)) {
-      positions.push(dl);
-    }
-    if (!checkRightEdge(piece.position)) {
-      positions.push(dr);
-    }
-  }
-
-  //consider side moves
-  if (!checkLeftEdge(piece.position)) {
-    positions.push(l);
-  }
-  if (!checkRightEdge(piece.position)) {
-    positions.push(r);
   }
 
   let moves = [];
