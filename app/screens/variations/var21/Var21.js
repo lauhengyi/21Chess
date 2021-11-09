@@ -1,12 +1,12 @@
 import React from "react";
 import V21Board from "./components/V21Board";
-import useComputer from "../../../mechanisms/var0/useComputer";
 import useTime from "../../../mechanisms/var0/useTime";
 import layout from "../boardLayouts/var0Layout";
 import GameUI from "../var0/components/GameUI";
 import V21UseChessMove from "../../../mechanisms/var21/V21UseChessMove";
 import V21ChessMovesReducer from "../../../mechanisms/var21/functions/V21ChessMovesReducer";
 import V21GetChessMoves from "../../../mechanisms/var21/V21GetChessMoves";
+import V21UseComputer from "../../../mechanisms/var21/V21UseComputer";
 
 function Var21({ route, navigation }) {
   //Bring up the constants
@@ -24,7 +24,7 @@ function Var21({ route, navigation }) {
 
   //Activate computer
   if (options.mode === 0) {
-    useComputer(
+    V21UseComputer(
       gameDetails,
       chessActions,
       V21GetChessMoves,

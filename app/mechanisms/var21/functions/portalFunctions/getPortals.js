@@ -7,7 +7,7 @@
 } */
 export default function getPortals(portals) {
   const minLength = 1;
-  const portalLength = minLength + Math.floor(Math.random() * 4);
+  const portalLength = minLength + Math.floor(Math.random() * 5);
   let portal1 = getPortal(portalLength);
   while (
     checkPortalCollision(portals[0], portal1) ||
