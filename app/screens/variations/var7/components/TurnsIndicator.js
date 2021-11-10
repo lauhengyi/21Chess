@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import colorPalatte from "../../../../config/colorPalatte";
 import clone from "just-clone";
+import checkDarkTheme from "../../../functions/checkDarkTheme";
 
 function TurnsIndicator(props) {
   const { gameDetails, settings } = props;
@@ -22,6 +23,7 @@ function TurnsIndicator(props) {
 
 function getStyles(settings, colorPalatte) {
   const colors = colorPalatte[settings.theme];
+  const isDarkTheme = checkDarkTheme(settings.theme);
   return StyleSheet.create({
     container: {
       height: 30,
@@ -38,14 +40,14 @@ function getStyles(settings, colorPalatte) {
     },
 
     black: {
-      backgroundColor: colors.black,
+      backgroundColor: isDarkTheme ? colors.white : colors.black,
       height: 10,
       width: 10,
       borderRadius: 10,
     },
 
     white: {
-      backgroundColor: colors.white,
+      backgroundColor: isDarkTheme ? colors.black : colors.white,
       height: 10,
       width: 10,
       borderRadius: 10,

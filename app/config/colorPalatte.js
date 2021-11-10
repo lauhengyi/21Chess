@@ -61,8 +61,8 @@ export default [
     secondary: "#ddb892",
     tertiary: "#a8744a",
     grey1: "#7f5539",
-    grey2: "#8b5e34",
-    grey3: "#583101",
+    grey2: "#583101",
+    grey3: "#3b2000",
 
     piece: "#1d0302",
 
