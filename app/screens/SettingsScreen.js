@@ -52,17 +52,6 @@ function SettingsScreen({ navigation, route }) {
         <Text style={styles.header}>Settings</Text>
       </View>
       <View style={styles.settingsContainer}>
-        <View style={styles.settings}>
-          <Text>{settings.theme}</Text>
-          <Text>{settings.masterVolume}</Text>
-          <Text>{settings.musicVolume}</Text>
-          <Text>{settings.sfxVolume}</Text>
-        </View>
-        <Clickable onPress={() => setCredits(true)}>
-          <View style={styles.creditsButton}>
-            <Text style={styles.creditsText}>Credits</Text>
-          </View>
-        </Clickable>
         <View style={styles.themes}>
           <Text style={styles.subHeader}>Themes</Text>
           <View style={styles.themeButtonContainer}>
@@ -88,6 +77,11 @@ function SettingsScreen({ navigation, route }) {
             ))}
           </View>
         </View>
+        <Clickable onPress={() => setCredits(true)}>
+          <View style={styles.creditsButton}>
+            <Text style={styles.creditsText}>Credits</Text>
+          </View>
+        </Clickable>
       </View>
     </View>
   );
@@ -113,6 +107,7 @@ function getStyles(settings, colorPalatte) {
     },
 
     settingsContainer: {
+      marginTop: 50,
       marginHorizontal: 20,
     },
 
@@ -124,6 +119,7 @@ function getStyles(settings, colorPalatte) {
       borderColor: colors.grey2,
       alignItems: "center",
       justifyContent: "center",
+      marginTop: 30,
     },
 
     creditsText: {

@@ -76,13 +76,13 @@ function getStyles(settings, colorPalatte) {
 
     title: {
       fontFamily: "FogtwoNo5",
-      fontSize: 120,
+      fontSize: 130,
       color: colors.black,
     },
 
     caption: {
       fontFamily: "FogtwoNo5",
-      fontSize: 30,
+      fontSize: 35,
       color: colors.black,
     },
 
@@ -93,14 +93,14 @@ function getStyles(settings, colorPalatte) {
 
     button: {
       fontFamily: "FogtwoNo5",
-      fontSize: 60,
+      fontSize: 65,
       marginBottom: "5%",
       color: colors.black,
     },
 
     disabledButton: {
       fontFamily: "FogtwoNo5",
-      fontSize: 60,
+      fontSize: 65,
       marginBottom: "5%",
       color: colors.grey1,
     },
@@ -111,7 +111,7 @@ function getStyles(settings, colorPalatte) {
     },
 
     name: {
-      fontFamily: "FogtwoNo5",
+      fontFamily: "ELM",
       fontSize: 15,
       margin: 5,
       color: colors.black,
