@@ -120,22 +120,22 @@ export default [
 
     piece: "#eaf0ce",
 
-    moveableSquareBlack: "#d19b9b",
-    moveableSquareWhite: "#e3b6b6",
+    moveableSquareBlack: "#ad2f47",
+    moveableSquareWhite: "#7d1b2e",
 
-    lastMovedSquareBlack: "#c7c587",
-    lastMovedSquareWhite: "#e6e2b3",
+    lastMovedSquareBlack: "#127865",
+    lastMovedSquareWhite: "#0b4f43",
 
-    accent: "#d60036",
+    accent: "#d60000",
 
-    currentPortal1: "#bb15d4",
-    currentPortal2: "#d9ae21",
+    currentPortal1: "#d9d2c7",
+    currentPortal2: "#21201e",
 
-    nextPortal1: "#bf89c9",
-    nextPortal2: "#d9cf8d",
+    nextPortal1: "#948e75",
+    nextPortal2: "#4f4e45",
   },
   {
-    //Default
+    //Material
     white: "#f8f9fa",
     black: "#212529",
     primary: "#e9ecef",
