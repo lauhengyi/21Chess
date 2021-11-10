@@ -136,22 +136,30 @@ export default [
   },
   {
     //Material
-    white: "#f8f9fa",
-    black: "#212529",
+    white: "#E4FDE1",
+    black: "#F45B69",
     primary: "#e9ecef",
-    secondary: "#dee2e6",
-    tertiary: "#ced4da",
-    grey1: "#adb5bd",
-    grey2: "#6c757d",
-    grey3: "#495057",
+    secondary: "#ffd6da",
+    tertiary: "#afdfe3",
+    grey1: "#537fad",
+    grey2: "#f00e56",
+    grey3: "#6B2737",
 
-    piece: "#000000",
+    piece: "#69141c",
 
-    moveableSquareBlack: "#d19b9b",
-    moveableSquareWhite: "#e3b6b6",
+    moveableSquareBlack: "#5aad8d",
+    moveableSquareWhite: "#74dbb2",
 
-    lastMovedSquareBlack: "#c7c587",
-    lastMovedSquareWhite: "#e6e2b3",
+    lastMovedSquareBlack: "#aeb33b",
+    lastMovedSquareWhite: "#cfd642",
+
+    accent: "#831ac4",
+
+    currentPortal1: "#4e29e3",
+    currentPortal2: "#ebb002",
+
+    nextPortal1: "#8c76e3",
+    nextPortal2: "#cfb774",
   },
 ];
 // https://coolors.co/f8f9fa-e9ecef-dee2e6-ced4da-adb5bd-6c757d-495057-343a40-212529
