@@ -71,7 +71,7 @@ function getStyles(settings, colorPalatte) {
     titleContainer: {
       justifyContent: "center",
       alignItems: "center",
-      marginTop: "30%",
+      marginTop: "25%",
     },
 
     title: {
@@ -87,7 +87,7 @@ function getStyles(settings, colorPalatte) {
     },
 
     buttonsContainer: {
-      marginTop: "10%",
+      marginTop: "15%",
       alignItems: "center",
     },
 

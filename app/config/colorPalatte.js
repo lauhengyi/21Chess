@@ -135,7 +135,7 @@ export default [
     nextPortal2: "#4f4e45",
   },
   {
-    //Material
+    //Candy
     white: "#E4FDE1",
     black: "#F45B69",
     primary: "#e9ecef",

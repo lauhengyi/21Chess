@@ -125,7 +125,6 @@ function pawnMoves(piece, occupiedMatrix, portals) {
   }
 
   //get attack moves
-  console.log("in");
   let Amoves = pawnAttacks(piece, occupiedMatrix, portals, true);
   //update attacks to only when there is an enemy
   let moves = [];
@@ -137,10 +136,10 @@ function pawnMoves(piece, occupiedMatrix, portals) {
   }
 
   //differentiate between white and black
+  let collided;
+  let position = piece.position;
   if (piece.side) {
     //piece is white
-    let collided;
-    let position = piece.position;
     let increment = 8;
 
     [position, increment] = updateLane(position, increment, portals);
@@ -149,17 +148,17 @@ function pawnMoves(piece, occupiedMatrix, portals) {
     if (!checkEdge(position, increment) && !collided) {
       moves.push([piece.id, position + increment]);
       //Check for double move
-      position += increment;
-      [position, increment] = updateLane(position, increment, portals);
-      [collided] = checkCollision(position + increment, occupiedMatrix);
-      if (!checkEdge(position, increment) && !collided && !piece.moved) {
-        moves.push([piece.id, position + increment]);
+      if (!piece.moved) {
+        position += increment;
+        [position, increment] = updateLane(position, increment, portals);
+        [collided] = checkCollision(position + increment, occupiedMatrix);
+        if (!checkEdge(position, increment) && !collided) {
+          moves.push([piece.id, position + increment]);
+        }
       }
     }
   } else {
     //piece is black
-    let collided;
-    let position = piece.position;
     let increment = -8;
 
     [position, increment] = updateLane(position, increment, portals);
@@ -168,11 +167,13 @@ function pawnMoves(piece, occupiedMatrix, portals) {
     if (!checkEdge(position, increment) && !collided) {
       moves.push([piece.id, position + increment]);
       //Check for double move
-      position += increment;
-      [position, increment] = updateLane(position, increment, portals);
-      [collided] = checkCollision(position + increment, occupiedMatrix);
-      if (!checkEdge(position, increment) && !collided && !piece.moved) {
-        moves.push([piece.id, position + increment]);
+      if (!piece.moved) {
+        position += increment;
+        [position, increment] = updateLane(position, increment, portals);
+        [collided] = checkCollision(position + increment, occupiedMatrix);
+        if (!checkEdge(position, increment) && !collided) {
+          moves.push([piece.id, position + increment]);
+        }
       }
     }
   }

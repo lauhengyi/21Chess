@@ -66,7 +66,9 @@ function normalMoves(piece, gameDetails, occupiedMatrix) {
   const portals = gameDetails.portalDetails.currentPortals;
   let pieceData = V21CreatePieceDataCalculator(piece, occupiedMatrix, portals);
   // Check whether move is pinned
+
   let movesUnchecked = pieceData.moves;
+
   // Removing move if pinned
   let moves = [];
   for (let move of movesUnchecked) {

@@ -35,7 +35,7 @@ function SettingsScreen({ navigation, route }) {
     },
     {
       id: 5,
-      name: "Material",
+      name: "Candy",
     },
   ];
   const [isCredits, setCredits] = useState(false);
