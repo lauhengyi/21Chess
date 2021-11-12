@@ -344,42 +344,52 @@ function pawnMoves(piece, occupiedMatrix) {
     //differentiate between white and black
     if (piece.side) {
       //piece is white
-      let collided;
-      [collided] = checkCollision(piece.position + 8, occupiedMatrix);
-      if (!collided) {
-        moves.push([piece.id, piece.position + 8]);
-        [collided] = checkCollision(piece.position + 16, occupiedMatrix);
+      if (!checkTopEdge(piece.position)) {
+        let collided;
+        [collided] = checkCollision(piece.position + 8, occupiedMatrix);
         if (!collided) {
-          moves.push([piece.id, piece.position + 16]);
+          moves.push([piece.id, piece.position + 8]);
+          if (!checkTopEdge2(piece.position)) {
+            [collided] = checkCollision(piece.position + 16, occupiedMatrix);
+            if (!collided) {
+              moves.push([piece.id, piece.position + 16]);
+            }
+          }
         }
       }
     } else {
       //piece is black
-      let collided;
-      [collided] = checkCollision(piece.position - 8, occupiedMatrix);
-      if (!collided) {
-        moves.push([piece.id, piece.position - 8]);
-        [collided] = checkCollision(piece.position - 16, occupiedMatrix);
+      if (!checkBottomEdge(piece.position)) {
+        let collided;
+        [collided] = checkCollision(piece.position - 8, occupiedMatrix);
         if (!collided) {
-          moves.push([piece.id, piece.position - 16]);
+          moves.push([piece.id, piece.position - 8]);
+          if (!checkBottomEdge2(piece.position)) {
+            [collided] = checkCollision(piece.position - 16, occupiedMatrix);
+            if (!collided) {
+              moves.push([piece.id, piece.position - 16]);
+            }
+          }
         }
       }
     }
   } else {
     //differentiate between white and black
     if (piece.side) {
-      if (!checkTopEdge(piece.position + 8)) {
-        //piece is white
-        if (!checkCollision(piece.position + 8, occupiedMatrix)[0]) {
-          moves.push([piece.id, piece.position + 8]);
-        }
+      //piece is white
+      if (
+        !checkTopEdge(piece.position) &&
+        !checkCollision(piece.position + 8, occupiedMatrix)[0]
+      ) {
+        moves.push([piece.id, piece.position + 8]);
       }
     } else {
-      if (!checkBottomEdge(piece.position + 8)) {
-        //piece is black
-        if (!checkCollision(piece.position - 8, occupiedMatrix)[0]) {
-          moves.push([piece.id, piece.position - 8]);
-        }
+      //piece is black
+      if (
+        !checkBottomEdge(piece.position) &&
+        !checkCollision(piece.position - 8, occupiedMatrix)[0]
+      ) {
+        moves.push([piece.id, piece.position - 8]);
       }
     }
   }
