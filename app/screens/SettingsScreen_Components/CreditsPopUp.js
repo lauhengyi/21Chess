@@ -143,8 +143,9 @@ function getStyles(settings, colorPalatte) {
 
     subHeader: {
       fontFamily: "ELM",
-      fontSize: 25,
+      fontSize: 30,
       color: colors.black,
+      marginTop: 15,
     },
 
     creditsSpecialContainer: {},
