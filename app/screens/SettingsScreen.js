@@ -120,6 +120,7 @@ function getStyles(settings, colorPalatte) {
       alignItems: "center",
       justifyContent: "center",
       marginTop: 30,
+      borderRadius: 10,
     },
 
     creditsText: {

@@ -95,6 +95,7 @@ function getStyles(settings, colorPalatte) {
       borderWidth: 1,
       alignItems: "center",
       padding: 10,
+      borderRadius: 10,
     },
 
     headerContainer: {

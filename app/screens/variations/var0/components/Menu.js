@@ -70,6 +70,7 @@ function getStyles(settings, colorPalatte) {
       borderColor: colors.grey2,
       width: "60%",
       padding: 10,
+      borderRadius: 10,
     },
 
     headerContainer: {
@@ -106,6 +107,7 @@ function getStyles(settings, colorPalatte) {
       borderWidth: 1,
       borderColor: colors.grey2,
       alignItems: "center",
+      borderRadius: 10,
     },
 
     buttonText: {

@@ -34,6 +34,7 @@ function getStyles(settings, colorPalatte, themeID) {
     outerButton: {
       borderWidth: 6,
       borderColor: themeColors.grey1,
+      borderRadius: 10,
     },
     innerButton: {
       backgroundColor: themeColors.white,
@@ -41,6 +42,7 @@ function getStyles(settings, colorPalatte, themeID) {
       borderColor: themeColors.secondary,
       alignItems: "center",
       width: 100,
+      borderRadius: 0,
     },
     themeText: {
       fontFamily: "ELM",

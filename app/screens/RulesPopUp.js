@@ -109,6 +109,7 @@ function getStyles(settings, colorPalatte) {
       height: "70%",
       borderColor: colors.grey1,
       borderWidth: 1,
+      borderRadius: 10,
     },
 
     instructionsScroll: {

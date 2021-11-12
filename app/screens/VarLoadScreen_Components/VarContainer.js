@@ -116,6 +116,7 @@ function getStyles(settings, colorPalatte) {
       backgroundColor: colors.tertiary,
       borderRadius: 10,
       width: 100,
+      borderColor: colors.grey1,
     },
 
     varButtonText: {
