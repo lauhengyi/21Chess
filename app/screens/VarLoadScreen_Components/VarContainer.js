@@ -26,11 +26,13 @@ function VarContainer(props) {
       <View style={styles.variationOuterContainer}>
         <View style={styles.variationInnerContainer}>
           <Text style={styles.varTitle}>{title}</Text>
-          <Image
-            resizeMode={"cover"}
-            style={styles.varPreview}
-            source={imageSources[settings.theme][varNum]}
-          />
+          <View style={styles.previewContainer}>
+            <Image
+              resizeMode={"stretch"}
+              style={styles.varPreview}
+              source={imageSources[settings.theme][varNum]}
+            />
+          </View>
           <Text style={styles.varHeader}>{header}</Text>
           <Text style={styles.varCaption}>{caption}</Text>
           <View style={styles.varButtonsContainer}>
@@ -83,6 +85,7 @@ function getStyles(settings, colorPalatte) {
     },
 
     varPreview: {
+      resizeMode: "stretch",
       height: 150,
       width: 300,
       borderWidth: 1,
