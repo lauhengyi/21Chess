@@ -28,7 +28,6 @@ function VarContainer(props) {
           <Text style={styles.varTitle}>{title}</Text>
           <View style={styles.previewContainer}>
             <Image
-              resizeMode={"stretch"}
               style={styles.varPreview}
               source={imageSources[settings.theme][varNum]}
             />
@@ -85,7 +84,6 @@ function getStyles(settings, colorPalatte) {
     },
 
     varPreview: {
-      resizeMode: "stretch",
       height: 150,
       width: 300,
       borderWidth: 1,
