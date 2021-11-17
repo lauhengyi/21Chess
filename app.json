@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ChessVar21",
-    "slug": "ChessVar21",
+    "name": "21Chess",
+    "slug": "21Chess",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
@@ -24,7 +24,7 @@
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#DDDDE1"
       },
-      "package": "com.henyi.chessvar21"
+      "package": "com.hengyi.twentyonechess"
     },
     "web": {
       "favicon": "./app/assets/favicon.png"

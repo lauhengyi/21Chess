@@ -53,13 +53,15 @@ export default function UpgradingPopUp(props) {
           <Text style={styles.perkTitle}>{perkTitle}</Text>
           <Text style={styles.perkDesc}>{perkDesc}</Text>
         </View>
-        <Clickable
-          onPress={() => chessActions({ type: "upgrade", perk: clickedPerk })}
-        >
-          <Text style={clickedPerk ? styles.select : styles.unSelect}>
-            Select
-          </Text>
-        </Clickable>
+        {clickedPerk ? (
+          <Clickable
+            onPress={() => chessActions({ type: "upgrade", perk: clickedPerk })}
+          >
+            <Text style={styles.select}>Select</Text>
+          </Clickable>
+        ) : (
+          <Text style={styles.unSelect}>Select</Text>
+        )}
       </View>
     </Modal>
   );
@@ -145,7 +147,7 @@ function getPerksList(piece) {
 }
 
 function getStyles(settings, player, options, colorPalatte) {
-  const orientation = player === 1 || options.autoTurn ? "0deg" : "180deg";
+  const orientation = player === 1 || options.isAutoturn ? "0deg" : "180deg";
   const colors = colorPalatte[settings.theme];
   return StyleSheet.create({
     background: {
