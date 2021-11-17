@@ -25,6 +25,7 @@ function getStyles(settings, colorPalatte) {
       width: 85,
       justifyContent: "center",
       alignItems: "center",
+      borderRadius: 10,
       backgroundColor: colors.grey2,
     },
     unClicked: {
@@ -32,6 +33,7 @@ function getStyles(settings, colorPalatte) {
       width: 85,
       justifyContent: "center",
       alignItems: "center",
+      borderRadius: 10,
       backgroundColor: colors.grey1,
     },
   });
