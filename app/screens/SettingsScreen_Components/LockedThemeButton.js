@@ -10,7 +10,6 @@ function LockedThemeButton(props) {
   const [isPopUp, setPopUp] = useState(false);
   const styles = getStyles(settings, colorPalatte, themeID);
   const lockedText = "~";
-  console.log({ isPopUp });
   return (
     <>
       <ThemePurchasePopUp

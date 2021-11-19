@@ -9,6 +9,7 @@ import CreditsPopUp from "./SettingsScreen_Components/CreditsPopUp";
 
 function SettingsScreen({ navigation, route }) {
   const { settings, setters } = useContext(SettingsContext);
+  const purchasedThemes = [5];
 
   const freeThemes = [
     {
@@ -40,7 +41,6 @@ function SettingsScreen({ navigation, route }) {
     },
   ];
   const [isCredits, setCredits] = useState(false);
-  const [isThemePreview, setThemePreview] = useState(false);
   const styles = getStyles(settings, colorPalatte);
 
   return (
@@ -68,14 +68,24 @@ function SettingsScreen({ navigation, route }) {
             ))}
           </View>
           <View style={styles.themeButtonContainer}>
-            {paidThemes.map((theme) => (
-              <LockedThemeButton
-                key={theme.id}
-                themeID={theme.id}
-                themeName={theme.name}
-                settings={settings}
-              />
-            ))}
+            {paidThemes.map((theme) => {
+              return purchasedThemes.includes(theme.id) ? (
+                <ThemeButton
+                  key={theme.id}
+                  themeID={theme.id}
+                  themeName={theme.name}
+                  onPress={() => setters.setTheme(theme.id)}
+                  settings={settings}
+                />
+              ) : (
+                <LockedThemeButton
+                  key={theme.id}
+                  themeID={theme.id}
+                  themeName={theme.name}
+                  settings={settings}
+                />
+              );
+            })}
           </View>
         </View>
         <Clickable onPress={() => setCredits(true)}>

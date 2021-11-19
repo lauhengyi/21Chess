@@ -2,9 +2,10 @@ import React from "react";
 import { View, Text, Image, Modal, StyleSheet } from "react-native";
 import colorPalatte from "../../config/colorPalatte";
 import Clickable from "../components/Clickable";
+import themePreviewSources from "./themePreviewSources";
 
 function ThemePurchasePopUp(props) {
-  const { isVisible, setVisible, themeName, themeId, settings } = props;
+  const { isVisible, setVisible, themeName, themeID, settings } = props;
   const styles = getStyles(settings, colorPalatte);
   const exitText = "M";
   return (
@@ -19,7 +20,10 @@ function ThemePurchasePopUp(props) {
               </Clickable>
             </View>
           </View>
-          <Image style={styles.themePreview} />
+          <Image
+            style={styles.themePreview}
+            source={themePreviewSources[themeID]}
+          />
           <Text style={styles.purchaseButtonText}></Text>
         </View>
       </View>
@@ -55,7 +59,8 @@ function getStyles(settings, colorPalatte) {
     },
 
     header: {
-      marginTop: 3,
+      margin: 3,
+      marginBottom: 10,
       fontFamily: "FogtwoNo5",
       fontSize: 30,
       color: colors.black,
@@ -76,6 +81,8 @@ function getStyles(settings, colorPalatte) {
     },
 
     themePreview: {
+      height: 456,
+      width: 216,
       borderColor: colors.grey1,
       borderWidth: 1,
       borderRadius: 10,
