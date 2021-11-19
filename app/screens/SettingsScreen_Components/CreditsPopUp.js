@@ -1,4 +1,3 @@
-import { color } from "jimp";
 import React from "react";
 import { View, Text, Modal, StyleSheet } from "react-native";
 import colorPalatte from "../../config/colorPalatte";

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import ThemeButton from "./SettingsScreen_Components/ThemeButton";
+import LockedThemeButton from "./SettingsScreen_Components/LockedThemeButton";
 import colorPalatte from "../config/colorPalatte";
 import SettingsContext from "./functions/SettingsContext";
 import Clickable from "./components/Clickable";
@@ -9,7 +10,7 @@ import CreditsPopUp from "./SettingsScreen_Components/CreditsPopUp";
 function SettingsScreen({ navigation, route }) {
   const { settings, setters } = useContext(SettingsContext);
 
-  const themesRow1 = [
+  const freeThemes = [
     {
       id: 0,
       name: "Default",
@@ -24,7 +25,7 @@ function SettingsScreen({ navigation, route }) {
     },
   ];
 
-  const themesRow2 = [
+  const paidThemes = [
     {
       id: 3,
       name: "Arctic",
@@ -39,7 +40,8 @@ function SettingsScreen({ navigation, route }) {
     },
   ];
   const [isCredits, setCredits] = useState(false);
-  const [styles, colors] = getStyles(settings, colorPalatte);
+  const [isThemePreview, setThemePreview] = useState(false);
+  const styles = getStyles(settings, colorPalatte);
 
   return (
     <View style={styles.background}>
@@ -55,7 +57,7 @@ function SettingsScreen({ navigation, route }) {
         <View style={styles.themes}>
           <Text style={styles.subHeader}>Themes</Text>
           <View style={styles.themeButtonContainer}>
-            {themesRow1.map((theme) => (
+            {freeThemes.map((theme) => (
               <ThemeButton
                 key={theme.id}
                 themeID={theme.id}
@@ -66,12 +68,11 @@ function SettingsScreen({ navigation, route }) {
             ))}
           </View>
           <View style={styles.themeButtonContainer}>
-            {themesRow2.map((theme) => (
-              <ThemeButton
+            {paidThemes.map((theme) => (
+              <LockedThemeButton
                 key={theme.id}
                 themeID={theme.id}
                 themeName={theme.name}
-                onPress={() => setters.setTheme(theme.id)}
                 settings={settings}
               />
             ))}
@@ -89,7 +90,7 @@ function SettingsScreen({ navigation, route }) {
 
 function getStyles(settings, colorPalatte) {
   const colors = colorPalatte[settings.theme];
-  const styles = StyleSheet.create({
+  return StyleSheet.create({
     background: {
       flex: 1,
       backgroundColor: colors.white,
@@ -141,7 +142,6 @@ function getStyles(settings, colorPalatte) {
       marginTop: 8,
     },
   });
-  return [styles, colors];
 }
 
 export default SettingsScreen;
