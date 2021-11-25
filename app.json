@@ -24,6 +24,8 @@
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#DDDDE1"
       },
+      "permissions": [],
+      "versionCode": 7,
       "package": "com.hengyi.twentyonechess"
     },
     "web": {
