@@ -25,7 +25,7 @@
         "backgroundColor": "#DDDDE1"
       },
       "permissions": [],
-      "versionCode": 7,
+      "versionCode": 8,
       "package": "com.hengyi.twentyonechess"
     },
     "web": {

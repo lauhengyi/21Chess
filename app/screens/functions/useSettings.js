@@ -34,7 +34,7 @@ function useSettings() {
               masterVolume: 100,
               musicVolume: 100,
               sfxVolume: 100,
-              theme: 1,
+              theme: 0,
             };
       } catch (e) {
         throw new Error("Unable to get settings");

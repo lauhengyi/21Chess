@@ -8,7 +8,7 @@ function useOptions(varNum) {
 
   //Gamemodes
   const modeTypes = ["vs Computer", "vs Player (local)"];
-  const [mode, setMode] = useState(1);
+  const [mode, setMode] = useState(0);
   const modeDetails = {
     values: modeTypes,
     selectedIndex: mode,
@@ -17,7 +17,7 @@ function useOptions(varNum) {
 
   //Computer ai difficulty
   const comDiff = ["easy", "medium", "hard"];
-  const [diff, setDiff] = useState(0);
+  const [diff, setDiff] = useState(1);
   const diffDetails = {
     values: comDiff,
     selectedIndex: diff,
@@ -41,7 +41,7 @@ function useOptions(varNum) {
 
   //Starting side
   const startingSide = ["white", "black"];
-  const [side, setSide] = useState(1);
+  const [side, setSide] = useState(0);
   const startingSideDetails = {
     values: startingSide,
     selectedIndex: side,
@@ -97,11 +97,11 @@ function useOptions(varNum) {
 
   //Default value
   const defaultOptions = {
-    mode: 1,
+    mode: 0,
     diff: 1,
     isAutoturn: true,
     isFlipped: true,
-    startingSide: 1,
+    startingSide: 0,
     isChessClock: true,
     isAdditional: false,
     timeDetails: {

@@ -8,6 +8,7 @@ import loadSaved from "./functions/loadSaved";
 import MakeItRain from "react-native-make-it-rain";
 import PieceConfetti from "./components/WelcomeScreen_Components/PieceConfetti";
 import onRandomPress from "./functions/onRandomPress";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function WelcomeScreen({ navigation, route }) {
   const { settings } = useContext(SettingsContext);
