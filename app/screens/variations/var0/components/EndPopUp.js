@@ -202,6 +202,7 @@ function getStyles(settings, colorPalatte) {
       borderWidth: 1,
       borderColor: colors.grey2,
       width: "90%",
+      borderRadius: 10,
       padding: 10,
     },
 
@@ -231,6 +232,7 @@ function getStyles(settings, colorPalatte) {
       borderWidth: 1,
       borderColor: colors.grey2,
       alignItems: "center",
+      borderRadius: 10,
     },
 
     buttonText: {
