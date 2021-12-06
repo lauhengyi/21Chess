@@ -75,19 +75,19 @@ function getStyles(settings, colorPalatte) {
 
     pieceText: {
       fontFamily: "Meri",
-      fontSize: 37,
+      fontSize: 30,
       color: colors.piece,
     },
 
     price: {
       fontFamily: "ELM",
-      fontSize: 15,
+      fontSize: 12,
       color: colors.black,
     },
 
     unAffordablePrice: {
       fontFamily: "ELM",
-      fontSize: 15,
+      fontSize: 12,
       color: colors.grey1,
     },
   });

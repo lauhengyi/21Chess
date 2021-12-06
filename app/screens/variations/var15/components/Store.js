@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     justifyContent: "space-evenly",
+    paddingRight: 20,
   },
 
   moneyContainer: {},

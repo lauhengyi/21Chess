@@ -150,7 +150,7 @@ function getStyles(settings, colorPalatte) {
   const colors = colorPalatte[settings.theme];
   return StyleSheet.create({
     container: {
-      height: 120,
+      height: 100,
       width: "100%",
       backgroundColor: colors.secondary,
       padding: 10,
@@ -172,13 +172,13 @@ function getStyles(settings, colorPalatte) {
 
     header: {
       fontFamily: "FogtwoNo5",
-      fontSize: 36,
+      fontSize: 30,
       color: colors.black,
     },
 
     subHeader: {
       fontFamily: "ELM",
-      fontSize: 20,
+      fontSize: 18,
       color: colors.black,
     },
 
@@ -188,7 +188,7 @@ function getStyles(settings, colorPalatte) {
 
     eatenPiece: {
       fontFamily: "Meri",
-      fontSize: 22,
+      fontSize: 20,
       color: colors.black,
     },
 
@@ -200,7 +200,7 @@ function getStyles(settings, colorPalatte) {
     timeTextContainerActive: {
       borderWidth: 5,
       borderColor: colors.grey1,
-      width: 110,
+      width: 100,
       backgroundColor: colors.primary,
       alignItems: "center",
       justifyContent: "center",
@@ -216,14 +216,14 @@ function getStyles(settings, colorPalatte) {
 
     timeText: {
       fontFamily: "ELM",
-      fontSize: 20,
+      fontSize: 18,
       paddingHorizontal: 5,
       color: colors.black,
     },
 
     timeControlText: {
       fontFamily: "ELM",
-      fontSize: 15,
+      fontSize: 12,
       color: colors.black,
     },
   });

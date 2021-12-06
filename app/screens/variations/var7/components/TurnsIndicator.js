@@ -26,7 +26,7 @@ function getStyles(settings, colorPalatte) {
   const isDarkTheme = checkDarkTheme(settings.theme);
   return StyleSheet.create({
     container: {
-      height: 30,
+      height: 20,
       backgroundColor: colors.grey1,
       flexDirection: "row",
       justifyContent: "space-evenly",
@@ -34,7 +34,7 @@ function getStyles(settings, colorPalatte) {
     },
 
     currentTurn: {
-      borderWidth: 5,
+      borderWidth: 3,
       borderRadius: 10,
       borderColor: colors.grey2,
     },

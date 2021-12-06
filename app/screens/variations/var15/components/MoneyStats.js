@@ -31,7 +31,7 @@ function getStyles(settings, colorPalatte) {
     moneyBorder: {
       borderWidth: 5,
       borderColor: colors.grey1,
-      width: 102,
+      width: 100,
       backgroundColor: colors.primary,
       alignItems: "center",
       justifyContent: "center",
@@ -39,13 +39,13 @@ function getStyles(settings, colorPalatte) {
 
     moneyText: {
       fontFamily: "ELM",
-      fontSize: 20,
+      fontSize: 15,
       color: colors.black,
     },
 
     revenueText: {
       fontFamily: "ELM",
-      fontSize: 15,
+      fontSize: 12,
       color: colors.black,
     },
   });

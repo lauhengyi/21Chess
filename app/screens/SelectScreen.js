@@ -113,7 +113,7 @@ function getStyles(settings, colorPalatte) {
 
     tabLabel: {
       fontFamily: "FogtwoNo5",
-      fontSize: 19,
+      fontSize: 18,
       color: colors.black,
       textTransform: "none",
     },
